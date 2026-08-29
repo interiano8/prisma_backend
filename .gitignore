@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Coverage
+coverage/
+reports/
+
+# Environment (secreto)
+.env
+.env.enc
+
+# Prisma Client generado (se regenera con `prisma generate`)
+src/generated/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Artefactos locales
+graphify-out/
+f0_out/

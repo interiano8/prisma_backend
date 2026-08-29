@@ -1,0 +1,692 @@
+// prisma/schema.prisma — Esquema PostgreSQL (migración desde SQL Server / Dynamics TPV)
+// Convención: tablas y columnas en español snake_case, modelos Prisma en camelCase.
+
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/generated/prisma"
+  moduleFormat           = "cjs"
+  generatedFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ===== Empleados y tiendas =====
+
+model Empleado {
+  id             Int      @id @default(autoincrement()) @map("id")
+  nombre         String?  @map("nombre")
+  pin            String?  @map("pin")
+  usuario        String   @unique @map("usuario")
+  perfil         String?  @map("perfil")
+  estaActivo     Boolean? @map("esta_activo")
+  codigoRfid     String?  @map("codigo_rfid")
+  hashContrasena String?  @map("hash_contrasena")
+  preferencias   Json?    @map("preferencias")
+
+  @@map("empleados")
+}
+
+model Tienda {
+  idTienda                         String   @id @map("id_tienda")
+  casaMatriz                       String?  @map("casa_matriz")
+  nombre                           String?  @map("nombre")
+  rtn                              String?  @map("rtn")
+  pais                             String?  @map("pais")
+  estado                           String?  @map("estado")
+  ciudad                           String?  @map("ciudad")
+  direccion1                       String?  @map("direccion1")
+  direccion2                       String?  @map("direccion2")
+  direccion3                       String?  @map("direccion3")
+  telefono                         String?  @map("telefono")
+  correo                           String?  @map("correo")
+  contrasenaAdmin                  String?  @map("contrasena_admin")
+  turnos                           Int?     @map("turnos")
+  d3                               Int?     @map("d3")
+  d4                               Int?     @map("d4")
+  transaccionesPendientes          Int?     @map("transacciones_pendientes")
+  urlLeal                          String?  @map("url_leal")
+  lealHabilitado                   Boolean? @map("leal_habilitado")
+  codigoPais                       String?  @map("codigo_pais")
+  esControladorGas                 Boolean? @map("es_controlador_gas")
+  avisoNuevosRangosFactura         Int?     @map("aviso_nuevos_rangos_factura")
+  avisoNuevosRangosNotaCredito     Int?     @map("aviso_nuevos_rangos_nota_credito")
+  fusionAsignado                   Boolean? @map("fusion_asignado")
+  ipFusion                         String?  @map("ip_fusion")
+  api                              String?  @map("api")
+  variasLineasPermitidas           Boolean? @map("varias_lineas_permitidas")
+  descuentosPermitidos             Boolean? @map("descuentos_permitidos")
+  bloqueadoTransaccionesPendientes Boolean? @map("bloqueado_transacciones_pendientes")
+  modoDepuracion                   Boolean? @map("modo_depuracion")
+  claveFusion                      String?  @map("clave_fusion")
+  codigoConsumidorFinal            String?  @map("codigo_consumidor_final")
+  urlSaldo                         String?  @map("url_saldo")
+  validarRfid                      Boolean? @map("validar_rfid")
+  validarSaldoCredito              Boolean? @map("validar_saldo_credito")
+  voxActivo                        Boolean? @map("vox_activo")
+  rangoIndividual                  Boolean? @map("rango_individual")
+  facturacionOrdenada              Boolean? @map("facturacion_ordenada")
+  erp                              String?  @map("erp")
+  urlActualizacion                 String?  @map("url_actualizacion")
+  urlBaseErp                       String?  @map("url_base_erp")
+  turnoManual                      Boolean? @map("turno_manual")
+  calculoInverso                   Boolean? @map("calculo_inverso")
+  bloqueadoTransaccionesBomba      Boolean? @map("bloqueado_transacciones_bomba")
+  bloqueadoTransaccionesTurno      Boolean? @map("bloqueado_transacciones_turno")
+  sorteos                          Boolean? @map("sorteos")
+  declararMontoInicial             Boolean? @map("declarar_monto_inicial")
+  nombreBotonFidelizacion          String?  @map("nombre_boton_fidelizacion")
+  moneda                           String?  @map("moneda")
+  carpetaMultimedia                String?  @map("carpeta_multimedia")
+  codigoMoneda                     String?  @map("codigo_moneda")
+  monedaRef                        Moneda?  @relation(fields: [codigoMoneda], references: [codigo])
+
+  @@map("tiendas")
+}
+
+model ConfiguracionPos {
+  id                       Int      @id @default(autoincrement()) @map("id")
+  codigoPos                String?  @unique @map("codigo_pos")
+  pantallaEnBomba          Boolean? @map("pantalla_en_bomba")
+  bloquearSoloPos          Boolean? @map("bloquear_solo_pos")
+  mostrarVideoPublicidad   Boolean? @map("mostrar_video_publicidad")
+  reimprimirVarios         Boolean? @map("reimprimir_varios")
+  facturarVariasLineas     Boolean? @map("facturar_varias_lineas")
+  descuentoManual          Boolean? @map("descuento_manual")
+  ocultarBotonOtrasBombas  Boolean? @map("ocultar_boton_otras_bombas")
+  ocultarInformacionTurnos Boolean? @map("ocultar_informacion_turnos")
+  mostrarBombas            Boolean? @map("mostrar_bombas")
+  numTransaccionesBombas   Int?     @map("num_transacciones_bombas")
+  minutosAtrasada          Int?     @map("minutos_atrasada")
+  mostrarTeclado           Boolean? @map("mostrar_teclado")
+  declararMontosIniciales  Boolean? @map("declarar_montos_iniciales")
+  config                   Json?    @map("config")
+
+  @@map("configuracion_pos")
+}
+
+model ConfiguracionTienda {
+  idTienda String @id @map("id_tienda")
+  config   Json?  @map("config")
+
+  @@map("configuracion_tienda")
+}
+
+// ===== Turnos =====
+
+model Turno {
+  idTransaccionPos String    @id @map("id_transaccion_pos")
+  idTienda         String    @map("id_tienda")
+  codigoPos        String    @map("codigo_pos")
+  posCierre        String?   @map("pos_cierre")
+  turno            String?   @map("turno")
+  idDiaSemana      Int?      @map("id_dia_semana")
+  inicioTurno      DateTime  @map("inicio_turno") @db.Timestamptz(6)
+  finTurno         DateTime? @map("fin_turno") @db.Timestamptz(6)
+  importeContado   Decimal   @map("importe_contado") @db.Decimal(18, 2)
+  nombreEmpleado   String?   @map("nombre_empleado")
+  montoInicial     Decimal?  @map("monto_inicial") @db.Decimal(18, 2)
+
+  @@map("turnos")
+}
+
+model TurnoTienda {
+  id         Int       @id @default(autoincrement()) @map("id")
+  turno      Int?      @map("turno")
+  horaInicio DateTime? @map("hora_inicio") @db.Time(6)
+  horaFin    DateTime? @map("hora_fin") @db.Time(6)
+
+  @@map("turnos_tienda")
+}
+
+model ConfiguracionTurno {
+  id          Int       @id @default(autoincrement()) @map("id")
+  idTienda    String?   @map("id_tienda")
+  codigoPos   String?   @map("codigo_pos")
+  diaSemana   String?   @map("dia_semana")
+  nombreTurno String?   @map("nombre_turno")
+  horaInicio  DateTime? @map("hora_inicio") @db.Time(6)
+  horaFin     DateTime? @map("hora_fin") @db.Time(6)
+  activo      Boolean?  @map("activo")
+  nivel       Int?      @map("nivel")
+
+  @@map("configuracion_turnos")
+}
+
+// ===== Monedas =====
+
+model Moneda {
+  codigo          String           @id @map("codigo")
+  descripcion     String?          @map("descripcion")
+  simbolo         String?          @map("simbolo")
+  decimales       Int              @default(2) @map("decimales")
+  activa          Boolean          @default(true) @map("activa")
+  tiendas         Tienda[]
+  productos       Producto[]
+  preciosProducto PrecioProducto[]
+  mangueras       Manguera[]
+
+  @@map("monedas")
+}
+
+// ===== Clientes, productos y precios =====
+
+model Cliente {
+  codigo               String    @id @map("codigo")
+  nombre               String?   @map("nombre")
+  direccion            String?   @map("direccion")
+  ciudad               String?   @map("ciudad")
+  telefono             String?   @map("telefono")
+  grupoDescuento       String?   @map("grupo_descuento")
+  codigoPais           String?   @map("codigo_pais")
+  bloqueado            Boolean?  @map("bloqueado")
+  rtn                  String?   @map("rtn")
+  codigoPostal         String?   @map("codigo_postal")
+  municipio            String?   @map("municipio")
+  correo               String?   @map("correo")
+  tipoFacturacion      Int?      @map("tipo_facturacion")
+  estado               String?   @map("estado")
+  grupoPromo           String?   @map("grupo_promo")
+  tipoActualizacion    Int?      @map("tipo_actualizacion")
+  fechaActualizacion   DateTime? @map("fecha_actualizacion") @db.Timestamptz(6)
+  bcid                 String?   @map("bcid")
+  fechaNacimiento      DateTime? @map("fecha_nacimiento") @db.Date
+  idDepartamento       Int?      @map("id_departamento")
+  idMunicipio          Int?      @map("id_municipio")
+  saldoMonedaLocal     Decimal?  @map("saldo_moneda_local") @db.Decimal(18, 2)
+  saldo                Decimal?  @map("saldo") @db.Decimal(18, 2)
+  grupoContable        String?   @map("grupo_contable")
+  grupoContableNegocio String?   @map("grupo_contable_negocio")
+
+  @@map("clientes")
+}
+
+model CodigoBarras {
+  id             Int      @id @default(autoincrement()) @map("id")
+  codigoProducto String   @map("codigo_producto")
+  codigo         String   @map("codigo")
+  producto       Producto @relation(fields: [codigoProducto], references: [codigo], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([codigoProducto, codigo])
+  @@map("codigos_barras")
+}
+
+model Producto {
+  codigo                  String         @id @map("codigo")
+  descripcion             String?        @map("descripcion")
+  bloqueado               Boolean?       @map("bloqueado")
+  imagen                  Bytes?         @map("imagen")
+  grupoIsv                String?        @map("grupo_isv")
+  codigoCategoria         String?        @map("codigo_categoria")
+  codigoGrupo             String?        @map("codigo_grupo")
+  bonificado              Boolean?       @map("bonificado")
+  factorConversionUm      Decimal?       @map("factor_conversion_um") @db.Decimal(18, 6)
+  codigoUmEtiquetas       String?        @map("codigo_um_etiquetas")
+  generaAsientoBomba      Boolean?       @map("genera_asiento_bomba")
+  grupoDescuento          String?        @map("grupo_descuento")
+  permiteCambioPrecio     Boolean?       @map("permite_cambio_precio")
+  codigoCategoriaPromo    String?        @map("codigo_categoria_promo")
+  permiteCantidadNegativa Boolean?       @map("permite_cantidad_negativa")
+  bcId                    String?        @map("bc_id")
+  idProveedor             Int?           @map("id_proveedor")
+  aplicaDescuentoEdad     Boolean?       @map("aplica_descuento_edad")
+  codigoMoneda            String?        @map("codigo_moneda")
+  moneda                  Moneda?        @relation(fields: [codigoMoneda], references: [codigo])
+  codigosBarras           CodigoBarras[]
+
+  @@map("productos")
+}
+
+model CategoriaProducto {
+  codigo             String    @id @map("codigo")
+  descripcion        String?   @map("descripcion")
+  tipoCategoria      Int?      @map("tipo_categoria")
+  tipoActualizacion  Int?      @map("tipo_actualizacion")
+  fechaActualizacion DateTime? @map("fecha_actualizacion") @db.Timestamptz(6)
+
+  @@map("categorias_producto")
+}
+
+model PrecioProducto {
+  id             Int       @id @default(autoincrement()) @map("id")
+  codigoProducto String    @map("codigo_producto")
+  idTienda       String    @map("id_tienda")
+  fechaInicio    DateTime? @map("fecha_inicio") @db.Timestamptz(6)
+  horaInicio     DateTime? @map("hora_inicio") @db.Timestamptz(6)
+  cantidadMinima Decimal?  @map("cantidad_minima") @db.Decimal(18, 6)
+  precioUnitario Decimal?  @map("precio_unitario") @db.Decimal(18, 6)
+  fechaFin       DateTime? @map("fecha_fin") @db.Timestamptz(6)
+  horaFin        DateTime? @map("hora_fin") @db.Timestamptz(6)
+  estado         Boolean?  @map("estado")
+  codigoMoneda   String?   @map("codigo_moneda")
+  moneda         Moneda?   @relation(fields: [codigoMoneda], references: [codigo])
+
+  @@map("precios_producto")
+}
+
+model Descuento {
+  codigoCliente    String    @map("codigo_cliente")
+  codigoProducto   String    @map("codigo_producto")
+  porcentaje       Decimal?  @map("porcentaje") @db.Decimal(18, 6)
+  rtnCliente       String?   @map("rtn_cliente")
+  idTienda         String?   @map("id_tienda")
+  fechaInicio      DateTime? @map("fecha_inicio") @db.Date
+  fechaFin         DateTime? @map("fecha_fin") @db.Date
+  montoPorGalon    Decimal?  @map("monto_por_galon") @db.Decimal(18, 6)
+  montoPorLitro    Decimal?  @map("monto_por_litro") @db.Decimal(18, 6)
+  precioReferencia String?   @map("precio_referencia")
+  modoIngreso      String?   @map("modo_ingreso")
+  activo           Boolean?  @map("activo")
+
+  @@id([codigoCliente, codigoProducto])
+  @@map("descuentos")
+}
+
+// ===== Métodos de pago y fiscal =====
+
+model MetodoPago {
+  codigo             String  @id @map("codigo")
+  descripcion        String  @map("descripcion")
+  categoria          String  @default("EFECTIVO") @map("categoria")
+  facturaContado     Boolean @default(false) @map("factura_contado")
+  facturaCredito     Boolean @default(false) @map("factura_credito")
+  salidaCombustible  Boolean @default(false) @map("salida_combustible")
+  fidelizacion       Boolean @default(false) @map("fidelizacion")
+  requiereReferencia Boolean @default(false) @map("requiere_referencia")
+  imagen             String? @map("imagen")
+  activo             Boolean @default(true) @map("activo")
+
+  @@map("metodos_pago")
+}
+
+model ConfiguracionIsv {
+  grupoIsv    String   @map("grupo_isv")
+  fechaInicio DateTime @map("fecha_inicio") @db.Timestamptz(6)
+  isv         Decimal? @map("isv") @db.Decimal(18, 6)
+  descripcion String?  @map("descripcion")
+
+  @@id([fechaInicio, grupoIsv])
+  @@map("configuracion_isv")
+}
+
+model Serie {
+  codigo      String  @id @map("codigo")
+  descripcion String? @map("descripcion")
+  iniciales   String? @map("iniciales")
+
+  @@map("series")
+}
+
+model SerieDocumento {
+  numeroLinea       Int       @map("numero_linea")
+  codigoSerie       String    @map("codigo_serie")
+  idTienda          String?   @map("id_tienda")
+  codigoPos         String?   @map("codigo_pos")
+  fechaInicio       DateTime? @map("fecha_inicio") @db.Timestamptz(6)
+  numeroInicio      String?   @map("numero_inicio")
+  numeroFin         String?   @map("numero_fin")
+  numeroAviso       String?   @map("numero_aviso")
+  incremento        Int?      @map("incremento")
+  ultimoNumeroUsado String?   @map("ultimo_numero_usado")
+  abierta           Boolean?  @map("abierta")
+  ultimaFechaUsada  DateTime? @map("ultima_fecha_usada") @db.Timestamptz(6)
+  cai               String?   @map("cai")
+  rangoDesde        String?   @map("rango_desde")
+  rangoHasta        String?   @map("rango_hasta")
+  fechaVenceRango   DateTime? @map("fecha_vence_rango") @db.Date
+
+  @@id([numeroLinea, codigoSerie])
+  @@map("series_documento")
+}
+
+model Motivo {
+  id     Int     @id @default(autoincrement()) @map("id")
+  motivo String? @map("motivo")
+
+  @@map("motivos")
+}
+
+model TasaCambio {
+  id    Int       @id @default(autoincrement()) @map("id")
+  tasa  Decimal?  @map("tasa") @db.Decimal(18, 2)
+  fecha DateTime? @map("fecha") @db.Date
+
+  @@map("tasas_cambio")
+}
+
+// ===== Ventas =====
+
+model Venta {
+  numeroEmisor         String    @map("numero_emisor")
+  idTransaccionPos     String    @map("id_transaccion_pos")
+  idTienda             String?   @map("id_tienda")
+  codigoPos            String?   @map("codigo_pos")
+  tipoDocumento        Int?      @map("tipo_documento")
+  numeroDocumento      String?   @map("numero_documento")
+  codigoCliente        String?   @map("codigo_cliente")
+  fechaHoraVenta       DateTime? @map("fecha_hora_venta") @db.Timestamptz(6)
+  monto                Decimal?  @map("monto") @db.Decimal(18, 2)
+  numeroTarjetaCliente String?   @map("numero_tarjeta_cliente")
+  numeroTarjetaPuntos  String?   @map("numero_tarjeta_puntos")
+  placa                String?   @map("placa")
+  documentoRelacionado String?   @map("documento_relacionado")
+  codigoVendedor       String?   @map("codigo_vendedor")
+  rtnCliente           String?   @map("rtn_cliente")
+  nombreCliente        String?   @map("nombre_cliente")
+  nombreCliente2       String?   @map("nombre_cliente2")
+  direccionCliente     String?   @map("direccion_cliente")
+  direccionCliente2    String?   @map("direccion_cliente2")
+  codigoPostalCliente  String?   @map("codigo_postal_cliente")
+  ciudadCliente        String?   @map("ciudad_cliente")
+  municipioCliente     String?   @map("municipio_cliente")
+  codigoPaisCliente    String?   @map("codigo_pais_cliente")
+  tipoFacturacion      Int?      @map("tipo_facturacion")
+  correoCliente        String?   @map("correo_cliente")
+  comentario           String?   @map("comentario")
+  bcId                 String?   @map("bc_id")
+  numeroLinea          Int?      @map("numero_linea")
+  subtotal             Decimal?  @map("subtotal") @db.Decimal(18, 2)
+  kilometraje          String?   @map("kilometraje")
+  orden                String?   @map("orden")
+  placaOrden           String?   @map("placa_orden")
+  chofer               String?   @map("chofer")
+  cambio               Decimal?  @map("cambio") @db.Decimal(18, 2)
+
+  @@id([numeroEmisor, idTransaccionPos])
+  @@map("ventas")
+}
+
+model LineaVenta {
+  numeroEmisor           String    @map("numero_emisor")
+  idTransaccionPos       String    @map("id_transaccion_pos")
+  numeroLineaDocumento   Int       @map("numero_linea_documento")
+  idTienda               String?   @map("id_tienda")
+  codigoPos              String?   @map("codigo_pos")
+  tipoDocumento          Int?      @map("tipo_documento")
+  numeroDocumento        String?   @map("numero_documento")
+  tipoVenta              Int?      @map("tipo_venta")
+  numeroVenta            String?   @map("numero_venta")
+  descripcion            String?   @map("descripcion")
+  cantidad               Decimal?  @map("cantidad") @db.Decimal(18, 6)
+  precioUnitarioConIsv   Decimal?  @map("precio_unitario_con_isv") @db.Decimal(18, 6)
+  montoDescuentoUnitario Decimal?  @map("monto_descuento_unitario") @db.Decimal(18, 6)
+  descuento              Decimal?  @map("descuento") @db.Decimal(18, 6)
+  montoDescuentoLinea    Decimal?  @map("monto_descuento_linea") @db.Decimal(18, 6)
+  isv                    Decimal?  @map("isv") @db.Decimal(18, 6)
+  montoIsv               Decimal?  @map("monto_isv") @db.Decimal(18, 6)
+  montoConIsv            Decimal?  @map("monto_con_isv") @db.Decimal(18, 6)
+  numeroBomba            String?   @map("numero_bomba")
+  posicionBomba          String?   @map("posicion_bomba")
+  numeroTanque           String?   @map("numero_tanque")
+  horaOperacion          DateTime? @map("hora_operacion") @db.Timestamptz(6)
+  codigoCategoria        String?   @map("codigo_categoria")
+  bonificado             Boolean?  @map("bonificado")
+  devuelto               Boolean?  @map("devuelto")
+  generaAsientoBomba     Boolean?  @map("genera_asiento_bomba")
+  grupoIsv               String?   @map("grupo_isv")
+  idTransaccionOrigen    String?   @map("id_transaccion_origen")
+  documentoOrigen        String?   @map("documento_origen")
+  lineaDocumentoOrigen   Int?      @map("linea_documento_origen")
+  numeroTransaccionDoms  String?   @map("numero_transaccion_doms")
+  prepago                Boolean?  @map("prepago")
+  devolucion             Boolean?  @map("devolucion")
+  numeroLineaAplicada    Int?      @map("numero_linea_aplicada")
+  puntosFidelidad        Decimal?  @map("puntos_fidelidad") @db.Decimal(18, 2)
+  idDespachador          Int?      @map("id_despachador")
+  idVenta                String?   @map("id_venta")
+  montoGravado           Decimal?  @map("monto_gravado") @db.Decimal(18, 2)
+
+  @@id([numeroEmisor, numeroLineaDocumento, idTransaccionPos])
+  @@map("lineas_venta")
+}
+
+model PagoVenta {
+  numeroLineaPago  Int      @map("numero_linea_pago")
+  idTransaccionPos String   @map("id_transaccion_pos")
+  idTienda         String?  @map("id_tienda")
+  codigoPos        String?  @map("codigo_pos")
+  codigoMetodoPago String?  @map("codigo_metodo_pago")
+  monto            Decimal? @map("monto") @db.Decimal(18, 2)
+  numeroTarjeta    String?  @map("numero_tarjeta")
+  descripcion      String?  @map("descripcion")
+  datosAdicionales String?  @map("datos_adicionales")
+  idDespachador    Int?     @map("id_despachador")
+  tasaCambio       Decimal? @map("tasa_cambio") @db.Decimal(18, 2)
+  montoIngresado   Decimal? @map("monto_ingresado") @db.Decimal(18, 2)
+  esTicket         Boolean? @map("es_ticket")
+
+  @@id([numeroLineaPago, idTransaccionPos])
+  @@map("pagos_venta")
+}
+
+model VentaLeal {
+  id                BigInt  @id @default(autoincrement()) @map("id")
+  idTransaccionPos  String? @map("id_transaccion_pos")
+  idTransaccionLeal String? @map("id_transaccion_leal")
+  puntos            Int?    @map("puntos")
+  puntosActivos     Int?    @map("puntos_activos")
+  tipo              Int?    @map("tipo")
+  dni               String? @map("dni")
+  nombre            String? @map("nombre")
+  idAleatorio       BigInt? @map("id_aleatorio")
+
+  @@map("ventas_leal")
+}
+
+model RegistroTransaccion {
+  idTransaccionPos     String    @id @map("id_transaccion_pos")
+  idTienda             String?   @map("id_tienda")
+  codigoPos            String?   @map("codigo_pos")
+  fechaTurno           DateTime? @map("fecha_turno") @db.Timestamptz(6)
+  numeroTurno          String?   @map("numero_turno")
+  tipoTransaccion      Int?      @map("tipo_transaccion")
+  fechaHoraTransaccion DateTime? @map("fecha_hora_transaccion") @db.Timestamptz(6)
+  estado               Boolean?  @map("estado")
+  nombreEmpleado       String?   @map("nombre_empleado")
+
+  @@map("registro_transacciones")
+}
+
+model ArqueoCaja {
+  id                    Int      @id @default(autoincrement()) @map("id")
+  idTransaccionPos      String?  @map("id_transaccion_pos")
+  idTienda              String?  @map("id_tienda")
+  codigoPos             String?  @map("codigo_pos")
+  codigoMetodoPago      String?  @map("codigo_metodo_pago")
+  descripcionMetodoPago String?  @map("descripcion_metodo_pago")
+  monto                 Decimal? @map("monto") @db.Decimal(18, 2)
+  codigoVendedor        String?  @map("codigo_vendedor")
+  numeroDocumento       String?  @map("numero_documento")
+  codigoCliente         String?  @map("codigo_cliente")
+  comentario            String?  @map("comentario")
+
+  @@map("arqueos_caja")
+}
+
+// ===== Surtidores / mangueras =====
+
+model Manguera {
+  idManguera       Int      @id @map("id_manguera")
+  numeroGrado      Int?     @map("numero_grado")
+  nombreGrado      String?  @map("nombre_grado")
+  precioUnitario   Decimal? @map("precio_unitario") @db.Decimal(10, 2)
+  idsTanques       String?  @map("ids_tanques")
+  idBomba          Int?     @map("id_bomba")
+  idMangueraFisica Int?     @map("id_manguera_fisica")
+  pos              String?  @map("pos")
+  codigoPos        String?  @map("codigo_pos")
+  codigoGenerico   String?  @map("codigo_generico")
+  visible          Boolean? @map("visible")
+  unidadMedida     String?  @map("unidad_medida")
+  codigoMoneda     String?  @map("codigo_moneda")
+  moneda           Moneda?  @relation(fields: [codigoMoneda], references: [codigo])
+
+  @@map("mangueras")
+}
+
+model Despachador {
+  id            Int     @id @default(autoincrement()) @map("id")
+  idTienda      String? @map("id_tienda")
+  codigoPos     String? @map("codigo_pos")
+  idDespachador Int?    @map("id_despachador")
+  nombres       String? @map("nombres")
+  apellidos     String? @map("apellidos")
+  dni           String? @map("dni")
+
+  @@map("despachadores")
+}
+
+model TurnoControlador {
+  id                Int       @id @default(autoincrement()) @map("id")
+  periodId          String?   @map("period_id")
+  startDate         String?   @map("start_date")
+  startTime         String?   @map("start_time")
+  additionalDetails String?   @map("additional_details")
+  fechaCreacion     DateTime? @map("fecha_creacion") @db.Timestamptz(6)
+
+  @@map("turnos_controlador")
+}
+
+// ===== Leal =====
+
+model ConfiguracionLeal {
+  id         Int     @id @default(autoincrement()) @map("id")
+  usuario    String? @map("usuario")
+  contrasena String? @map("contrasena")
+
+  @@map("configuracion_leal")
+}
+
+// ===== Sorteos =====
+
+model Sorteo {
+  id          Int       @id @default(autoincrement()) @map("id")
+  nombre      String?   @map("nombre")
+  fechaInicio DateTime? @map("fecha_inicio") @db.Timestamptz(6)
+  fechaFin    DateTime? @map("fecha_fin") @db.Timestamptz(6)
+  activo      Boolean?  @map("activo")
+  textoTicket String?   @map("texto_ticket")
+
+  @@map("sorteos")
+}
+
+model CondicionSorteo {
+  id             Int      @id @default(autoincrement()) @map("id")
+  idSorteo       Int?     @map("id_sorteo")
+  tipoEvaluacion String?  @map("tipo_evaluacion")
+  operador       String?  @map("operador")
+  valorTexto     String?  @map("valor_texto")
+  valorMonto     Decimal? @map("valor_monto") @db.Decimal(18, 2)
+  valorCantidad  Decimal? @map("valor_cantidad") @db.Decimal(18, 6)
+  valorRequerido String?  @map("valor_requerido")
+
+  @@map("condiciones_sorteo")
+}
+
+model PremioSorteo {
+  id                   Int       @id @default(autoincrement()) @map("id")
+  numeroDocumentoVenta String?   @map("numero_documento_venta")
+  nombre               String?   @map("nombre")
+  telefono             String?   @map("telefono")
+  frecuencia           Int?      @map("frecuencia")
+  prioridad            String?   @map("prioridad")
+  estado               String?   @map("estado")
+  eliminado            Boolean?  @map("eliminado")
+  idUsuario            Int?      @map("id_usuario")
+  creadoEn             DateTime? @map("creado_en") @db.Timestamptz(6)
+
+  @@map("premios_sorteo")
+}
+
+model UsuarioSorteo {
+  id            Int       @id @default(autoincrement()) @map("id")
+  nombre        String?   @map("nombre")
+  usuario       String?   @unique @map("usuario")
+  contrasena    String?   @map("contrasena")
+  rol           String?   @map("rol")
+  activo        Boolean?  @map("activo")
+  creadoEn      DateTime? @map("creado_en") @db.Timestamptz(6)
+  actualizadoEn DateTime? @map("actualizado_en") @db.Timestamptz(6)
+
+  @@map("usuarios_sorteo")
+}
+
+model VentaSorteo {
+  id               Int     @id @default(autoincrement()) @map("id")
+  idTransaccionPos String? @map("id_transaccion_pos")
+  correlativo      String? @map("correlativo")
+  idSorteo         Int?    @map("id_sorteo")
+
+  @@map("ventas_sorteo")
+}
+
+// ===== FusionController (surtidores) =====
+
+model SesionSurtidor {
+  id                   Int       @id @default(autoincrement()) @map("id")
+  idBomba              Int?      @map("id_bomba")
+  idRaspberry          String?   @map("id_raspberry")
+  estado               String?   @map("estado")
+  idEmpleadoInicio     Int?      @map("id_empleado_inicio")
+  nombreEmpleadoInicio String?   @map("nombre_empleado_inicio")
+  horaInicio           DateTime? @map("hora_inicio") @db.Timestamptz(6)
+  idEmpleadoFin        Int?      @map("id_empleado_fin")
+  nombreEmpleadoFin    String?   @map("nombre_empleado_fin")
+  horaFin              DateTime? @map("hora_fin") @db.Timestamptz(6)
+  manguera             String?   @map("manguera")
+  idVenta              String?   @map("id_venta")
+  fueDespacho          Boolean?  @map("fue_despacho")
+
+  @@map("sesiones_surtidor")
+}
+
+model VentaCombustible {
+  idVenta               Int       @id @map("id_venta")
+  numeroPos             Int?      @map("numero_pos")
+  numeroBomba           Int?      @map("numero_bomba")
+  numeroManguera        String?   @map("numero_manguera")
+  monto                 Decimal?  @map("monto") @db.Decimal(18, 2)
+  precioUnitario        Decimal?  @map("precio_unitario") @db.Decimal(18, 6)
+  volumen               Decimal?  @map("volumen") @db.Decimal(18, 6)
+  volumenFinal          Decimal?  @map("volumen_final") @db.Decimal(18, 6)
+  volumenInicial        Decimal?  @map("volumen_inicial") @db.Decimal(18, 6)
+  tipoPago              String?   @map("tipo_pago")
+  infoPago              String?   @map("info_pago")
+  temperaturaCompensada String?   @map("temperatura_compensada")
+  idTurno               String?   @map("id_turno")
+  numeroGrado           Int?      @map("numero_grado")
+  nivelPrecio           Int?      @map("nivel_precio")
+  tipoTransaccion       String?   @map("tipo_transaccion")
+  fechaTransaccion      String?   @map("fecha_transaccion")
+  horaTransaccion       String?   @map("hora_transaccion")
+  montoPreestablecido   Decimal?  @map("monto_preestablecido") @db.Decimal(18, 2)
+  alarmaPago            String?   @map("alarma_pago")
+  atcvo                 String?   @map("atcvo")
+  avgtm                 String?   @map("avgtm")
+  atcivo                String?   @map("atcivo")
+  atcfvo                String?   @map("atcfvo")
+  facturada             Boolean?  @map("facturada")
+  fecha                 DateTime? @map("fecha") @db.Timestamptz(6)
+
+  @@map("ventas_combustible")
+}
+
+model ReintentoVentaCombustible {
+  idVentaVox    Int       @id @map("id_venta_vox")
+  payload       String?   @map("payload")
+  intentos      Int?      @map("intentos")
+  ultimoIntento DateTime? @map("ultimo_intento") @db.Timestamptz(6)
+  mensajeError  String?   @map("mensaje_error")
+
+  @@map("reintentos_venta_combustible")
+}
+
+model MapeoLectorBomba {
+  id          Int     @id @default(autoincrement()) @map("id")
+  rutaLector  String? @map("ruta_lector")
+  idBomba     Int?    @map("id_bomba")
+  idRaspberry String? @map("id_raspberry")
+
+  @@map("mapeo_lector_bomba")
+}

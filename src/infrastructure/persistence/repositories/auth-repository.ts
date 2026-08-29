@@ -1,0 +1,287 @@
+import { Injectable } from '@nestjs/common';
+import type { Empleado, Tienda } from '../../../../src/generated/prisma/client';
+import { PrismaService } from '../../../prisma/prisma.service';
+import {
+  AuthRepository,
+  RawStore,
+  ActiveShiftResult,
+} from '../../../domain/ports/out/auth-repository.interface';
+import { User } from '../../../domain/entities/user.entity';
+import { StoreConfig } from '../../../domain/entities/store-config.entity';
+import { verifyPasswordHash } from '../../security/hash-utils';
+import { toServerIso } from '../../../utils/datetime';
+
+@Injectable()
+export class AuthRepositoryImpl implements AuthRepository {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findUserByUsername(username: string): Promise<User | null> {
+    const row = await this.prisma.empleado.findUnique({
+      where: { usuario: username },
+    });
+    if (!row) return null;
+    return this.mapUser(row);
+  }
+
+  async listEmployees(): Promise<{ usuario: string; nombre: string }[]> {
+    const rows = await this.prisma.empleado.findMany({
+      where: { estaActivo: true },
+      select: { usuario: true, nombre: true },
+      orderBy: { nombre: 'asc' },
+    });
+    return rows.map((r) => ({
+      usuario: r.usuario,
+      nombre: r.nombre || r.usuario,
+    }));
+  }
+
+  async findUserByRfid(rfidCode: string): Promise<User | null> {
+    const employees = await this.prisma.empleado.findMany({
+      where: { estaActivo: true, codigoRfid: { not: null } },
+    });
+    for (const emp of employees) {
+      const storedRfid = (emp.codigoRfid || '').trim();
+      if (!storedRfid) continue;
+      if (verifyPasswordHash(storedRfid, rfidCode) || storedRfid === rfidCode) {
+        return this.mapUser(emp);
+      }
+    }
+    return null;
+  }
+
+  async findStoreByStoreId(storeId: string): Promise<StoreConfig | null> {
+    const row = await this.prisma.tienda.findUnique({
+      where: { idTienda: storeId },
+    });
+    if (!row) return null;
+    return this.mapStoreConfig(row);
+  }
+
+  async findStoreRaw(storeId: string): Promise<RawStore | null> {
+    const row = await this.prisma.tienda.findUnique({
+      where: { idTienda: storeId },
+    });
+    if (!row) return null;
+    return this.toRawStore(row);
+  }
+
+  async findTpvConfig(posNo: string): Promise<unknown> {
+    const row = await this.prisma.configuracionPos.findUnique({
+      where: { codigoPos: posNo },
+    });
+    if (row?.config) return row.config;
+    return null;
+  }
+
+  async findPosConfig(posNo: string): Promise<{
+    mostrarBombas: boolean;
+    ocultarBotonOtrasBombas: boolean;
+    numTransaccionesBombas: number;
+    minutosAtrasada: number;
+    mostrarTeclado: boolean;
+    declararMontosIniciales: boolean;
+  } | null> {
+    const row = await this.prisma.configuracionPos.findUnique({
+      where: { codigoPos: posNo },
+    });
+    if (!row) return null;
+    return {
+      mostrarBombas: row.mostrarBombas === true,
+      ocultarBotonOtrasBombas: row.ocultarBotonOtrasBombas === true,
+      numTransaccionesBombas: row.numTransaccionesBombas ?? 20,
+      minutosAtrasada: row.minutosAtrasada ?? 10,
+      mostrarTeclado: row.mostrarTeclado !== false,
+      declararMontosIniciales: row.declararMontosIniciales === true,
+    };
+  }
+
+  async findPassAdmin(storeId: string): Promise<string | null> {
+    const row = await this.prisma.tienda.findUnique({
+      where: { idTienda: storeId },
+    });
+    return row?.contrasenaAdmin || null;
+  }
+
+  async checkCreditValidation(storeId: string): Promise<boolean> {
+    const row = await this.prisma.tienda.findUnique({
+      where: { idTienda: storeId },
+    });
+    return row?.validarSaldoCredito === true;
+  }
+
+  async getActiveShift(
+    storeId: string,
+    posNo: string,
+    employeeName: string,
+  ): Promise<ActiveShiftResult> {
+    try {
+      let gasStationCode = storeId.trim();
+      if (/^\d+$/.test(gasStationCode)) {
+        gasStationCode = parseInt(gasStationCode, 10)
+          .toString()
+          .padStart(3, '0');
+      }
+
+      const shift = await this.prisma.turno.findFirst({
+        where: {
+          idTienda: gasStationCode,
+          nombreEmpleado: employeeName,
+          finTurno: null,
+        },
+        orderBy: { inicioTurno: 'desc' },
+      });
+
+      if (shift) {
+        return {
+          Shift: shift.turno?.toString() || '1',
+          'POS Transaction ID': shift.idTransaccionPos || 'TX-DEFAULT',
+          'Shift Starting': toServerIso(shift.inicioTurno),
+          MontoInicial: shift.montoInicial ?? 0,
+          EmployeeName: shift.nombreEmpleado || employeeName,
+        };
+      }
+    } catch (err) {
+      console.error('Error in getActiveShift:', err);
+    }
+    return { Message: 'No open shift found', Shift: null };
+  }
+
+  private mapUser(row: Empleado): User {
+    return {
+      id: row.id,
+      username: row.usuario,
+      name: row.nombre || '',
+      profile: row.perfil || '',
+      isActive: row.estaActivo === true,
+      passwordHash: row.hashContrasena || undefined,
+      codigoRfid: row.codigoRfid || undefined,
+      pinLeal: row.pin || undefined,
+      preferencias:
+        row.preferencias != null
+          ? (row.preferencias as { theme?: string; accent?: string })
+          : null,
+    };
+  }
+
+  async savePreferences(
+    username: string,
+    preferences: { theme?: string; accent?: string },
+  ): Promise<void> {
+    await this.prisma.empleado.update({
+      where: { usuario: username },
+      data: { preferencias: preferences },
+    });
+  }
+
+  private mapStoreConfig(row: Tienda): StoreConfig {
+    return {
+      storeId: row.idTienda,
+      storeName: row.nombre || row.casaMatriz || '',
+      posNumber: '',
+      rtf: row.rtn || '',
+      phone: row.telefono || '',
+      email: row.correo || '',
+      address: row.direccion1 || '',
+      isGasStation: row.esControladorGas === true,
+      isGasController: row.esControladorGas === true,
+      ipFusionController: row.ipFusion || '',
+      fusionControllerKey: row.claveFusion || '',
+      isFusionAssigned: row.fusionAsignado === true,
+      isLealEnabled: row.lealHabilitado === true,
+      urlLeal: row.urlLeal || '',
+      descuentoManual: row.descuentosPermitidos === true,
+      facturarVariasLineas: row.variasLineasPermitidas === true,
+      screenOnPump: true,
+      casaMatriz: row.casaMatriz || '',
+      name: row.nombre || '',
+      rtn: row.rtn || '',
+      country: row.pais || '',
+      state: row.estado || '',
+      city: row.ciudad || '',
+      address1: row.direccion1 || '',
+      address2: row.direccion2 || '',
+      address3: row.direccion3 || '',
+      passAdmin: row.contrasenaAdmin || '',
+      turnos: row.turnos ?? null,
+      d3: row.d3 != null ? String(row.d3) : '',
+      d4: row.d4 != null ? String(row.d4) : '',
+      numberOfTransactionsWaiting: row.transaccionesPendientes ?? null,
+      codeCountry: row.codigoPais || '',
+      warningNewInvoiceRanges: row.avisoNuevosRangosFactura ?? null,
+      warningNewCreditNotesRanges: row.avisoNuevosRangosNotaCredito ?? null,
+      api: row.api || '',
+      blockedForPendingTransactions:
+        row.bloqueadoTransaccionesPendientes === true,
+      debugMode: row.modoDepuracion === true,
+      noConsumidorFinal: row.codigoConsumidorFinal || '',
+      urlSaldo: row.urlSaldo || '',
+      validarRFID: row.validarRfid === true,
+      validarSaldoCredito: row.validarSaldoCredito === true,
+      voxIsActive: row.voxActivo === true,
+      rangoIndividual: row.rangoIndividual === true,
+      facturacionOrdenada: row.facturacionOrdenada === true,
+      erp: row.erp || '',
+      urlActualizacion: row.urlActualizacion || '',
+      urlBaseERP: row.urlBaseErp || '',
+      turnoManual: row.turnoManual === true,
+      calculoInverso: row.calculoInverso === true,
+      sorteos: row.sorteos === true,
+      nombreBotonFidelizacion: row.nombreBotonFidelizacion || 'LEAL',
+      moneda: row.moneda || 'L.',
+      carpetaMultimedia: row.carpetaMultimedia || '',
+    };
+  }
+
+  // Traduce la tienda (nuevos nombres) a los nombres originales de Dynamics
+  // para que AuthService.mapStoreConfig funcione sin cambios.
+  private toRawStore(row: Tienda): RawStore {
+    return {
+      StoreID: row.idTienda,
+      Titulo: row.casaMatriz,
+      Name: row.nombre,
+      RTN: row.rtn,
+      Country: row.pais,
+      State: row.estado,
+      City: row.ciudad,
+      Address1: row.direccion1,
+      Address2: row.direccion2,
+      Address3: row.direccion3,
+      Phone: row.telefono,
+      Email: row.correo,
+      PassAdmin: row.contrasenaAdmin,
+      Turnos: row.turnos,
+      D3: row.d3,
+      D4: row.d4,
+      NumberOfTransactionsWaiting: row.transaccionesPendientes,
+      URLLEAL: row.urlLeal,
+      isLealEnabled: row.lealHabilitado === true ? 1 : 0,
+      CodeCountry: row.codigoPais,
+      IsGasController: row.esControladorGas === true ? 1 : 0,
+      WarningNewInvoiceRanges: row.avisoNuevosRangosFactura,
+      WarningNewCreditNotesRanges: row.avisoNuevosRangosNotaCredito,
+      IsFusionAssigned: row.fusionAsignado === true ? 1 : 0,
+      IPFusionController: row.ipFusion,
+      Api: row.api,
+      MultipleItemsAllowed: row.variasLineasPermitidas === true ? 1 : 0,
+      AllowedToApplyDiscounts: row.descuentosPermitidos === true ? 1 : 0,
+      BlockedForPendingTransactions:
+        row.bloqueadoTransaccionesPendientes === true ? 1 : 0,
+      DebugMode: row.modoDepuracion === true ? 1 : 0,
+      FusionControllerKey: row.claveFusion,
+      NoConsumidorFinal: row.codigoConsumidorFinal,
+      URLSaldo: row.urlSaldo,
+      ValidarRFID: row.validarRfid === true ? 1 : 0,
+      ValidarSaldoCredito: row.validarSaldoCredito === true ? 1 : 0,
+      VoxIsActive: row.voxActivo === true ? 1 : 0,
+      RangoIndividual: row.rangoIndividual === true ? 1 : 0,
+      FacturacionOrdenada: row.facturacionOrdenada === true ? 1 : 0,
+      ERP: row.erp,
+      Url_Actualizacion: row.urlActualizacion,
+      URLBaseERP: row.urlBaseErp,
+      Turno_Manual: row.turnoManual === true ? 1 : 0,
+      Calculo_Inverso: row.calculoInverso === true ? 1 : 0,
+      Sorteos: row.sorteos === true ? 1 : 0,
+      DeclararMontoInicial: row.declararMontoInicial === true ? 1 : 0,
+    };
+  }
+}

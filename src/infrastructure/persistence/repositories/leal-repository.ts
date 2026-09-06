@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { LealCrypto } from './leal-crypto';
+import { LealAuthClient, LealApiEnvelope } from './leal-auth-client';
 import {
   LealRepository,
   LealCustomerResult,
@@ -39,35 +40,56 @@ interface LealUserInfo {
   tiene_otp?: number | string | boolean;
 }
 
-interface LealApiEnvelope {
-  code: number;
-  message?: string;
-  mensaje?: string;
-  token?: string;
-  refresh_token?: string;
-  id_rol?: string | number;
-  plataforma?: string;
-  user?: LealUserInfo | LealUserInfo[];
-  data?: LealUserInfo | LealUserInfo[] | { user?: LealUserInfo };
-  premios?: any[];
-}
 
 @Injectable()
 export class LealRepositoryImpl implements LealRepository {
   private readonly logger = new Logger(LealRepositoryImpl.name);
   private readonly crypto = new LealCrypto();
+  private readonly auth: LealAuthClient;
 
-  private cachedUrlLeal: string | null = null;
-  private cachedUserLeal: string | null = null;
-  private cachedPassLeal: string | null = null;
+  constructor(private readonly prisma: PrismaService) {
+    this.auth = new LealAuthClient(prisma);
+  }
 
-  private cachedToken: string | null = null;
-  private cachedRefreshToken: string | null = null;
-  private cachedIdComercio: string | number | null = null;
-  private cachedIdSucursal: string | number | null = null;
-  private cachedUidCms: string | null = null;
+  get cachedToken(): string | null {
+    return this.auth.cachedToken;
+  }
 
-  constructor(private readonly prisma: PrismaService) {}
+  set cachedToken(v: string | null) {
+    this.auth.cachedToken = v;
+  }
+
+  get cachedUrlLeal(): string | null {
+    return this.auth.cachedUrlLeal;
+  }
+
+  set cachedUrlLeal(v: string | null) {
+    this.auth.cachedUrlLeal = v;
+  }
+
+  get cachedUserLeal(): string | null {
+    return this.auth.cachedUserLeal;
+  }
+
+  set cachedUserLeal(v: string | null) {
+    this.auth.cachedUserLeal = v;
+  }
+
+  get cachedPassLeal(): string | null {
+    return this.auth.cachedPassLeal;
+  }
+
+  set cachedPassLeal(v: string | null) {
+    this.auth.cachedPassLeal = v;
+  }
+
+  get cachedRefreshToken(): string | null {
+    return this.auth.cachedRefreshToken;
+  }
+
+  set cachedRefreshToken(v: string | null) {
+    this.auth.cachedRefreshToken = v;
+  }
 
 
 
@@ -81,25 +103,11 @@ export class LealRepositoryImpl implements LealRepository {
   }
 
   private async getStoreIdFallback(): Promise<string> {
-    const store = await this.prisma.tienda.findFirst();
-    return store?.idTienda || '001';
+    return this.auth.getStoreIdFallback();
   }
 
   private async loadConfigAndCredentials(): Promise<void> {
-    if (this.cachedUrlLeal && this.cachedUserLeal && this.cachedPassLeal) {
-      return;
-    }
-
-    const store = await this.prisma.tienda.findFirst();
-    if (store) {
-      this.cachedUrlLeal = store.urlLeal || null;
-    }
-
-    const leal = await this.prisma.configuracionLeal.findFirst();
-    if (leal) {
-      this.cachedUserLeal = this.crypto.decrypt(leal.usuario || '').trim();
-      this.cachedPassLeal = this.crypto.decrypt(leal.contrasena || '').trim();
-    }
+    await this.auth.loadConfig();
   }
 
   async login(credentials: {
@@ -107,76 +115,24 @@ export class LealRepositoryImpl implements LealRepository {
     password?: string;
     storeId?: string;
   }): Promise<LealLoginResponse> {
-    await this.loadConfigAndCredentials();
+    return this.auth.login(credentials) as unknown as LealLoginResponse;
+  }
 
-    const userToUse = credentials.username || this.cachedUserLeal;
-    const passToUse = credentials.password || this.cachedPassLeal;
+  private extractUser(data: LealApiEnvelope): LealUserInfo | undefined {
+    return this.auth.extractUser(data);
+  }
 
-    if (!userToUse || !passToUse || !this.cachedUrlLeal) {
-      throw new InternalServerErrorException(
-        'Faltan credenciales o URLLEAL en la base de datos',
-      );
-    }
+  private async refreshToken(): Promise<boolean> {
+    return this.auth.refreshToken();
+  }
 
-    const url = `${this.cachedUrlLeal.replace(/\/$/, '')}/com_usuarios/login`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usuario: userToUse, contrasena: passToUse }),
-    });
-
-    let data: LealApiEnvelope | undefined;
-    const textData = await response.text();
-    try {
-      data = JSON.parse(textData) as LealApiEnvelope;
-      this.logger.debug('Login response received from Leal');
-    } catch {
-      throw new UnauthorizedException(
-        'El servidor de Leal no respondió en el formato esperado (posible error de red o URL incorrecta).',
-      );
-    }
-
-    if (data && data.code === 100) {
-      this.cachedToken = data.token ?? null;
-      this.cachedRefreshToken = data.refresh_token ?? null;
-
-      try {
-        const baseUrl = this.cachedUrlLeal || '';
-        const meResponse = await fetch(
-          `${baseUrl.replace(/\/$/, '')}/com_usuarios/me`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${this.cachedToken}`,
-            },
-          },
-        );
-        if (meResponse.ok) {
-          const meData = (await meResponse.json()) as LealApiEnvelope;
-          const meUser = this.extractUser(meData);
-          this.cachedIdComercio = meUser?.id_comercio ?? null;
-          this.cachedIdSucursal = meUser?.id_sucursal ?? null;
-          this.cachedUidCms = meUser?.uid_cms ?? null;
-        }
-      } catch (e) {
-        console.error('[LealRepository] Failed to fetch com_usuarios/me', e);
-      }
-
-      console.log(
-        `[LealRepository] CACHED idComercio: ${this.cachedIdComercio}`,
-      );
-      return {
-        code: data.code,
-        message: data.message || 'Login exitoso',
-        token: data.token ?? '',
-        refresh_token: data.refresh_token ?? '',
-        id_rol: data.id_rol,
-        plataforma: data.plataforma,
-      } as unknown as LealLoginResponse;
-    }
-
-    throw new UnauthorizedException(data?.message || 'Error en login Leal');
+  async executeWithAuth(
+    endpoint: string,
+    method: string = 'GET',
+    body?: any,
+    isRetry: boolean = false,
+  ): Promise<LealApiEnvelope> {
+    return this.auth.executeWithAuth(endpoint, method, body, isRetry);
   }
 
   async checkStatus(): Promise<{
@@ -185,23 +141,19 @@ export class LealRepositoryImpl implements LealRepository {
     tieneOtp?: boolean;
   }> {
     try {
-      const data = await this.executeWithAuth('com_usuarios/me', 'GET');
+      const data = await this.auth.executeWithAuth('com_usuarios/me', 'GET');
       if (data && data.code === 100) {
         const meUser = this.extractUser(data);
-        this.cachedIdComercio = meUser?.id_comercio ?? this.cachedIdComercio;
-        this.cachedIdSucursal = meUser?.id_sucursal ?? this.cachedIdSucursal;
-        this.cachedUidCms = meUser?.uid_cms ?? this.cachedUidCms;
-
+        this.auth.updateIdentity(meUser);
         const rawOtp = meUser?.tiene_otp;
         const tieneOtp =
           rawOtp === 1 ||
           rawOtp === '1' ||
           rawOtp === true ||
           rawOtp === 'true';
-
         return {
           connected: true,
-          idComercio: this.cachedIdComercio,
+          idComercio: this.auth.getIdentity().idComercio,
           tieneOtp,
         };
       }
@@ -217,26 +169,24 @@ export class LealRepositoryImpl implements LealRepository {
     idPremio?: number,
     idSucursal?: string,
   ): Promise<any> {
-    if (!this.cachedToken) {
-      await this.login({});
-    }
+    await this.auth.ensureLoggedIn();
 
-    let idComercio = this.cachedIdComercio;
+    const ident = this.auth.getIdentity();
+    let idComercio = ident.idComercio;
     if (!idComercio) {
-      const storeId = await this.getStoreIdFallback();
-      idComercio = storeId;
+      idComercio = await this.auth.getStoreIdFallback();
     }
 
     const body: Record<string, any> = {
       uid: uid,
-      uid_cms: this.cachedUidCms ?? uid,
+      uid_cms: ident.uidCms ?? uid,
       id_comercio:
         typeof idComercio === 'string' ? parseInt(idComercio, 10) : idComercio,
-      id_sucursal: idSucursal ?? this.cachedIdSucursal ?? '',
+      id_sucursal: idSucursal ?? ident.idSucursal ?? '',
     };
     if (idPremio != null) body.id_premio = idPremio;
 
-    const result = await this.executeWithAuth(
+    const result = await this.auth.executeWithAuth(
       `usu_historial_puntos/generarOTPRedencion`,
       'POST',
       body,
@@ -250,151 +200,19 @@ export class LealRepositoryImpl implements LealRepository {
     return result;
   }
 
-  private extractUser(data: LealApiEnvelope): LealUserInfo | undefined {
-    const user = data.user;
-    if (Array.isArray(user)) return user[0];
-    if (user) return user;
-    const nested = data.data;
-    if (!nested) return undefined;
-    if (Array.isArray(nested)) return nested[0];
-    if ('user' in nested) return nested.user;
-    return nested as LealUserInfo;
-  }
-
-  private async refreshToken(): Promise<boolean> {
-    if (!this.cachedRefreshToken || !this.cachedUrlLeal) return false;
-
-    const url = `${this.cachedUrlLeal.replace(/\/$/, '')}/com_usuarios/refresh`;
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refresh_token: this.cachedRefreshToken }),
-      });
-      const data = (await response.json()) as LealApiEnvelope;
-      if (data && data.code === 100 && data.token) {
-        this.cachedToken = data.token;
-        return true;
-      }
-    } catch (e) {
-      this.logger.error('Error refreshing token', e);
-    }
-    return false;
-  }
-
-  private async executeWithAuth(
-    endpoint: string,
-    method: string = 'GET',
-    body?: any,
-    isRetry: boolean = false,
-  ): Promise<LealApiEnvelope> {
-    await this.loadConfigAndCredentials();
-
-    if (!this.cachedToken) {
-      await this.login({});
-    }
-
-    const baseUrl = this.cachedUrlLeal || '';
-    const url = `${baseUrl.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`;
-
-    const options: RequestInit = {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.cachedToken}`,
-      },
-    };
-
-    if (body) {
-      options.body = JSON.stringify(body);
-    }
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000);
-    options.signal = controller.signal;
-
-    let response: Response;
-    try {
-      response = await fetch(url, options);
-    } catch (e: unknown) {
-      const err = e instanceof Error ? e : new Error(String(e));
-      this.logger.error(
-        `Error de red al llamar a Leal: ${err.message}`,
-        err.stack,
-      );
-      if (
-        err.name === 'AbortError' ||
-        (err as NodeJS.ErrnoException).code === 'UND_ERR_HEADERS_TIMEOUT' ||
-        err.message.includes('timeout')
-      ) {
-        throw new InternalServerErrorException(
-          'Error al conectar con Leal: Tiempo de espera agotado.',
-        );
-      }
-      throw new InternalServerErrorException(
-        `Error de red con Leal: ${err.message}`,
-      );
-    } finally {
-      clearTimeout(timeout);
-    }
-
-    if (response.status === 401) {
-      if (!isRetry) {
-        this.logger.log('Token expirado. Intentando refresh...');
-        const refreshed = await this.refreshToken();
-        if (!refreshed) {
-          this.logger.log('Refresh falló. Intentando login...');
-          await this.login({});
-        }
-        return this.executeWithAuth(endpoint, method, body, true);
-      } else {
-        throw new UnauthorizedException(
-          'No autorizado. Token inválido en Leal.',
-        );
-      }
-    }
-
-    if (!response.ok) {
-      throw new InternalServerErrorException(
-        `HTTP Error from Leal API: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    const text = await response.text();
-    if (text.startsWith('<')) {
-      throw new InternalServerErrorException(
-        'La API de Leal devolvió HTML inesperado.',
-      );
-    }
-
-    const data = JSON.parse(text) as LealApiEnvelope;
-
-    if (data.code === 120 && !isRetry) {
-      this.logger.log('Respuesta LEAL code 120. Intentando refresh...');
-      const refreshed = await this.refreshToken();
-      if (!refreshed) {
-        await this.login({});
-      }
-      return this.executeWithAuth(endpoint, method, body, true);
-    }
-
-    return data;
-  }
-
   async searchCustomer(
     documentId: string,
     soloCedula: string,
     token: string,
   ): Promise<LealCustomerResult | null> {
-    if (!this.cachedToken) {
-      await this.login({});
-    }
+    await this.auth.ensureLoggedIn();
 
     void token;
 
-    let idComercio = this.cachedIdComercio;
+    const ident = this.auth.getIdentity();
+    let idComercio = ident.idComercio;
     if (!idComercio) {
-      const storeId = await this.getStoreIdFallback();
+      const storeId = await this.auth.getStoreIdFallback();
       idComercio = storeId;
     }
 
@@ -403,7 +221,7 @@ export class LealRepositoryImpl implements LealRepository {
         ? `usu_usuarios/buscar_usuario/${idComercio}/${documentId}?soloCedula=s`
         : `usu_usuarios/buscar_usuario/${idComercio}/${documentId}`;
     console.log(`[LealRepository] GET ${url}`);
-    const data = await this.executeWithAuth(url);
+    const data = await this.auth.executeWithAuth(url);
     console.log(`[LealRepository] GET ${url} RESPONSE:`, JSON.stringify(data));
 
     if (data.code === 100) {
@@ -427,7 +245,7 @@ export class LealRepositoryImpl implements LealRepository {
 
   async getPremios(uid: string, token: string): Promise<any> {
     void token;
-    const data = await this.executeWithAuth(
+    const data = await this.auth.executeWithAuth(
       `com_comercios/premios-homologados/${uid}`,
     );
     if (data && data.code === 100) {
@@ -469,13 +287,12 @@ export class LealRepositoryImpl implements LealRepository {
     totales?: LealTotales;
     pin?: string;
   }): Promise<any> {
-    if (!this.cachedToken) {
-      await this.login({});
-    }
+    await this.auth.ensureLoggedIn();
 
-    let idComercio = this.cachedIdComercio;
+    const ident = this.auth.getIdentity();
+    let idComercio = ident.idComercio;
     if (!idComercio) {
-      const storeId = await this.getStoreIdFallback();
+      const storeId = await this.auth.getStoreIdFallback();
       idComercio = storeId;
     }
 
@@ -505,7 +322,7 @@ export class LealRepositoryImpl implements LealRepository {
       body.pin = data.pin.trim();
     }
 
-    const result = await this.executeWithAuth(
+    const result = await this.auth.executeWithAuth(
       `usu_historial_puntos/cargar_factura/${idComercio}`,
       'POST',
       body,
@@ -529,20 +346,19 @@ export class LealRepositoryImpl implements LealRepository {
     pin?: string;
     nota?: string;
   }): Promise<any> {
-    if (!this.cachedToken) {
-      await this.login({});
-    }
+    await this.auth.ensureLoggedIn();
 
-    let idComercio = this.cachedIdComercio;
+    const ident = this.auth.getIdentity();
+    let idComercio = ident.idComercio;
     if (!idComercio) {
-      const storeId = await this.getStoreIdFallback();
+      const storeId = await this.auth.getStoreIdFallback();
       idComercio = storeId;
     }
 
     const body: Record<string, unknown> = {
       id_comercio:
         typeof idComercio === 'string' ? parseInt(idComercio, 10) : idComercio,
-      id_sucursal: this.cachedIdSucursal ?? '',
+      id_sucursal: this.auth.getIdentity().idSucursal ?? '',
       uid: data.customerId,
       factura: data.invoiceNo,
       valor: data.points,
@@ -553,7 +369,7 @@ export class LealRepositoryImpl implements LealRepository {
     if (data.pin) body.pin = data.pin;
     if (data.nota) body.nota = data.nota;
 
-    const result = await this.executeWithAuth(
+    const result = await this.auth.executeWithAuth(
       `usu_historial_puntos/redimir_puntos`,
       'POST',
       body,
@@ -583,11 +399,7 @@ export class LealRepositoryImpl implements LealRepository {
   }
 
   async getCredentials(): Promise<{ user: string; pass: string }> {
-    await this.loadConfigAndCredentials();
-    return {
-      user: this.cachedUserLeal || '',
-      pass: this.cachedPassLeal || '',
-    };
+    return this.auth.getCredentials();
   }
 
   async updateCredentials(user: string, pass: string): Promise<void> {
@@ -608,13 +420,11 @@ export class LealRepositoryImpl implements LealRepository {
         });
       }
 
-      this.cachedUserLeal = user.trim();
-      this.cachedPassLeal = pass.trim();
-      this.cachedToken = null;
+      this.auth.setCredentials(user, pass);
 
       let loginSuccess = false;
       try {
-        await this.login({ username: user.trim(), password: pass.trim() });
+        await this.auth.login({ username: user.trim(), password: pass.trim() });
         loginSuccess = true;
       } catch (e) {
         this.logger.error('Failed to login to Leal with new credentials', e);

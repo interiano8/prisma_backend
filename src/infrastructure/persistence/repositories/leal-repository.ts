@@ -6,6 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { LealCrypto } from './leal-crypto';
 import {
   LealRepository,
   LealCustomerResult,
@@ -54,6 +55,7 @@ interface LealApiEnvelope {
 @Injectable()
 export class LealRepositoryImpl implements LealRepository {
   private readonly logger = new Logger(LealRepositoryImpl.name);
+  private readonly crypto = new LealCrypto();
 
   private cachedUrlLeal: string | null = null;
   private cachedUserLeal: string | null = null;
@@ -67,51 +69,15 @@ export class LealRepositoryImpl implements LealRepository {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  private get aesKey(): Buffer {
-    const configured = process.env.LEAL_AES_KEY;
-    const bytes = Buffer.from(configured ?? '~F9Q0Fmer?y0ritm', 'utf8');
-    if (bytes.length === 16) return bytes;
-    return crypto.createHash('sha256').update(bytes).digest().subarray(0, 16);
-  }
+
+
 
   private decryptAes(ciphertext: string): string {
-    if (!ciphertext || !ciphertext.startsWith('aes:')) return ciphertext;
-    try {
-      const payload = ciphertext.substring(4);
-      const key = this.aesKey;
-      let iv: Buffer;
-      let data: string;
-      const separator = payload.indexOf(':');
-      if (separator !== -1) {
-        iv = Buffer.from(payload.substring(0, separator), 'base64');
-        data = payload.substring(separator + 1);
-      } else {
-        iv = key;
-        data = payload;
-      }
-      const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
-      let decrypted = decipher.update(data, 'base64', 'utf8');
-      decrypted += decipher.final('utf8');
-      return decrypted;
-    } catch (e) {
-      this.logger.error('Failed to decrypt AES string', e);
-      return ciphertext;
-    }
+    return this.crypto.decrypt(ciphertext);
   }
 
   private encryptAes(plaintext: string): string {
-    if (!plaintext) return '';
-    try {
-      const key = this.aesKey;
-      const iv = crypto.randomBytes(16);
-      const cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
-      let encrypted = cipher.update(plaintext, 'utf8', 'base64');
-      encrypted += cipher.final('base64');
-      return `aes:${iv.toString('base64')}:${encrypted}`;
-    } catch (e) {
-      this.logger.error('Failed to encrypt AES string', e);
-      return plaintext;
-    }
+    return this.crypto.encrypt(plaintext);
   }
 
   private async getStoreIdFallback(): Promise<string> {
@@ -131,8 +97,8 @@ export class LealRepositoryImpl implements LealRepository {
 
     const leal = await this.prisma.configuracionLeal.findFirst();
     if (leal) {
-      this.cachedUserLeal = this.decryptAes(leal.usuario || '').trim();
-      this.cachedPassLeal = this.decryptAes(leal.contrasena || '').trim();
+      this.cachedUserLeal = this.crypto.decrypt(leal.usuario || '').trim();
+      this.cachedPassLeal = this.crypto.decrypt(leal.contrasena || '').trim();
     }
   }
 
@@ -626,8 +592,8 @@ export class LealRepositoryImpl implements LealRepository {
 
   async updateCredentials(user: string, pass: string): Promise<void> {
     try {
-      const encUser = this.encryptAes(user);
-      const encPass = this.encryptAes(pass);
+      const encUser = this.crypto.encrypt(user);
+      const encPass = this.crypto.encrypt(pass);
 
       const existing = await this.prisma.configuracionLeal.findFirst();
 

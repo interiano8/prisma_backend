@@ -13,6 +13,7 @@ import {
 import { FUEL_DEFAULT_CODE, FUEL_CODE_PREFIX } from '../../domain/constants/business.constants';
 import { Mutex } from '../../utils/mutex';
 import { InvoiceLealProcessor } from './invoice-leal.processor';
+import { InvoiceResultMapper } from './invoice-result.mapper';
 import type {
   InvoiceRepository,
   InvoiceLineItem,
@@ -35,20 +36,10 @@ interface CreditNoteUser {
   name?: string;
 }
 
-interface ExtractedInvoiceResult {
-  invoiceNo: string;
-  posTransactionId: string | null;
-  cai: string | null;
-  startingNo: string | null;
-  endingNo: string | null;
-  fechaVence: string | null;
-  campanaTickets: CampanaTicket[];
-  seriesRemaining?: number;
-  seriesRemainingDays?: number;
-}
 
 @Injectable()
 export class InvoicesService {
+  private readonly resultMapper = new InvoiceResultMapper();
   constructor(
     @Inject('InvoiceRepository')
     private readonly invoiceRepo: InvoiceRepository,
@@ -86,7 +77,7 @@ export class InvoicesService {
     const employeeName = dto.employeeName || dbEmployeeName;
 
     const lines = await this.buildInvoiceLines(dto);
-    const payments = this.buildInvoicePayments(dto);
+    const payments = this.resultMapper.buildInvoicePayments(dto);
 
     const { invoiceNo: predictedInvoiceNo } =
       await this.invoiceQueryRepo.findNextCorrelative(dto.storeId, dto.posNo);
@@ -181,7 +172,7 @@ export class InvoicesService {
       throw e;
     }
 
-    const extracted = this.extractInvoiceResult(executeResult, dto);
+    const extracted = this.resultMapper.extractInvoiceResult(executeResult, dto);
 
     await this.clearPumpSales(dto);
 
@@ -588,98 +579,6 @@ export class InvoicesService {
     }
 
     return lines;
-  }
-
-  private buildInvoicePayments(dto: CreateInvoiceInput): InvoicePaymentItem[] {
-    const payments: InvoicePaymentItem[] = [];
-    let chargeLineNo = 10;
-
-    for (const payment of dto.payments) {
-      let desc = 'EFECTIVO';
-      const upper = payment.method.toUpperCase();
-      if (
-        upper.includes('TARJETA') ||
-        upper.includes('BAC') ||
-        upper.includes('BANPRO')
-      )
-        desc = 'TARJETA';
-      else if (upper.includes('LEAL')) desc = 'LEAL';
-      else if (
-        upper.includes('CREDITO') ||
-        upper.includes('CRÉDITO') ||
-        upper.includes('CRED')
-      )
-        desc = 'CREDITO';
-
-      const paymentRef =
-        desc === 'LEAL' ? '' : (payment.reference || '').substring(0, 20);
-      payments.push({
-        chargeLineNo,
-        code: payment.code,
-        amount: payment.amount,
-        reference: paymentRef,
-        description: desc,
-        moneda: payment.moneda,
-        tasaCambio: payment.tasaCambio,
-        montoIngresado: payment.montoIngresado,
-      });
-      chargeLineNo += 10;
-    }
-
-    return payments;
-  }
-
-  private extractInvoiceResult(
-    executeResult: InvoiceInsertResultRow[],
-    dto: CreateInvoiceInput,
-  ): ExtractedInvoiceResult {
-    const fallbackInvoiceNo = `FAC-${dto.storeId}-${dto.posNo}-${Date.now().toString().slice(-6)}`;
-    const result: ExtractedInvoiceResult = {
-      invoiceNo: fallbackInvoiceNo,
-      posTransactionId: null,
-      cai: null,
-      startingNo: null,
-      endingNo: null,
-      fechaVence: null,
-      campanaTickets: [],
-    };
-
-    if (!executeResult || executeResult.length === 0) {
-      return result;
-    }
-
-    const getSingle = (
-      val: string | Date | null | undefined,
-    ): string | null => {
-      if (val === null || val === undefined) return null;
-      if (Array.isArray(val))
-        return val.length === 0
-          ? null
-          : getSingle(val[0] as string | Date | null | undefined);
-      return String(val);
-    };
-    const flat = executeResult.flat(Infinity);
-    const row = flat.find(
-      (r) =>
-        r &&
-        (r.NextInvoiceOfNextInvoice ||
-          r.NextPosTransactionIDNumber ||
-          r.CAIOfNextInvoice),
-    );
-    if (row) {
-      result.invoiceNo =
-        getSingle(row.NextInvoiceOfNextInvoice) || fallbackInvoiceNo;
-      result.posTransactionId = getSingle(row.NextPosTransactionIDNumber);
-      result.cai = getSingle(row.CAIOfNextInvoice);
-      result.startingNo = getSingle(row.StartingNoOfNextInvoice);
-      result.endingNo = getSingle(row.EndingNoOfNextInvoice);
-      result.fechaVence = getSingle(row.FechaVenceRangoOfNextInvoice);
-      result.campanaTickets = (row as any)?.CampanaTickets ?? [];
-      result.seriesRemaining = (row as any)?.SeriesRemaining ?? 0;
-      result.seriesRemainingDays = (row as any)?.SeriesRemainingDays ?? 0;
-    }
-
-    return result;
   }
 
   private async clearPumpSales(dto: CreateInvoiceInput): Promise<void> {

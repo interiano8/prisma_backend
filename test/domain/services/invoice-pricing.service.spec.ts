@@ -5,7 +5,7 @@ describe('InvoicePricingService', () => {
   let service: InvoicePricingService;
 
   beforeEach(() => {
-    service = new InvoicePricingService();
+    service = new InvoicePricingService({ ISV_15: 15, ISV_18: 18 });
   });
 
   describe('getVatPercent', () => {

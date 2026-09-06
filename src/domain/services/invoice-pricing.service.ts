@@ -1,15 +1,17 @@
 import { InvoiceItem } from '../entities/invoice-item.entity';
 
 export class InvoicePricingService {
+  constructor(
+    private readonly tasasPorGrupo: Record<string, number> = {},
+  ) {}
+
   calculateVatAmount(amountIncludingVat: number, vatPercent: number): number {
     return amountIncludingVat - amountIncludingVat / (1 + vatPercent / 100);
   }
 
   getVatPercent(vatGroup: string): number {
     const cleanGroup = vatGroup.toUpperCase();
-    if (cleanGroup === 'ISV_15') return 15;
-    if (cleanGroup === 'ISV_18') return 18;
-    return 0;
+    return this.tasasPorGrupo[cleanGroup] ?? 0;
   }
 
   calculateLineTotal(item: InvoiceItem): number {

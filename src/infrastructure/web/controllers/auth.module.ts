@@ -6,10 +6,13 @@ import { IdentityPasswordHasher } from '../../security/password-hasher';
 import { LoginUseCase } from '../../../application/use-cases/auth/login.use-case';
 import { LoginRfidUseCase } from '../../../application/use-cases/auth/login-rfid.use-case';
 import { ValidateAdminUseCase } from '../../../application/use-cases/auth/validate-admin.use-case';
+import { UpdateAdminPasswordUseCase } from '../../../application/use-cases/auth/update-admin-password.use-case';
+import { LoginBackofficeUseCase } from '../../../application/use-cases/auth/login-backoffice.use-case';
 import { CheckCreditValidationUseCase } from '../../../application/use-cases/auth/check-credit-validation.use-case';
 import { SavePreferencesUseCase } from '../../../application/use-cases/auth/save-preferences.use-case';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { TOKEN_PORT, PASSWORD_HASHER_PORT } from '../../security/tokens';
+import { PASSWORD_HASHER_PORT } from '../../security/tokens'
+import { TOKEN_PORT } from '../../../domain/ports/out/token.interface';
 import type { AuthRepository } from '../../../domain/ports/out/auth-repository.interface';
 
 @Module({
@@ -43,6 +46,14 @@ import type { AuthRepository } from '../../../domain/ports/out/auth-repository.i
       inject: ['AuthRepository', PASSWORD_HASHER_PORT],
     },
     {
+      provide: UpdateAdminPasswordUseCase,
+      useFactory: (
+        repo: AuthRepository,
+        passwordHasher: IdentityPasswordHasher,
+      ) => new UpdateAdminPasswordUseCase(repo, passwordHasher),
+      inject: ['AuthRepository', PASSWORD_HASHER_PORT],
+    },
+    {
       provide: CheckCreditValidationUseCase,
       useFactory: (repo: AuthRepository) =>
         new CheckCreditValidationUseCase(repo),
@@ -53,7 +64,13 @@ import type { AuthRepository } from '../../../domain/ports/out/auth-repository.i
       useFactory: (repo: AuthRepository) => new SavePreferencesUseCase(repo),
       inject: ['AuthRepository'],
     },
+    {
+      provide: LoginBackofficeUseCase,
+      useFactory: (tokenService: TokenService) =>
+        new LoginBackofficeUseCase(tokenService),
+      inject: [TOKEN_PORT],
+    },
   ],
-  exports: ['AuthRepository', LoginUseCase, LoginRfidUseCase],
+  exports: ['AuthRepository', LoginUseCase, LoginRfidUseCase, ValidateAdminUseCase],
 })
 export class AuthModule {}

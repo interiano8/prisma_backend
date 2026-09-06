@@ -46,12 +46,36 @@ async function bootstrap() {
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
-  app.enableCors(
-    corsOrigins.length > 0 ? { origin: corsOrigins } : { origin: false },
-  );
+  // En desarrollo el renderer (electron-vite) usa un puerto localhost dinámico;
+  // además de la lista CORS_ORIGINS, se permiten orígenes localhost/127.0.0.1 en cualquier puerto.
+  const isLocalhostOrigin = (origin: string) => {
+    try {
+      const { hostname } = new URL(origin);
+      return hostname === 'localhost' || hostname === '127.0.0.1';
+    } catch {
+      return false;
+    }
+  };
+  app.enableCors({
+    origin:
+      corsOrigins.length > 0
+        ? (origin, callback) => {
+            if (!origin || corsOrigins.includes(origin) || isLocalhostOrigin(origin)) {
+              callback(null, true);
+            } else {
+              callback(new Error('Origen CORS no permitido'));
+            }
+          }
+        : false,
+  });
 
   // Servir imágenes estáticas (medios de pago) desde la carpeta Imagenes
-  app.useStaticAssets(join(process.cwd(), 'Imagenes'), { prefix: '/images/' });
+  app.useStaticAssets(join(process.cwd(), 'Imagenes'), {
+    prefix: '/images/',
+    maxAge: '1d',
+    setHeaders: (res) =>
+      res.setHeader('Cache-Control', 'public, max-age=86400'),
+  });
 
   // Set global API prefix
   app.setGlobalPrefix('api');

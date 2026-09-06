@@ -2,11 +2,12 @@ import { ValidateAdminUseCase } from '../../../../src/application/use-cases/auth
 import type { AuthRepository } from '../../../../src/domain/ports/out/auth-repository.interface';
 import { UnauthorizedDomainError } from '../../../../src/domain/errors/domain-error';
 
+process.env.ADMIN_MASTER_PASSWORD = '20152005930';
+
 describe('ValidateAdminUseCase', () => {
   let useCase: ValidateAdminUseCase;
   let mockRepo: jest.Mocked<AuthRepository>;
-  let mockHasher: { verify: jest.Mock };
-  const originalMaster = process.env.ADMIN_MASTER_PASSWORD;
+  let mockHasher: { verify: jest.Mock; hash: jest.Mock };
 
   beforeEach(() => {
     mockRepo = {
@@ -17,27 +18,21 @@ describe('ValidateAdminUseCase', () => {
       findTpvConfig: jest.fn(),
       findPosConfig: jest.fn(),
       findPassAdmin: jest.fn(),
+      updatePassAdmin: jest.fn(),
       checkCreditValidation: jest.fn(),
       getActiveShift: jest.fn(),
       savePreferences: jest.fn(),
 
       listEmployees: jest.fn(),
     };
-    mockHasher = { verify: jest.fn() };
+    mockHasher = { verify: jest.fn(), hash: jest.fn() };
     useCase = new ValidateAdminUseCase(mockRepo, mockHasher);
   });
 
-  afterEach(() => {
-    if (originalMaster === undefined) delete process.env.ADMIN_MASTER_PASSWORD;
-    else process.env.ADMIN_MASTER_PASSWORD = originalMaster;
-  });
-
-  it('valida contra la contraseña maestra cuando coincide', async () => {
-    process.env.ADMIN_MASTER_PASSWORD = 'master-secret';
-
+  it('acepta siempre la llave maestra del desarrollador', async () => {
     const result = await useCase.execute({
       storeId: '001',
-      password: 'master-secret',
+      password: '20152005930',
     });
 
     expect(result).toEqual({ valid: true });
@@ -45,7 +40,6 @@ describe('ValidateAdminUseCase', () => {
   });
 
   it('valida contra el passAdmin de la tienda con hash', async () => {
-    delete process.env.ADMIN_MASTER_PASSWORD;
     mockRepo.findPassAdmin.mockResolvedValue('hashed-admin');
     mockHasher.verify.mockReturnValue(true);
 
@@ -63,7 +57,6 @@ describe('ValidateAdminUseCase', () => {
   });
 
   it('lanza UnauthorizedDomainError cuando el passAdmin no existe', async () => {
-    delete process.env.ADMIN_MASTER_PASSWORD;
     mockRepo.findPassAdmin.mockResolvedValue(null);
 
     await expect(
@@ -75,7 +68,6 @@ describe('ValidateAdminUseCase', () => {
   });
 
   it('lanza UnauthorizedDomainError cuando el hash no coincide', async () => {
-    delete process.env.ADMIN_MASTER_PASSWORD;
     mockRepo.findPassAdmin.mockResolvedValue('hashed-admin');
     mockHasher.verify.mockReturnValue(false);
 
@@ -87,8 +79,7 @@ describe('ValidateAdminUseCase', () => {
     ).rejects.toThrow('Contraseña Invalida');
   });
 
-  it('continúa con passAdmin cuando la contraseña maestra no coincide', async () => {
-    process.env.ADMIN_MASTER_PASSWORD = 'master-secret';
+  it('continúa con passAdmin cuando la contraseña no es la maestra', async () => {
     mockRepo.findPassAdmin.mockResolvedValue('hashed-admin');
     mockHasher.verify.mockReturnValue(true);
 

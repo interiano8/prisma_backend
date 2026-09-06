@@ -10,7 +10,7 @@ import type {
   TokenPort,
   TokenPayload,
 } from '../../../domain/ports/out/token.interface';
-import { TOKEN_PORT } from '../../security/tokens';
+import { TOKEN_PORT } from '../../../domain/ports/out/token.interface';
 
 export interface AuthenticatedRequest extends Request {
   user?: TokenPayload;

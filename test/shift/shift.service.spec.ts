@@ -32,6 +32,7 @@ describe('ShiftService', () => {
       findBlockedForPendingTransactions: jest.fn(),
       findHideShiftInfo: jest.fn(),
       findExchangeRate: jest.fn(),
+      findTasaByGrupo: jest.fn().mockResolvedValue(0),
     };
     dispenserRepo = {
       countPendingSalesForPos: jest.fn(),

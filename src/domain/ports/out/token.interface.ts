@@ -1,3 +1,5 @@
+export const TOKEN_PORT = 'TokenPort';
+
 export interface TokenPayload {
   sub: number;
   username: string;

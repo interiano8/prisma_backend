@@ -1,5 +1,41 @@
 import * as crypto from 'crypto';
 
+const ITERATIONS = 100_000;
+const SALT_BYTES = 16;
+const SUBKEY_BYTES = 32;
+
+/**
+ * Generates an ASP.NET Identity V3 format hash (PBKDF2 with HMAC-SHA256).
+ *
+ * Hash structure:
+ * - [0] format marker (0x01)
+ * - [1-4] PRF (HMAC-SHA256 = 1)
+ * - [5-8] iterations (typically 100,000)
+ * - [9-12] salt size (typically 16 bytes)
+ * - [13-16] subkey size (typically 32 bytes)
+ * - [17..] salt bytes + subkey bytes
+ */
+export function createPasswordHash(
+  password: string,
+  iterations = ITERATIONS,
+): string {
+  const salt = crypto.randomBytes(SALT_BYTES);
+  const subkey = crypto.pbkdf2Sync(
+    password,
+    salt,
+    iterations,
+    SUBKEY_BYTES,
+    'sha256',
+  );
+  const header = Buffer.alloc(17);
+  header[0] = 0x01;
+  header.writeInt32BE(1, 1); // PRF: HMAC-SHA256
+  header.writeInt32BE(iterations, 5);
+  header.writeInt32BE(SALT_BYTES, 9);
+  header.writeInt32BE(SUBKEY_BYTES, 13);
+  return Buffer.concat([header, salt, subkey]).toString('base64');
+}
+
 /**
  * Verifies a password or RFID code hashed using ASP.NET Identity V3 format (PBKDF2 with HMAC-SHA256).
  *

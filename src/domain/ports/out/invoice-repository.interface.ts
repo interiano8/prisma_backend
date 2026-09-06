@@ -9,6 +9,7 @@ export interface InvoiceLineItem {
   vatPercent: number;
   vatAmount: number;
   amountIncludingVAT: number;
+  montoGravado: number;
   pumpNo: string;
   pumpPositionNo: string;
   tankNo: string;
@@ -24,6 +25,9 @@ export interface InvoicePaymentItem {
   amount: number;
   reference: string;
   description: string;
+  moneda?: string;
+  tasaCambio?: number;
+  montoIngresado?: number;
 }
 
 export interface InvoiceInsertParams {
@@ -32,6 +36,7 @@ export interface InvoiceInsertParams {
   employeeName: string;
   shiftDate: Date | string;
   shiftNumber: string;
+  shiftId?: string | null;
   customerNo: string;
   customerName: string;
   customerRtn: string;
@@ -47,6 +52,10 @@ export interface InvoiceInsertParams {
   chofer: string;
   lines: InvoiceLineItem[];
   payments: InvoicePaymentItem[];
+  onCommit?: (
+    tx: import('../../../../src/generated/prisma/client').Prisma.TransactionClient,
+    posTransactionId: string,
+  ) => Promise<any[] | undefined>;
 }
 
 export interface InvoiceInsertResultRow {
@@ -56,6 +65,9 @@ export interface InvoiceInsertResultRow {
   StartingNoOfNextInvoice: string | null;
   EndingNoOfNextInvoice: string | null;
   FechaVenceRangoOfNextInvoice: Date | null;
+  CampanaTickets?: unknown[];
+  SeriesRemaining?: number;
+  SeriesRemainingDays?: number;
 }
 
 export interface CreditNoteParams {
@@ -64,6 +76,7 @@ export interface CreditNoteParams {
   employeeName: string;
   shiftStarting: Date | string;
   shiftNumber: string;
+  shiftId?: string | null;
   customerNo: string;
   customerName: string;
   customerRtn: string;
@@ -78,6 +91,7 @@ export interface CreditNoteParams {
   placa: string;
   chofer: string;
   cambio: number;
+  numeroLinea: number | null;
 }
 
 export interface SalesLineRow {
@@ -189,8 +203,8 @@ export interface OriginalDocumentRow {
   Cambio: number | null;
 }
 
-export interface SorteoRow {
-  sorteoId: number | null;
+export interface CampanaRow {
+  campanaId: number | null;
   nombre: string | null | undefined;
   textoTicket: string | null | undefined;
   correlativo: string | null;
@@ -202,61 +216,15 @@ export interface ReasonRow {
 }
 
 export interface InvoiceRepository {
-  findAll(): Promise<any[]>;
-  findByNo(invoiceNo: string): Promise<any>;
   creditNote(invoiceNo: string, reason: string): Promise<{ success: boolean }>;
 
-  findNextCorrelative(
-    storeId: string,
-    posNo: string,
-  ): Promise<{ invoiceNo: string; posTransactionId: string }>;
-  findNextCreditNoteCorrelative(
-    storeId: string,
-    posNo: string,
-  ): Promise<{
-    serieCode: string;
-    nextInvoice: string;
-    remainingInvoices: number;
-    remainingDays: number;
-  }>;
-  getShiftDetails(
-    storeId: string,
-    posNo: string,
-    shiftNumber: string,
-    employeeName?: string,
-  ): Promise<{ shiftDate: Date | string; employeeName: string }>;
-  validateCorrelative(
-    storeId: string,
-    posNo: string,
-    isTicket: boolean,
-  ): Promise<{ isValid: boolean; message: string }>;
   executeInvoiceInsert(
     params: InvoiceInsertParams,
   ): Promise<InvoiceInsertResultRow[]>;
   executeCreditNote(
     params: CreditNoteParams,
   ): Promise<{ nextPosTransactionId: string; finalInvoiceNo: string }>;
-  getOriginalDocument(invoiceNo: string, transactionId: string): Promise<any>;
-  checkExistingReversion(
-    invoiceNo: string,
-    transactionId: string,
-  ): Promise<boolean>;
-  getOpenShiftForEmployee(
-    storeId: string,
-    employeeName: string,
-  ): Promise<OpenShiftRow | null>;
-  getInvoiceLines(transactionId: string): Promise<any[]>;
-  getInvoicePayments(transactionId: string): Promise<any[]>;
-  getInvoiceLealTransactions(transactionId: string): Promise<LealRow[]>;
-  getInvoiceSorteos(transactionId: string): Promise<SorteoRow[]>;
   insertSalesLine(params: SalesLineParams): Promise<void>;
   insertPaymentMethod(params: PaymentMethodParams): Promise<void>;
   insertLealTransactions(params: LealTransactionParams[]): Promise<void>;
-  findStoreConfigField(storeId: string, field: string): Promise<any>;
-  getReasons(): Promise<ReasonRow[]>;
-  searchInvoices(
-    params: SearchInvoicesParams,
-  ): Promise<
-    any[] | { total: number; page: number; pageSize: number; data: any[] }
-  >;
 }

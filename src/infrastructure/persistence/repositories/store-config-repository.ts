@@ -48,8 +48,19 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
     try {
       const day = this.parseDate(fecha);
       const row = await this.prisma.tasaCambio.findFirst({
-        where: { fecha: day },
-        orderBy: { id: 'desc' },
+        where: { fecha: { lte: day } },
+        orderBy: { fecha: 'desc' },
+      });
+      return row ? Number(row.tasa) || 0 : 0;
+    } catch {
+      return 0;
+    }
+  }
+
+  async findTasaByGrupo(codigo: string): Promise<number> {
+    try {
+      const row = await this.prisma.grupoImpuesto.findUnique({
+        where: { codigo: codigo || '' },
       });
       return row ? Number(row.tasa) || 0 : 0;
     } catch {
@@ -153,7 +164,7 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
       urlBaseERP: row.urlBaseErp || '',
       turnoManual: row.turnoManual === true,
       calculoInverso: row.calculoInverso === true,
-      sorteos: row.sorteos === true,
+      campanas: row.campanas === true,
       nombreBotonFidelizacion: row.nombreBotonFidelizacion || 'LEAL',
       moneda: row.moneda || 'L.',
       carpetaMultimedia: row.carpetaMultimedia || '',

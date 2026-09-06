@@ -24,6 +24,7 @@ export class PosConfigController {
       minutosAtrasada?: number;
       mostrarTeclado?: boolean;
       declararMontosIniciales?: boolean;
+      visualizacion?: string;
     },
   ) {
     return this.updatePosConfigUseCase.execute(posNo, body);

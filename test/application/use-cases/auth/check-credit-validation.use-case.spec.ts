@@ -11,6 +11,7 @@ function createMockRepo(): jest.Mocked<AuthRepository> {
     findTpvConfig: jest.fn(),
     findPosConfig: jest.fn(),
     findPassAdmin: jest.fn(),
+      updatePassAdmin: jest.fn(),
     checkCreditValidation: jest.fn(),
     getActiveShift: jest.fn(),
     savePreferences: jest.fn(),

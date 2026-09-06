@@ -1,33 +1,33 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from '../../../../src/infrastructure/web/controllers/products.controller';
 import { ListProductsUseCase } from '../../../../src/application/use-cases/product/list-products.use-case';
+import { ListCategoriesUseCase } from '../../../../src/application/use-cases/product/list-categories.use-case';
 import { GetProductUseCase } from '../../../../src/application/use-cases/product/get-product.use-case';
-import { GetProductDiscountUseCase } from '../../../../src/application/use-cases/product/get-product-discount.use-case';
 import { GetProductByBarcodeUseCase } from '../../../../src/application/use-cases/product/get-product-by-barcode.use-case';
 import { CalculateCartDiscountsUseCase } from '../../../../src/application/use-cases/product/calculate-cart-discounts.use-case';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
   let mockList: { execute: jest.Mock };
+  let mockCategories: { execute: jest.Mock };
   let mockGet: { execute: jest.Mock };
   let mockBarcode: { execute: jest.Mock };
-  let mockDiscount: { execute: jest.Mock };
   let mockCart: { execute: jest.Mock };
 
   beforeEach(async () => {
     mockList = { execute: jest.fn() };
+    mockCategories = { execute: jest.fn() };
     mockGet = { execute: jest.fn() };
     mockBarcode = { execute: jest.fn() };
-    mockDiscount = { execute: jest.fn() };
     mockCart = { execute: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductsController],
       providers: [
         { provide: ListProductsUseCase, useValue: mockList },
+        { provide: ListCategoriesUseCase, useValue: mockCategories },
         { provide: GetProductUseCase, useValue: mockGet },
         { provide: GetProductByBarcodeUseCase, useValue: mockBarcode },
-        { provide: GetProductDiscountUseCase, useValue: mockDiscount },
         { provide: CalculateCartDiscountsUseCase, useValue: mockCart },
       ],
     }).compile();
@@ -41,6 +41,15 @@ describe('ProductsController', () => {
     await controller.getProducts('COMB');
 
     expect(mockList.execute).toHaveBeenCalledWith('COMB');
+  });
+
+  it('getCategories delega en el use-case', async () => {
+    mockCategories.execute.mockResolvedValue([{ codigo: 'COMB', descripcion: 'Combustibles' }]);
+
+    const result = await controller.getCategories();
+
+    expect(mockCategories.execute).toHaveBeenCalledTimes(1);
+    expect(result).toEqual([{ codigo: 'COMB', descripcion: 'Combustibles' }]);
   });
 
   it('getProductByCode delega en el use-case', async () => {
@@ -57,19 +66,6 @@ describe('ProductsController', () => {
     await controller.getProductByBarcode('123456789');
 
     expect(mockBarcode.execute).toHaveBeenCalledWith('123456789');
-  });
-
-  it('evaluateDiscount devuelve null sin customerCode', async () => {
-    expect(await controller.evaluateDiscount('P1', '')).toBeNull();
-    expect(mockDiscount.execute).not.toHaveBeenCalled();
-  });
-
-  it('evaluateDiscount delega con customerCode', async () => {
-    mockDiscount.execute.mockResolvedValue(null);
-
-    await controller.evaluateDiscount('P1', 'C1');
-
-    expect(mockDiscount.execute).toHaveBeenCalledWith('P1', 'C1');
   });
 
   it('calculateDiscounts valida el body', async () => {

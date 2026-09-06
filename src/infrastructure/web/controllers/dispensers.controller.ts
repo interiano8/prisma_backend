@@ -16,6 +16,11 @@ import { AuthorizePumpDto } from '../dto/dispenser/authorize-pump.dto';
 export class DispensersController {
   constructor(private readonly dispensersService: DispensersService) {}
 
+  @Get('pending')
+  async getPending() {
+    return this.dispensersService.listPendingSales();
+  }
+
   @Get('status')
   async getStatus() {
     return this.dispensersService.getDispensers();

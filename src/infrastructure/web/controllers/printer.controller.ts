@@ -1,12 +1,17 @@
 import {
   Controller,
   Post,
+  Get,
+  Query,
   Body,
+  UseGuards,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import type { Prisma } from '../../../../src/generated/prisma/client';
 import { PrinterService } from '../../printing/printer.service';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 @Controller('printer')
 export class PrinterController {
@@ -39,6 +44,7 @@ export class PrinterController {
   }
 
   @Post('config')
+  @UseGuards(JwtAuthGuard, AdminGuard)
   async saveConfig(
     @Body() body: { posNo: string; printerConfig?: Prisma.InputJsonValue },
   ) {
@@ -65,5 +71,15 @@ export class PrinterController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @Get('config')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  async getConfig(@Query('posNo') posNo?: string) {
+    if (!posNo) {
+      throw new HttpException('posNo is required', HttpStatus.BAD_REQUEST);
+    }
+    const config = await this.printerService.getPrinterConfig(posNo);
+    return { posNo, printerConfig: config ?? null };
   }
 }

@@ -146,6 +146,23 @@ export class DispensersService implements OnModuleInit, OnModuleDestroy {
     });
   }
 
+  async listPendingSales() {
+    try {
+      const sales = await this.dispenserRepo.getPendingSales();
+      return sales.map((s) => ({
+        SaleID: s.SaleID,
+        PumpNumber: s.PumpNumber,
+        amount: s.amount,
+        ppu: s.ppu,
+        volume: s.volume,
+        GradeNr: s.GradeNr,
+        IsInvoiced: s.IsInvoiced,
+      }));
+    } catch {
+      return [];
+    }
+  }
+
   private cachedHoses: SimpleHoseConfig[] | null = null;
 
   async onModuleInit() {

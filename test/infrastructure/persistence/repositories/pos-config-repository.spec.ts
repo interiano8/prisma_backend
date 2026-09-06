@@ -28,6 +28,7 @@ describe('PosConfigRepositoryImpl', () => {
       minutosAtrasada: 10,
       mostrarTeclado: true,
       declararMontosIniciales: false,
+      visualizacion: 'categorias',
       config: { key: 'val' },
     };
     mockPrisma.configuracionPos.findUnique.mockResolvedValue(row);
@@ -44,6 +45,7 @@ describe('PosConfigRepositoryImpl', () => {
       minutosAtrasada: 10,
       mostrarTeclado: true,
       declararMontosIniciales: false,
+      visualizacion: 'categorias',
       config: { key: 'val' },
     });
   });

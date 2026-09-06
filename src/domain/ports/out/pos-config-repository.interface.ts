@@ -5,6 +5,7 @@ export interface PosConfig {
   minutosAtrasada: number | null;
   mostrarTeclado: boolean | null;
   declararMontosIniciales: boolean | null;
+  visualizacion: string | null;
   config?: unknown;
 }
 
@@ -15,6 +16,7 @@ export interface PosConfigUpdateData {
   minutosAtrasada?: number;
   mostrarTeclado?: boolean;
   declararMontosIniciales?: boolean;
+  visualizacion?: string;
   config?: unknown;
 }
 

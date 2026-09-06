@@ -52,6 +52,14 @@ export class LoginUseCase {
     storeConfig.mostrarTeclado = posConfig?.mostrarTeclado ?? true;
     storeConfig.declararMontosIniciales =
       posConfig?.declararMontosIniciales ?? false;
+    // Cargar la configuración de impresora guardada (config JSON) para que
+    // la impresión (preview/IP/nombre) funcione en todo el POS tras el login.
+    const tpvConfig = await this.authRepository.findTpvConfig(dto.posNo);
+    storeConfig.printerConfig = (tpvConfig as any) ?? undefined;
+    // Zona horaria del servidor para que el cliente formatee las fechas
+    // de cierre de turno y transacción en la misma zona.
+    storeConfig.serverTimezone =
+      Intl.DateTimeFormat().resolvedOptions().timeZone;
     const shiftInfo = await this.authRepository.getActiveShift(
       dto.storeId,
       dto.posNo,

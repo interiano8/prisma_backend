@@ -8,10 +8,10 @@ describe('ListProductsUseCase', () => {
   beforeEach(() => {
     mockRepository = {
       findAll: jest.fn(),
+      listCategories: jest.fn(),
       findByCode: jest.fn(),
       findByBarcode: jest.fn(),
-      findDiscount: jest.fn(),
-      calculateDiscount: jest.fn(),
+      findApplicableDiscountRules: jest.fn(),
       getDefaultStoreId: jest.fn(),
       getProductsFiltered: jest.fn(),
       getProductsAll: jest.fn(),

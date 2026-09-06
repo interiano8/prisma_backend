@@ -9,6 +9,7 @@ describe('InvoicesController', () => {
   beforeEach(async () => {
     service = {
       createInvoice: jest.fn(),
+      createTicketForPendingSale: jest.fn(),
       getReasons: jest.fn(),
       processCreditNote: jest.fn(),
       renewTransactions: jest.fn(),
@@ -18,7 +19,7 @@ describe('InvoicesController', () => {
       getInvoiceLines: jest.fn(),
       getInvoicePayments: jest.fn(),
       getInvoiceLealMessage: jest.fn(),
-      getInvoiceSorteos: jest.fn(),
+      getInvoiceCampanas: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -46,6 +47,7 @@ describe('InvoicesController', () => {
       invoiceNo: 'F1',
       transactionId: 'TX1',
       reason: 'R',
+      adminPassword: 'secret',
     });
 
     expect(service.processCreditNote).toHaveBeenCalledWith(
@@ -64,6 +66,7 @@ describe('InvoicesController', () => {
       invoiceNo: 'F1',
       transactionId: 'TX1',
       reason: 'R',
+      adminPassword: 'secret',
     });
 
     expect(service.processCreditNote).toHaveBeenCalledWith(
@@ -130,7 +133,7 @@ describe('InvoicesController', () => {
     service.getInvoiceLines.mockResolvedValue([]);
     service.getInvoicePayments.mockResolvedValue([]);
     service.getInvoiceLealMessage.mockResolvedValue({ lealReprintMessage: '' });
-    service.getInvoiceSorteos.mockResolvedValue([]);
+    service.getInvoiceCampanas.mockResolvedValue([]);
     service.getReasons.mockResolvedValue([]);
     service.getInvoices.mockResolvedValue([]);
     service.renewTransactions.mockResolvedValue({ success: true });
@@ -138,7 +141,7 @@ describe('InvoicesController', () => {
     await controller.getInvoiceLines('TX1');
     await controller.getInvoicePayments('TX1');
     await controller.getInvoiceLealMessage('TX1');
-    await controller.getInvoiceSorteos('TX1');
+    await controller.getInvoiceCampanas('TX1');
     await controller.getReasons();
     await controller.getInvoices();
     await controller.renewTransactions();
@@ -146,9 +149,24 @@ describe('InvoicesController', () => {
     expect(service.getInvoiceLines).toHaveBeenCalledWith('TX1');
     expect(service.getInvoicePayments).toHaveBeenCalledWith('TX1');
     expect(service.getInvoiceLealMessage).toHaveBeenCalledWith('TX1');
-    expect(service.getInvoiceSorteos).toHaveBeenCalledWith('TX1');
+    expect(service.getInvoiceCampanas).toHaveBeenCalledWith('TX1');
     expect(service.getReasons).toHaveBeenCalled();
     expect(service.getInvoices).toHaveBeenCalled();
     expect(service.renewTransactions).toHaveBeenCalled();
+  });
+
+  it('createPendingSaleTicket delega en el servicio', async () => {
+    service.createTicketForPendingSale.mockResolvedValue({ success: true });
+    const body = {
+      saleId: 123,
+      storeId: '001',
+      posNo: '01',
+      shiftNumber: '1',
+      customerNo: 'CF',
+      customerName: 'CONSUMIDOR FINAL',
+    };
+    const res = await controller.createPendingSaleTicket(body);
+    expect(service.createTicketForPendingSale).toHaveBeenCalledWith(123, body);
+    expect(res).toEqual({ success: true });
   });
 });

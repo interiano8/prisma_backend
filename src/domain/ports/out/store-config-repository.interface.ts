@@ -5,5 +5,6 @@ export interface StoreConfigRepository {
   findBlockedForPendingTransactions(storeId: string): Promise<boolean>;
   findHideShiftInfo(posCode: string): Promise<boolean>;
   findExchangeRate(fecha: string): Promise<number>;
+  findTasaByGrupo(codigo: string): Promise<number>;
   update(storeId: string, data: Partial<StoreConfig>): Promise<StoreConfig>;
 }

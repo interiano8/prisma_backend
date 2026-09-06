@@ -44,6 +44,30 @@ describe('CustomerRepositoryImpl', () => {
     );
   });
 
+  it('search sin query ni paginación usa take por defecto', async () => {
+    const findMany = jest.fn().mockResolvedValue([customerRow]);
+    const repo = new CustomerRepositoryImpl({ cliente: { findMany } } as any);
+
+    const customers = await repo.search('', false, 0, 0);
+
+    expect(findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ where: {}, take: 100 }),
+    );
+    expect(customers).toHaveLength(1);
+  });
+
+  it('search paginado devuelve total y page', async () => {
+    const findMany = jest.fn().mockResolvedValue([customerRow]);
+    const count = jest.fn().mockResolvedValue(42);
+    const repo = new CustomerRepositoryImpl({
+      cliente: { findMany, count },
+    } as any);
+
+    const result = await repo.search('x', false, 2, 10);
+
+    expect(result).toEqual({ total: 42, page: 2, pageSize: 10, data: expect.any(Array) });
+  });
+
   it('findByCode devuelve null si no existe', async () => {
     const repo = new CustomerRepositoryImpl({
       cliente: { findUnique: jest.fn().mockResolvedValue(null) },

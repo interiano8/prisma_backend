@@ -1,8 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { InvoicesService } from '../../src/application/services/invoices.service';
 import { DispensersService } from '../../src/application/services/dispensers.service';
-import { SorteosService } from '../../src/application/services/sorteos.service';
+import { CampanasService } from '../../src/application/services/campanas.service';
 import { InvoiceLealProcessor } from '../../src/application/services/invoice-leal.processor';
+import { ValidateAdminUseCase } from '../../src/application/use-cases/auth/validate-admin.use-case';
+import type { CreditNoteInput } from '../../src/domain/entities/invoice.entity';
+import type { InvoiceQueryRepository } from '../../src/domain/ports/out/invoice-query-repository.interface';
 import type { InvoiceRepository } from '../../src/domain/ports/out/invoice-repository.interface';
 import type { DispenserRepository } from '../../src/domain/ports/out/dispenser-repository.interface';
 import type { StoreConfigRepository } from '../../src/domain/ports/out/store-config-repository.interface';
@@ -38,35 +41,38 @@ const baseDto = (): CreateInvoiceDto => ({
 describe('InvoicesService', () => {
   let service: InvoicesService;
   let invoiceRepo: jest.Mocked<InvoiceRepository>;
+  let invoiceQueryRepo: jest.Mocked<InvoiceQueryRepository>;
   let dispenserRepo: jest.Mocked<DispenserRepository>;
   let storeConfigRepo: jest.Mocked<StoreConfigRepository>;
   let lealRepo: jest.Mocked<LealRepository>;
   let dispensersService: { clearPumpSale: jest.Mock };
-  let sorteosService: { evaluateSorteos: jest.Mock };
+  let campanasService: { evaluateCampanas: jest.Mock };
 
   beforeEach(async () => {
     invoiceRepo = {
+      executeInvoiceInsert: jest.fn(),
+      executeCreditNote: jest.fn(),
+      insertSalesLine: jest.fn(),
+      insertPaymentMethod: jest.fn(),
+      insertLealTransactions: jest.fn(),
+      creditNote: jest.fn(),
+    };
+    invoiceQueryRepo = {
       getShiftDetails: jest.fn(),
       findNextCorrelative: jest.fn(),
-      executeInvoiceInsert: jest.fn(),
-      validateCorrelative: jest.fn(),
+      validateCorrelative: jest.fn().mockResolvedValue({ isValid: true, message: 'ok' }),
       searchInvoices: jest.fn(),
       getInvoiceLines: jest.fn(),
       getInvoicePayments: jest.fn(),
       getInvoiceLealTransactions: jest.fn(),
-      getInvoiceSorteos: jest.fn(),
+      getInvoiceCampanas: jest.fn(),
       getReasons: jest.fn(),
       findAll: jest.fn(),
       getOpenShiftForEmployee: jest.fn(),
       getOriginalDocument: jest.fn(),
       checkExistingReversion: jest.fn(),
       findNextCreditNoteCorrelative: jest.fn(),
-      executeCreditNote: jest.fn(),
-      insertSalesLine: jest.fn(),
-      insertPaymentMethod: jest.fn(),
-      insertLealTransactions: jest.fn(),
       findByNo: jest.fn(),
-      creditNote: jest.fn(),
       findStoreConfigField: jest.fn(),
     };
     dispenserRepo = {
@@ -79,6 +85,7 @@ describe('InvoicesService', () => {
     } as unknown as jest.Mocked<DispenserRepository>;
     storeConfigRepo = {
       findByStoreId: jest.fn(),
+      findTasaByGrupo: jest.fn().mockResolvedValue(15),
     } as unknown as jest.Mocked<StoreConfigRepository>;
     lealRepo = {
       redeemPoints: jest.fn(),
@@ -86,18 +93,20 @@ describe('InvoicesService', () => {
       reverseTransaction: jest.fn(),
     } as unknown as jest.Mocked<LealRepository>;
     dispensersService = { clearPumpSale: jest.fn() };
-    sorteosService = { evaluateSorteos: jest.fn() };
+    campanasService = { evaluateCampanas: jest.fn() };
 
     const module = await Test.createTestingModule({
       providers: [
         InvoicesService,
         InvoiceLealProcessor,
         { provide: 'InvoiceRepository', useValue: invoiceRepo },
+        { provide: 'InvoiceQueryRepository', useValue: invoiceQueryRepo },
         { provide: 'DispenserRepository', useValue: dispenserRepo },
         { provide: 'StoreConfigRepository', useValue: storeConfigRepo },
         { provide: 'LealRepository', useValue: lealRepo },
         { provide: DispensersService, useValue: dispensersService },
-        { provide: SorteosService, useValue: sorteosService },
+        { provide: CampanasService, useValue: campanasService },
+        { provide: ValidateAdminUseCase, useValue: { execute: jest.fn().mockResolvedValue({ valid: true }) } },
       ],
     }).compile();
 
@@ -110,11 +119,12 @@ describe('InvoicesService', () => {
 
   describe('createInvoice', () => {
     it('inserta factura simple y devuelve correlativo de la DB', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'DB Emp',
+        shiftId: null,
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-001-POS01-1',
         posTransactionId: 'PT1',
       });
@@ -128,12 +138,12 @@ describe('InvoicesService', () => {
           FechaVenceRangoOfNextInvoice: new Date('2027-01-01'),
         },
       ]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
 
       const result = await service.createInvoice(baseDto());
 
-      expect(invoiceRepo.getShiftDetails).toHaveBeenCalledWith(
+      expect(invoiceQueryRepo.getShiftDetails).toHaveBeenCalledWith(
         '001',
         'POS01',
         '1',
@@ -165,19 +175,62 @@ describe('InvoicesService', () => {
       expect(result.fechaVence).toBeTruthy();
     });
 
-    it('usa employeeName de la DB como fallback', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+    it('rellena vacíos cuando el DTO trae campos opcionales undefined', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'DB Emp',
+        shiftId: null,
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([
+        {
+          NextInvoiceOfNextInvoice: 'FAC-001-POS01-123456',
+          NextPosTransactionIDNumber: 'PTX-9',
+          CAIOfNextInvoice: 'CAI-1',
+          StartingNoOfNextInvoice: '0001',
+          EndingNoOfNextInvoice: '9999',
+          FechaVenceRangoOfNextInvoice: new Date('2027-01-01'),
+        },
+      ]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getItemMetadata.mockResolvedValue(null);
+
+      const dto = baseDto();
+      delete (dto as any).customerRtn;
+      delete (dto as any).km;
+      delete (dto as any).orden;
+      delete (dto as any).placa;
+      delete (dto as any).chofer;
+      await service.createInvoice(dto);
+
+      expect(invoiceRepo.executeInvoiceInsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          customerRtn: '',
+          km: '',
+          orden: '',
+          placa: '',
+          chofer: '',
+        }),
+      );
+    });
+
+    it('usa employeeName de la DB como fallback', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'DB Emp',
+        shiftId: null,
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([
         { NextInvoiceOfNextInvoice: 'FAC-001-POS01-1' },
       ] as never);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       const dto = baseDto();
       dto.employeeName = '';
@@ -190,16 +243,17 @@ describe('InvoicesService', () => {
     });
 
     it('genera factura por defecto cuando el insert no devuelve filas', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
 
       const result = await service.createInvoice(baseDto());
@@ -208,18 +262,19 @@ describe('InvoicesService', () => {
     });
 
     it('procesa líneas de combustible con saleId', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([
         { NextInvoiceOfNextInvoice: 'FAC-001-POS01-1' },
       ] as never);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getSaleById.mockResolvedValue({
         PumpNumber: 1,
         HoseNumber: '3',
@@ -253,25 +308,164 @@ describe('InvoicesService', () => {
               saleId: '5',
             }),
           ]),
+          onCommit: expect.any(Function),
         }),
       );
-      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith(
-        '5',
-        'POS01',
+      // El reclamo de combustible ahora es atómico dentro del tx (no updateSaleInvoiced post-commit)
+      expect(dispenserRepo.updateSaleInvoiced).not.toHaveBeenCalled();
+    });
+
+    it('compensa Leal si el insert falla tras la redención', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockRejectedValue(
+        new Error('constraint'),
+      );
+      lealRepo.redeemPoints.mockResolvedValue({
+        id_transaccion: 'L1',
+        puntos_activos: 100,
+      });
+      const dto = baseDto();
+      dto.lealIdAleatorioRed = 'ALEATORIO-RED-1';
+      dto.payments = [
+        {
+          ...dto.payments[0],
+          lealData: { uid: 'U1', puntos: 100, idPremio: 5, otp: '1234' },
+        } as never,
+      ];
+
+      await expect(service.createInvoice(dto)).rejects.toThrow('constraint');
+
+      expect(lealRepo.reverseTransaction).toHaveBeenCalledWith(
+        'L1',
+        'ALEATORIO-RED-1',
+        '',
+      );
+    });
+
+    it('respeta el monto del controlador en combustible (ppu redondeado)', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([
+        { NextInvoiceOfNextInvoice: 'FAC-001-POS01-1' },
+      ] as never);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getSaleById.mockResolvedValue({
+        PumpNumber: 11,
+        HoseNumber: '3',
+        amount: 1000,
+        ppu: 36.4,
+        volume: 27.475,
+        GradeNr: null,
+        IsInvoiced: false,
+      });
+      dispenserRepo.getHoseFsMapping.mockResolvedValue({
+        CodigoPOS: 'SUPER',
+        TankIDs: 'T1',
+      });
+      dispenserRepo.getItemMetadata.mockResolvedValue(null);
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], saleId: 381029 }];
+
+      await service.createInvoice(dto);
+
+      expect(invoiceRepo.executeInvoiceInsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lines: expect.arrayContaining([
+            expect.objectContaining({
+              saleId: '381029',
+              unitPrice: 36.4,
+              quantity: 27.475,
+              montoGravado: 1000,
+              vatAmount: 0,
+              amountIncludingVAT: 1000,
+            }),
+          ]),
+          onCommit: expect.any(Function),
+        }),
+      );
+    });
+
+    it('deriva la base gravada del monto del controlador cuando el combustible es gravado', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([
+        { NextInvoiceOfNextInvoice: 'FAC-001-POS01-1' },
+      ] as never);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getSaleById.mockResolvedValue({
+        PumpNumber: 11,
+        HoseNumber: '3',
+        amount: 1150,
+        ppu: 40,
+        volume: 25,
+        GradeNr: null,
+        IsInvoiced: false,
+      });
+      dispenserRepo.getHoseFsMapping.mockResolvedValue({
+        CodigoPOS: 'SUPER',
+        TankIDs: 'T1',
+      });
+      dispenserRepo.getItemMetadata.mockResolvedValue({
+        Description: 'GASOLINA SUPER',
+        'VAT Prod_ Posting Group': 'ISV15',
+        'Item Category Code': 'FUEL',
+        'Gen_ Pump Ledg_ Entry': 1,
+      });
+      (storeConfigRepo.findTasaByGrupo as jest.Mock).mockResolvedValue(15);
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], saleId: 381030 }];
+
+      await service.createInvoice(dto);
+
+      expect(invoiceRepo.executeInvoiceInsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lines: expect.arrayContaining([
+            expect.objectContaining({
+              saleId: '381030',
+              montoGravado: 1000,
+              vatAmount: 150,
+              amountIncludingVAT: 1150,
+            }),
+          ]),
+          onCommit: expect.any(Function),
+        }),
       );
     });
 
     it('usa HoseNumber literal fuera del rango válido', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getSaleById.mockResolvedValue({
         PumpNumber: 1,
         HoseNumber: '30',
@@ -298,9 +492,10 @@ describe('InvoicesService', () => {
     });
 
     it('lanza si la transacción de combustible no existe', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
       dispenserRepo.getSaleById.mockResolvedValue(null);
       const dto = baseDto();
@@ -312,9 +507,10 @@ describe('InvoicesService', () => {
     });
 
     it('lanza si la transacción ya fue facturada', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
       dispenserRepo.getSaleById.mockResolvedValue({
         PumpNumber: 1,
@@ -334,16 +530,17 @@ describe('InvoicesService', () => {
     });
 
     it('deriva ISV 15% desde el grupo del artículo', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue({
         Description: 'Nuevo',
         'VAT Prod_ Posting Group': 'ISV_15',
@@ -368,16 +565,17 @@ describe('InvoicesService', () => {
     });
 
     it('clasifica métodos de pago', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       const dto = baseDto();
       dto.payments = [
@@ -410,11 +608,12 @@ describe('InvoicesService', () => {
     });
 
     it('redime puntos Leal y persiste la transacción', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-001-POS01-1',
         posTransactionId: 'PT1',
       });
@@ -424,7 +623,7 @@ describe('InvoicesService', () => {
           NextPosTransactionIDNumber: 'PTX-9',
         },
       ] as never);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       lealRepo.redeemPoints.mockResolvedValue({
         puntos_activos: 100,
@@ -451,26 +650,31 @@ describe('InvoicesService', () => {
           otp: '1234',
         }),
       );
-      expect(invoiceRepo.insertLealTransactions).toHaveBeenCalledWith(
-        expect.arrayContaining([
-          expect.objectContaining({
-            posTransactionId: 'PTX-9',
+      const onCommit = (invoiceRepo.executeInvoiceInsert as any).mock.calls.at(-1)[0]
+        .onCommit;
+      const txMock = { ventaLeal: { create: jest.fn().mockResolvedValue({}) } };
+      await onCommit(txMock, 'PTX-9');
+      expect(txMock.ventaLeal.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            idTransaccionPos: 'PTX-9',
             idTransaccionLeal: 'LEAL-1',
             puntos: 10,
             puntosActivos: 100,
             tipo: 1,
           }),
-        ]),
+        }),
       );
       expect(result.lealReprintMessage).toContain('Puntos Redimidos: 10');
     });
 
     it('acumula puntos Leal excluyendo LEAL/CREDITO/CALIBRACION', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
@@ -480,7 +684,7 @@ describe('InvoicesService', () => {
           NextPosTransactionIDNumber: 'PTX-9',
         },
       ] as never);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       lealRepo.accumulatePoints.mockResolvedValue({
         puntos: 5,
@@ -505,31 +709,36 @@ describe('InvoicesService', () => {
           total: 100,
         }),
       );
-      expect(invoiceRepo.insertLealTransactions).toHaveBeenCalledWith(
-        expect.arrayContaining([
-          expect.objectContaining({
-            posTransactionId: 'PTX-9',
+      const onCommit = (invoiceRepo.executeInvoiceInsert as any).mock.calls.at(-1)[0]
+        .onCommit;
+      const txMock = { ventaLeal: { create: jest.fn().mockResolvedValue({}) } };
+      await onCommit(txMock, 'PTX-9');
+      expect(txMock.ventaLeal.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            idTransaccionPos: 'PTX-9',
             idTransaccionLeal: 'LEAL-A',
             puntos: 5,
             puntosActivos: 50,
             tipo: 0,
           }),
-        ]),
+        }),
       );
       expect(result.lealReprintMessage).toContain('Puntos Acumulados: 5');
     });
 
     it('no bloquea la venta si falla la acumulación Leal', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       const consoleSpy = jest
         .spyOn(console, 'error')
@@ -549,16 +758,17 @@ describe('InvoicesService', () => {
     });
 
     it('limpia ventas de bomba para códigos GAS-', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
-      sorteosService.evaluateSorteos.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       const dto = baseDto();
       dto.items = [{ ...dto.items[0], code: 'GAS-3' }];
@@ -569,33 +779,34 @@ describe('InvoicesService', () => {
       expect(dispenserRepo.updateSaleInvoiced).not.toHaveBeenCalled();
     });
 
-    it('ignora errores de sorteos', async () => {
-      invoiceRepo.getShiftDetails.mockResolvedValue({
+    it('ignora errores de campanas', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
+        shiftId: 'SHIFT1',
       });
-      invoiceRepo.findNextCorrelative.mockResolvedValue({
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
         invoiceNo: 'FAC-1',
         posTransactionId: 'PT1',
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([
         { NextPosTransactionIDNumber: 'PTX-9' },
       ] as never);
-      sorteosService.evaluateSorteos.mockRejectedValue(
-        new Error('sorteos down'),
+      campanasService.evaluateCampanas.mockRejectedValue(
+        new Error('campanas down'),
       );
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
 
       const result = await service.createInvoice(baseDto());
 
       expect(result.success).toBe(true);
-      expect(result.sorteoTickets).toEqual([]);
+      expect(result.campanaTickets).toEqual([]);
     });
   });
 
   describe('métodos de consulta', () => {
     it('validateCorrelative delega', async () => {
-      invoiceRepo.validateCorrelative.mockResolvedValue({
+      invoiceQueryRepo.validateCorrelative.mockResolvedValue({
         isValid: true,
         message: 'ok',
       });
@@ -609,12 +820,12 @@ describe('InvoicesService', () => {
     });
 
     it('searchInvoices delega', async () => {
-      invoiceRepo.searchInvoices.mockResolvedValue([{ id: 1 }]);
+      invoiceQueryRepo.searchInvoices.mockResolvedValue([{ id: 1 }]);
 
       await expect(
         service.searchInvoices('001', true, 'POS01'),
       ).resolves.toEqual([{ id: 1 }]);
-      expect(invoiceRepo.searchInvoices).toHaveBeenCalledWith({
+      expect(invoiceQueryRepo.searchInvoices).toHaveBeenCalledWith({
         storeId: '001',
         avanzado: true,
         posNo: 'POS01',
@@ -628,14 +839,14 @@ describe('InvoicesService', () => {
       });
     });
 
-    it('getInvoiceLines, getInvoicePayments, getInvoiceSorteos, getReasons, getInvoices delegan', async () => {
-      invoiceRepo.getInvoiceLines.mockResolvedValue([{ line: 1 }]);
-      invoiceRepo.getInvoicePayments.mockResolvedValue([{ pay: 1 }]);
-      invoiceRepo.getInvoiceSorteos.mockResolvedValue([
-        { sorteoId: 1 },
+    it('getInvoiceLines, getInvoicePayments, getInvoiceCampanas, getReasons, getInvoices delegan', async () => {
+      invoiceQueryRepo.getInvoiceLines.mockResolvedValue([{ line: 1 }]);
+      invoiceQueryRepo.getInvoicePayments.mockResolvedValue([{ pay: 1 }]);
+      invoiceQueryRepo.getInvoiceCampanas.mockResolvedValue([
+        { campanaId: 1 },
       ] as never);
-      invoiceRepo.getReasons.mockResolvedValue([{ Id_motivo: 1, motivo: 'x' }]);
-      invoiceRepo.findAll.mockResolvedValue([{ inv: 1 }]);
+      invoiceQueryRepo.getReasons.mockResolvedValue([{ Id_motivo: 1, motivo: 'x' }]);
+      invoiceQueryRepo.findAll.mockResolvedValue([{ inv: 1 }]);
 
       await expect(service.getInvoiceLines('T')).resolves.toEqual([
         { line: 1 },
@@ -643,8 +854,8 @@ describe('InvoicesService', () => {
       await expect(service.getInvoicePayments('T')).resolves.toEqual([
         { pay: 1 },
       ]);
-      await expect(service.getInvoiceSorteos('T')).resolves.toEqual([
-        { sorteoId: 1 },
+      await expect(service.getInvoiceCampanas('T')).resolves.toEqual([
+        { campanaId: 1 },
       ]);
       await expect(service.getReasons()).resolves.toEqual([
         { Id_motivo: 1, motivo: 'x' },
@@ -653,7 +864,7 @@ describe('InvoicesService', () => {
     });
 
     it('getInvoiceLealMessage arma mensaje por tipo', async () => {
-      invoiceRepo.getInvoiceLealTransactions.mockResolvedValue([
+      invoiceQueryRepo.getInvoiceLealTransactions.mockResolvedValue([
         { Tipo: 1, Puntos: 10, PuntosActivos: 100 },
         { Tipo: 0, Puntos: 5, PuntosActivos: 50 },
       ]);
@@ -669,7 +880,7 @@ describe('InvoicesService', () => {
     });
 
     it('getInvoiceLealMessage devuelve vacío sin registros', async () => {
-      invoiceRepo.getInvoiceLealTransactions.mockResolvedValue([]);
+      invoiceQueryRepo.getInvoiceLealTransactions.mockResolvedValue([]);
 
       await expect(service.getInvoiceLealMessage('T')).resolves.toEqual({
         lealReprintMessage: '',
@@ -677,7 +888,7 @@ describe('InvoicesService', () => {
     });
 
     it('getInvoiceLealMessage devuelve vacío si el repo falla', async () => {
-      invoiceRepo.getInvoiceLealTransactions.mockRejectedValue(new Error('x'));
+      invoiceQueryRepo.getInvoiceLealTransactions.mockRejectedValue(new Error('x'));
 
       await expect(service.getInvoiceLealMessage('T')).resolves.toEqual({
         lealReprintMessage: '',
@@ -708,24 +919,43 @@ describe('InvoicesService', () => {
       storeId: '001',
       posNo: 'POS01',
       username: 'jdoe',
+      adminPassword: 'secret',
     } as never;
 
     it('lanza si no hay turno abierto', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue(null);
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue(null);
 
       await expect(service.processCreditNote(dto, user)).rejects.toThrow(
         'No tiene un turno abierto',
       );
     });
 
+    it('rechaza sin password de admin', async () => {
+      await expect(
+        service.processCreditNote(
+          { ...(dto as object), adminPassword: '' } as CreditNoteInput,
+          user,
+        ),
+      ).rejects.toThrow('contraseña de administrador');
+    });
+
+    it('rechaza con password de admin inválido', async () => {
+      (service as any).validateAdminUseCase.execute.mockRejectedValueOnce(
+        new Error('bad'),
+      );
+      await expect(service.processCreditNote(dto, user)).rejects.toThrow(
+        'Contraseña de administrador inválida',
+      );
+    });
+
     it('lanza si no se encuentra el documento original', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date(),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue(null);
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue(null);
 
       await expect(service.processCreditNote(dto, user)).rejects.toThrow(
         'No se encontró el documento original',
@@ -733,13 +963,13 @@ describe('InvoicesService', () => {
     });
 
     it('solo permite anular documentos tipo 1 o 2', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date(),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue({
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue({
         'POS Sales Doc_ Type': 3,
       });
 
@@ -749,16 +979,16 @@ describe('InvoicesService', () => {
     });
 
     it('lanza si la factura ya tiene nota de crédito', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date(),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue({
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue({
         'POS Sales Doc_ Type': 1,
       });
-      invoiceRepo.checkExistingReversion.mockResolvedValue(true);
+      invoiceQueryRepo.checkExistingReversion.mockResolvedValue(true);
 
       await expect(service.processCreditNote(dto, user)).rejects.toThrow(
         'ya tiene una Nota de Crédito',
@@ -766,13 +996,13 @@ describe('InvoicesService', () => {
     });
 
     it('ejecuta la nota de crédito y revierte líneas de combustible', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date('2026-08-15T06:00:00'),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue({
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue({
         'POS Sales Doc_ Type': 1,
         'Customer No_': 'C1',
         'Cust_ Name': 'Cliente',
@@ -786,8 +1016,8 @@ describe('InvoicesService', () => {
         Chofer: '',
         Cambio: 0,
       });
-      invoiceRepo.checkExistingReversion.mockResolvedValue(false);
-      invoiceRepo.findNextCreditNoteCorrelative.mockResolvedValue({
+      invoiceQueryRepo.checkExistingReversion.mockResolvedValue(false);
+      invoiceQueryRepo.findNextCreditNoteCorrelative.mockResolvedValue({
         serieCode: 'NC',
         nextInvoice: 'NC-1',
         remainingInvoices: 100,
@@ -800,10 +1030,10 @@ describe('InvoicesService', () => {
         nextPosTransactionId: 'NC1',
         finalInvoiceNo: 'NC-1',
       });
-      invoiceRepo.getInvoiceLines.mockResolvedValue([
+      invoiceQueryRepo.getInvoiceLines.mockResolvedValue([
         { SaleID: '5', IDAleatorio: null, IdTransaccionLeal: null },
       ]);
-      invoiceRepo.getInvoicePayments.mockResolvedValue([{ Amount: 200 }]);
+      invoiceQueryRepo.getInvoicePayments.mockResolvedValue([{ Amount: 200 }]);
 
       const result = await service.processCreditNote(dto, user);
 
@@ -825,17 +1055,17 @@ describe('InvoicesService', () => {
     });
 
     it('anula transacciones Leal cuando Leal está activo', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date(),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue({
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue({
         'POS Sales Doc_ Type': 2,
       });
-      invoiceRepo.checkExistingReversion.mockResolvedValue(false);
-      invoiceRepo.findNextCreditNoteCorrelative.mockResolvedValue({
+      invoiceQueryRepo.checkExistingReversion.mockResolvedValue(false);
+      invoiceQueryRepo.findNextCreditNoteCorrelative.mockResolvedValue({
         serieCode: 'NC',
         nextInvoice: 'NC-1',
         remainingInvoices: 100,
@@ -848,12 +1078,12 @@ describe('InvoicesService', () => {
         nextPosTransactionId: 'NC1',
         finalInvoiceNo: 'NC-1',
       });
-      invoiceRepo.getInvoiceLines
+      invoiceQueryRepo.getInvoiceLines
         .mockResolvedValueOnce([
           { IDAleatorio: 'R1', IdTransaccionLeal: 'L1', SaleID: null },
         ])
         .mockResolvedValueOnce([]);
-      invoiceRepo.getInvoicePayments.mockResolvedValue([]);
+      invoiceQueryRepo.getInvoicePayments.mockResolvedValue([]);
       lealRepo.reverseTransaction.mockResolvedValue({});
 
       await service.processCreditNote(dto, user);
@@ -862,17 +1092,17 @@ describe('InvoicesService', () => {
     });
 
     it('continúa si falla la reversión Leal', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date(),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue({
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue({
         'POS Sales Doc_ Type': 1,
       });
-      invoiceRepo.checkExistingReversion.mockResolvedValue(false);
-      invoiceRepo.findNextCreditNoteCorrelative.mockResolvedValue({
+      invoiceQueryRepo.checkExistingReversion.mockResolvedValue(false);
+      invoiceQueryRepo.findNextCreditNoteCorrelative.mockResolvedValue({
         serieCode: 'NC',
         nextInvoice: 'NC-1',
         remainingInvoices: 100,
@@ -885,12 +1115,12 @@ describe('InvoicesService', () => {
         nextPosTransactionId: 'NC1',
         finalInvoiceNo: 'NC-1',
       });
-      invoiceRepo.getInvoiceLines
+      invoiceQueryRepo.getInvoiceLines
         .mockResolvedValueOnce([
           { IDAleatorio: 'R1', IdTransaccionLeal: 'L1', SaleID: null },
         ])
         .mockResolvedValueOnce([]);
-      invoiceRepo.getInvoicePayments.mockResolvedValue([]);
+      invoiceQueryRepo.getInvoicePayments.mockResolvedValue([]);
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       lealRepo.reverseTransaction.mockRejectedValue(new Error('leal down'));
 
@@ -901,17 +1131,17 @@ describe('InvoicesService', () => {
     });
 
     it('continúa aunque falle la consulta de config Leal', async () => {
-      invoiceRepo.getOpenShiftForEmployee.mockResolvedValue({
+      invoiceQueryRepo.getOpenShiftForEmployee.mockResolvedValue({
         'Shift Starting': new Date(),
         EmployeeName: 'jdoe',
         Shift: '1',
         'POS Transaction ID': 'T1',
       });
-      invoiceRepo.getOriginalDocument.mockResolvedValue({
+      invoiceQueryRepo.getOriginalDocument.mockResolvedValue({
         'POS Sales Doc_ Type': 1,
       });
-      invoiceRepo.checkExistingReversion.mockResolvedValue(false);
-      invoiceRepo.findNextCreditNoteCorrelative.mockResolvedValue({
+      invoiceQueryRepo.checkExistingReversion.mockResolvedValue(false);
+      invoiceQueryRepo.findNextCreditNoteCorrelative.mockResolvedValue({
         serieCode: 'NC',
         nextInvoice: 'NC-1',
         remainingInvoices: 100,
@@ -922,8 +1152,8 @@ describe('InvoicesService', () => {
         nextPosTransactionId: 'NC1',
         finalInvoiceNo: 'NC-1',
       });
-      invoiceRepo.getInvoiceLines.mockResolvedValue([]);
-      invoiceRepo.getInvoicePayments.mockResolvedValue([]);
+      invoiceQueryRepo.getInvoiceLines.mockResolvedValue([]);
+      invoiceQueryRepo.getInvoicePayments.mockResolvedValue([]);
 
       const result = await service.processCreditNote(dto, user);
 

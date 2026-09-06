@@ -45,7 +45,7 @@ export interface RawStore {
   URLBaseERP: string | null;
   Turno_Manual: number;
   Calculo_Inverso: number;
-  Sorteos: number;
+  Campanas: number;
   DeclararMontoInicial: number;
 }
 
@@ -74,6 +74,7 @@ export interface AuthRepository {
     declararMontosIniciales: boolean;
   } | null>;
   findPassAdmin(storeId: string): Promise<string | null>;
+  updatePassAdmin(storeId: string, hash: string): Promise<void>;
   checkCreditValidation(storeId: string): Promise<boolean>;
   getActiveShift(
     storeId: string,

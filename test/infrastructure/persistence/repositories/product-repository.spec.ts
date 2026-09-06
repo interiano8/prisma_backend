@@ -21,72 +21,6 @@ describe('ProductRepositoryImpl', () => {
     await expect(repo.getDefaultStoreId()).resolves.toBe('001');
   });
 
-  it('findDiscount mapea el descuento activo', async () => {
-    const findUnique = jest.fn().mockResolvedValue({
-      codigoCliente: 'C1',
-      codigoProducto: 'P1',
-      porcentaje: 10,
-      rtnCliente: 'RTN',
-      idTienda: '001',
-      fechaInicio: new Date('2020-01-01'),
-      fechaFin: new Date('2100-01-01'),
-      montoPorGalon: null,
-      montoPorLitro: null,
-      precioReferencia: null,
-      modoIngreso: null,
-      activo: true,
-    });
-    const repo = new ProductRepositoryImpl({
-      descuento: { findUnique },
-    } as any);
-
-    const discount = await repo.findDiscount('P1', 'C1');
-
-    expect(findUnique).toHaveBeenCalledWith({
-      where: {
-        codigoCliente_codigoProducto: {
-          codigoCliente: 'C1',
-          codigoProducto: 'P1',
-        },
-      },
-    });
-    expect(discount).not.toBeNull();
-    expect(discount!.porcentaje).toBe(10);
-  });
-
-  it('findDiscount devuelve null si el descuento está inactivo', async () => {
-    const repo = new ProductRepositoryImpl({
-      descuento: {
-        findUnique: jest.fn().mockResolvedValue({
-          codigoCliente: 'C1',
-          codigoProducto: 'P1',
-          activo: false,
-        }),
-      },
-    } as any);
-    await expect(repo.findDiscount('P1', 'C1')).resolves.toBeNull();
-  });
-
-  it('calculateDiscount aplica porcentaje e ISV', async () => {
-    const repo = new ProductRepositoryImpl({
-      descuento: {
-        findUnique: jest.fn().mockResolvedValue({
-          codigoCliente: 'C1',
-          codigoProducto: 'P1',
-          porcentaje: 10,
-          activo: true,
-        }),
-      },
-    } as any);
-
-    const result = await repo.calculateDiscount('P1', 'C1', 2, 'ISV_15', 100);
-
-    expect(result.hasDiscount).toBe(true);
-    expect(result.discountPercentage).toBe(10);
-    // finalTotal = qty * unitPrice * (1 - 0.10) = 2 * 90 = 180
-    expect(Number(result.finalTotal)).toBeCloseTo(180);
-  });
-
   it('findAll devuelve productos con precio', async () => {
     const prisma = {
       tienda: { findFirst: jest.fn().mockResolvedValue({ idTienda: '001' }) },
@@ -203,88 +137,68 @@ describe('ProductRepositoryImpl', () => {
     expect(filtered[0].unitPrice).toBe(10);
   });
 
-  it('findDiscount devuelve null si no hay descuento y mapea campos opcionales', async () => {
-    const repo = new ProductRepositoryImpl({
-      descuento: { findUnique: jest.fn().mockResolvedValue(null) },
-    } as any);
-    await expect(repo.findDiscount('P1', 'C1')).resolves.toBeNull();
-
-    const full = new ProductRepositoryImpl({
-      descuento: {
-        findUnique: jest.fn().mockResolvedValue({
-          codigoCliente: 'C1',
-          codigoProducto: 'P1',
-          porcentaje: 5,
-          rtnCliente: 'RTN',
-          idTienda: '001',
-          fechaInicio: new Date('2020-01-01'),
-          fechaFin: new Date('2100-01-01'),
-          montoPorGalon: 0.5,
-          montoPorLitro: null,
-          precioReferencia: 30,
-          modoIngreso: 'A',
-          activo: true,
-        }),
+  it('listCategories cuenta productos por categoría y titula las que faltan', async () => {
+    const prisma = {
+      categoriaProducto: {
+        findMany: jest.fn().mockResolvedValue([
+          { codigo: 'CAT_A', descripcion: 'Cat A' },
+          { codigo: 'CAT_B', descripcion: null },
+        ]),
       },
-    } as any);
+      producto: {
+        findMany: jest.fn().mockResolvedValue([
+          { codigoCategoria: 'CAT_A' },
+          { codigoCategoria: 'CAT_A' },
+          { codigoCategoria: null },
+          { codigoCategoria: 'CAT_B' },
+        ]),
+      },
+    } as any;
+    const repo = new ProductRepositoryImpl(prisma);
 
-    const discount = await full.findDiscount('P1', 'C1');
-    expect(discount).toMatchObject({
-      customerRTN: 'RTN',
-      storeID: '001',
-      amountPerGallon: 0.5,
-      referenceUnitPrice: 30,
-      entryMode: 'A',
+    const result = await repo.listCategories();
+
+    expect(result).toEqual([
+      { codigo: 'CAT_A', descripcion: 'Cat A', count: 2 },
+      { codigo: 'CAT_B', descripcion: 'Cat B', count: 1 },
+    ]);
+  });
+
+  it('findApplicableDiscountRules consulta y mapea las reglas activas', async () => {
+    const prisma = {
+      reglaDescuento: {
+        findMany: jest.fn().mockResolvedValue([
+          {
+            id: 'R1',
+            codigoCliente: null,
+            codigoProducto: null,
+            codigoCategoria: null,
+            cantidadMinima: 5,
+            tipoBeneficio: 'PORCENTAJE',
+            valor: '10',
+            unidadVolumen: null,
+            prioridad: 1,
+          },
+        ]),
+      },
+    } as any;
+    const repo = new ProductRepositoryImpl(prisma);
+
+    const rules = await repo.findApplicableDiscountRules('C1', 'P1', 'CAT');
+
+    expect(rules[0]).toEqual({
+      id: 'R1',
+      codigoCliente: undefined,
+      codigoProducto: undefined,
+      codigoCategoria: undefined,
+      cantidadMinima: 5,
+      tipoBeneficio: 'PORCENTAJE',
+      valor: 10,
+      unidadVolumen: undefined,
+      prioridad: 1,
     });
-    expect(discount!.startingDate).toMatch(/^\d{4}-\d{2}-\d{2}T/);
-  });
-
-  it('calculateDiscount sin descuento aplica ISV_18 y hasDiscount false', async () => {
-    const repo = new ProductRepositoryImpl({
-      descuento: { findUnique: jest.fn().mockResolvedValue(null) },
-    } as any);
-
-    const result = await repo.calculateDiscount('P1', 'C1', 1, 'ISV_18', 118);
-
-    expect(result.hasDiscount).toBe(false);
-    expect(result.discountPercentage).toBe(0);
-    // unitPriceWithoutIsv = 118 / 1.18 = 100
-    expect(Number(result.unitPriceWithoutIsv)).toBeCloseTo(100);
-    // finalTotal sin descuento = 118
-    expect(Number(result.finalTotal)).toBeCloseTo(118);
-    // totalDiscount = 0
-    expect(Number(result.totalDiscount)).toBeCloseTo(0);
-  });
-
-  it('calculateDiscount ignora grupos sin ISV', async () => {
-    const repo = new ProductRepositoryImpl({
-      descuento: { findUnique: jest.fn().mockResolvedValue(null) },
-    } as any);
-
-    const result = await repo.calculateDiscount('P1', 'C1', 2, 'EXENTO', 50);
-
-    expect(Number(result.unitPriceWithoutIsv)).toBeCloseTo(50);
-    expect(Number(result.finalTotal)).toBeCloseTo(100);
-  });
-
-  it('calculateDiscount con 18% y descuento calcula isv unitario', async () => {
-    const repo = new ProductRepositoryImpl({
-      descuento: {
-        findUnique: jest.fn().mockResolvedValue({
-          codigoCliente: 'C1',
-          codigoProducto: 'P1',
-          porcentaje: 15,
-          activo: true,
-        }),
-      },
-    } as any);
-
-    const result = await repo.calculateDiscount('P1', 'C1', 3, 'ISV_18', 118);
-
-    expect(result.hasDiscount).toBe(true);
-    expect(Number(result.unitPriceWithDiscount)).toBeCloseTo(100.3);
-    expect(Number(result.isvAmountUnit)).toBeCloseTo(15.3, 1);
-    expect(Number(result.totalWithoutIsv)).toBeCloseTo(300);
-    expect(Number(result.totalDiscount)).toBeCloseTo(53.1, 1);
+    expect(prisma.reglaDescuento.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { activo: true, AND: expect.any(Array) } }),
+    );
   });
 });

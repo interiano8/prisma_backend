@@ -1,27 +1,40 @@
-# Dependencies
+# Dependencias
 node_modules/
+.pnpm-store/
 
 # Build
 dist/
+build/
+out/
+*.tsbuildinfo
 
-# Coverage
+# Cobertura y reportes
 coverage/
 reports/
+stryker-report/
 
-# Environment (secreto)
+# Entornos y secretos
 .env
-.env.enc
-
-# Prisma Client generado (se regenera con `prisma generate`)
-src/generated/
+.env.*
+!.env.example
+.enc/
+*.key
+*.pem
 
 # Logs
+logs/
 *.log
 npm-debug.log*
 
-# OS
+# OS / editor
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
 
-# Artefactos locales
-graphify-out/
-f0_out/
+# Base de datos local
+*.db
+*.sqlite
+# Stryker sandbox
+.stryker-tmp/

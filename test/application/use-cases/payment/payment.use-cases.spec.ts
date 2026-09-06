@@ -31,6 +31,8 @@ describe('GetPaymentMethodsUseCase', () => {
         requiereReferencia: false,
         imagen: null,
         activo: true,
+        moneda: 'HNL',
+        generaCambio: true,
       },
     ];
     mockRepository.getPaymentMethods.mockResolvedValue(methods);

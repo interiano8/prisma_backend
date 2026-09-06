@@ -39,10 +39,26 @@ describe('ShiftRepositoryImpl', () => {
   it('closeShift cierra el turno y guarda el POS de cierre', async () => {
     const tx = {
       turno: { update: jest.fn().mockResolvedValue({}) },
-      registroTransaccion: { create: jest.fn().mockResolvedValue({}) },
+      registroTransaccion: {
+        create: jest.fn().mockResolvedValue({}),
+        updateMany: jest.fn().mockResolvedValue({}),
+      },
     };
     const prisma = {
       turno: { findFirst: jest.fn().mockResolvedValue(openShiftRow) },
+      registroTransaccion: {
+        findMany: jest
+          .fn()
+          .mockResolvedValue([{ idTransaccionPos: 'TX001' }]),
+      },
+      venta: {
+        findMany: jest.fn().mockResolvedValue([{ monto: 100 }]),
+      },
+      pagoVenta: {
+        findMany: jest.fn().mockResolvedValue([
+          { codigoMetodoPago: '1007', monto: 100 },
+        ]),
+      },
       $transaction: jest.fn().mockImplementation((fn: any) => fn(tx)),
     } as any;
     const repo = new ShiftRepositoryImpl(prisma);
@@ -57,16 +73,40 @@ describe('ShiftRepositoryImpl', () => {
     expect(result).toEqual({ success: true });
     expect(tx.turno.update).toHaveBeenCalledWith({
       where: { idTransaccionPos: 'TX001' },
-      data: expect.objectContaining({ posCierre: '02', importeContado: 0 }),
+      data: expect.objectContaining({
+        posCierre: '02',
+        importeContado: 100,
+        detallePagos: { '1007': 100 },
+      }),
     });
+    expect(tx.registroTransaccion.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { estado: true } }),
+    );
     expect(tx.registroTransaccion.create).toHaveBeenCalledWith(
       expect.objectContaining({
         data: expect.objectContaining({
           idTransaccionPos: 'TX001',
           tipoTransaccion: 4,
+          estado: true,
         }),
       }),
     );
+    expect(prisma.registroTransaccion.findMany).toHaveBeenCalledWith({
+      where: {
+        numeroTurno: '1',
+        fechaTurno: { gte: expect.any(Date), lte: expect.any(Date) },
+        tipoTransaccion: { in: [1, 2, 3] },
+      },
+      select: { idTransaccionPos: true },
+    });
+    expect(prisma.venta.findMany).toHaveBeenCalledWith({
+      where: { idTransaccionPos: { in: ['TX001'] }, tipoFacturacion: 1 },
+      select: { monto: true },
+    });
+    expect(prisma.pagoVenta.findMany).toHaveBeenCalledWith({
+      where: { idTransaccionPos: { in: ['TX001'] } },
+      select: { codigoMetodoPago: true, monto: true },
+    });
   });
 
   it('closeShift lanza error si no hay turno abierto', async () => {
@@ -170,7 +210,7 @@ describe('ShiftRepositoryImpl', () => {
             .fn()
             .mockResolvedValueOnce(null) // existing shift today
             .mockResolvedValueOnce(null) // open shift
-            .mockResolvedValueOnce(null), // last shift for next number
+            .mockResolvedValueOnce({ turno: '1A' }), // last shift no numérico puro
         },
         $transaction: jest.fn().mockImplementation((fn: any) => fn(tx)),
       } as any;
@@ -214,6 +254,39 @@ describe('ShiftRepositoryImpl', () => {
           initialAmount: 500,
         }),
       ).rejects.toThrow('No se permite crear más de 1 turnos');
+    });
+
+    it('crea turno sin límite si la tienda no define turnos (0)', async () => {
+      const tx = {
+        $queryRaw: jest.fn().mockResolvedValue([trSeries]),
+        turno: { create: jest.fn().mockResolvedValue(openShiftRow) },
+        serieDocumento: {
+          updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+        },
+      };
+      const prisma = {
+        tienda: { findUnique: jest.fn().mockResolvedValue({ turnos: 0 }) },
+        turno: {
+          findFirst: jest
+            .fn()
+            .mockResolvedValueOnce({ turno: '1A' }) // last shift no numérico puro
+            .mockResolvedValueOnce(null), // open shift
+        },
+        $transaction: jest.fn().mockImplementation((fn: any) => fn(tx)),
+      } as any;
+      const repo = new ShiftRepositoryImpl(prisma);
+
+      const result = await repo.createShift({
+        storeId: '001',
+        posNo: '01',
+        employeeName: 'prueba',
+        initialAmount: 500,
+      });
+
+      expect(tx.turno.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({ turno: '1' }),
+      });
+      expect(result.shiftNumber).toBe('1');
     });
 
     it('rechaza si el turno ya fue creado hoy', async () => {
@@ -329,6 +402,19 @@ describe('ShiftRepositoryImpl', () => {
       { Turno: '1', PosCode: '01', Cajero: 'A' },
       { Turno: '2', PosCode: '02', Cajero: 'B' },
     ]);
+    expect(
+      repo['prisma'].registroTransaccion.findMany,
+    ).toHaveBeenCalledWith({
+      where: {
+        idTienda: '001',
+        fechaTurno: {
+          gte: new Date('2026-08-15T00:00:00'),
+          lte: new Date('2026-08-15T23:59:59'),
+        },
+      },
+      distinct: ['numeroTurno', 'codigoPos', 'nombreEmpleado'],
+      select: { numeroTurno: true, codigoPos: true, nombreEmpleado: true },
+    });
   });
 
   it('getSalesReportData devuelve vacíos si no hay transacciones', async () => {
@@ -418,6 +504,24 @@ describe('ShiftRepositoryImpl', () => {
       },
     ]);
     expect(result.headers).toEqual([{ monto: 100, tipoDocumento: 1 }]);
+    expect(
+      repo['prisma'].lineaVenta.findMany,
+    ).toHaveBeenCalledWith({ where: { idTransaccionPos: { in: ['T1'] } } });
+    expect(
+      repo['prisma'].pagoVenta.findMany,
+    ).toHaveBeenCalledWith({ where: { idTransaccionPos: { in: ['T1'] } } });
+    expect(
+      repo['prisma'].venta.findMany,
+    ).toHaveBeenCalledWith({ where: { idTransaccionPos: { in: ['T1'] } } });
+    expect(repo['prisma'].registroTransaccion.findMany).toHaveBeenCalledWith({
+      where: {
+        idTienda: '001',
+        numeroTurno: '1',
+        nombreEmpleado: 'prueba',
+        fechaTurno: { gte: new Date('2026-08-15T00:00:00'), lte: new Date('2026-08-15T23:59:59') },
+      },
+      select: { idTransaccionPos: true },
+    });
   });
 
   it('findOpenShiftFromDb aplica defaults con turno nulo y sin id', async () => {
@@ -464,7 +568,10 @@ describe('ShiftRepositoryImpl', () => {
   it('closeShift tolera turno nulo en el número de turno', async () => {
     const tx = {
       turno: { update: jest.fn().mockResolvedValue({}) },
-      registroTransaccion: { create: jest.fn().mockResolvedValue({}) },
+      registroTransaccion: {
+        create: jest.fn().mockResolvedValue({}),
+        updateMany: jest.fn().mockResolvedValue({}),
+      },
     };
     const prisma = {
       turno: {
@@ -472,6 +579,9 @@ describe('ShiftRepositoryImpl', () => {
           .fn()
           .mockResolvedValue({ ...openShiftRow, turno: null }),
       },
+      registroTransaccion: { findMany: jest.fn().mockResolvedValue([]) },
+      venta: { findMany: jest.fn().mockResolvedValue([]) },
+      pagoVenta: { findMany: jest.fn().mockResolvedValue([]) },
       $transaction: jest.fn().mockImplementation((fn: any) => fn(tx)),
     } as any;
     const repo = new ShiftRepositoryImpl(prisma);
@@ -519,6 +629,28 @@ describe('ShiftRepositoryImpl', () => {
     });
   });
 
+  it('mapShift marca isOpen false cuando hay finTurno', async () => {
+    const repo = new ShiftRepositoryImpl({
+      turno: {
+        findFirst: jest.fn().mockResolvedValue({
+          idTransaccionPos: 'TX',
+          idTienda: '001',
+          codigoPos: '01',
+          turno: '3',
+          inicioTurno: new Date('2026-08-15T08:00:00.000Z'),
+          finTurno: new Date('2026-08-15T16:00:00.000Z'),
+          nombreEmpleado: 'Ana',
+          montoInicial: 500,
+          posCierre: '02',
+        }),
+      },
+    } as any);
+
+    const shift = await repo.findOpenShift('001', '01');
+
+    expect(shift?.isOpen).toBe(false);
+  });
+
   it('findOpenShift incluye nombreEmpleado solo si se provee', async () => {
     const findFirst = jest.fn().mockResolvedValue(null);
     const repo = new ShiftRepositoryImpl({ turno: { findFirst } } as any);
@@ -527,6 +659,30 @@ describe('ShiftRepositoryImpl', () => {
 
     expect(findFirst).toHaveBeenCalledWith({
       where: { idTienda: '001', finTurno: null },
+      orderBy: { inicioTurno: 'desc' },
+    });
+  });
+
+  it('findOpenShift incluye nombreEmpleado cuando se provee', async () => {
+    const findFirst = jest.fn().mockResolvedValue(null);
+    const repo = new ShiftRepositoryImpl({ turno: { findFirst } } as any);
+
+    await repo.findOpenShift('001', '01', 'Ana');
+
+    expect(findFirst).toHaveBeenCalledWith({
+      where: { idTienda: '001', nombreEmpleado: 'Ana', finTurno: null },
+      orderBy: { inicioTurno: 'desc' },
+    });
+  });
+
+  it('findOpenShiftFromDb consulta con todos los filtros', async () => {
+    const findFirst = jest.fn().mockResolvedValue(null);
+    const repo = new ShiftRepositoryImpl({ turno: { findFirst } } as any);
+
+    await repo.findOpenShiftFromDb('001', '01', 'Ana');
+
+    expect(findFirst).toHaveBeenCalledWith({
+      where: { idTienda: '001', nombreEmpleado: 'Ana', finTurno: null },
       orderBy: { inicioTurno: 'desc' },
     });
   });

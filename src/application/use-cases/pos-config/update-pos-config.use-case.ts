@@ -20,6 +20,7 @@ export class UpdatePosConfigUseCase {
       minutosAtrasada?: number;
       mostrarTeclado?: boolean;
       declararMontosIniciales?: boolean;
+      visualizacion?: string;
     },
   ): Promise<PosConfigData> {
     const data: PosConfigUpdateData = {};
@@ -36,6 +37,10 @@ export class UpdatePosConfigUseCase {
     }
     if (partial.declararMontosIniciales !== undefined) {
       data.declararMontosIniciales = partial.declararMontosIniciales;
+    }
+    if (partial.visualizacion !== undefined) {
+      data.visualizacion =
+        partial.visualizacion === 'categorias' ? 'categorias' : 'multimedia';
     }
 
     await this.posConfigRepository.upsert(posNo, data);

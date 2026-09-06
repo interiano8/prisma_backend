@@ -1,0 +1,634 @@
+{
+  "tables": [
+    {
+      "TABLE_SCHEMA": "dbo",
+      "TABLE_NAME": "FuelSession",
+      "TABLE_TYPE": "BASE TABLE"
+    },
+    {
+      "TABLE_SCHEMA": "dbo",
+      "TABLE_NAME": "FusionSales",
+      "TABLE_TYPE": "BASE TABLE"
+    },
+    {
+      "TABLE_SCHEMA": "dbo",
+      "TABLE_NAME": "FusionSalesRetry",
+      "TABLE_TYPE": "BASE TABLE"
+    },
+    {
+      "TABLE_SCHEMA": "dbo",
+      "TABLE_NAME": "ReaderPumpMapping",
+      "TABLE_TYPE": "BASE TABLE"
+    }
+  ],
+  "columns": [
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "Id",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 1
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "PumpId",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 2
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "RaspberryId",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 100,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 3
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "State",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 4
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "StartEmployeeId",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 5
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "StartEmployeeName",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 200,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 6
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "StartTagTime",
+      "DATA_TYPE": "datetime2",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 7
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "EndEmployeeId",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 8
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "EndEmployeeName",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 200,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 9
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "EndTagTime",
+      "DATA_TYPE": "datetime2",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 10
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "Hose",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 11
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "SaleId",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 100,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 12
+    },
+    {
+      "TABLE_NAME": "FuelSession",
+      "COLUMN_NAME": "WasFuelling",
+      "DATA_TYPE": "bit",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "((0))",
+      "ORDINAL_POSITION": 13
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "SaleID",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 1
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PosNumber",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 2
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PumpNumber",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 3
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "HoseNumber",
+      "DATA_TYPE": "varchar",
+      "CHARACTER_MAXIMUM_LENGTH": 2,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 4
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "Amount",
+      "DATA_TYPE": "decimal",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 18,
+      "NUMERIC_SCALE": 2,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 5
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PPU",
+      "DATA_TYPE": "decimal",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 18,
+      "NUMERIC_SCALE": 5,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 6
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "Volume",
+      "DATA_TYPE": "decimal",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 18,
+      "NUMERIC_SCALE": 5,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 7
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "FinalVolumeTotal",
+      "DATA_TYPE": "decimal",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 18,
+      "NUMERIC_SCALE": 5,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 8
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "InitialVolumeTotal",
+      "DATA_TYPE": "decimal",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 18,
+      "NUMERIC_SCALE": 5,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 9
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PaymentType",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 10
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PaymentInfo",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 11
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "CompensatedTemperature",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 12
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "ShiftID",
+      "DATA_TYPE": "varchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 13
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "GradeNr",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 14
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PriceLevel",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 15
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "TypeOfTransaction",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 16
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "DateOfTransaction",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 17
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "TimeOfTransaction",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 18
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PresetAmount",
+      "DATA_TYPE": "decimal",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 18,
+      "NUMERIC_SCALE": 2,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 19
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "PaymentAlarm",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 20
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "ATCVO",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 21
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "AVGTM",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 22
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "ATCIVO",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 23
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "ATCFVO",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 50,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 24
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "IsInvoiced",
+      "DATA_TYPE": "bit",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "((0))",
+      "ORDINAL_POSITION": 25
+    },
+    {
+      "TABLE_NAME": "FusionSales",
+      "COLUMN_NAME": "Date",
+      "DATA_TYPE": "datetime",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 26
+    },
+    {
+      "TABLE_NAME": "FusionSalesRetry",
+      "COLUMN_NAME": "vox_sale_id",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 1
+    },
+    {
+      "TABLE_NAME": "FusionSalesRetry",
+      "COLUMN_NAME": "payload",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": -1,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 2
+    },
+    {
+      "TABLE_NAME": "FusionSalesRetry",
+      "COLUMN_NAME": "retry_count",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "((0))",
+      "ORDINAL_POSITION": 3
+    },
+    {
+      "TABLE_NAME": "FusionSalesRetry",
+      "COLUMN_NAME": "last_attempt",
+      "DATA_TYPE": "datetime2",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "(sysutcdatetime())",
+      "ORDINAL_POSITION": 4
+    },
+    {
+      "TABLE_NAME": "FusionSalesRetry",
+      "COLUMN_NAME": "error_message",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": -1,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 5
+    },
+    {
+      "TABLE_NAME": "ReaderPumpMapping",
+      "COLUMN_NAME": "Id",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 1
+    },
+    {
+      "TABLE_NAME": "ReaderPumpMapping",
+      "COLUMN_NAME": "ReaderPath",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 500,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 2
+    },
+    {
+      "TABLE_NAME": "ReaderPumpMapping",
+      "COLUMN_NAME": "PumpId",
+      "DATA_TYPE": "int",
+      "CHARACTER_MAXIMUM_LENGTH": null,
+      "NUMERIC_PRECISION": 10,
+      "NUMERIC_SCALE": 0,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 3
+    },
+    {
+      "TABLE_NAME": "ReaderPumpMapping",
+      "COLUMN_NAME": "RaspberryId",
+      "DATA_TYPE": "nvarchar",
+      "CHARACTER_MAXIMUM_LENGTH": 100,
+      "NUMERIC_PRECISION": null,
+      "NUMERIC_SCALE": null,
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": null,
+      "ORDINAL_POSITION": 4
+    }
+  ],
+  "procedures": [
+    {
+      "name": "GetIsInvoicedStatus",
+      "create_date": "2025-10-23T03:02:20.737Z",
+      "modify_date": "2025-10-23T03:02:20.737Z",
+      "definition": "CREATE PROCEDURE [dbo].[GetIsInvoicedStatus]\r\n    @IdSale INT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    -- Verificar si el registro existe\r\n    IF EXISTS (\r\n        SELECT 1\r\n        FROM [FusionSales]\r\n        WHERE [SaleID] = @IdSale\r\n    )\r\n    BEGIN\r\n        -- Retornar el valor del campo IsInvoiced\r\n        SELECT [IsInvoiced]\r\n        FROM [FusionSales]\r\n        WHERE [SaleID] = @IdSale;\r\n    END\r\n    ELSE\r\n    BEGIN\r\n        -- Manejo para cuando no se encuentre el registro\r\n        RAISERROR ('Registro con SaleID = %d no encontrado.', 16, 1, @IdSale);\r\n    END\r\nEND;\r\n"
+    },
+    {
+      "name": "GetMaxSaleID",
+      "create_date": "2025-10-23T03:02:20.777Z",
+      "modify_date": "2025-10-23T03:02:20.777Z",
+      "definition": "CREATE PROCEDURE [dbo].[GetMaxSaleID]\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    -- Declarar variable para almacenar el resultado\r\n    DECLARE @MaxSaleID INT;\r\n\r\n    -- Obtener el valor máximo de SaleID\r\n    SELECT @MaxSaleID = MAX(SaleID)\r\n    FROM FusionSales;\r\n\r\n    -- Si no hay registros, asignar 0 a @MaxSaleID\r\n    IF @MaxSaleID IS NULL\r\n        SET @MaxSaleID = 0;\r\n\r\n    -- Retornar el resultado\r\n    SELECT @MaxSaleID AS MaxSaleID;\r\nEND;\r\n"
+    },
+    {
+      "name": "GetSalesByPumpNumber",
+      "create_date": "2025-10-23T03:02:20.783Z",
+      "modify_date": "2026-05-12T17:24:57.043Z",
+      "definition": "CREATE PROCEDURE [dbo].[GetSalesByPumpNumber]\r\n    @PumpNumber INT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    -- ============================================================\r\n    -- OBTENER VALOR DE VoxIsActive DESDE LA BD TPV\r\n    -- ============================================================\r\n    DECLARE @VoxIsActive INT = (\r\n        SELECT TOP 1 [VoxIsActive]\r\n        FROM [TPV].[dbo].[Store]\r\n    );\r\n\r\n    SELECT TOP (200) \r\n        [SaleID],\r\n        [PosNumber],\r\n        [PumpNumber],\r\n\r\n        CASE\r\n            WHEN [HoseNumber] = 1 THEN 'A'\r\n            WHEN [HoseNumber] = 2 THEN 'B'\r\n            WHEN [HoseNumber] = 3 THEN 'C'\r\n            WHEN [HoseNumber] = 4 THEN 'D'\r\n        END AS [HoseNumber],\r\n\r\n        CASE\r\n            WHEN GradeNr = 1 THEN  'REGULAR'\r\n            WHEN GradeNr = 2 THEN  'SUPER'\r\n            WHEN GradeNr = 3 THEN  'DIESEL'\r\n            WHEN GradeNr = 4 THEN  'DIESEL2'\r\n            ELSE 'DESCONOCIDO'\r\n        END AS Grade,\r\n\r\n        [PPU] AS Precio,\r\n\r\n        -- ============================================================\r\n        -- SI VoxIsActive = 1 → USAR Amount/PPU CON 6 DECIMALES\r\n        -- SI VoxIsActive = 0 → USAR Volume DE LA TABLA\r\n        -- ============================================================\r\nCASE \r\n    WHEN @VoxIsActive = 1 THEN \r\n        CONVERT(DECIMAL(18,6), ROUND([Amount] / NULLIF([PPU], 0), 6))\r\n    ELSE \r\n        [Volume]\r\nEND AS Cantidad,\r\n\r\n\r\n        CASE \r\n            WHEN [IsInvoiced] = 0 THEN 'Sin Facturar'\r\n            WHEN [IsInvoiced] = 1 THEN 'Facturado'\r\n            ELSE 'Estado Desconocido'\r\n        END AS Estado,\r\n\r\n        [Amount],\r\n\r\n        CASE\r\n            WHEN [IsInvoiced] = 1 THEN 'Finalizada'\r\n            WHEN DATEDIFF(MINUTE, ISNULL([Date], GETDATE()), GETDATE()) > 30 \r\n                 AND [IsInvoiced] = 0 THEN 'Atrasada'\r\n            ELSE 'Libre'\r\n        END AS Ciclo,\r\n\r\n        [Date]-----\r\n        ,\r\n        -- CORRECCIÓN: Manejo seguro de Fecha\r\n        TRY_CONVERT(DATE, CAST([DateOfTransaction] AS VARCHAR), 112) AS [Fecha],\r\n\r\n        -- CORRECCIÓN: Manejo seguro de Hora (asegurando formato HH:MM:SS)\r\n-- Cambia tu lógica de Hora por esta:\r\nCAST(\r\n    CAST(\r\n        STUFF(STUFF(RIGHT('000000' + CAST([TimeOfTransaction] AS VARCHAR), 6), 3, 0, ':'), 6, 0, ':') \r\n    AS TIME(0)\r\n) AS TIME(0)) AS [Hora],\r\n\r\n        CASE \r\n            WHEN [PaymentInfo] LIKE 'USER;%' THEN REPLACE([PaymentInfo], 'USER;', '')\r\n            ELSE NULL \r\n        END AS [Despachador]\r\n     \r\n\r\n    FROM [FusionSales]\r\n    WHERE [PumpNumber] = @PumpNumber\r\n    ORDER BY [SaleID] DESC;\r\nEND;\r\n"
+    },
+    {
+      "name": "GetSalesByPumpNumber01",
+      "create_date": "2026-04-28T21:23:08.607Z",
+      "modify_date": "2026-05-12T22:02:12.387Z",
+      "definition": "CREATE PROCEDURE [dbo].[GetSalesByPumpNumber01]\r\n    @PumpNumber INT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    -- ============================================================\r\n    -- OBTENER VALOR DE VoxIsActive DESDE LA BD TPV\r\n    -- ============================================================\r\n    DECLARE @VoxIsActive INT = (\r\n        SELECT TOP 1 [VoxIsActive]\r\n        FROM [TPV].[dbo].[Store]\r\n    );\r\n\r\n    SELECT TOP (200) \r\n        [SaleID],\r\n        [PosNumber],\r\n        [PumpNumber],\r\n\r\n        CASE\r\n            WHEN [HoseNumber] = 1 THEN 'A'\r\n            WHEN [HoseNumber] = 2 THEN 'B'\r\n            WHEN [HoseNumber] = 3 THEN 'C'\r\n            WHEN [HoseNumber] = 4 THEN 'D'\r\n        END AS [HoseNumber],\r\n\r\n        CASE\r\n            WHEN GradeNr = 1 THEN  'REGULAR'\r\n            WHEN GradeNr = 2 THEN  'SUPER'\r\n            WHEN GradeNr = 3 THEN  'DIESEL'\r\n            WHEN GradeNr = 4 THEN  'DIESEL2'\r\n            ELSE 'DESCONOCIDO'\r\n        END AS Grade,\r\n\r\n        [PPU] AS Precio,\r\n\r\n        -- ============================================================\r\n        -- SI VoxIsActive = 1 → USAR Amount/PPU CON 6 DECIMALES\r\n        -- SI VoxIsActive = 0 → USAR Volume DE LA TABLA\r\n        -- ============================================================\r\nCASE \r\n    WHEN @VoxIsActive = 1 THEN \r\n        CONVERT(DECIMAL(18,6), ROUND([Amount] / NULLIF([PPU], 0), 6))\r\n    ELSE \r\n        [Volume]\r\nEND AS Cantidad,\r\n\r\n\r\n        CASE \r\n            WHEN [IsInvoiced] = 0 THEN 'Sin Facturar'\r\n            WHEN [IsInvoiced] = 1 THEN 'Facturado'\r\n            ELSE 'Estado Desconocido'\r\n        END AS Estado,\r\n\r\n        [Amount],\r\n\r\n        CASE\r\n            WHEN [IsInvoiced] = 1 THEN 'Finalizada'\r\n            WHEN DATEDIFF(MINUTE, ISNULL([Date], GETDATE()), GETDATE()) > 30 \r\n                 AND [IsInvoiced] = 0 THEN 'Atrasada'\r\n            ELSE 'Libre'\r\n        END AS Ciclo,\r\n\r\n        [Date]\r\n        ,\r\n        \r\n-- CORRECCIÓN: Manejo seguro de Fecha\r\n        TRY_CONVERT(DATE, CAST([DateOfTransaction] AS VARCHAR), 112) AS [Fecha],\r\n\r\n        -- CORRECCIÓN: Manejo seguro de Hora (asegurando formato HH:MM:SS)\r\n-- Cambia tu lógica de Hora por esta:\r\nCAST(\r\n    CAST(\r\n        STUFF(STUFF(RIGHT('000000' + CAST([TimeOfTransaction] AS VARCHAR), 6), 3, 0, ':'), 6, 0, ':') \r\n    AS TIME(0)\r\n) AS TIME(0)) AS [Hora],\r\n\r\n        CASE \r\n            WHEN [PaymentInfo] LIKE 'USER;%' THEN REPLACE([PaymentInfo], 'USER;', '')\r\n            ELSE NULL \r\n        END AS [Despachador]\r\n     \r\n\r\n    FROM [FusionSales]\r\n    WHERE [PumpNumber] = @PumpNumber\r\n    ORDER BY [SaleID] DESC;\r\nEND;\r\n"
+    },
+    {
+      "name": "GetSalesByPumpNumberAndHoseNumber",
+      "create_date": "2025-10-23T03:02:20.793Z",
+      "modify_date": "2026-04-04T15:08:40.230Z",
+      "definition": "CREATE PROCEDURE [dbo].[GetSalesByPumpNumberAndHoseNumber]\r\n    @PumpNumber INT,\r\n\t@HoseNumber INT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    SELECT TOP (100) \r\n        [SaleID],\r\n        [PosNumber],\r\n        [PumpNumber],\r\n\t\tCASE\r\n\t\tWHEN [HoseNumber]=1 THEN 'A'\r\n\t\tWHEN [HoseNumber]=2 THEN 'B'\r\n\t\tWHEN [HoseNumber]=3 THEN 'C'\r\n        WHEN [HoseNumber]=3 THEN 'D' end as [HoseNumber]\r\n\r\n        ,CASE\r\n            WHEN GradeNr = 1 THEN  'REGULAR'\r\n            WHEN GradeNr = 2 THEN  'SUPER'\r\n            WHEN GradeNr = 3 THEN  'DIESEL'\r\n            WHEN GradeNr = 4 THEN  'DIESEL2'\r\n            ELSE 'DESCONOCIDO'\r\n        END AS Grade,\r\n\t\t[PPU] as Precio,\r\n[Volume] as Cantidad,\r\n   \r\n        CASE \r\n            WHEN [IsInvoiced] = 0 THEN 'Sin Facturar'\r\n            WHEN [IsInvoiced] = 1 THEN 'Facturado'\r\n            ELSE 'Estado Desconocido'\r\n        END AS Estado\r\n\t\t     ,[Amount],\r\nCASE\r\n\tWHEN [IsInvoiced] = 1 THEN 'Finalizada'\r\nWHEN DATEDIFF(MINUTE, ISNULL([Date], GETDATE()), GETDATE()) > 30 AND [IsInvoiced] = 0 THEN 'Atrasada'\r\n\r\n    ELSE 'Libre'\r\nEND AS Ciclo,\r\n[Date]\r\n\r\n    FROM [FusionSales]\r\n    WHERE [PumpNumber] = @PumpNumber AND [HoseNumber]=@HoseNumber\r\n    ORDER BY [SaleID] desc;\r\nEND;\r\n"
+    },
+    {
+      "name": "InsertFusionSale",
+      "create_date": "2025-10-23T03:02:20.800Z",
+      "modify_date": "2025-10-23T03:02:20.800Z",
+      "definition": "\r\nCREATE PROCEDURE [dbo].[InsertFusionSale]\r\n    @SaleID INT,\r\n    @PosNumber INT,\r\n    @PumpNumber INT,\r\n    @HoseNumber VARCHAR(2),\r\n    @Amount DECIMAL(18,2),\r\n    @PPU DECIMAL(18,5),\r\n    @Volume DECIMAL(18,5),\r\n    @FinalVolumeTotal DECIMAL(18,5),\r\n    @InitialVolumeTotal DECIMAL(18,5),\r\n    @PaymentType NVARCHAR(50),\r\n    @PaymentInfo NVARCHAR(50),\r\n    @CompensatedTemperature NVARCHAR(50),\r\n    @ShiftID INT,\r\n    @GradeNr INT,\r\n    @PriceLevel INT,\r\n    @TypeOfTransaction NVARCHAR(50),\r\n    @DateOfTransaction NVARCHAR(50),\r\n    @TimeOfTransaction NVARCHAR(50),\r\n    @PresetAmount DECIMAL(18,2),\r\n    @PaymentAlarm NVARCHAR(50),\r\n    @ATCVO NVARCHAR(50),\r\n    @AVGTM NVARCHAR(50),\r\n    @ATCIVO NVARCHAR(50),\r\n    @ATCFVO NVARCHAR(50),\r\n    @IsInvoiced BIT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    BEGIN TRY\r\n        BEGIN TRANSACTION;\r\n\r\n        IF NOT EXISTS (SELECT 1 FROM [FusionController].[dbo].[FusionSales] WITH (ROWLOCK) WHERE [SaleID] = @SaleID)\r\n        BEGIN\r\n            INSERT INTO [FusionController].[dbo].[FusionSales] (\r\n                [SaleID],\r\n                [PosNumber],\r\n                [PumpNumber],\r\n                [HoseNumber],\r\n                [Amount],\r\n                [PPU],\r\n                [Volume],\r\n                [FinalVolumeTotal],\r\n                [InitialVolumeTotal],\r\n                [PaymentType],\r\n                [PaymentInfo],\r\n                [CompensatedTemperature],\r\n                [ShiftID],\r\n                [GradeNr],\r\n                [PriceLevel],\r\n                [TypeOfTransaction],\r\n                [DateOfTransaction],\r\n                [TimeOfTransaction],\r\n                [PresetAmount],\r\n                [PaymentAlarm],\r\n                [ATCVO],\r\n                [AVGTM],\r\n                [ATCIVO],\r\n                [ATCFVO],\r\n                [IsInvoiced],\r\n                [Date]\r\n            )\r\n            VALUES (\r\n                @SaleID,\r\n                @PosNumber,\r\n                @PumpNumber,\r\n                @HoseNumber,\r\n                @Amount,\r\n                @PPU,\r\n                @Volume,\r\n                @FinalVolumeTotal,\r\n                @InitialVolumeTotal,\r\n                @PaymentType,\r\n                @PaymentInfo,\r\n                @CompensatedTemperature,\r\n                @ShiftID,\r\n                @GradeNr,\r\n                @PriceLevel,\r\n                @TypeOfTransaction,\r\n                @DateOfTransaction,\r\n                @TimeOfTransaction,\r\n                @PresetAmount,\r\n                @PaymentAlarm,\r\n                @ATCVO,\r\n                @AVGTM,\r\n                @ATCIVO,\r\n                @ATCFVO,\r\n                @IsInvoiced,\r\n                GETDATE()\r\n            );\r\n\r\n            COMMIT TRANSACTION;\r\n            SELECT 'Success' AS Status, 'Record inserted successfully' AS Message;\r\n        END\r\n        ELSE\r\n        BEGIN\r\n            ROLLBACK TRANSACTION;\r\n            SELECT 'Error' AS Status, 'SaleID already exists' AS Message;\r\n        END\r\n    END TRY\r\n    BEGIN CATCH\r\n        ROLLBACK TRANSACTION;\r\n        SELECT 'Error' AS Status, ERROR_MESSAGE() AS Message;\r\n    END CATCH\r\nEND\r\n"
+    },
+    {
+      "name": "ReversarTransaccion",
+      "create_date": "2025-10-23T03:02:20.863Z",
+      "modify_date": "2025-10-23T03:02:20.863Z",
+      "definition": "\r\nCREATE PROCEDURE [dbo].[ReversarTransaccion]\r\n    @SaleID INT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    UPDATE FusionSales\r\n    SET IsInvoiced = 0,  -- False en SQL Server es 0\r\n        Date = GETDATE()\r\n    WHERE SaleID = @SaleID;\r\nEND;\r\n"
+    },
+    {
+      "name": "SP_FusionSales_Consolidado",
+      "create_date": "2026-03-10T00:20:26.940Z",
+      "modify_date": "2026-03-10T00:23:50.833Z",
+      "definition": "\r\nCREATE PROCEDURE [dbo].[SP_FusionSales_Consolidado]\r\n    @ShiftIDs NVARCHAR(MAX)\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    -- Tabla temporal forzando el Collation por defecto de la base de datos\r\n    IF OBJECT_ID('tempdb..#ShiftIDTable') IS NOT NULL DROP TABLE #ShiftIDTable;\r\n    CREATE TABLE #ShiftIDTable (\r\n        ID NVARCHAR(50) COLLATE DATABASE_DEFAULT\r\n    );\r\n\r\n    -- Separar los IDs (Split function logic)\r\n    DECLARE @Pos INT;\r\n    DECLARE @NextPos INT;\r\n    DECLARE @ID NVARCHAR(50);\r\n\r\n    SET @Pos = 1;\r\n    WHILE @Pos <= LEN(@ShiftIDs) + 1\r\n    BEGIN\r\n        SET @NextPos = CHARINDEX(',', @ShiftIDs, @Pos);\r\n        IF @NextPos = 0 SET @NextPos = LEN(@ShiftIDs) + 1;\r\n        \r\n        SET @ID = LTRIM(RTRIM(SUBSTRING(@ShiftIDs, @Pos, @NextPos - @Pos)));\r\n        IF LEN(@ID) > 0\r\n            INSERT INTO #ShiftIDTable (ID) VALUES (@ID);\r\n            \r\n        SET @Pos = @NextPos + 1;\r\n    END\r\n\r\n    -- Consulta que fuerza la comparación con COLLATE DATABASE_DEFAULT para evitar el conflicto\r\n    SELECT \r\n        PumpNumber AS Bomba,\r\n        HoseNumber AS Manguera,\r\n        MIN(InitialVolumeTotal) AS [Vol. Inicial],\r\n        MAX(FinalVolumeTotal) AS [Vol. Final],\r\n        SUM(Volume) AS [Vol. Total],\r\n        SUM(Amount) AS [Monto Total],\r\n        MAX(PPU) AS Precio,\r\n        CAST(NULL AS NVARCHAR(100)) AS GradeNames\r\n    FROM dbo.FusionSales\r\n    WHERE ShiftID COLLATE DATABASE_DEFAULT IN (SELECT ID FROM #ShiftIDTable)\r\n    GROUP BY PumpNumber, HoseNumber\r\n    ORDER BY PumpNumber, HoseNumber;\r\n\r\n    DROP TABLE #ShiftIDTable;\r\nEND\r\n"
+    },
+    {
+      "name": "sp_InsertFusionSaleVOX",
+      "create_date": "2025-10-17T02:07:59.197Z",
+      "modify_date": "2025-10-22T20:10:21.550Z",
+      "definition": "\r\nCREATE PROCEDURE [dbo].[sp_InsertFusionSaleVOX]\r\n    @vox_sale_id INT,\r\n    @pump SMALLINT,\r\n    @hose SMALLINT,\r\n    @amount DECIMAL(18,2),\r\n    @ppu DECIMAL(18,5),\r\n    @volume DECIMAL(18,5),\r\n    @total_volume_final DECIMAL(18,5),\r\n    @total_volume_init DECIMAL(18,5),\r\n    @shift_id VARCHAR(50),\r\n    @level SMALLINT,\r\n    @product SMALLINT,\r\n    @fecha DATE,\r\n    @hora TIME,\r\n    @invoiced BIT\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n    DECLARE @fechaHora DATETIME = DATEADD(HOUR, -12, CAST(@fecha AS DATETIME) + CAST(@hora AS DATETIME));\r\n    DECLARE @fechaCorregida DATE = CAST(@fechaHora AS DATE);\r\n    DECLARE @horaCorregida TIME = CAST(@fechaHora AS TIME);\r\n\r\n    INSERT INTO [dbo].[FusionSales] (\r\n        SaleID,\r\n        PosNumber,\r\n        PumpNumber,\r\n        HoseNumber,\r\n        Amount,\r\n        PPU,\r\n        Volume,\r\n        FinalVolumeTotal,\r\n        InitialVolumeTotal,\r\n        ShiftID,\r\n        PriceLevel,\r\n        GradeNr,\r\n        DateOfTransaction,\r\n        TimeOfTransaction,\r\n        IsInvoiced,\r\n        [Date]\r\n    )\r\n    VALUES (\r\n        @vox_sale_id,              -- SaleID\r\n        99,                        -- PosNumber fijo\r\n        @pump,                     -- PumpNumber\r\n        CAST(@hose AS VARCHAR(2)), -- HoseNumber\r\n        @amount / 10,             -- Amount dividido entre 100\r\n        @ppu / 100,                -- PPU dividido entre 100\r\n        @volume / 100,             -- Volume dividido entre 100\r\n        @total_volume_final / 100, -- FinalVolumeTotal dividido entre 100\r\n        @total_volume_init / 100,  -- InitialVolumeTotal dividido entre 100\r\n        @shift_id,                 -- ShiftID\r\n        @level,                    -- PriceLevel\r\n        @product,                  -- GradeNr\r\n        CONVERT(NVARCHAR(50), @fechaCorregida, 23),     -- Fecha corregida (YYYY-MM-DD)\r\n        CONVERT(NVARCHAR(50), @horaCorregida, 8),       -- Hora corregida (HH:MM:SS)\r\n        @invoiced,                 -- IsInvoiced\r\n        GETDATE()                  -- Date = momento de la copia\r\n    );\r\nEND\r\n"
+    },
+    {
+      "name": "UpdateIsInvoiced",
+      "create_date": "2025-10-23T03:02:20.993Z",
+      "modify_date": "2025-10-23T03:02:20.993Z",
+      "definition": "CREATE PROCEDURE [dbo].[UpdateIsInvoiced]\r\n    @IdSale INT,\r\n\t@PosNumber int\r\nAS\r\nBEGIN\r\n    SET NOCOUNT ON;\r\n\r\n    UPDATE [FusionSales]\r\n    SET [IsInvoiced] = 1, PosNumber=@PosNumber\r\n    WHERE [IsInvoiced] = 0 AND SaleID = @IdSale;\r\n\r\n    -- Opcional: Retornar el número de filas afectadas\r\n    RETURN @@ROWCOUNT;\r\nEND;\r\n"
+    }
+  ],
+  "rowCounts": [
+    {
+      "table_name": "FusionSales",
+      "row_count": "107593"
+    },
+    {
+      "table_name": "FuelSession",
+      "row_count": "3"
+    },
+    {
+      "table_name": "ReaderPumpMapping",
+      "row_count": "2"
+    },
+    {
+      "table_name": "FusionSalesRetry",
+      "row_count": "0"
+    }
+  ]
+}

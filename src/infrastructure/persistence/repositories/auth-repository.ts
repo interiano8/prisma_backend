@@ -102,6 +102,13 @@ export class AuthRepositoryImpl implements AuthRepository {
     return row?.contrasenaAdmin || null;
   }
 
+  async updatePassAdmin(storeId: string, hash: string): Promise<void> {
+    await this.prisma.tienda.update({
+      where: { idTienda: storeId },
+      data: { contrasenaAdmin: hash },
+    });
+  }
+
   async checkCreditValidation(storeId: string): Promise<boolean> {
     const row = await this.prisma.tienda.findUnique({
       where: { idTienda: storeId },
@@ -225,7 +232,7 @@ export class AuthRepositoryImpl implements AuthRepository {
       urlBaseERP: row.urlBaseErp || '',
       turnoManual: row.turnoManual === true,
       calculoInverso: row.calculoInverso === true,
-      sorteos: row.sorteos === true,
+      campanas: row.campanas === true,
       nombreBotonFidelizacion: row.nombreBotonFidelizacion || 'LEAL',
       moneda: row.moneda || 'L.',
       carpetaMultimedia: row.carpetaMultimedia || '',
@@ -280,7 +287,7 @@ export class AuthRepositoryImpl implements AuthRepository {
       URLBaseERP: row.urlBaseErp,
       Turno_Manual: row.turnoManual === true ? 1 : 0,
       Calculo_Inverso: row.calculoInverso === true ? 1 : 0,
-      Sorteos: row.sorteos === true ? 1 : 0,
+      Campanas: row.campanas === true ? 1 : 0,
       DeclararMontoInicial: row.declararMontoInicial === true ? 1 : 0,
     };
   }

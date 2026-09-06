@@ -8,10 +8,10 @@ import { UnauthorizedDomainError } from '../../../../src/domain/errors/domain-er
 
 describe('JwtAuthGuard', () => {
   let guard: JwtAuthGuard;
-  let mockTokenService: { verify: jest.Mock };
+  let mockTokenService: { verify: jest.Mock; hash: jest.Mock };
 
   beforeEach(() => {
-    mockTokenService = { verify: jest.fn() };
+    mockTokenService = { verify: jest.fn(), hash: jest.fn() };
     guard = new JwtAuthGuard(mockTokenService as unknown as TokenPort);
   });
 

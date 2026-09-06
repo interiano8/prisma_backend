@@ -23,6 +23,7 @@ export class PosConfigRepositoryImpl implements PosConfigRepository {
       minutosAtrasada: row.minutosAtrasada,
       mostrarTeclado: row.mostrarTeclado,
       declararMontosIniciales: row.declararMontosIniciales,
+      visualizacion: row.visualizacion ?? null,
       config: row.config ?? undefined,
     };
   }

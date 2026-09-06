@@ -57,5 +57,8 @@ export default defineConfig({
   datasource: {
     // `prisma generate` no requiere conexión; solo `migrate`/`db` necesitan URL.
     url: process.env.DATABASE_URL ?? '',
+    shadowDatabaseUrl:
+      process.env.SHADOW_DATABASE_URL ??
+      'postgresql://postgres@127.0.0.1:5432/prisma_shadow',
   },
 });

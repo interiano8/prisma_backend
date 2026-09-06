@@ -18,12 +18,13 @@ module.exports = {
     '!src/**/*.interface.ts',
     '!src/main.ts',
     '!src/generated/**',
+    '!**/*.d.ts',
   ],
   coverageDirectory: 'coverage',
   coverageThreshold: {
     global: {
       statements: 90,
-      branches: 80,
+      branches: 85,
       functions: 90,
       lines: 90,
     },

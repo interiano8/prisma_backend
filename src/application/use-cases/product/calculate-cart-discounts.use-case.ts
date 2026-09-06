@@ -3,6 +3,10 @@ import type {
   ProductRepository,
   DiscountCalculation,
 } from '../../../domain/ports/out/product-repository.interface';
+import {
+  DiscountService,
+  computeLineTotals,
+} from '../../../domain/services/discount.service';
 
 export interface CartDiscountItem {
   code: string;
@@ -11,9 +15,18 @@ export interface CartDiscountItem {
   unitPrice: number;
 }
 
+function isvRate(vatGroup: string): number {
+  if (vatGroup.includes('15')) return 15;
+  if (vatGroup.includes('18')) return 18;
+  return 0;
+}
+
 @Injectable()
 export class CalculateCartDiscountsUseCase {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly discountService: DiscountService,
+  ) {}
 
   async execute(
     customerCode: string,
@@ -21,15 +34,19 @@ export class CalculateCartDiscountsUseCase {
   ): Promise<DiscountCalculation[]> {
     const results = await Promise.all(
       items.map(async (item) => {
-        const result = await this.productRepository.calculateDiscount(
-          item.code,
+        const rules = await this.productRepository.findApplicableDiscountRules(
           customerCode,
-          item.quantity,
-          item.vatGroup,
-          item.unitPrice,
+          item.code,
+          '',
         );
-        return (
-          result ?? {
+        const winner = this.discountService.evaluateBestRule(
+          rules,
+          item.quantity,
+          item.unitPrice,
+          item.vatGroup,
+        );
+        if (!winner) {
+          return {
             code: item.code,
             hasDiscount: false,
             discountPercentage: 0,
@@ -42,8 +59,32 @@ export class CalculateCartDiscountsUseCase {
             totalDiscount: 0,
             totalIsv: 0,
             finalTotal: item.unitPrice * item.quantity,
-          }
+          };
+        }
+        const vat = isvRate(item.vatGroup);
+        const totals = computeLineTotals(
+          item.unitPrice,
+          item.quantity,
+          vat,
+          winner.benefit,
         );
+        const percentage =
+          winner.rule.tipoBeneficio === 'PORCENTAJE' ? winner.rule.valor : 0;
+        return {
+          code: item.code,
+          hasDiscount: true,
+          discountPercentage: percentage,
+          quantity: item.quantity,
+          unitPriceWithIsv: item.unitPrice,
+          unitPriceWithoutIsv: winner.baseGravada,
+          unitPriceWithDiscount:
+            totals.montoConIsv / (item.quantity || 1),
+          isvAmountUnit: totals.montoIsv / (item.quantity || 1),
+          totalWithoutIsv: totals.baseDescontada,
+          totalDiscount: winner.benefit,
+          totalIsv: totals.montoIsv,
+          finalTotal: totals.montoConIsv,
+        };
       }),
     );
     return results;

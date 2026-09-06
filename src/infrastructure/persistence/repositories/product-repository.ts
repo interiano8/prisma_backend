@@ -4,9 +4,9 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import {
   ProductRepository,
   ProductView,
-  DiscountCalculation,
+  ProductCategory,
 } from '../../../domain/ports/out/product-repository.interface';
-import { Product, Discount } from '../../../domain/entities/product.entity';
+import { Product, DiscountRule } from '../../../domain/entities/product.entity';
 
 @Injectable()
 export class ProductRepositoryImpl implements ProductRepository {
@@ -19,6 +19,41 @@ export class ProductRepositoryImpl implements ProductRepository {
 
   async getDefaultStoreId(): Promise<string> {
     return this.getDefaultStoreIdInternal();
+  }
+
+  async listCategories(): Promise<ProductCategory[]> {
+    const [cats, prods] = await Promise.all([
+      this.prisma.categoriaProducto.findMany(),
+      this.prisma.producto.findMany({
+        where: { bloqueado: false },
+        select: { codigoCategoria: true },
+      }),
+    ]);
+    const descMap = new Map<string, string | null>(
+      cats.map((c) => [c.codigo, c.descripcion]),
+    );
+    const counts = new Map<string, number>();
+    for (const p of prods) {
+      if (!p.codigoCategoria) continue;
+      counts.set(p.codigoCategoria, (counts.get(p.codigoCategoria) || 0) + 1);
+    }
+    const titleCase = (s: string) =>
+      s
+        .replace(/_/g, ' ')
+        .toLowerCase()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+    const out: ProductCategory[] = [];
+    for (const [codigo, count] of counts) {
+      out.push({
+        codigo,
+        descripcion: descMap.get(codigo) || titleCase(codigo),
+        count,
+      });
+    }
+    out.sort((a, b) =>
+      (a.descripcion || '').localeCompare(b.descripcion || ''),
+    );
+    return out;
   }
 
   async findAll(category?: string): Promise<Product[]> {
@@ -119,77 +154,35 @@ export class ProductRepositoryImpl implements ProductRepository {
     return results;
   }
 
-  async findDiscount(
-    itemCode: string,
+  async findApplicableDiscountRules(
     customerCode: string,
-  ): Promise<Discount | null> {
-    const row = await this.prisma.descuento.findUnique({
+    productCode: string,
+    categoryCode: string,
+  ): Promise<DiscountRule[]> {
+    const now = new Date();
+    const rows = await this.prisma.reglaDescuento.findMany({
       where: {
-        codigoCliente_codigoProducto: {
-          codigoCliente: customerCode,
-          codigoProducto: itemCode,
-        },
+        activo: true,
+        AND: [
+          { OR: [{ fechaInicio: null }, { fechaInicio: { lte: now } }] },
+          { OR: [{ fechaFin: null }, { fechaFin: { gte: now } }] },
+          { OR: [{ codigoCliente: customerCode }, { codigoCliente: null }] },
+          { OR: [{ codigoProducto: productCode }, { codigoProducto: null }] },
+          { OR: [{ codigoCategoria: categoryCode }, { codigoCategoria: null }] },
+        ],
       },
     });
-    if (!row || row.activo !== true) return null;
-    return {
-      codigoCliente: row.codigoCliente,
-      codigoItem: row.codigoProducto,
-      porcentaje: Number(row.porcentaje) || 0,
-      customerRTN: row.rtnCliente ?? undefined,
-      storeID: row.idTienda ?? undefined,
-      startingDate: row.fechaInicio ? row.fechaInicio.toISOString() : undefined,
-      endingDate: row.fechaFin ? row.fechaFin.toISOString() : undefined,
-      amountPerGallon: Number(row.montoPorGalon) || undefined,
-      amountPerLiter: Number(row.montoPorLitro) || undefined,
-      referenceUnitPrice: row.precioReferencia
-        ? Number(row.precioReferencia)
-        : undefined,
-      entryMode: row.modoIngreso ?? undefined,
-      active: row.activo === true,
-    };
-  }
-
-  async calculateDiscount(
-    itemCode: string,
-    customerCode: string,
-    quantity: number,
-    vatGroup: string,
-    unitPrice: number,
-  ): Promise<DiscountCalculation> {
-    // Reimplementa sp_CalcularTotalConDescuentoYISV
-    let tipoIsv = 0;
-    if (vatGroup.includes('15')) tipoIsv = 15;
-    else if (vatGroup.includes('18')) tipoIsv = 18;
-
-    const discount = await this.findDiscount(itemCode, customerCode);
-    const percentage = discount?.porcentaje || 0;
-
-    const unitPriceWithoutIsv = unitPrice / (1 + tipoIsv / 100);
-    const discountFactor = 1 - percentage / 100;
-    const unitPriceWithDiscount = unitPrice * discountFactor;
-    const isvUnitario =
-      unitPriceWithDiscount - unitPriceWithDiscount / (1 + tipoIsv / 100);
-
-    const totalSinIsv = quantity * unitPriceWithoutIsv;
-    const totalDiscount = quantity * unitPrice * (percentage / 100);
-    const totalIsv = quantity * isvUnitario;
-    const finalTotal = quantity * unitPriceWithDiscount;
-
-    return {
-      code: itemCode,
-      hasDiscount: percentage > 0,
-      discountPercentage: percentage,
-      quantity,
-      unitPriceWithIsv: unitPrice,
-      unitPriceWithoutIsv,
-      unitPriceWithDiscount,
-      isvAmountUnit: isvUnitario,
-      totalWithoutIsv: totalSinIsv,
-      totalDiscount,
-      totalIsv,
-      finalTotal,
-    };
+    return rows.map((r) => ({
+      id: r.id,
+      codigoCliente: r.codigoCliente ?? undefined,
+      codigoProducto: r.codigoProducto ?? undefined,
+      codigoCategoria: r.codigoCategoria ?? undefined,
+      cantidadMinima: r.cantidadMinima != null ? Number(r.cantidadMinima) : undefined,
+      tipoBeneficio: r.tipoBeneficio,
+      valor: Number(r.valor),
+      unidadVolumen: r.unidadVolumen ?? undefined,
+      prioridad: r.prioridad,
+    }));
   }
 
   private mapProduct(row: ProductView): Product {

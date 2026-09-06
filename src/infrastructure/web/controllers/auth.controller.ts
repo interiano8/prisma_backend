@@ -14,9 +14,12 @@ import { ThrottlerGuard, Throttle } from '@nestjs/throttler';
 import { LoginDto } from '../dto/auth/login.dto';
 import { LoginRfidDto } from '../dto/auth/login-rfid.dto';
 import { ValidateAdminDto } from '../dto/auth/validate-admin.dto';
+import { UpdateAdminPasswordDto } from '../dto/auth/update-admin-password.dto';
 import { LoginUseCase } from '../../../application/use-cases/auth/login.use-case';
 import { LoginRfidUseCase } from '../../../application/use-cases/auth/login-rfid.use-case';
+import { LoginBackofficeUseCase } from '../../../application/use-cases/auth/login-backoffice.use-case';
 import { ValidateAdminUseCase } from '../../../application/use-cases/auth/validate-admin.use-case';
+import { UpdateAdminPasswordUseCase } from '../../../application/use-cases/auth/update-admin-password.use-case';
 import { CheckCreditValidationUseCase } from '../../../application/use-cases/auth/check-credit-validation.use-case';
 import { SavePreferencesUseCase } from '../../../application/use-cases/auth/save-preferences.use-case';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -27,7 +30,9 @@ export class AuthController {
   constructor(
     private readonly loginUseCase: LoginUseCase,
     private readonly loginRfidUseCase: LoginRfidUseCase,
+    private readonly loginBackofficeUseCase: LoginBackofficeUseCase,
     private readonly validateAdminUseCase: ValidateAdminUseCase,
+    private readonly updateAdminPasswordUseCase: UpdateAdminPasswordUseCase,
     private readonly checkCreditValidationUseCase: CheckCreditValidationUseCase,
     private readonly savePreferencesUseCase: SavePreferencesUseCase,
     @Inject('AuthRepository') private readonly authRepository: AuthRepository,
@@ -51,6 +56,14 @@ export class AuthController {
     });
   }
 
+  @Post('backoffice')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
+  async loginBackoffice(@Body() body: { password?: string }) {
+    return this.loginBackofficeUseCase.execute(body?.password || '');
+  }
+
   @Post('login-rfid')
   @HttpCode(HttpStatus.OK)
   @UseGuards(ThrottlerGuard)
@@ -69,6 +82,14 @@ export class AuthController {
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   async validateAdmin(@Body() dto: ValidateAdminDto) {
     return this.validateAdminUseCase.execute(dto);
+  }
+
+  @Put('admin-password')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, ThrottlerGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
+  async updateAdminPassword(@Body() dto: UpdateAdminPasswordDto) {
+    return this.updateAdminPasswordUseCase.execute(dto);
   }
 
   @Get('check-credit-validation/:storeId')

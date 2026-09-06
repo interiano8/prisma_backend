@@ -49,6 +49,9 @@ export interface InvoicePaymentInput {
   code: string;
   amount: number;
   reference?: string;
+  moneda?: string;
+  tasaCambio?: number;
+  montoIngresado?: number;
   lealData?: LealPaymentData;
 }
 
@@ -88,6 +91,7 @@ export interface CreditNoteInput {
   storeId?: string;
   posNo?: string;
   username?: string;
+  adminPassword?: string;
 }
 
 export interface CreateInvoiceCommand {

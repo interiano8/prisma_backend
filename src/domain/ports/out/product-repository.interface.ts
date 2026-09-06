@@ -1,4 +1,4 @@
-import { Product, Discount } from '../../entities/product.entity';
+import { Product, DiscountRule } from '../../entities/product.entity';
 
 export interface ProductView {
   code: string;
@@ -28,21 +28,22 @@ export interface DiscountCalculation {
   finalTotal: number;
 }
 
+export interface ProductCategory {
+  codigo: string;
+  descripcion: string | null;
+  count: number;
+}
+
 export interface ProductRepository {
   findAll(category?: string): Promise<Product[]>;
+  listCategories(): Promise<ProductCategory[]>;
   findByCode(code: string): Promise<Product | null>;
   findByBarcode(barcode: string): Promise<Product | null>;
-  findDiscount(
-    itemCode: string,
+  findApplicableDiscountRules(
     customerCode: string,
-  ): Promise<Discount | null>;
-  calculateDiscount(
-    itemCode: string,
-    customerCode: string,
-    quantity: number,
-    vatGroup: string,
-    unitPrice: number,
-  ): Promise<DiscountCalculation | null>;
+    productCode: string,
+    categoryCode: string,
+  ): Promise<DiscountRule[]>;
   getDefaultStoreId(): Promise<string>;
   getProductsFiltered(
     category: string,

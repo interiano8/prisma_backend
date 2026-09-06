@@ -1,0 +1,376 @@
+{
+  "backendSps": [
+    "CloseShiftV2",
+    "CreateNewCustomer",
+    "EIInsertCreditNote",
+    "EIInsertInvoiceFullV1",
+    "EIInsertSalesLine",
+    "EIInsertTicketFullV1",
+    "EINextCreditNotev2",
+    "EINextInvoice",
+    "EINextPosTransactionIDNumber",
+    "GetAvailableDataForDate",
+    "GetDetailsCombustiblesV2",
+    "GetDetailsImpuestosForPOS",
+    "GetDetailsOtherProducts",
+    "GetDetailsPaymentsMethod",
+    "GetDetailsTicket",
+    "GetEntradaDolar",
+    "GetGranTotalTicket",
+    "GetHeaderInvoice",
+    "GetHeaderInvoiceDetail",
+    "GetSalesByPumpNumber",
+    "GetSalidaLps",
+    "GetTotalCombustibles",
+    "GetTotalDescuentos",
+    "GetTotalEfectivo-MovCaja",
+    "GetTotalInvoice",
+    "GetTotalOtherProducts",
+    "GetTotalPaymentsMethod",
+    "GetTotalSale",
+    "GetTotalTicket",
+    "GetUniquePumpNumbersWithEmployee",
+    "InsertPaymentMethods",
+    "OpenNewShift",
+    "ReversarTransaccion",
+    "UpdateIsInvoiced",
+    "sp_CalcularTotalConDescuentoYISV",
+    "sp_InsertarPOSSalesHeaderLeal"
+  ],
+  "reachableProcs": [
+    "CloseShiftV2",
+    "CreateNewCustomer",
+    "EIInsertCreditNote",
+    "EIInsertInvoiceFullV1",
+    "EIInsertSalesLine",
+    "EIInsertTicketFullV1",
+    "EINextCreditNote",
+    "EINextCreditNotev2",
+    "EINextInvoice",
+    "EINextPosTransactionIDNumber",
+    "EINextTicket",
+    "GetAvailableDataForDate",
+    "GetDetailsCombustiblesV2",
+    "GetDetailsImpuestosForPOS",
+    "GetDetailsOtherProducts",
+    "GetDetailsPaymentsMethod",
+    "GetDetailsTicket",
+    "GetEntradaDolar",
+    "GetGranTotalTicket",
+    "GetHeaderInvoice",
+    "GetHeaderInvoiceDetail",
+    "GetSalesByPumpNumber",
+    "GetSalidaLps",
+    "GetTotalCombustibles",
+    "GetTotalDescuentos",
+    "GetTotalEfectivo-MovCaja",
+    "GetTotalInvoice",
+    "GetTotalOtherProducts",
+    "GetTotalPaymentsMethod",
+    "GetTotalSale",
+    "GetTotalTicket",
+    "GetUniquePumpNumbersWithEmployee",
+    "InsertPaymentMethods",
+    "OpenNewShift",
+    "ReversarTransaccion",
+    "UpdateIsInvoiced",
+    "sp_CalcularTotalConDescuentoYISV",
+    "sp_InsertarPOSSalesHeaderLeal"
+  ],
+  "reachableTables": [
+    "Customer",
+    "Descuentos",
+    "HoseFS",
+    "No_ Series Line",
+    "POS Cash Entries",
+    "POS Closed Shift",
+    "POS Sales Charge Line",
+    "POS Sales Header",
+    "POS Sales Line",
+    "POS Transaction Log",
+    "POSSalesHeaderLeal",
+    "Store"
+  ],
+  "direct": {
+    "CloseShiftV2": {
+      "tables": [
+        "POS Closed Shift",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "CreateNewCustomer": {
+      "tables": [
+        "Customer",
+        "Type"
+      ],
+      "procs": []
+    },
+    "EIInsertCreditNote": {
+      "tables": [
+        "POS Sales Header",
+        "No_ Series Line",
+        "POS Transaction Log"
+      ],
+      "procs": [
+        "EINextPosTransactionIDNumber",
+        "EINextCreditNote"
+      ]
+    },
+    "EIInsertInvoiceFullV1": {
+      "tables": [
+        "POS Sales Header",
+        "POS Sales Line",
+        "POS Sales Charge Line",
+        "No_ Series Line",
+        "POS Transaction Log"
+      ],
+      "procs": [
+        "EINextPosTransactionIDNumber",
+        "EINextInvoice"
+      ]
+    },
+    "EIInsertSalesLine": {
+      "tables": [
+        "POS Sales Line"
+      ],
+      "procs": []
+    },
+    "EIInsertTicketFullV1": {
+      "tables": [
+        "POS Sales Header",
+        "POS Sales Line",
+        "POS Sales Charge Line",
+        "No_ Series Line",
+        "POS Transaction Log"
+      ],
+      "procs": [
+        "EINextPosTransactionIDNumber",
+        "EINextTicket"
+      ]
+    },
+    "EINextCreditNotev2": {
+      "tables": [
+        "No_ Series Line"
+      ],
+      "procs": []
+    },
+    "EINextInvoice": {
+      "tables": [
+        "No_ Series Line"
+      ],
+      "procs": []
+    },
+    "EINextPosTransactionIDNumber": {
+      "tables": [
+        "No_ Series Line"
+      ],
+      "procs": []
+    },
+    "GetAvailableDataForDate": {
+      "tables": [
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetDetailsCombustiblesV2": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log",
+        "(SELECT DISTINCT",
+        "HoseFS"
+      ],
+      "procs": []
+    },
+    "GetDetailsImpuestosForPOS": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetDetailsOtherProducts": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log",
+        "HoseFS"
+      ],
+      "procs": []
+    },
+    "GetDetailsPaymentsMethod": {
+      "tables": [
+        "POS Sales Charge Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetDetailsTicket": {
+      "tables": [
+        "POS Sales Charge Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetEntradaDolar": {
+      "tables": [
+        "POS Sales Charge Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetGranTotalTicket": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetHeaderInvoice": {
+      "tables": [
+        "POSSalesHeaderLeal",
+        "POS Sales Header",
+        "POS Transaction Log",
+        "No_ Series Line"
+      ],
+      "procs": []
+    },
+    "GetHeaderInvoiceDetail": {
+      "tables": [
+        "POSSalesHeaderLeal",
+        "POS Sales Header",
+        "POS Transaction Log",
+        "No_ Series Line"
+      ],
+      "procs": []
+    },
+    "GetSalesByPumpNumber": {
+      "tables": [
+        "Store",
+        "FusionSales"
+      ],
+      "procs": []
+    },
+    "GetSalidaLps": {
+      "tables": [
+        "POS Sales Header",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetTotalCombustibles": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log",
+        "HoseFS"
+      ],
+      "procs": []
+    },
+    "GetTotalDescuentos": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetTotalEfectivo-MovCaja": {
+      "tables": [
+        "POS Cash Entries",
+        "POS Transaction Log",
+        "POS Sales Charge Line"
+      ],
+      "procs": []
+    },
+    "GetTotalInvoice": {
+      "tables": [
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetTotalOtherProducts": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log",
+        "HoseFS"
+      ],
+      "procs": []
+    },
+    "GetTotalPaymentsMethod": {
+      "tables": [
+        "POS Sales Charge Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetTotalSale": {
+      "tables": [
+        "POS Sales Line",
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetTotalTicket": {
+      "tables": [
+        "POS Transaction Log"
+      ],
+      "procs": []
+    },
+    "GetUniquePumpNumbersWithEmployee": {
+      "tables": [
+        "POS Transaction Log",
+        "POS Sales Line"
+      ],
+      "procs": []
+    },
+    "InsertPaymentMethods": {
+      "tables": [
+        "POS Sales Charge Line"
+      ],
+      "procs": []
+    },
+    "OpenNewShift": {
+      "tables": [
+        "POS Closed Shift",
+        "No_ Series Line"
+      ],
+      "procs": [
+        "EINextPosTransactionIDNumber"
+      ]
+    },
+    "ReversarTransaccion": {
+      "tables": [
+        "FusionSales"
+      ],
+      "procs": []
+    },
+    "UpdateIsInvoiced": {
+      "tables": [
+        "FusionSales"
+      ],
+      "procs": []
+    },
+    "sp_CalcularTotalConDescuentoYISV": {
+      "tables": [
+        "Descuentos"
+      ],
+      "procs": []
+    },
+    "sp_InsertarPOSSalesHeaderLeal": {
+      "tables": [
+        "POSSalesHeaderLeal"
+      ],
+      "procs": []
+    },
+    "EINextCreditNote": {
+      "tables": [
+        "No_ Series Line"
+      ],
+      "procs": []
+    },
+    "EINextTicket": {
+      "tables": [
+        "No_ Series Line"
+      ],
+      "procs": []
+    }
+  }
+}

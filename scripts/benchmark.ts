@@ -36,15 +36,22 @@ const benchmarks: BenchmarkCase[] = [
     run: () => fuelCalculator.calculateVolume(500, 38.9),
   },
   {
-    name: 'discount.calculateDiscountAmount (porcentaje)',
+    name: 'discount.evaluateBestRule (porcentaje)',
     minOpsPerSec: 80_000_000,
     run: () =>
-      discountService.calculateDiscountAmount(38.9, 5, {
-        codigoCliente: 'C001',
-        codigoItem: 'DIESEL',
-        porcentaje: 2.5,
-        active: true,
-      }),
+      discountService.evaluateBestRule(
+        [
+          {
+            id: 'R1',
+            tipoBeneficio: 'PORCENTAJE',
+            valor: 2.5,
+            prioridad: 0,
+          },
+        ],
+        5,
+        38.9,
+        'IVA15',
+      ),
   },
   {
     name: 'invoice-pricing.calculateLineTotal',

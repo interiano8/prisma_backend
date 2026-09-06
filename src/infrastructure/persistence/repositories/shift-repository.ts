@@ -213,15 +213,70 @@ export class ShiftRepositoryImpl implements ShiftRepository {
       throw new Error('No hay turno abierto para cerrar.');
     }
 
+    // Día del turno (sus transacciones comparten fechaTurno = inicio del turno)
+    const dayStart = new Date(openShift.inicioTurno);
+    dayStart.setHours(0, 0, 0, 0);
+    const dayEnd = new Date(dayStart);
+    dayEnd.setHours(23, 59, 59, 999);
+    const turnoNum = openShift.turno?.toString() || '';
+
+    const txs = await this.prisma.registroTransaccion.findMany({
+      where: {
+        numeroTurno: turnoNum,
+        fechaTurno: { gte: dayStart, lte: dayEnd },
+        tipoTransaccion: { in: [1, 2, 3] },
+      },
+      select: { idTransaccionPos: true },
+    });
+    const ids = txs.map((t) => t.idTransaccionPos);
+
+    const ventas = ids.length
+      ? await this.prisma.venta.findMany({
+          where: { idTransaccionPos: { in: ids }, tipoFacturacion: 1 },
+          select: { monto: true },
+        })
+      : [];
+    const importeContado = Math.round(
+      ventas.reduce((s, v) => s + Number(v.monto || 0), 0) * 100,
+    ) / 100;
+
+    const pagos = ids.length
+      ? await this.prisma.pagoVenta.findMany({
+          where: { idTransaccionPos: { in: ids } },
+          select: { codigoMetodoPago: true, monto: true },
+        })
+      : [];
+    const detallePagos: Record<string, number> = {};
+    for (const p of pagos) {
+      const key = p.codigoMetodoPago || 'OTRO';
+      detallePagos[key] = Math.round(
+        ((detallePagos[key] || 0) + Number(p.monto || 0)) * 100,
+      ) / 100;
+    }
+
     await this.prisma.$transaction(
       async (tx) => {
         await tx.turno.update({
           where: { idTransaccionPos: openShift.idTransaccionPos },
           data: {
             finTurno: new Date(),
-            importeContado: 0,
+            importeContado,
             posCierre: dto.posNo,
+            detallePagos,
           },
+        });
+
+        await tx.registroTransaccion.updateMany({
+          where: {
+            OR: [
+              { idTurno: openShift.idTransaccionPos },
+              {
+                numeroTurno: turnoNum,
+                fechaTurno: { gte: dayStart, lte: dayEnd },
+              },
+            ],
+          },
+          data: { estado: true },
         });
 
         await tx.registroTransaccion.create({
@@ -230,11 +285,12 @@ export class ShiftRepositoryImpl implements ShiftRepository {
             idTienda: gasStationCode,
             codigoPos: dto.posNo,
             fechaTurno: new Date(openShift.inicioTurno),
-            numeroTurno: openShift.turno?.toString() || '',
+            numeroTurno: turnoNum,
+            idTurno: openShift.idTransaccionPos,
             tipoTransaccion: 4,
             fechaHoraTransaccion: new Date(),
             nombreEmpleado: dto.employeeName,
-            estado: false,
+            estado: true,
           },
         });
       },

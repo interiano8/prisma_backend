@@ -47,7 +47,7 @@ describe('StoreConfigRepositoryImpl', () => {
     calculoInverso: true,
     bloqueadoTransaccionesBomba: false,
     bloqueadoTransaccionesTurno: false,
-    sorteos: true,
+    campanas: true,
     declararMontoInicial: false,
   };
 
@@ -64,7 +64,7 @@ describe('StoreConfigRepositoryImpl', () => {
     expect(config!.storeId).toBe('001');
     expect(config!.rtn).toBe('06019995197170');
     expect(config!.turnoManual).toBe(true);
-    expect(config!.sorteos).toBe(true);
+    expect(config!.campanas).toBe(true);
   });
 
   it('findByStoreId devuelve null si no existe', async () => {
@@ -234,7 +234,7 @@ describe('StoreConfigRepositoryImpl', () => {
       erp: '',
       turnoManual: false,
       calculoInverso: false,
-      sorteos: false,
+      campanas: false,
     });
   });
 });

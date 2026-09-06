@@ -111,10 +111,22 @@ export class PrinterService {
     await fs.promises.writeFile(tempFilePath, data);
 
     const isWindows = os.platform() === 'win32';
+    const clean = (printerPath || '').trim().toLowerCase();
+    const isDefault = clean === '' || clean === 'default';
     let command = '';
 
     if (isWindows) {
-      command = `copy /B "${tempFilePath}" "${printerPath}"`;
+      if (isDefault) {
+        // Impresora predeterminada de Windows
+        command = `powershell -NoProfile -Command "Get-Content -LiteralPath '${tempFilePath}' -Encoding Byte | Out-Printer"`;
+      } else if (printerPath.trim().startsWith('\\\\')) {
+        command = `copy /B "${tempFilePath}" "${printerPath}"`;
+      } else {
+        // Impresora local USB/por nombre → Out-Printer (PowerShell)
+        command = `powershell -NoProfile -Command "Get-Content -LiteralPath '${tempFilePath}' -Encoding Byte | Out-Printer -Name '${printerPath}'"`;
+      }
+    } else if (isDefault) {
+      command = `lpr -o raw "${tempFilePath}"`;
     } else {
       const resolvedName = await this.resolveLinuxPrinterName(printerPath);
       this.logger.debug(
@@ -142,5 +154,10 @@ export class PrinterService {
     printerConfig: Prisma.InputJsonValue,
   ): Promise<void> {
     await this.posConfigRepo.upsert(posNo, { config: printerConfig });
+  }
+
+  async getPrinterConfig(posNo: string): Promise<unknown | null> {
+    const pos = await this.posConfigRepo.findByPos(posNo);
+    return pos?.config ?? null;
   }
 }

@@ -8,6 +8,7 @@ export interface PosConfigData {
   minutosAtrasada: number;
   mostrarTeclado: boolean;
   declararMontosIniciales: boolean;
+  visualizacion: string;
 }
 
 @Injectable()
@@ -23,6 +24,7 @@ export class GetPosConfigUseCase {
       minutosAtrasada: row?.minutosAtrasada ?? 10,
       mostrarTeclado: row?.mostrarTeclado !== false,
       declararMontosIniciales: row?.declararMontosIniciales === true,
+      visualizacion: row?.visualizacion || 'multimedia',
     };
   }
 }

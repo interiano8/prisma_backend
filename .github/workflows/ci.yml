@@ -37,7 +37,7 @@ jobs:
 
       - name: Hexagonal guard (domain sin dependencias de infraestructura)
         run: |
-          if rg -n "generated/prisma|infrastructure|application" src/domain --glob '*.ts'; then
+          if rg -n "from '(\.\./)*(generated/prisma|infrastructure|application)" src/domain --glob '*.ts'; then
             echo "::error::La capa domain no debe importar de generated/prisma, infrastructure ni application"
             exit 1
           fi
@@ -119,8 +119,14 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/prisma_test
         run: pnpm exec prisma migrate deploy
 
+      - name: Seed e2e
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/prisma_test
+        run: pnpm exec prisma db execute --file ./test/seed-e2e.sql
+
       - name: E2E tests
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/prisma_test
+          E2E_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/prisma_test
           KEYMASTER: ${{ secrets.KEYMASTER }}
         run: pnpm test:e2e

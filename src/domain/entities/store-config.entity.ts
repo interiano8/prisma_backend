@@ -7,6 +7,8 @@ export interface StoreConfig {
   email: string;
   address: string;
   isGasStation: boolean;
+  printerConfig?: unknown;
+  serverTimezone?: string;
   isGasController: boolean;
   ipFusionController: string;
   fusionControllerKey: string;
@@ -48,7 +50,7 @@ export interface StoreConfig {
   urlBaseERP: string;
   turnoManual: boolean;
   calculoInverso: boolean;
-  sorteos: boolean;
+  campanas: boolean;
   mostrarBombas?: boolean;
   ocultarBotonOtrasBombas?: boolean;
   numTransaccionesBombas?: number;

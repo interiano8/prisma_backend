@@ -33,6 +33,7 @@ describe('PaymentRepositoryImpl', () => {
       code: '1002',
       description: 'EFECTIVO',
       categoria: 'EFECTIVO',
+      moneda: 'HNL',
       facturaContado: true,
       facturaCredito: false,
       salidaCombustible: false,
@@ -148,6 +149,65 @@ describe('PaymentRepositoryImpl', () => {
       success: true,
       invoiceNo: 'FV-HN000000000000123',
     });
+  });
+
+  it('mapea líneas con campos nulos a valores por defecto', async () => {
+    const executeInvoiceInsert = jest
+      .fn()
+      .mockResolvedValue([{ NextInvoiceOfNextInvoice: 'FV-1' }]);
+    const repo = new PaymentRepositoryImpl(
+      { metodoPago: { findMany: jest.fn() } } as any,
+      { executeInvoiceInsert } as any,
+    );
+
+    await repo.processPayment({
+      storeId: '1',
+      posNo: 'P1',
+      shiftNumber: '1',
+      customerNo: '',
+      customerName: '',
+      customerRtn: undefined,
+      items: [
+        {
+          code: undefined,
+          description: undefined,
+          qty: undefined,
+          price: undefined,
+          tax: undefined,
+          discount: undefined,
+          total: undefined,
+          saleId: undefined,
+        },
+      ],
+      payments: [],
+      total: 0,
+      tax: 0,
+      discount: 0,
+    });
+
+    const params = executeInvoiceInsert.mock.calls[0][0];
+    expect(params.lines[0]).toEqual({
+      lineNo: 1,
+      itemCode: '',
+      description: '',
+      quantity: 0,
+      unitPrice: 0,
+      discount: 0,
+      discountPercentage: 0,
+      vatPercent: 0,
+      vatAmount: 0,
+      amountIncludingVAT: 0,
+      montoGravado: 0,
+      pumpNo: '',
+      pumpPositionNo: '',
+      tankNo: '',
+      itemCategoryCode: '',
+      genPumpLedgEntry: 0,
+      vatProdPostingGroup: '',
+      saleId: null,
+    });
+    expect(params.customerRtn).toBe('');
+    expect(params.employeeName).toBe('');
   });
 
   it('processPayment soporta items vacíos y referencia de pago', async () => {

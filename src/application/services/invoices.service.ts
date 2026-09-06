@@ -3,8 +3,14 @@ import {
   CreateInvoiceInput,
   CreditNoteInput,
 } from '../../domain/entities/invoice.entity';
+import { ValidateAdminUseCase } from '../use-cases/auth/validate-admin.use-case';
 import { DispensersService } from './dispensers.service';
-import { SorteosService, SorteoTicket } from './sorteos.service';
+import { CampanasService, CampanaTicket } from './campanas.service';
+import {
+  computeLineTotals,
+  LineTotals,
+} from '../../domain/services/discount.service';
+import { FUEL_DEFAULT_CODE, FUEL_CODE_PREFIX } from '../../domain/constants/business.constants';
 import { Mutex } from '../../utils/mutex';
 import { InvoiceLealProcessor } from './invoice-leal.processor';
 import type {
@@ -16,6 +22,7 @@ import type {
   OriginalDocumentRow,
   InvoiceInsertResultRow,
 } from '../../domain/ports/out/invoice-repository.interface';
+import type { InvoiceQueryRepository } from '../../domain/ports/out/invoice-query-repository.interface';
 import type { DispenserRepository } from '../../domain/ports/out/dispenser-repository.interface';
 import type { StoreConfigRepository } from '../../domain/ports/out/store-config-repository.interface';
 
@@ -35,6 +42,9 @@ interface ExtractedInvoiceResult {
   startingNo: string | null;
   endingNo: string | null;
   fechaVence: string | null;
+  campanaTickets: CampanaTicket[];
+  seriesRemaining?: number;
+  seriesRemainingDays?: number;
 }
 
 @Injectable()
@@ -42,13 +52,16 @@ export class InvoicesService {
   constructor(
     @Inject('InvoiceRepository')
     private readonly invoiceRepo: InvoiceRepository,
+    @Inject('InvoiceQueryRepository')
+    private readonly invoiceQueryRepo: InvoiceQueryRepository,
     @Inject('DispenserRepository')
     private readonly dispenserRepo: DispenserRepository,
     @Inject('StoreConfigRepository')
     private readonly storeConfigRepo: StoreConfigRepository,
     private readonly dispensersService: DispensersService,
-    private readonly sorteosService: SorteosService,
+    private readonly campanasService: CampanasService,
     private readonly lealProcessor: InvoiceLealProcessor,
+    private readonly validateAdminUseCase: ValidateAdminUseCase,
   ) {}
 
   async createInvoice(dto: CreateInvoiceInput) {
@@ -61,8 +74,8 @@ export class InvoicesService {
   }
 
   private async _createInvoiceInternal(dto: CreateInvoiceInput) {
-    const { shiftDate: dbShiftDate, employeeName: dbEmployeeName } =
-      await this.invoiceRepo.getShiftDetails(
+    const { shiftDate: dbShiftDate, employeeName: dbEmployeeName, shiftId: dbShiftId } =
+      await this.invoiceQueryRepo.getShiftDetails(
         dto.storeId,
         dto.posNo,
         dto.shiftNumber.toString(),
@@ -76,7 +89,18 @@ export class InvoicesService {
     const payments = this.buildInvoicePayments(dto);
 
     const { invoiceNo: predictedInvoiceNo } =
-      await this.invoiceRepo.findNextCorrelative(dto.storeId, dto.posNo);
+      await this.invoiceQueryRepo.findNextCorrelative(dto.storeId, dto.posNo);
+
+    // Validar rango fiscal ANTES de procesar Leal/insertar: si no hay rango válido,
+    // abortar con motivo claro y evitar operaciones Leal huérfanas con correlativo predicido.
+    const rangeCheck = await this.invoiceQueryRepo.validateCorrelative(
+      dto.storeId,
+      dto.posNo,
+      !!dto.isTicket,
+    );
+    if (!rangeCheck.isValid) {
+      throw new Error(rangeCheck.message);
+    }
 
     // 1. Procesar Leal ANTES de insertar la factura (para validar OTP y evitar facturas huérfanas)
     const { redemptions: lealRedemptionResults, message: redemptionMessage } =
@@ -86,46 +110,80 @@ export class InvoicesService {
     const lealReprintMessage = redemptionMessage + accumulationMessage;
 
     // 2. Insertar factura en DB (solo si Leal se procesó correctamente)
-    const executeResult = await this.invoiceRepo.executeInvoiceInsert({
-      storeId: dto.storeId,
-      posNo: dto.posNo,
-      employeeName,
-      shiftDate,
-      shiftNumber: dto.shiftNumber.toString(),
-      customerNo: dto.customerNo,
-      customerName: dto.customerName,
-      customerRtn: dto.customerRtn || '',
-      total: dto.total,
-      tax: dto.tax,
-      discount: dto.discount,
-      isTicket: !!dto.isTicket,
-      isCredit: !!dto.isCredit,
-      comment: dto.comment || '',
-      km: dto.km || '',
-      orden: dto.orden || '',
-      placa: dto.placa || '',
-      chofer: dto.chofer || '',
-      lines,
-      payments,
-    });
+    let executeResult;
+    try {
+      executeResult = await this.invoiceRepo.executeInvoiceInsert({
+        storeId: dto.storeId,
+        posNo: dto.posNo,
+        employeeName,
+        shiftDate,
+        shiftNumber: dto.shiftNumber.toString(),
+        shiftId: dbShiftId ?? null,
+        customerNo: dto.customerNo,
+        customerName: dto.customerName,
+        customerRtn: dto.customerRtn || '',
+        total: dto.total,
+        tax: dto.tax,
+        discount: dto.discount,
+        isTicket: !!dto.isTicket,
+        isCredit: !!dto.isCredit,
+        comment: dto.comment || '',
+        km: dto.km || '',
+        orden: dto.orden || '',
+        placa: dto.placa || '',
+        chofer: dto.chofer || '',
+        lines,
+        payments,
+        onCommit: async (tx, posTransactionId) => {
+          for (const lealRow of this.lealProcessor.buildTransactions(
+            dto,
+            posTransactionId,
+            lealRedemptionResults,
+            lealAccumulationResult,
+          )) {
+            await tx.ventaLeal.create({
+              data: {
+                idTransaccionPos: lealRow.posTransactionId,
+                idTransaccionLeal: lealRow.idTransaccionLeal,
+                puntos: lealRow.puntos,
+                puntosActivos: lealRow.puntosActivos,
+                tipo: lealRow.tipo,
+                dni: lealRow.dni,
+                nombre: lealRow.nombre,
+                idAleatorio:
+                  lealRow.idAleatorio && !isNaN(Number(lealRow.idAleatorio))
+                    ? BigInt(lealRow.idAleatorio)
+                    : null,
+              },
+            });
+          }
+          return this.evaluateCampanasConTx(tx, dto, posTransactionId);
+        },
+      });
+    } catch (e) {
+      // Compensar operaciones Leal ya procesadas si el insert falló
+      if (lealRedemptionResults.length > 0 || lealAccumulationResult) {
+        try {
+          await this.lealProcessor.compensate({
+            redemptions: lealRedemptionResults,
+            accumulationResult: lealAccumulationResult,
+            lealIdAleatorioRed: dto.lealIdAleatorioRed,
+            lealIdAleatorioAcum: dto.lealIdAleatorioAcum,
+            predictedInvoiceNo,
+          });
+        } catch (compErr: any) {
+          console.warn(
+            '[Leal] Error en compensación post-fallo de insert:',
+            compErr?.message,
+          );
+        }
+      }
+      throw e;
+    }
 
     const extracted = this.extractInvoiceResult(executeResult, dto);
 
-    // 3. Insertar transacciones Leal en DB (ahora con posTransactionId real)
-    if (extracted.posTransactionId) {
-      await this.lealProcessor.persistTransactions(
-        dto,
-        extracted.posTransactionId,
-        lealRedemptionResults,
-        lealAccumulationResult,
-      );
-    }
-
     await this.clearPumpSales(dto);
-
-    const sorteoTickets = extracted.posTransactionId
-      ? await this.evaluateSorteos(dto, extracted.posTransactionId)
-      : [];
 
     return {
       success: true,
@@ -136,13 +194,69 @@ export class InvoicesService {
       endingNo: extracted.endingNo,
       fechaVence: extracted.fechaVence,
       createdAt: new Date().toISOString(),
-      sorteoTickets,
+      campanaTickets: extracted.campanaTickets,
       lealReprintMessage,
+      seriesRemaining: extracted.seriesRemaining ?? 0,
+      seriesRemainingDays: extracted.seriesRemainingDays ?? 0,
     };
   }
 
+  async createTicketForPendingSale(
+    saleId: number,
+    opts: {
+      storeId: string;
+      posNo: string;
+      shiftNumber: string;
+      employeeName?: string;
+      customerNo: string;
+      customerName: string;
+      customerRtn?: string;
+      comment?: string;
+    },
+  ) {
+    const sale = await this.dispenserRepo.getSaleById(saleId);
+    if (!sale) {
+      throw new Error(
+        `No se encontró la transacción de combustible #${saleId}.`,
+      );
+    }
+    if (sale.IsInvoiced) {
+      throw new Error(
+        `La transacción de combustible #${saleId} ya fue documentada.`,
+      );
+    }
+    const dto: CreateInvoiceInput = {
+      storeId: opts.storeId,
+      posNo: opts.posNo,
+      shiftNumber: opts.shiftNumber,
+      employeeName: opts.employeeName ?? '',
+      customerNo: opts.customerNo,
+      customerName: opts.customerName,
+      customerRtn: opts.customerRtn ?? '',
+      items: [
+        {
+          code: FUEL_DEFAULT_CODE,
+          description: 'Salida de combustible',
+          qty: sale.volume,
+          price: sale.ppu,
+          tax: 0,
+          discount: 0,
+          total: sale.amount,
+          saleId,
+        },
+      ],
+      payments: [],
+      total: sale.amount,
+      tax: 0,
+      discount: 0,
+      isTicket: true,
+      comment: opts.comment ?? '',
+    };
+    return this.createInvoice(dto);
+  }
+
   async validateCorrelative(storeId: string, posNo: string, isTicket: boolean) {
-    return this.invoiceRepo.validateCorrelative(storeId, posNo, isTicket);
+    return this.invoiceQueryRepo.validateCorrelative(storeId, posNo, isTicket);
   }
 
   async searchInvoices(
@@ -159,7 +273,7 @@ export class InvoicesService {
     page?: number,
     pageSize?: number,
   ) {
-    return this.invoiceRepo.searchInvoices({
+    return this.invoiceQueryRepo.searchInvoices({
       storeId,
       avanzado,
       posNo,
@@ -176,11 +290,11 @@ export class InvoicesService {
   }
 
   async getInvoiceLines(transactionId: string) {
-    return this.invoiceRepo.getInvoiceLines(transactionId);
+    return this.invoiceQueryRepo.getInvoiceLines(transactionId);
   }
 
   async getInvoicePayments(transactionId: string) {
-    return this.invoiceRepo.getInvoicePayments(transactionId);
+    return this.invoiceQueryRepo.getInvoicePayments(transactionId);
   }
 
   async getInvoiceLealMessage(
@@ -188,7 +302,7 @@ export class InvoicesService {
   ): Promise<{ lealReprintMessage: string }> {
     try {
       const rows =
-        await this.invoiceRepo.getInvoiceLealTransactions(transactionId);
+        await this.invoiceQueryRepo.getInvoiceLealTransactions(transactionId);
       if (!rows || rows.length === 0) return { lealReprintMessage: '' };
       let msg = '';
       for (const row of rows) {
@@ -203,16 +317,28 @@ export class InvoicesService {
     }
   }
 
-  async getInvoiceSorteos(transactionId: string): Promise<any[]> {
-    return this.invoiceRepo.getInvoiceSorteos(transactionId);
+  async getInvoiceCampanas(transactionId: string): Promise<any[]> {
+    return this.invoiceQueryRepo.getInvoiceCampanas(transactionId);
   }
 
   async getReasons(): Promise<any[]> {
-    return this.invoiceRepo.getReasons();
+    return this.invoiceQueryRepo.getReasons();
   }
 
   async processCreditNote(dto: CreditNoteInput, user: CreditNoteUser) {
-    const shiftData = await this.invoiceRepo.getOpenShiftForEmployee(
+    if (!dto.adminPassword) {
+      throw new Error('Se requiere la contraseña de administrador para emitir una Nota de Crédito.');
+    }
+    try {
+      await this.validateAdminUseCase.execute({
+        storeId: user.storeId,
+        password: dto.adminPassword,
+      });
+    } catch {
+      throw new Error('Contraseña de administrador inválida.');
+    }
+
+    const shiftData = await this.invoiceQueryRepo.getOpenShiftForEmployee(
       user.storeId,
       user.name || user.username || '',
     );
@@ -222,7 +348,7 @@ export class InvoicesService {
       );
     }
 
-    const headerRow = (await this.invoiceRepo.getOriginalDocument(
+    const headerRow = (await this.invoiceQueryRepo.getOriginalDocument(
       dto.invoiceNo,
       dto.transactionId,
     )) as OriginalDocumentRow | null;
@@ -239,7 +365,7 @@ export class InvoicesService {
       );
     }
 
-    const hasReversion = await this.invoiceRepo.checkExistingReversion(
+    const hasReversion = await this.invoiceQueryRepo.checkExistingReversion(
       dto.invoiceNo,
       dto.transactionId,
     );
@@ -249,7 +375,7 @@ export class InvoicesService {
       );
     }
 
-    await this.invoiceRepo.findNextCreditNoteCorrelative(
+    await this.invoiceQueryRepo.findNextCreditNoteCorrelative(
       user.storeId,
       user.posNo,
     );
@@ -273,6 +399,7 @@ export class InvoicesService {
         employeeName: user.name || user.username || '',
         shiftStarting: shiftData['Shift Starting'],
         shiftNumber: shiftData['Shift']?.toString() || '',
+        shiftId: (shiftData as any)['POS Transaction ID'] ?? null,
         customerNo: headerRow['Customer No_'] || '',
         customerName: headerRow['Cust_ Name'] || '',
         customerRtn: headerRow['VAT Reg_ No_'] || '',
@@ -287,9 +414,10 @@ export class InvoicesService {
         placa: headerRow['Placa'] || '',
         chofer: headerRow['Chofer'] || '',
         cambio: headerRow['Cambio'] || 0,
+        numeroLinea: (headerRow as any).numeroLinea ?? null,
       });
 
-    const getLines = (await this.invoiceRepo.getInvoiceLines(
+    const getLines = (await this.invoiceQueryRepo.getInvoiceLines(
       dto.transactionId,
     )) as InvoiceLineRow[];
     let lineNumber = 0;
@@ -311,7 +439,7 @@ export class InvoicesService {
       }
     }
 
-    const getCharges = (await this.invoiceRepo.getInvoicePayments(
+    const getCharges = (await this.invoiceQueryRepo.getInvoicePayments(
       dto.transactionId,
     )) as PaymentMethodRow[];
     let chargeLineNo = 0;
@@ -339,7 +467,7 @@ export class InvoicesService {
   }
 
   async getInvoices(): Promise<any[]> {
-    return this.invoiceRepo.findAll();
+    return this.invoiceQueryRepo.findAll();
   }
 
   private async buildInvoiceLines(
@@ -353,7 +481,7 @@ export class InvoicesService {
       let description = item.description;
       let quantity = item.qty;
       let unitPrice = item.price;
-      let amountIncludingVAT = item.total;
+      let montoControlador: number | null = null;
       let pumpNo = '';
       let pumpPositionNo = '';
       let tankNo = '';
@@ -383,7 +511,9 @@ export class InvoicesService {
         }
         quantity = sale.volume;
         unitPrice = sale.ppu;
-        amountIncludingVAT = item.total ?? sale.amount - (item.discount || 0);
+        // El monto del controlador (sale.amount) es la autoridad: el ppu del surtidor
+        // está redondeado y `ppu × volumen` puede diferir del cobro real.
+        montoControlador = sale.amount - (item.discount || 0);
         saleIdVal = item.saleId.toString();
         genPumpLedgEntry = 1;
 
@@ -392,7 +522,7 @@ export class InvoicesService {
           parseInt(sale.HoseNumber, 10),
         );
         if (hoseFs) {
-          itemCode = hoseFs.CodigoPOS || 'SUPER';
+          itemCode = hoseFs.CodigoPOS || FUEL_DEFAULT_CODE;
           tankNo = (hoseFs.TankIDs || '').toString();
         }
       }
@@ -409,11 +539,30 @@ export class InvoicesService {
 
       const cleanGroup = vatProdPostingGroup.toUpperCase();
       let vatPercent = 0.0;
-      if (cleanGroup === 'ISV_15') vatPercent = 15.0;
-      else if (cleanGroup === 'ISV_18') vatPercent = 18.0;
+      if (cleanGroup) {
+        vatPercent = await this.storeConfigRepo.findTasaByGrupo(cleanGroup);
+      }
 
-      const vatAmount =
-        amountIncludingVAT - amountIncludingVAT / (1 + vatPercent / 100);
+      const discount = item.discount || 0;
+      let totals: LineTotals;
+      if (montoControlador != null) {
+        // Combustible: el monto del controlador es la autoridad. Si es gravado,
+        // la base se deriva del monto total (que incluye el ISV).
+        const montoConIsv = Math.max(0, montoControlador);
+        const baseRaw =
+          vatPercent > 0 ? montoConIsv / (1 + vatPercent / 100) : montoConIsv;
+        const base = Math.round(baseRaw * 100) / 100;
+        const montoIsv = Math.round(base * (vatPercent / 100) * 100) / 100;
+        totals = {
+          baseGravadaTotal: base,
+          descuento: discount,
+          baseDescontada: base,
+          montoIsv,
+          montoConIsv,
+        };
+      } else {
+        totals = computeLineTotals(unitPrice, quantity, vatPercent, discount);
+      }
 
       lines.push({
         lineNo,
@@ -422,10 +571,11 @@ export class InvoicesService {
         quantity,
         unitPrice,
         discountPercentage: item.discountPercentage || 0,
-        discount: item.discount,
+        discount: totals.descuento,
         vatPercent,
-        vatAmount,
-        amountIncludingVAT,
+        vatAmount: totals.montoIsv,
+        amountIncludingVAT: totals.montoConIsv,
+        montoGravado: totals.baseDescontada,
         pumpNo,
         pumpPositionNo,
         tankNo,
@@ -469,6 +619,9 @@ export class InvoicesService {
         amount: payment.amount,
         reference: paymentRef,
         description: desc,
+        moneda: payment.moneda,
+        tasaCambio: payment.tasaCambio,
+        montoIngresado: payment.montoIngresado,
       });
       chargeLineNo += 10;
     }
@@ -488,6 +641,7 @@ export class InvoicesService {
       startingNo: null,
       endingNo: null,
       fechaVence: null,
+      campanaTickets: [],
     };
 
     if (!executeResult || executeResult.length === 0) {
@@ -520,6 +674,9 @@ export class InvoicesService {
       result.startingNo = getSingle(row.StartingNoOfNextInvoice);
       result.endingNo = getSingle(row.EndingNoOfNextInvoice);
       result.fechaVence = getSingle(row.FechaVenceRangoOfNextInvoice);
+      result.campanaTickets = (row as any)?.CampanaTickets ?? [];
+      result.seriesRemaining = (row as any)?.SeriesRemaining ?? 0;
+      result.seriesRemainingDays = (row as any)?.SeriesRemainingDays ?? 0;
     }
 
     return result;
@@ -527,14 +684,8 @@ export class InvoicesService {
 
   private async clearPumpSales(dto: CreateInvoiceInput): Promise<void> {
     for (const item of dto.items) {
-      if (item.saleId) {
-        await this.dispenserRepo.updateSaleInvoiced(
-          item.saleId.toString(),
-          dto.posNo,
-        );
-      }
-      if (item.code.startsWith('GAS-')) {
-        const pumpId = parseInt(item.code.replace('GAS-', ''), 10);
+      if (item.code.startsWith(FUEL_CODE_PREFIX)) {
+        const pumpId = parseInt(item.code.replace(FUEL_CODE_PREFIX, ''), 10);
         if (!isNaN(pumpId)) {
           this.dispensersService.clearPumpSale(pumpId);
         }
@@ -542,12 +693,45 @@ export class InvoicesService {
     }
   }
 
-  private async evaluateSorteos(
+  private async evaluateCampanasConTx(
+    tx: any,
     dto: CreateInvoiceInput,
     posTransactionId: string,
-  ): Promise<SorteoTicket[]> {
+  ): Promise<CampanaTicket[]> {
     try {
-      return await this.sorteosService.evaluateSorteos({
+      return await this.campanasService.evaluateCampanas(
+        {
+          storeId: dto.storeId,
+          posNo: dto.posNo,
+          posTransactionId,
+          total: dto.total,
+          items: dto.items.map((it) => ({
+            code: it.code,
+            discount: it.discount,
+            total: it.total,
+            quantity: it.qty ?? 0,
+          })),
+          isCredit: !!dto.isCredit,
+          payments: dto.payments.map((p) => ({
+            method: p.method,
+            code: p.code,
+            amount: p.amount,
+          })),
+          customerNo: dto.customerNo,
+        },
+        tx,
+      );
+    } catch {
+      return [];
+    }
+  }
+
+  private async evaluateCampanas(
+    dto: CreateInvoiceInput,
+    posTransactionId: string,
+  ): Promise<CampanaTicket[]> {
+    try {
+      return await this.campanasService.evaluateCampanas({
         storeId: dto.storeId,
         posNo: dto.posNo,
         posTransactionId,
@@ -556,6 +740,7 @@ export class InvoicesService {
           code: it.code,
           discount: it.discount,
           total: it.total,
+          quantity: it.qty ?? 0,
         })),
         isCredit: !!dto.isCredit,
         payments: dto.payments.map((p) => ({

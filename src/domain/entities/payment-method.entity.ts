@@ -2,6 +2,8 @@ export interface PaymentMethod {
   code: string;
   description: string;
   categoria: string;
+  moneda: string;
+  generaCambio: boolean;
   facturaContado: boolean;
   facturaCredito: boolean;
   salidaCombustible: boolean;

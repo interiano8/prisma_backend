@@ -17,7 +17,7 @@ describe('InvoicesController', () => {
     getInvoiceLines: jest.Mock;
     getInvoicePayments: jest.Mock;
     getInvoiceLealMessage: jest.Mock;
-    getInvoiceSorteos: jest.Mock;
+    getInvoiceCampanas: jest.Mock;
   };
 
   beforeEach(async () => {
@@ -32,7 +32,7 @@ describe('InvoicesController', () => {
       getInvoiceLines: jest.fn(),
       getInvoicePayments: jest.fn(),
       getInvoiceLealMessage: jest.fn(),
-      getInvoiceSorteos: jest.fn(),
+      getInvoiceCampanas: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -141,9 +141,9 @@ describe('InvoicesController', () => {
     expect(await controller.getInvoiceLealMessage('TX1')).toBeNull();
   });
 
-  it('getInvoiceSorteos delega en el servicio', async () => {
-    mockService.getInvoiceSorteos.mockResolvedValue([]);
+  it('getInvoiceCampanas delega en el servicio', async () => {
+    mockService.getInvoiceCampanas.mockResolvedValue([]);
 
-    expect(await controller.getInvoiceSorteos('TX1')).toEqual([]);
+    expect(await controller.getInvoiceCampanas('TX1')).toEqual([]);
   });
 });

@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException } from '@nestjs/common';
 import { PrinterController } from '../../../../src/infrastructure/web/controllers/printer.controller';
+import { TOKEN_PORT } from '../../../../src/domain/ports/out/token.interface';
+import { JwtAuthGuard } from '../../../../src/infrastructure/web/guards/jwt-auth.guard';
+import { AdminGuard } from '../../../../src/infrastructure/web/guards/admin.guard';
 import { PrinterService } from '../../../../src/infrastructure/printing/printer.service';
 
 describe('PrinterController', () => {
@@ -12,7 +15,12 @@ describe('PrinterController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PrinterController],
-      providers: [{ provide: PrinterService, useValue: service }],
+      providers: [
+        { provide: PrinterService, useValue: service },
+        { provide: TOKEN_PORT, useValue: { sign: jest.fn(), verify: jest.fn() } },
+        JwtAuthGuard,
+        AdminGuard,
+      ],
     }).compile();
 
     controller = module.get(PrinterController);

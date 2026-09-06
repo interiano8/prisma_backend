@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { LEAL_EXCLUDED_KEYWORDS } from '../../domain/constants/business.constants';
 import type { CreateInvoiceInput } from '../../domain/entities/invoice.entity';
 import type {
   LealRepository,
@@ -9,6 +10,7 @@ import type {
   InvoiceLineRow,
   LealTransactionParams,
 } from '../../domain/ports/out/invoice-repository.interface';
+import type { InvoiceQueryRepository } from '../../domain/ports/out/invoice-query-repository.interface';
 
 export interface LealOperationResult {
   puntos: number;
@@ -22,6 +24,8 @@ export class InvoiceLealProcessor {
     @Inject('LealRepository') private readonly lealRepo: LealRepository,
     @Inject('InvoiceRepository')
     private readonly invoiceRepo: InvoiceRepository,
+    @Inject('InvoiceQueryRepository')
+    private readonly invoiceQueryRepo: InvoiceQueryRepository,
   ) {}
 
   async processRedemptions(
@@ -67,7 +71,7 @@ export class InvoiceLealProcessor {
       return { result: null, message };
     }
 
-    const excludedKeywords = ['LEAL', 'CREDITO', 'CALIBRACION', 'CRÉDITO'];
+    const excludedKeywords: readonly string[] = LEAL_EXCLUDED_KEYWORDS;
     const eligiblePayments = dto.payments.filter(
       (p) =>
         !excludedKeywords.some((kw) =>
@@ -148,6 +152,21 @@ export class InvoiceLealProcessor {
     redemptions: LealOperationResult[],
     accumulationResult: LealOperationResult | null,
   ): Promise<void> {
+    const rows = this.buildTransactions(
+      dto,
+      posTransactionId,
+      redemptions,
+      accumulationResult,
+    );
+    await this.invoiceRepo.insertLealTransactions(rows);
+  }
+
+  buildTransactions(
+    dto: CreateInvoiceInput,
+    posTransactionId: string,
+    redemptions: LealOperationResult[],
+    accumulationResult: LealOperationResult | null,
+  ): LealTransactionParams[] {
     const lealData = dto.payments.find((p) => p.lealData)?.lealData;
     const rows: LealTransactionParams[] = [];
 
@@ -187,13 +206,52 @@ export class InvoiceLealProcessor {
       });
     }
 
-    // Persistir los registros Leal de forma atómica (todos o ninguno),
-    // separado de la transacción de la factura.
-    await this.invoiceRepo.insertLealTransactions(rows);
+    return rows;
+  }
+
+  /**
+   * Compensación: revierte operaciones Leal (redención/acumulación) que ya se
+   * procesaron externamente pero cuyo insert de factura falló. Best-effort.
+   */
+  async compensate(opts: {
+    redemptions: LealOperationResult[];
+    accumulationResult: LealOperationResult | null;
+    lealIdAleatorioRed?: string | null;
+    lealIdAleatorioAcum?: string | null;
+    predictedInvoiceNo: string;
+  }): Promise<void> {
+    for (const red of opts.redemptions) {
+      if (!red.idTransaccionLeal) continue;
+      try {
+        await this.lealRepo.reverseTransaction(
+          red.idTransaccionLeal,
+          opts.lealIdAleatorioRed ?? opts.predictedInvoiceNo,
+          '',
+        );
+      } catch {
+        console.warn(
+          `[Leal] Error revirtiendo redención ${red.idTransaccionLeal}:`,
+        );
+      }
+    }
+    const acc = opts.accumulationResult;
+    if (acc?.idTransaccionLeal) {
+      try {
+        await this.lealRepo.reverseTransaction(
+          acc.idTransaccionLeal,
+          opts.lealIdAleatorioAcum ?? '',
+          '',
+        );
+      } catch {
+        console.warn(
+          `[Leal] Error revirtiendo acumulación ${acc.idTransaccionLeal}:`,
+        );
+      }
+    }
   }
 
   async reverseForCreditNote(transactionId: string): Promise<void> {
-    const lines = (await this.invoiceRepo.getInvoiceLines(
+    const lines = (await this.invoiceQueryRepo.getInvoiceLines(
       transactionId,
     )) as InvoiceLineRow[];
     for (const lt of lines) {

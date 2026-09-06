@@ -1,4 +1,4 @@
-import { Product, Discount } from '../../../src/domain/entities/product.entity';
+import { Product } from '../../../src/domain/entities/product.entity';
 
 describe('Product entity', () => {
   describe('valid Product objects', () => {
@@ -58,65 +58,6 @@ describe('Product entity', () => {
       };
 
       expect(product.vatGroup).toBe('EXENTO');
-    });
-  });
-
-  describe('Discount interface', () => {
-    it('should create a percentage discount', () => {
-      const discount: Discount = {
-        codigoCliente: 'CUST001',
-        codigoItem: 'PROD001',
-        porcentaje: 10,
-      };
-
-      expect(discount.codigoCliente).toBe('CUST001');
-      expect(discount.codigoItem).toBe('PROD001');
-      expect(discount.porcentaje).toBe(10);
-    });
-
-    it('should create a per-gallon discount with date range', () => {
-      const discount: Discount = {
-        codigoCliente: 'CUST002',
-        codigoItem: 'FUEL001',
-        porcentaje: 0,
-        amountPerGallon: 0.5,
-        startingDate: '2026-01-01',
-        endingDate: '2026-12-31',
-        active: true,
-      };
-
-      expect(discount.amountPerGallon).toBe(0.5);
-      expect(discount.startingDate).toBe('2026-01-01');
-      expect(discount.endingDate).toBe('2026-12-31');
-      expect(discount.active).toBe(true);
-    });
-
-    it('should create a per-liter discount', () => {
-      const discount: Discount = {
-        codigoCliente: 'CUST003',
-        codigoItem: 'FUEL002',
-        porcentaje: 0,
-        amountPerLiter: 0.13,
-        active: true,
-      };
-
-      expect(discount.amountPerLiter).toBe(0.13);
-    });
-
-    it('should support optional fields as undefined', () => {
-      const discount: Discount = {
-        codigoCliente: 'CUST004',
-        codigoItem: 'PROD005',
-        porcentaje: 5,
-      };
-
-      expect(discount.customerRTN).toBeUndefined();
-      expect(discount.storeID).toBeUndefined();
-      expect(discount.startingDate).toBeUndefined();
-      expect(discount.endingDate).toBeUndefined();
-      expect(discount.amountPerGallon).toBeUndefined();
-      expect(discount.amountPerLiter).toBeUndefined();
-      expect(discount.active).toBeUndefined();
     });
   });
 });

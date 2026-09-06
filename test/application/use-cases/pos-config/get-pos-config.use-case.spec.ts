@@ -25,6 +25,7 @@ describe('GetPosConfigUseCase', () => {
       minutosAtrasada: 10,
       mostrarTeclado: true,
       declararMontosIniciales: false,
+      visualizacion: 'multimedia',
     });
   });
 
@@ -53,6 +54,7 @@ describe('GetPosConfigUseCase', () => {
       minutosAtrasada: 5,
       mostrarTeclado: false,
       declararMontosIniciales: true,
+      visualizacion: 'multimedia',
     });
 
     const config = await useCase.execute('01');

@@ -24,4 +24,8 @@ export class CreditNoteDto {
   @IsString()
   @IsOptional()
   username?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  adminPassword: string;
 }

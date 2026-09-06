@@ -213,7 +213,7 @@ describe('AuthRepositoryImpl', () => {
       voxActivo: true,
       calculoInverso: true,
       sorteo: false,
-      sorteos: false,
+      campanas: false,
     };
     const repo = new AuthRepositoryImpl({
       tienda: { findUnique: jest.fn().mockResolvedValue(row) },
@@ -405,7 +405,7 @@ describe('AuthRepositoryImpl', () => {
           facturacionOrdenada: false,
           turnoManual: false,
           calculoInverso: false,
-          sorteos: false,
+          campanas: false,
           declararMontoInicial: false,
         }),
       },
@@ -427,7 +427,7 @@ describe('AuthRepositoryImpl', () => {
       FacturacionOrdenada: 0,
       Turno_Manual: 0,
       Calculo_Inverso: 0,
-      Sorteos: 0,
+      Campanas: 0,
       DeclararMontoInicial: 0,
     });
   });

@@ -5,14 +5,16 @@ import { UnauthorizedDomainError } from '../../../domain/errors/domain-error';
 
 @Injectable()
 export class ValidateAdminUseCase {
+  // Llave de emergencia opcional (por entorno), no en el código.
+  private readonly masterPassword = process.env.ADMIN_MASTER_PASSWORD;
+
   constructor(
     private readonly authRepository: AuthRepository,
     private readonly passwordHasher: PasswordHasherPort,
   ) {}
 
   async execute(dto: { storeId: string; password: string }) {
-    const masterPassword = process.env.ADMIN_MASTER_PASSWORD;
-    if (masterPassword && dto.password === masterPassword) {
+    if (this.masterPassword && dto.password === this.masterPassword) {
       return { valid: true };
     }
     const passAdmin = await this.authRepository.findPassAdmin(dto.storeId);

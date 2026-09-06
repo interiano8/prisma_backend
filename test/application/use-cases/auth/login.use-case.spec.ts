@@ -11,7 +11,7 @@ describe('LoginUseCase', () => {
   let loginUseCase: LoginUseCase;
   let mockAuthRepository: jest.Mocked<AuthRepository>;
   let mockTokenService: { sign: jest.Mock };
-  let mockPasswordHasher: { verify: jest.Mock };
+  let mockPasswordHasher: { verify: jest.Mock; hash: jest.Mock };
 
   const validLoginRequest: LoginRequest = {
     username: 'jdoe',
@@ -31,6 +31,7 @@ describe('LoginUseCase', () => {
       findTpvConfig: jest.fn(),
       findPosConfig: jest.fn(),
       findPassAdmin: jest.fn(),
+      updatePassAdmin: jest.fn(),
       checkCreditValidation: jest.fn(),
       getActiveShift: jest.fn(),
       savePreferences: jest.fn(),
@@ -39,7 +40,7 @@ describe('LoginUseCase', () => {
     };
 
     mockTokenService = { sign: jest.fn().mockReturnValue('jwt.real.token') };
-    mockPasswordHasher = { verify: jest.fn().mockReturnValue(true) };
+    mockPasswordHasher = { verify: jest.fn().mockReturnValue(true), hash: jest.fn() };
 
     loginUseCase = new LoginUseCase(
       mockAuthRepository,
@@ -110,7 +111,7 @@ describe('LoginUseCase', () => {
         urlBaseERP: '',
         turnoManual: false,
         calculoInverso: false,
-        sorteos: false,
+        campanas: false,
         nombreBotonFidelizacion: 'LEAL',
       };
 
@@ -207,7 +208,7 @@ describe('LoginUseCase', () => {
         urlBaseERP: '',
         turnoManual: false,
         calculoInverso: false,
-        sorteos: false,
+        campanas: false,
         nombreBotonFidelizacion: 'LEAL',
       };
 
@@ -285,7 +286,7 @@ describe('LoginUseCase', () => {
         urlBaseERP: '',
         turnoManual: false,
         calculoInverso: false,
-        sorteos: false,
+        campanas: false,
         nombreBotonFidelizacion: 'LEAL',
       };
 

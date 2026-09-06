@@ -21,6 +21,25 @@ export class InvoicesController {
     return this.invoicesService.createInvoice(dto);
   }
 
+  @Post('pending-sale-ticket')
+  @HttpCode(HttpStatus.OK)
+  async createPendingSaleTicket(
+    @Body()
+    body: {
+      saleId: number;
+      storeId: string;
+      posNo: string;
+      shiftNumber: string;
+      employeeName?: string;
+      customerNo: string;
+      customerName: string;
+      customerRtn?: string;
+      comment?: string;
+    },
+  ) {
+    return this.invoicesService.createTicketForPendingSale(body.saleId, body);
+  }
+
   @Get('reasons')
   async getReasons() {
     return this.invoicesService.getReasons();
@@ -112,8 +131,8 @@ export class InvoicesController {
     return this.invoicesService.getInvoiceLealMessage(transactionId);
   }
 
-  @Get(':transactionId/sorteos')
-  async getInvoiceSorteos(@Param('transactionId') transactionId: string) {
-    return this.invoicesService.getInvoiceSorteos(transactionId);
+  @Get(':transactionId/campanas')
+  async getInvoiceCampanas(@Param('transactionId') transactionId: string) {
+    return this.invoicesService.getInvoiceCampanas(transactionId);
   }
 }

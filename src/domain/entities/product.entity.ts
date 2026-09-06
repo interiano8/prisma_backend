@@ -12,17 +12,17 @@ export interface Product {
   simboloMoneda?: string;
 }
 
-export interface Discount {
-  codigoCliente: string;
-  codigoItem: string;
-  porcentaje: number;
-  customerRTN?: string;
-  storeID?: string;
-  startingDate?: string;
-  endingDate?: string;
-  amountPerGallon?: number;
-  amountPerLiter?: number;
-  referenceUnitPrice?: number;
-  entryMode?: string;
-  active?: boolean;
+export type TipoBeneficio = 'PORCENTAJE' | 'MONTO_FIJO' | 'MONTO_VOLUMEN';
+export type UnidadVolumen = 'GALON' | 'LITRO';
+
+export interface DiscountRule {
+  id: string;
+  codigoCliente?: string;
+  codigoProducto?: string;
+  codigoCategoria?: string;
+  cantidadMinima?: number;
+  tipoBeneficio: TipoBeneficio;
+  valor: number;
+  unidadVolumen?: UnidadVolumen;
+  prioridad: number;
 }

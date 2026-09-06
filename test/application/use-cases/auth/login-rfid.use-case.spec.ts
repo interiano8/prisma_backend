@@ -29,6 +29,7 @@ describe('LoginRfidUseCase', () => {
       findTpvConfig: jest.fn(),
       findPosConfig: jest.fn(),
       findPassAdmin: jest.fn(),
+      updatePassAdmin: jest.fn(),
       checkCreditValidation: jest.fn(),
       getActiveShift: jest.fn(),
       savePreferences: jest.fn(),
@@ -104,7 +105,7 @@ describe('LoginRfidUseCase', () => {
       urlBaseERP: '',
       turnoManual: false,
       calculoInverso: false,
-      sorteos: false,
+      campanas: false,
       nombreBotonFidelizacion: 'LEAL',
     });
     mockAuthRepository.findPosConfig.mockResolvedValue(null);
@@ -216,7 +217,7 @@ describe('LoginRfidUseCase', () => {
       urlBaseERP: '',
       turnoManual: false,
       calculoInverso: false,
-      sorteos: false,
+      campanas: false,
       nombreBotonFidelizacion: 'LEAL',
     });
     mockAuthRepository.findPosConfig.mockResolvedValue(null);

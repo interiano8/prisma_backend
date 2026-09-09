@@ -175,6 +175,8 @@ model Turno {
   nombreEmpleado   String?   @map("nombre_empleado")
   montoInicial     Decimal?  @map("monto_inicial") @db.Decimal(18, 2)
   detallePagos     Json?     @map("detalle_pagos")
+  fsShiftId        String?   @map("fs_shift_id")
+  turnoConciliador String?   @map("turno_conciliador")
 
   @@map("turnos")
 }

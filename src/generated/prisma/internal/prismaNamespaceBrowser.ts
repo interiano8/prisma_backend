@@ -217,7 +217,9 @@ export const TurnoScalarFieldEnum = {
   importeContado: 'importeContado',
   nombreEmpleado: 'nombreEmpleado',
   montoInicial: 'montoInicial',
-  detallePagos: 'detallePagos'
+  detallePagos: 'detallePagos',
+  fsShiftId: 'fsShiftId',
+  turnoConciliador: 'turnoConciliador'
 } as const
 
 export type TurnoScalarFieldEnum = (typeof TurnoScalarFieldEnum)[keyof typeof TurnoScalarFieldEnum]

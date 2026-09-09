@@ -50,6 +50,8 @@ export type TurnoMinAggregateOutputType = {
   importeContado: runtime.Decimal | null
   nombreEmpleado: string | null
   montoInicial: runtime.Decimal | null
+  fsShiftId: string | null
+  turnoConciliador: string | null
 }
 
 export type TurnoMaxAggregateOutputType = {
@@ -64,6 +66,8 @@ export type TurnoMaxAggregateOutputType = {
   importeContado: runtime.Decimal | null
   nombreEmpleado: string | null
   montoInicial: runtime.Decimal | null
+  fsShiftId: string | null
+  turnoConciliador: string | null
 }
 
 export type TurnoCountAggregateOutputType = {
@@ -79,6 +83,8 @@ export type TurnoCountAggregateOutputType = {
   nombreEmpleado: number
   montoInicial: number
   detallePagos: number
+  fsShiftId: number
+  turnoConciliador: number
   _all: number
 }
 
@@ -107,6 +113,8 @@ export type TurnoMinAggregateInputType = {
   importeContado?: true
   nombreEmpleado?: true
   montoInicial?: true
+  fsShiftId?: true
+  turnoConciliador?: true
 }
 
 export type TurnoMaxAggregateInputType = {
@@ -121,6 +129,8 @@ export type TurnoMaxAggregateInputType = {
   importeContado?: true
   nombreEmpleado?: true
   montoInicial?: true
+  fsShiftId?: true
+  turnoConciliador?: true
 }
 
 export type TurnoCountAggregateInputType = {
@@ -136,6 +146,8 @@ export type TurnoCountAggregateInputType = {
   nombreEmpleado?: true
   montoInicial?: true
   detallePagos?: true
+  fsShiftId?: true
+  turnoConciliador?: true
   _all?: true
 }
 
@@ -238,6 +250,8 @@ export type TurnoGroupByOutputType = {
   nombreEmpleado: string | null
   montoInicial: runtime.Decimal | null
   detallePagos: runtime.JsonValue | null
+  fsShiftId: string | null
+  turnoConciliador: string | null
   _count: TurnoCountAggregateOutputType | null
   _avg: TurnoAvgAggregateOutputType | null
   _sum: TurnoSumAggregateOutputType | null
@@ -276,6 +290,8 @@ export type TurnoWhereInput = {
   nombreEmpleado?: Prisma.StringNullableFilter<"Turno"> | string | null
   montoInicial?: Prisma.DecimalNullableFilter<"Turno"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.JsonNullableFilter<"Turno">
+  fsShiftId?: Prisma.StringNullableFilter<"Turno"> | string | null
+  turnoConciliador?: Prisma.StringNullableFilter<"Turno"> | string | null
 }
 
 export type TurnoOrderByWithRelationInput = {
@@ -291,6 +307,8 @@ export type TurnoOrderByWithRelationInput = {
   nombreEmpleado?: Prisma.SortOrderInput | Prisma.SortOrder
   montoInicial?: Prisma.SortOrderInput | Prisma.SortOrder
   detallePagos?: Prisma.SortOrderInput | Prisma.SortOrder
+  fsShiftId?: Prisma.SortOrderInput | Prisma.SortOrder
+  turnoConciliador?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type TurnoWhereUniqueInput = Prisma.AtLeast<{
@@ -309,6 +327,8 @@ export type TurnoWhereUniqueInput = Prisma.AtLeast<{
   nombreEmpleado?: Prisma.StringNullableFilter<"Turno"> | string | null
   montoInicial?: Prisma.DecimalNullableFilter<"Turno"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.JsonNullableFilter<"Turno">
+  fsShiftId?: Prisma.StringNullableFilter<"Turno"> | string | null
+  turnoConciliador?: Prisma.StringNullableFilter<"Turno"> | string | null
 }, "idTransaccionPos">
 
 export type TurnoOrderByWithAggregationInput = {
@@ -324,6 +344,8 @@ export type TurnoOrderByWithAggregationInput = {
   nombreEmpleado?: Prisma.SortOrderInput | Prisma.SortOrder
   montoInicial?: Prisma.SortOrderInput | Prisma.SortOrder
   detallePagos?: Prisma.SortOrderInput | Prisma.SortOrder
+  fsShiftId?: Prisma.SortOrderInput | Prisma.SortOrder
+  turnoConciliador?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TurnoCountOrderByAggregateInput
   _avg?: Prisma.TurnoAvgOrderByAggregateInput
   _max?: Prisma.TurnoMaxOrderByAggregateInput
@@ -347,6 +369,8 @@ export type TurnoScalarWhereWithAggregatesInput = {
   nombreEmpleado?: Prisma.StringNullableWithAggregatesFilter<"Turno"> | string | null
   montoInicial?: Prisma.DecimalNullableWithAggregatesFilter<"Turno"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.JsonNullableWithAggregatesFilter<"Turno">
+  fsShiftId?: Prisma.StringNullableWithAggregatesFilter<"Turno"> | string | null
+  turnoConciliador?: Prisma.StringNullableWithAggregatesFilter<"Turno"> | string | null
 }
 
 export type TurnoCreateInput = {
@@ -362,6 +386,8 @@ export type TurnoCreateInput = {
   nombreEmpleado?: string | null
   montoInicial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: string | null
+  turnoConciliador?: string | null
 }
 
 export type TurnoUncheckedCreateInput = {
@@ -377,6 +403,8 @@ export type TurnoUncheckedCreateInput = {
   nombreEmpleado?: string | null
   montoInicial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: string | null
+  turnoConciliador?: string | null
 }
 
 export type TurnoUpdateInput = {
@@ -392,6 +420,8 @@ export type TurnoUpdateInput = {
   nombreEmpleado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoInicial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoConciliador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TurnoUncheckedUpdateInput = {
@@ -407,6 +437,8 @@ export type TurnoUncheckedUpdateInput = {
   nombreEmpleado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoInicial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoConciliador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TurnoCreateManyInput = {
@@ -422,6 +454,8 @@ export type TurnoCreateManyInput = {
   nombreEmpleado?: string | null
   montoInicial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: string | null
+  turnoConciliador?: string | null
 }
 
 export type TurnoUpdateManyMutationInput = {
@@ -437,6 +471,8 @@ export type TurnoUpdateManyMutationInput = {
   nombreEmpleado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoInicial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoConciliador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TurnoUncheckedUpdateManyInput = {
@@ -452,6 +488,8 @@ export type TurnoUncheckedUpdateManyInput = {
   nombreEmpleado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoInicial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   detallePagos?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fsShiftId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoConciliador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TurnoCountOrderByAggregateInput = {
@@ -467,6 +505,8 @@ export type TurnoCountOrderByAggregateInput = {
   nombreEmpleado?: Prisma.SortOrder
   montoInicial?: Prisma.SortOrder
   detallePagos?: Prisma.SortOrder
+  fsShiftId?: Prisma.SortOrder
+  turnoConciliador?: Prisma.SortOrder
 }
 
 export type TurnoAvgOrderByAggregateInput = {
@@ -487,6 +527,8 @@ export type TurnoMaxOrderByAggregateInput = {
   importeContado?: Prisma.SortOrder
   nombreEmpleado?: Prisma.SortOrder
   montoInicial?: Prisma.SortOrder
+  fsShiftId?: Prisma.SortOrder
+  turnoConciliador?: Prisma.SortOrder
 }
 
 export type TurnoMinOrderByAggregateInput = {
@@ -501,6 +543,8 @@ export type TurnoMinOrderByAggregateInput = {
   importeContado?: Prisma.SortOrder
   nombreEmpleado?: Prisma.SortOrder
   montoInicial?: Prisma.SortOrder
+  fsShiftId?: Prisma.SortOrder
+  turnoConciliador?: Prisma.SortOrder
 }
 
 export type TurnoSumOrderByAggregateInput = {
@@ -548,6 +592,8 @@ export type TurnoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   nombreEmpleado?: boolean
   montoInicial?: boolean
   detallePagos?: boolean
+  fsShiftId?: boolean
+  turnoConciliador?: boolean
 }, ExtArgs["result"]["turno"]>
 
 export type TurnoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -563,6 +609,8 @@ export type TurnoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   nombreEmpleado?: boolean
   montoInicial?: boolean
   detallePagos?: boolean
+  fsShiftId?: boolean
+  turnoConciliador?: boolean
 }, ExtArgs["result"]["turno"]>
 
 export type TurnoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -578,6 +626,8 @@ export type TurnoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   nombreEmpleado?: boolean
   montoInicial?: boolean
   detallePagos?: boolean
+  fsShiftId?: boolean
+  turnoConciliador?: boolean
 }, ExtArgs["result"]["turno"]>
 
 export type TurnoSelectScalar = {
@@ -593,9 +643,11 @@ export type TurnoSelectScalar = {
   nombreEmpleado?: boolean
   montoInicial?: boolean
   detallePagos?: boolean
+  fsShiftId?: boolean
+  turnoConciliador?: boolean
 }
 
-export type TurnoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTransaccionPos" | "idTienda" | "codigoPos" | "posCierre" | "turno" | "idDiaSemana" | "inicioTurno" | "finTurno" | "importeContado" | "nombreEmpleado" | "montoInicial" | "detallePagos", ExtArgs["result"]["turno"]>
+export type TurnoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTransaccionPos" | "idTienda" | "codigoPos" | "posCierre" | "turno" | "idDiaSemana" | "inicioTurno" | "finTurno" | "importeContado" | "nombreEmpleado" | "montoInicial" | "detallePagos" | "fsShiftId" | "turnoConciliador", ExtArgs["result"]["turno"]>
 
 export type $TurnoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Turno"
@@ -613,6 +665,8 @@ export type $TurnoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     nombreEmpleado: string | null
     montoInicial: runtime.Decimal | null
     detallePagos: runtime.JsonValue | null
+    fsShiftId: string | null
+    turnoConciliador: string | null
   }, ExtArgs["result"]["turno"]>
   composites: {}
 }
@@ -1048,6 +1102,8 @@ export interface TurnoFieldRefs {
   readonly nombreEmpleado: Prisma.FieldRef<"Turno", 'String'>
   readonly montoInicial: Prisma.FieldRef<"Turno", 'Decimal'>
   readonly detallePagos: Prisma.FieldRef<"Turno", 'Json'>
+  readonly fsShiftId: Prisma.FieldRef<"Turno", 'String'>
+  readonly turnoConciliador: Prisma.FieldRef<"Turno", 'String'>
 }
     
 

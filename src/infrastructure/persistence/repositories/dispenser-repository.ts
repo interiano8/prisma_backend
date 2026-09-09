@@ -16,21 +16,30 @@ import { PumpTransaction } from '../../../domain/entities/pump-transaction.entit
 
 @Injectable()
 export class DispenserRepositoryImpl implements DispenserRepository {
+  private readonly wayneBaseUrl =
+    process.env.WAYNE_API_URL ?? 'http://localhost:5008';
+
   constructor(private readonly prisma: PrismaService) {}
+
+  private async wayneFetch(path: string, init?: RequestInit): Promise<Response> {
+    return fetch(`${this.wayneBaseUrl}${path}`, init);
+  }
 
   async getPendingSales(): Promise<PendingSaleRecord[]> {
     try {
-      const rows = await this.prisma.ventaCombustible.findMany({
-        where: { facturada: false },
-      });
-      return rows.map((r) => ({
-        SaleID: r.idVenta,
-        PumpNumber: r.numeroBomba ?? 0,
-        amount: Number(r.monto),
-        ppu: Number(r.precioUnitario),
-        volume: Number(r.volumen),
-        GradeNr: r.numeroGrado,
-        IsInvoiced: r.facturada === true,
+      const res = await this.wayneFetch('/api/sales/pending?limit=500');
+      if (!res.ok) return [];
+      const json = await res.json();
+      const rows = json?.data ?? [];
+      if (!Array.isArray(rows)) return [];
+      return rows.map((r: any) => ({
+        SaleID: r.saleId,
+        PumpNumber: r.pumpId ?? 0,
+        amount: Number(r.amount ?? 0),
+        ppu: Number(r.ppu ?? 0),
+        volume: Number(r.volume ?? 0),
+        GradeNr: r.grade ?? 0,
+        IsInvoiced: false,
       }));
     } catch {
       return [];
@@ -38,19 +47,24 @@ export class DispenserRepositoryImpl implements DispenserRepository {
   }
 
   async getSaleById(saleId: number): Promise<SaleRecord | null> {
-    const r = await this.prisma.ventaCombustible.findUnique({
-      where: { idVenta: saleId },
-    });
-    if (!r) return null;
-    return {
-      PumpNumber: r.numeroBomba ?? 0,
-      HoseNumber: r.numeroManguera || '',
-      amount: Number(r.monto),
-      ppu: Number(r.precioUnitario),
-      volume: Number(r.volumen),
-      GradeNr: r.numeroGrado,
-      IsInvoiced: r.facturada === true,
-    };
+    try {
+      const res = await this.wayneFetch(`/api/sales/${saleId}`);
+      if (!res.ok) return null;
+      const json = await res.json();
+      const r = json?.data;
+      if (!r || r.saleId == null) return null;
+      return {
+        PumpNumber: r.pumpId ?? 0,
+        HoseNumber: String(r.hoseId ?? ''),
+        amount: Number(r.amount ?? 0),
+        ppu: Number(r.ppu ?? 0),
+        volume: Number(r.volume ?? 0),
+        GradeNr: r.grade ?? 0,
+        IsInvoiced: !!r.clearedAt,
+      };
+    } catch {
+      return null;
+    }
   }
 
   async getHoseFsMapping(
@@ -174,31 +188,23 @@ export class DispenserRepositoryImpl implements DispenserRepository {
   }
 
   async updateSaleInvoiced(saleId: string, posNumber: string): Promise<void> {
-    let attempts = 0;
-    const maxAttempts = 3;
-    while (attempts < maxAttempts) {
-      try {
-        await this.prisma.ventaCombustible.update({
-          where: { idVenta: parseInt(saleId, 10) },
-          data: {
-            facturada: true,
-            numeroPos: parseInt(posNumber, 10) || undefined,
-          },
-        });
-        return;
-      } catch (err) {
-        attempts++;
-        if (attempts >= maxAttempts) throw err;
-        await new Promise((resolve) => setTimeout(resolve, 500 * attempts));
-      }
+    try {
+      await this.wayneFetch(`/api/sales/${saleId}/clear`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentMethod: 'EFECTIVO' }),
+      });
+    } catch (err) {
+      console.warn('[Dispenser] Error marcando venta como facturada en wayne:', err);
     }
   }
 
   async reverseFusionSale(saleId: string): Promise<void> {
     try {
-      await this.prisma.ventaCombustible.update({
-        where: { idVenta: parseInt(saleId, 10) },
-        data: { facturada: false },
+      await this.wayneFetch(`/api/sales/${saleId}/reverse`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pumpNr: 0 }),
       });
     } catch (e) {
       console.warn('Error reversando venta de surtidor:', e);
@@ -206,16 +212,8 @@ export class DispenserRepositoryImpl implements DispenserRepository {
   }
 
   async renewTransactions(): Promise<number> {
-    try {
-      const result = await this.prisma.ventaCombustible.updateMany({
-        where: { facturada: false },
-        data: { fecha: new Date() },
-      });
-      return result.count;
-    } catch (error) {
-      console.error('Error al renovar transacciones:', error);
-      throw error;
-    }
+    // El controlador (wayne) es dueño de las ventas; no hay renovación local.
+    return 0;
   }
 
   async getHoseFsForPos(posNo: string): Promise<HosePumpId[]> {
@@ -242,31 +240,24 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         .map((h) => h.idBomba)
         .filter((p) => p != null);
       if (pumpIds.length === 0) return 0;
-      return await this.prisma.ventaCombustible.count({
-        where: { facturada: false, numeroBomba: { in: pumpIds } },
-      });
+      const pending = await this.getPendingSales();
+      return pending.filter((p) => pumpIds.includes(p.PumpNumber)).length;
     } catch {
       return 0;
     }
   }
 
   async getExistingSaleIds(): Promise<number[]> {
-    const rows = await this.prisma.ventaCombustible.findMany({
-      select: { idVenta: true },
-    });
-    return rows.map((r) => r.idVenta);
+    try {
+      const pending = await this.getPendingSales();
+      return pending.map((p) => p.SaleID);
+    } catch {
+      return [];
+    }
   }
 
   async createSales(data: FuelSaleCreateInput[]): Promise<number> {
-    if (!data || data.length === 0) return 0;
-    const BATCH = 1000;
-    for (let i = 0; i < data.length; i += BATCH) {
-      const chunk = data.slice(i, i + BATCH);
-      await this.prisma.ventaCombustible.createMany({
-        data: chunk as unknown as Prisma.VentaCombustibleCreateManyInput[],
-        skipDuplicates: true,
-      });
-    }
-    return data.length;
+    // El controlador (wayne) persiste las ventas; esta operación ya no aplica.
+    return 0;
   }
 }

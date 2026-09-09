@@ -90,4 +90,25 @@ describe('PrinterController', () => {
       controller.saveConfig({ posNo: '01', printerConfig: { a: 1 } }),
     ).rejects.toThrow('Saving config failed: db down');
   });
+}
+  it('getConfig devuelve la config de la impresora', async () => {
+    const getPrinterConfig = jest.fn().mockResolvedValue({ printerPath: 'P' });
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [PrinterController],
+      providers: [
+        { provide: PrinterService, useValue: { printRaw: jest.fn(), getPrinterConfig } },
+        { provide: TOKEN_PORT, useValue: { sign: jest.fn(), verify: jest.fn() } },
+        JwtAuthGuard,
+        AdminGuard,
+      ],
+    }).compile();
+    const c = module.get<PrinterController>(PrinterController);
+
+    const res = await c.getConfig('01');
+    expect(res).toEqual({ posNo: '01', printerConfig: { printerPath: 'P' } });
+  });
+
+  it('getConfig rechaza sin posNo', async () => {
+    await expect(controller.getConfig(undefined)).rejects.toThrow(HttpException);
+  });
 });

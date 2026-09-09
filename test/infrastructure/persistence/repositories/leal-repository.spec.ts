@@ -954,4 +954,16 @@ describe('LealRepositoryImpl (acceso a datos)', () => {
       expect(JSON.parse(call[1].body).id_comercio).toBe(7);
     });
   });
+
+  it('los proxies de credenciales leen del auth client', async () => {
+    const prisma = {
+      tienda: { findFirst: jest.fn().mockResolvedValue({ urlLeal: 'http://leal', idTienda: '001' }) },
+      configuracionLeal: { findFirst: jest.fn().mockResolvedValue(null) },
+    };
+    const lr = new LealRepositoryImpl(prisma as any);
+    expect(lr.cachedUrlLeal).toBeNull();
+    expect(lr.cachedUserLeal).toBeNull();
+    expect(lr.cachedPassLeal).toBeNull();
+    expect(lr.cachedRefreshToken).toBeNull();
+  });
 });

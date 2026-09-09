@@ -12,7 +12,6 @@ import { DispensersModule } from './infrastructure/web/controllers/dispensers.mo
 import { PaymentModule } from './infrastructure/web/controllers/payment.module';
 import { LealModule } from './infrastructure/web/controllers/leal.module';
 import { PrinterModule } from './infrastructure/web/controllers/printer.module';
-import { FusionSyncModule } from './infrastructure/web/controllers/fusion-sync.module';
 import { PosConfigModule } from './infrastructure/web/controllers/pos-config.module';
 import { StoreConfigModule } from './infrastructure/web/controllers/store-config.module';
 import { MediaModule } from './infrastructure/web/controllers/media.module';
@@ -31,7 +30,6 @@ import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request
     PaymentModule,
     LealModule,
     PrinterModule,
-    FusionSyncModule,
     PosConfigModule,
     StoreConfigModule,
     MediaModule,

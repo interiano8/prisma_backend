@@ -162,12 +162,6 @@ describe('API (e2e - integración contra Postgres)', () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  it('GET /api/fusion-sync/status devuelve el estado del sync', async () => {
-    await request(app.getHttpServer())
-      .get('/api/fusion-sync/status')
-      .expect(200);
-  });
-
   it('POST /api/invoices/create rechaza body inválido (400)', async () => {
     await request(app.getHttpServer())
       .post('/api/invoices/create')

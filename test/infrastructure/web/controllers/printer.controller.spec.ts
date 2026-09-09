@@ -90,7 +90,7 @@ describe('PrinterController', () => {
       controller.saveConfig({ posNo: '01', printerConfig: { a: 1 } }),
     ).rejects.toThrow('Saving config failed: db down');
   });
-}
+
   it('getConfig devuelve la config de la impresora', async () => {
     const getPrinterConfig = jest.fn().mockResolvedValue({ printerPath: 'P' });
     const module: TestingModule = await Test.createTestingModule({

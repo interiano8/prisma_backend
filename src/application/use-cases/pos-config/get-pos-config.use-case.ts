@@ -9,6 +9,7 @@ export interface PosConfigData {
   mostrarTeclado: boolean;
   declararMontosIniciales: boolean;
   visualizacion: string;
+  caras: number[];
 }
 
 @Injectable()
@@ -25,6 +26,7 @@ export class GetPosConfigUseCase {
       mostrarTeclado: row?.mostrarTeclado !== false,
       declararMontosIniciales: row?.declararMontosIniciales === true,
       visualizacion: row?.visualizacion || 'multimedia',
+      caras: row?.caras ?? [],
     };
   }
 }

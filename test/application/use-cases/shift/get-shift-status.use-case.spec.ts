@@ -16,6 +16,7 @@ describe('GetShiftStatusUseCase', () => {
       createTurnoControlador: jest.fn(),
       getAvailableShifts: jest.fn(),
       getSalesReportData: jest.fn(),
+      getOpenShiftSaleIds: jest.fn(),
     };
     useCase = new GetShiftStatusUseCase(mockRepository);
   });

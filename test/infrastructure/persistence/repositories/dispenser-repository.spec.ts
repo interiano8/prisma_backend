@@ -29,7 +29,7 @@ describe('DispenserRepositoryImpl', () => {
     );
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/api/sales/pending'),
-      undefined,
+      expect.anything(),
     );
   });
 
@@ -55,7 +55,7 @@ describe('DispenserRepositoryImpl', () => {
         ppu: 40,
         volume: 2.5,
         grade: 1,
-        clearedAt: '2026-08-15T10:00:00Z',
+        isInvoiced: true,
       }),
     );
     const repo = new DispenserRepositoryImpl({} as any);
@@ -70,6 +70,7 @@ describe('DispenserRepositoryImpl', () => {
       volume: 2.5,
       GradeNr: 1,
       IsInvoiced: true,
+      ShiftId: null,
     });
   });
 
@@ -89,7 +90,7 @@ describe('DispenserRepositoryImpl', () => {
 
     const mapping = await repo.getHoseFsMapping(1, 2);
 
-    expect(mapping).toEqual({ CodigoPOS: 'SUPER', TankIDs: 'T1,T2' });
+    expect(mapping).toEqual({ CodigoPOS: 'SUPER', TankIDs: 'T1,T2', unidadMedida: null });
   });
 
   it('getItemMetadata mapea los campos del producto', async () => {
@@ -308,6 +309,7 @@ describe('DispenserRepositoryImpl', () => {
       .mockResolvedValue([{ idBomba: 1 }, { idBomba: null }, { idBomba: 2 }]);
     const repo = new DispenserRepositoryImpl({
       manguera: { findMany: manguera },
+      configuracionPos: { findFirst: jest.fn().mockResolvedValue(null) },
     } as any);
 
     const total = await repo.countPendingSalesForPos('POS01');
@@ -318,6 +320,7 @@ describe('DispenserRepositoryImpl', () => {
   it('countPendingSalesForPos devuelve 0 sin bombas o en error', async () => {
     const empty = new DispenserRepositoryImpl({
       manguera: { findMany: jest.fn().mockResolvedValue([{ idBomba: null }]) },
+      configuracionPos: { findFirst: jest.fn().mockResolvedValue(null) },
     } as any);
     await expect(empty.countPendingSalesForPos('POS01')).resolves.toBe(0);
 
@@ -363,25 +366,23 @@ describe('DispenserRepositoryImpl', () => {
     await expect(repo.createSales(data as any)).resolves.toBe(0);
   });
 
-  it('getPumpTransactions mapea con límite, grados y unidad por defecto', async () => {
-    const ventaCombustible = {
-      findMany: jest.fn().mockResolvedValue([
+  it('getPumpTransactions mapea desde wayne con grados y unidad', async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      ok([
         {
-          idVenta: 7,
-          numeroPos: 1,
-          numeroBomba: 2,
-          numeroManguera: '3',
-          numeroGrado: 1,
-          precioUnitario: 40,
-          volumen: 2.5,
-          facturada: false,
-          monto: 100,
-          fecha: new Date('2026-08-15T08:00:00.000Z'),
-          fechaTransaccion: '2026-08-15',
-          horaTransaccion: '08:00:00',
+          saleId: 7,
+          pumpId: 2,
+          hoseId: 3,
+          grade: 1,
+          volume: 2.5,
+          amount: 100,
+          ppu: 40,
+          dateOfTransaction: '2026-08-15',
+          timeOfTransaction: '08:00:00',
+          isInvoiced: false,
         },
       ]),
-    };
+    );
     const manguera = {
       findMany: jest.fn().mockResolvedValue([
         {
@@ -389,32 +390,182 @@ describe('DispenserRepositoryImpl', () => {
           numeroGrado: 1,
           nombreGrado: 'SUPER',
           unidadMedida: 'galones',
-        },
-        {
-          idBomba: null,
-          numeroGrado: null,
-          nombreGrado: '',
-          unidadMedida: null,
+          pos: '1',
         },
       ]),
     };
-    const repo = new DispenserRepositoryImpl({
-      ventaCombustible,
-      manguera,
-    } as any);
+    const repo = new DispenserRepositoryImpl({ manguera } as any);
 
     const txns = await repo.getPumpTransactions(2, 5);
 
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/api/sales/pump/2/sales?limit=5'),
+      expect.anything(),
+    );
     expect(txns[0]).toMatchObject({
       saleId: 7,
       pumpNumber: 2,
       hoseNumber: '3',
       combustible: 'SUPER',
       unidad: 'galones',
+      posNumber: 1,
       estado: 'Sin Facturar',
       cantidad: 2.5,
+      precio: 40,
       fecha: '2026-08-15',
       hora: '08:00:00',
     });
+  });
+
+  it('getPumpTransactions marca Facturado si isInvoiced presente', async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      ok([
+        {
+          saleId: 8,
+          pumpId: 2,
+          hoseId: 1,
+          grade: 1,
+          volume: 10,
+          amount: 300,
+          ppu: 30,
+          isInvoiced: true,
+        },
+      ]),
+    );
+    const repo = new DispenserRepositoryImpl({ manguera: { findMany: jest.fn().mockResolvedValue([]) } } as any);
+
+    const txns = await repo.getPumpTransactions(2, 5);
+
+    expect(txns[0]).toMatchObject({ estado: 'Facturado' });
+  });
+
+  it('getPumpTransactions usa PUMP_TRANSACTIONS_LIMIT por defecto (400)', async () => {
+    const orig = process.env.PUMP_TRANSACTIONS_LIMIT;
+    delete process.env.PUMP_TRANSACTIONS_LIMIT;
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
+    const repo = new DispenserRepositoryImpl({ manguera: { findMany: jest.fn().mockResolvedValue([]) } } as any);
+
+    await repo.getPumpTransactions(2);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/api/sales/pump/2/sales?limit=400'),
+      expect.anything(),
+    );
+    if (orig !== undefined) process.env.PUMP_TRANSACTIONS_LIMIT = orig;
+  });
+
+  it('usa el url_controlador de la tienda como base de wayne', async () => {
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
+    const repo = new DispenserRepositoryImpl({
+      tienda: {
+        findFirst: jest.fn().mockResolvedValue({ urlControlador: '192.168.0.10:5008' }),
+      },
+    } as any);
+
+    await repo.getPendingSales();
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('http://192.168.0.10:5008/api/sales/pending'),
+      expect.anything(),
+    );
+  });
+
+  it('normaliza url_controlador (http:// faltante, / y /api al final)', async () => {
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
+    const repo = new DispenserRepositoryImpl({
+      tienda: {
+        findFirst: jest
+          .fn()
+          .mockResolvedValue({ urlControlador: '192.168.0.10:5008/api/' }),
+      },
+    } as any);
+
+    await repo.getPendingSales();
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('http://192.168.0.10:5008/api/sales/pending'),
+      expect.anything(),
+    );
+  });
+
+  it('cae a WAYNE_API_URL / localhost si no hay url_controlador', async () => {
+    const orig = process.env.WAYNE_API_URL;
+    delete process.env.WAYNE_API_URL;
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
+    const repo = new DispenserRepositoryImpl({
+      tienda: { findFirst: jest.fn().mockResolvedValue(null) },
+    } as any);
+
+    await repo.getPendingSales();
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('http://localhost:5008/api/sales/pending'),
+      expect.anything(),
+    );
+    if (orig !== undefined) process.env.WAYNE_API_URL = orig;
+  });
+
+  it('envía X-API-Key desde clave_controlador de la tienda', async () => {
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
+    const repo = new DispenserRepositoryImpl({
+      tienda: {
+        findFirst: jest.fn().mockResolvedValue({
+          urlControlador: '127.0.0.1:5008',
+          claveControlador: 'MI-KEY-123',
+        }),
+      },
+    } as any);
+
+    await repo.getPendingSales();
+
+    const call = (global.fetch as jest.Mock).mock.calls[0];
+    const headers = new Headers(call[1].headers);
+    expect(headers.get('X-API-Key')).toBe('MI-KEY-123');
+  });
+
+  it('no envía X-API-Key si no hay clave configurada', async () => {
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
+    const repo = new DispenserRepositoryImpl({
+      tienda: { findFirst: jest.fn().mockResolvedValue(null) },
+    } as any);
+
+    await repo.getPendingSales();
+
+    const call = (global.fetch as jest.Mock).mock.calls[0];
+    const headers = new Headers(call[1].headers);
+    expect(headers.get('X-API-Key')).toBeNull();
+  });
+
+  it('restartControlador llama a wayne y mapea el resultado', async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      ok({
+        message: 'Service will restart in 2 seconds (NSSM auto-restart required).',
+        restartAt: '2026-09-12T00:00:00Z',
+        cooldownSeconds: 60,
+      }),
+    );
+    const repo = new DispenserRepositoryImpl({} as any);
+
+    const result = await repo.restartControlador();
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/api/admin/restart?delaySeconds=2'),
+      expect.objectContaining({ method: 'POST' }),
+    );
+    expect(result.message).toContain('restart in 2 seconds');
+    expect(result.cooldownSeconds).toBe(60);
+  });
+
+  it('restartControlador lanza error claro si wayne falla', async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      Promise.resolve({
+        ok: false,
+        status: 429,
+        json: () => Promise.resolve({ error: 'Restart en cooldown' }),
+      } as Response),
+    );
+    const repo = new DispenserRepositoryImpl({} as any);
+
+    await expect(repo.restartControlador()).rejects.toThrow(/429/);
   });
 });

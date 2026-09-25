@@ -143,12 +143,12 @@ export const TiendaScalarFieldEnum = {
   avisoNuevosRangosNotaCredito: 'avisoNuevosRangosNotaCredito',
   fusionAsignado: 'fusionAsignado',
   ipFusion: 'ipFusion',
-  api: 'api',
+  urlControlador: 'urlControlador',
   variasLineasPermitidas: 'variasLineasPermitidas',
   descuentosPermitidos: 'descuentosPermitidos',
   bloqueadoTransaccionesPendientes: 'bloqueadoTransaccionesPendientes',
   modoDepuracion: 'modoDepuracion',
-  claveFusion: 'claveFusion',
+  claveControlador: 'claveControlador',
   codigoConsumidorFinal: 'codigoConsumidorFinal',
   urlSaldo: 'urlSaldo',
   validarRfid: 'validarRfid',
@@ -191,7 +191,8 @@ export const ConfiguracionPosScalarFieldEnum = {
   mostrarTeclado: 'mostrarTeclado',
   declararMontosIniciales: 'declararMontosIniciales',
   visualizacion: 'visualizacion',
-  config: 'config'
+  config: 'config',
+  caras: 'caras'
 } as const
 
 export type ConfiguracionPosScalarFieldEnum = (typeof ConfiguracionPosScalarFieldEnum)[keyof typeof ConfiguracionPosScalarFieldEnum]
@@ -465,7 +466,9 @@ export const VentaScalarFieldEnum = {
   cai: 'cai',
   rangoDesde: 'rangoDesde',
   rangoHasta: 'rangoHasta',
-  fechaVenceRango: 'fechaVenceRango'
+  fechaVenceRango: 'fechaVenceRango',
+  idTurno: 'idTurno',
+  numeroTurno: 'numeroTurno'
 } as const
 
 export type VentaScalarFieldEnum = (typeof VentaScalarFieldEnum)[keyof typeof VentaScalarFieldEnum]
@@ -492,6 +495,8 @@ export const LineaVentaScalarFieldEnum = {
   numeroBomba: 'numeroBomba',
   posicionBomba: 'posicionBomba',
   numeroTanque: 'numeroTanque',
+  unidadMedida: 'unidadMedida',
+  turnoControlador: 'turnoControlador',
   horaOperacion: 'horaOperacion',
   codigoCategoria: 'codigoCategoria',
   bonificado: 'bonificado',

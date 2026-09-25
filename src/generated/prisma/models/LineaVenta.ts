@@ -83,6 +83,8 @@ export type LineaVentaMinAggregateOutputType = {
   numeroBomba: string | null
   posicionBomba: string | null
   numeroTanque: string | null
+  unidadMedida: string | null
+  turnoControlador: string | null
   horaOperacion: Date | null
   codigoCategoria: string | null
   bonificado: boolean | null
@@ -123,6 +125,8 @@ export type LineaVentaMaxAggregateOutputType = {
   numeroBomba: string | null
   posicionBomba: string | null
   numeroTanque: string | null
+  unidadMedida: string | null
+  turnoControlador: string | null
   horaOperacion: Date | null
   codigoCategoria: string | null
   bonificado: boolean | null
@@ -163,6 +167,8 @@ export type LineaVentaCountAggregateOutputType = {
   numeroBomba: number
   posicionBomba: number
   numeroTanque: number
+  unidadMedida: number
+  turnoControlador: number
   horaOperacion: number
   codigoCategoria: number
   bonificado: number
@@ -241,6 +247,8 @@ export type LineaVentaMinAggregateInputType = {
   numeroBomba?: true
   posicionBomba?: true
   numeroTanque?: true
+  unidadMedida?: true
+  turnoControlador?: true
   horaOperacion?: true
   codigoCategoria?: true
   bonificado?: true
@@ -281,6 +289,8 @@ export type LineaVentaMaxAggregateInputType = {
   numeroBomba?: true
   posicionBomba?: true
   numeroTanque?: true
+  unidadMedida?: true
+  turnoControlador?: true
   horaOperacion?: true
   codigoCategoria?: true
   bonificado?: true
@@ -321,6 +331,8 @@ export type LineaVentaCountAggregateInputType = {
   numeroBomba?: true
   posicionBomba?: true
   numeroTanque?: true
+  unidadMedida?: true
+  turnoControlador?: true
   horaOperacion?: true
   codigoCategoria?: true
   bonificado?: true
@@ -448,6 +460,8 @@ export type LineaVentaGroupByOutputType = {
   numeroBomba: string | null
   posicionBomba: string | null
   numeroTanque: string | null
+  unidadMedida: string | null
+  turnoControlador: string | null
   horaOperacion: Date | null
   codigoCategoria: string | null
   bonificado: boolean | null
@@ -511,6 +525,8 @@ export type LineaVentaWhereInput = {
   numeroBomba?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   posicionBomba?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   numeroTanque?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
+  unidadMedida?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
+  turnoControlador?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   bonificado?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
@@ -554,6 +570,8 @@ export type LineaVentaOrderByWithRelationInput = {
   numeroBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   posicionBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroTanque?: Prisma.SortOrderInput | Prisma.SortOrder
+  unidadMedida?: Prisma.SortOrderInput | Prisma.SortOrder
+  turnoControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   horaOperacion?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
   bonificado?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -601,6 +619,8 @@ export type LineaVentaWhereUniqueInput = Prisma.AtLeast<{
   numeroBomba?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   posicionBomba?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   numeroTanque?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
+  unidadMedida?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
+  turnoControlador?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   bonificado?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
@@ -644,6 +664,8 @@ export type LineaVentaOrderByWithAggregationInput = {
   numeroBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   posicionBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroTanque?: Prisma.SortOrderInput | Prisma.SortOrder
+  unidadMedida?: Prisma.SortOrderInput | Prisma.SortOrder
+  turnoControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   horaOperacion?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
   bonificado?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -692,6 +714,8 @@ export type LineaVentaScalarWhereWithAggregatesInput = {
   numeroBomba?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   posicionBomba?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   numeroTanque?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
+  unidadMedida?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
+  turnoControlador?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableWithAggregatesFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   bonificado?: Prisma.BoolNullableWithAggregatesFilter<"LineaVenta"> | boolean | null
@@ -730,6 +754,8 @@ export type LineaVentaCreateInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   bonificado?: boolean | null
   devuelto?: boolean | null
@@ -772,6 +798,8 @@ export type LineaVentaUncheckedCreateInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
   bonificado?: boolean | null
@@ -811,6 +839,8 @@ export type LineaVentaUpdateInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -853,6 +883,8 @@ export type LineaVentaUncheckedUpdateInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -894,6 +926,8 @@ export type LineaVentaCreateManyInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
   bonificado?: boolean | null
@@ -932,6 +966,8 @@ export type LineaVentaUpdateManyMutationInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -971,6 +1007,8 @@ export type LineaVentaUncheckedUpdateManyInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1032,6 +1070,8 @@ export type LineaVentaCountOrderByAggregateInput = {
   numeroBomba?: Prisma.SortOrder
   posicionBomba?: Prisma.SortOrder
   numeroTanque?: Prisma.SortOrder
+  unidadMedida?: Prisma.SortOrder
+  turnoControlador?: Prisma.SortOrder
   horaOperacion?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
   bonificado?: Prisma.SortOrder
@@ -1090,6 +1130,8 @@ export type LineaVentaMaxOrderByAggregateInput = {
   numeroBomba?: Prisma.SortOrder
   posicionBomba?: Prisma.SortOrder
   numeroTanque?: Prisma.SortOrder
+  unidadMedida?: Prisma.SortOrder
+  turnoControlador?: Prisma.SortOrder
   horaOperacion?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
   bonificado?: Prisma.SortOrder
@@ -1130,6 +1172,8 @@ export type LineaVentaMinOrderByAggregateInput = {
   numeroBomba?: Prisma.SortOrder
   posicionBomba?: Prisma.SortOrder
   numeroTanque?: Prisma.SortOrder
+  unidadMedida?: Prisma.SortOrder
+  turnoControlador?: Prisma.SortOrder
   horaOperacion?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
   bonificado?: Prisma.SortOrder
@@ -1284,6 +1328,8 @@ export type LineaVentaCreateWithoutCategoriaInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   bonificado?: boolean | null
   devuelto?: boolean | null
@@ -1325,6 +1371,8 @@ export type LineaVentaUncheckedCreateWithoutCategoriaInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   bonificado?: boolean | null
   devuelto?: boolean | null
@@ -1394,6 +1442,8 @@ export type LineaVentaScalarWhereInput = {
   numeroBomba?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   posicionBomba?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   numeroTanque?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
+  unidadMedida?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
+  turnoControlador?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   bonificado?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
@@ -1432,6 +1482,8 @@ export type LineaVentaCreateWithoutDescuentosAplicadosInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   bonificado?: boolean | null
   devuelto?: boolean | null
@@ -1473,6 +1525,8 @@ export type LineaVentaUncheckedCreateWithoutDescuentosAplicadosInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
   bonificado?: boolean | null
@@ -1527,6 +1581,8 @@ export type LineaVentaUpdateWithoutDescuentosAplicadosInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1568,6 +1624,8 @@ export type LineaVentaUncheckedUpdateWithoutDescuentosAplicadosInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1606,6 +1664,8 @@ export type LineaVentaCreateWithoutVentaInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   bonificado?: boolean | null
   devuelto?: boolean | null
@@ -1645,6 +1705,8 @@ export type LineaVentaUncheckedCreateWithoutVentaInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
   bonificado?: boolean | null
@@ -1712,6 +1774,8 @@ export type LineaVentaCreateManyCategoriaInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   bonificado?: boolean | null
   devuelto?: boolean | null
@@ -1749,6 +1813,8 @@ export type LineaVentaUpdateWithoutCategoriaInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1790,6 +1856,8 @@ export type LineaVentaUncheckedUpdateWithoutCategoriaInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1830,6 +1898,8 @@ export type LineaVentaUncheckedUpdateManyWithoutCategoriaInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1867,6 +1937,8 @@ export type LineaVentaCreateManyVentaInput = {
   numeroBomba?: string | null
   posicionBomba?: string | null
   numeroTanque?: string | null
+  unidadMedida?: string | null
+  turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
   bonificado?: boolean | null
@@ -1905,6 +1977,8 @@ export type LineaVentaUpdateWithoutVentaInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1944,6 +2018,8 @@ export type LineaVentaUncheckedUpdateWithoutVentaInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1983,6 +2059,8 @@ export type LineaVentaUncheckedUpdateManyWithoutVentaInput = {
   numeroBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posicionBomba?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTanque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -2054,6 +2132,8 @@ export type LineaVentaSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   numeroBomba?: boolean
   posicionBomba?: boolean
   numeroTanque?: boolean
+  unidadMedida?: boolean
+  turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
   bonificado?: boolean
@@ -2098,6 +2178,8 @@ export type LineaVentaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   numeroBomba?: boolean
   posicionBomba?: boolean
   numeroTanque?: boolean
+  unidadMedida?: boolean
+  turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
   bonificado?: boolean
@@ -2140,6 +2222,8 @@ export type LineaVentaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   numeroBomba?: boolean
   posicionBomba?: boolean
   numeroTanque?: boolean
+  unidadMedida?: boolean
+  turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
   bonificado?: boolean
@@ -2182,6 +2266,8 @@ export type LineaVentaSelectScalar = {
   numeroBomba?: boolean
   posicionBomba?: boolean
   numeroTanque?: boolean
+  unidadMedida?: boolean
+  turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
   bonificado?: boolean
@@ -2201,7 +2287,7 @@ export type LineaVentaSelectScalar = {
   montoGravado?: boolean
 }
 
-export type LineaVentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "numeroLineaDocumento" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "numeroVenta" | "descripcion" | "cantidad" | "precioUnitarioConIsv" | "montoDescuentoUnitario" | "descuento" | "montoDescuentoLinea" | "isv" | "montoIsv" | "montoConIsv" | "numeroBomba" | "posicionBomba" | "numeroTanque" | "horaOperacion" | "codigoCategoria" | "bonificado" | "devuelto" | "generaAsientoBomba" | "grupoIsv" | "idTransaccionOrigen" | "documentoOrigen" | "lineaDocumentoOrigen" | "numeroTransaccionDoms" | "prepago" | "devolucion" | "numeroLineaAplicada" | "puntosFidelidad" | "idDespachador" | "idVenta" | "montoGravado", ExtArgs["result"]["lineaVenta"]>
+export type LineaVentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "numeroLineaDocumento" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "numeroVenta" | "descripcion" | "cantidad" | "precioUnitarioConIsv" | "montoDescuentoUnitario" | "descuento" | "montoDescuentoLinea" | "isv" | "montoIsv" | "montoConIsv" | "numeroBomba" | "posicionBomba" | "numeroTanque" | "unidadMedida" | "turnoControlador" | "horaOperacion" | "codigoCategoria" | "bonificado" | "devuelto" | "generaAsientoBomba" | "grupoIsv" | "idTransaccionOrigen" | "documentoOrigen" | "lineaDocumentoOrigen" | "numeroTransaccionDoms" | "prepago" | "devolucion" | "numeroLineaAplicada" | "puntosFidelidad" | "idDespachador" | "idVenta" | "montoGravado", ExtArgs["result"]["lineaVenta"]>
 export type LineaVentaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.LineaVenta$categoriaArgs<ExtArgs>
   venta?: boolean | Prisma.VentaDefaultArgs<ExtArgs>
@@ -2245,6 +2331,8 @@ export type $LineaVentaPayload<ExtArgs extends runtime.Types.Extensions.Internal
     numeroBomba: string | null
     posicionBomba: string | null
     numeroTanque: string | null
+    unidadMedida: string | null
+    turnoControlador: string | null
     horaOperacion: Date | null
     codigoCategoria: string | null
     bonificado: boolean | null
@@ -2708,6 +2796,8 @@ export interface LineaVentaFieldRefs {
   readonly numeroBomba: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly posicionBomba: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly numeroTanque: Prisma.FieldRef<"LineaVenta", 'String'>
+  readonly unidadMedida: Prisma.FieldRef<"LineaVenta", 'String'>
+  readonly turnoControlador: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly horaOperacion: Prisma.FieldRef<"LineaVenta", 'DateTime'>
   readonly codigoCategoria: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly bonificado: Prisma.FieldRef<"LineaVenta", 'Boolean'>

@@ -80,6 +80,7 @@ export class AuthRepositoryImpl implements AuthRepository {
     minutosAtrasada: number;
     mostrarTeclado: boolean;
     declararMontosIniciales: boolean;
+    caras: number[];
   } | null> {
     const row = await this.prisma.configuracionPos.findUnique({
       where: { codigoPos: posNo },
@@ -92,6 +93,11 @@ export class AuthRepositoryImpl implements AuthRepository {
       minutosAtrasada: row.minutosAtrasada ?? 10,
       mostrarTeclado: row.mostrarTeclado !== false,
       declararMontosIniciales: row.declararMontosIniciales === true,
+      caras: Array.isArray(row.caras)
+        ? (row.caras as unknown[])
+            .map((c) => Number(c))
+            .filter((n) => Number.isFinite(n))
+        : [],
     };
   }
 
@@ -192,7 +198,7 @@ export class AuthRepositoryImpl implements AuthRepository {
       isGasStation: row.esControladorGas === true,
       isGasController: row.esControladorGas === true,
       ipFusionController: row.ipFusion || '',
-      fusionControllerKey: row.claveFusion || '',
+      claveControlador: row.claveControlador || '',
       isFusionAssigned: row.fusionAsignado === true,
       isLealEnabled: row.lealHabilitado === true,
       urlLeal: row.urlLeal || '',
@@ -210,13 +216,14 @@ export class AuthRepositoryImpl implements AuthRepository {
       address3: row.direccion3 || '',
       passAdmin: row.contrasenaAdmin || '',
       turnos: row.turnos ?? null,
+      caras: [],
       d3: row.d3 != null ? String(row.d3) : '',
       d4: row.d4 != null ? String(row.d4) : '',
       numberOfTransactionsWaiting: row.transaccionesPendientes ?? null,
       codeCountry: row.codigoPais || '',
       warningNewInvoiceRanges: row.avisoNuevosRangosFactura ?? null,
       warningNewCreditNotesRanges: row.avisoNuevosRangosNotaCredito ?? null,
-      api: row.api || '',
+      urlControlador: row.urlControlador || '',
       blockedForPendingTransactions:
         row.bloqueadoTransaccionesPendientes === true,
       debugMode: row.modoDepuracion === true,
@@ -268,13 +275,13 @@ export class AuthRepositoryImpl implements AuthRepository {
       WarningNewCreditNotesRanges: row.avisoNuevosRangosNotaCredito,
       IsFusionAssigned: row.fusionAsignado === true ? 1 : 0,
       IPFusionController: row.ipFusion,
-      Api: row.api,
+      UrlControlador: row.urlControlador,
       MultipleItemsAllowed: row.variasLineasPermitidas === true ? 1 : 0,
       AllowedToApplyDiscounts: row.descuentosPermitidos === true ? 1 : 0,
       BlockedForPendingTransactions:
         row.bloqueadoTransaccionesPendientes === true ? 1 : 0,
       DebugMode: row.modoDepuracion === true ? 1 : 0,
-      FusionControllerKey: row.claveFusion,
+      ClaveControlador: row.claveControlador,
       NoConsumidorFinal: row.codigoConsumidorFinal,
       URLSaldo: row.urlSaldo,
       ValidarRFID: row.validarRfid === true ? 1 : 0,

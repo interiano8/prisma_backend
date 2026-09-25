@@ -196,6 +196,8 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
             rangoDesde: invSeries.numeroInicio,
             rangoHasta: invSeries.numeroFin,
             fechaVenceRango: invSeries.fechaVenceRango,
+            idTurno: params.shiftId ?? null,
+            numeroTurno: String(params.shiftNumber),
           },
         });
 
@@ -233,6 +235,8 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
               numeroBomba: l.pumpNo || '',
               posicionBomba: l.pumpPositionNo || '',
               numeroTanque: l.tankNo || '',
+              unidadMedida: l.unidadMedida ?? null,
+              turnoControlador: l.turnoControlador ?? null,
               horaOperacion: now,
               codigoCategoria: l.itemCategoryCode || '',
               bonificado: false,
@@ -280,26 +284,6 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
               esTicket: params.isTicket,
             },
           });
-        }
-
-        for (const l of params.lines || []) {
-          if (l.saleId != null && String(l.saleId) !== '') {
-            const claim = await tx.ventaCombustible.updateMany({
-              where: {
-                idVenta: Number(l.saleId),
-                facturada: false,
-              },
-              data: {
-                facturada: true,
-                numeroPos: Number(params.posNo) || undefined,
-              },
-            });
-            if (claim.count === 0) {
-              throw new Error(
-                `El despacho de combustible #${l.saleId} ya fue facturado (reclamo atómico falló).`,
-              );
-            }
-          }
         }
 
         const campanaTickets = params.onCommit
@@ -443,6 +427,8 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
             rangoDesde: ncSeries.numeroInicio,
             rangoHasta: ncSeries.numeroFin,
             fechaVenceRango: ncSeries.fechaVenceRango,
+            idTurno: params.shiftId ?? null,
+            numeroTurno: String(params.shiftNumber),
           },
         });
 

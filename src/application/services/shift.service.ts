@@ -3,6 +3,12 @@ import type { ShiftRepository } from '../../domain/ports/out/shift-repository.in
 import type { StoreConfigRepository } from '../../domain/ports/out/store-config-repository.interface';
 import type { DispenserRepository } from '../../domain/ports/out/dispenser-repository.interface';
 import { BadRequestDomainError } from '../../domain/errors/domain-error';
+import { normalizeControllerUrl } from '../../utils/controller-url';
+import {
+  normalizeVolumeUnit,
+  galonesALitros,
+  litrosAGalones,
+} from '../../utils/volume-unit';
 
 export interface CloseFusionShiftCommand {
   storeId: string;
@@ -45,24 +51,13 @@ export class ShiftService {
 
     const store = await this.storeConfigRepo.findByStoreId(dto.storeId);
 
-    let fusionApiUrl = (store?.api || '').trim();
+    let fusionApiUrl = (store?.urlControlador || '').trim();
     if (!fusionApiUrl) {
       throw new BadRequestDomainError(
-        'No se configuró la URL del Controlador Fusion (campo Api de la tienda).',
+        'No se configuró la URL del Controlador Fusion (campo url_controlador de la tienda).',
       );
     }
-    if (
-      !fusionApiUrl.startsWith('http://') &&
-      !fusionApiUrl.startsWith('https://')
-    ) {
-      fusionApiUrl = `http://${fusionApiUrl}`;
-    }
-    if (fusionApiUrl.endsWith('/')) {
-      fusionApiUrl = fusionApiUrl.substring(0, fusionApiUrl.length - 1);
-    }
-    if (fusionApiUrl.endsWith('/api')) {
-      fusionApiUrl = fusionApiUrl.substring(0, fusionApiUrl.length - 4);
-    }
+    fusionApiUrl = normalizeControllerUrl(fusionApiUrl);
     const closeType = dto.type || 'S';
 
     try {
@@ -170,27 +165,81 @@ export class ShiftService {
       (l) => !l.numeroBomba || l.numeroBomba.trim() === '',
     );
 
+    // Volumen por producto: se normaliza a galones y litros usando la unidad de
+    // cada línea (null → por defecto galones, según decisión del cambio).
+    const volumeKey = (l: (typeof fuelLines)[number]) => l.descripcion || '';
+    const volumeToGallons = (l: (typeof fuelLines)[number]) => {
+      const cantidad = num(l.cantidad);
+      if (normalizeVolumeUnit(l.unidadMedida) === 'LITRO') return litrosAGalones(cantidad);
+      return cantidad;
+    };
+    const volumeToLiters = (l: (typeof fuelLines)[number]) => {
+      const cantidad = num(l.cantidad);
+      if (normalizeVolumeUnit(l.unidadMedida) === 'LITRO') return cantidad;
+      return galonesALitros(cantidad);
+    };
+    const volByProduct = new Map<
+      string,
+      { volumenGalones: number; volumenLitros: number }
+    >();
+    for (const l of fuelLines) {
+      const k = volumeKey(l);
+      const cur = volByProduct.get(k) || { volumenGalones: 0, volumenLitros: 0 };
+      cur.volumenGalones += volumeToGallons(l);
+      cur.volumenLitros += volumeToLiters(l);
+      volByProduct.set(k, cur);
+    }
+    const redondeado = (v: number) => Math.round(v * 1000) / 1000;
+
+    // Unidad de medida por grupo: la primera no nula de sus líneas.
+    const umByKey = <T extends { descripcion: string | null; unidadMedida: string | null }>(
+      arr: T[],
+    ) => {
+      const m = new Map<string, string>();
+      for (const l of arr) {
+        const k = l.descripcion || '';
+        if (l.unidadMedida && !m.has(k)) m.set(k, l.unidadMedida);
+      }
+      return m;
+    };
+    const umCombustible = umByKey(fuelLines);
+    const umOtros = umByKey(otherLines);
+
     const combustibles = groupSum(
       fuelLines,
       (l) => l.descripcion || '',
       (l) => num(l.montoConIsv),
       (l) => num(l.cantidad), // volumen (gal/lts)
-    );
+    ).map((g) => {
+      const vol = volByProduct.get(g.name) || {
+        volumenGalones: 0,
+        volumenLitros: 0,
+      };
+      return {
+        ...g,
+        volumenGalones: redondeado(vol.volumenGalones),
+        volumenLitros: redondeado(vol.volumenLitros),
+        unidadMedida: umCombustible.get(g.name) ?? null,
+      };
+    });
     const otrosProductos = groupSum(
       otherLines,
       (l) => l.descripcion || '',
       (l) => num(l.montoConIsv),
       (l) => num(l.cantidad), // unidades
-    );
+    ).map((g) => ({
+      ...g,
+      unidadMedida: umOtros.get(g.name) ?? null,
+    }));
     const cobros = groupSum(
       payments,
-      (p) => p.descripcion || p.codigoMetodoPago || '',
+      (p) => p.metodoPago || p.descripcion || p.codigoMetodoPago || '',
       (p) => num(p.monto),
       () => 1, // nº de cobros
     );
     const movCaja = groupSum(
       payments,
-      (p) => p.descripcion || p.codigoMetodoPago || '',
+      (p) => p.metodoPago || p.descripcion || p.codigoMetodoPago || '',
       (p) => num(p.montoIngresado) || num(p.monto),
     );
     const impuestos = groupSum(
@@ -233,6 +282,13 @@ export class ShiftService {
 
     const tasaCambio = await this.storeConfigRepo.findExchangeRate(fechaTurno);
 
+    const volumenGalonesTotal = redondeado(
+      combustibles.reduce((a, c) => a + (c.volumenGalones || 0), 0),
+    );
+    const volumenLitrosTotal = redondeado(
+      combustibles.reduce((a, c) => a + (c.volumenLitros || 0), 0),
+    );
+
     return {
       shouldHideData,
       combustibles,
@@ -256,6 +312,8 @@ export class ShiftService {
         cantidadFacturas,
         cantidadTicket,
         cantidadDevoluciones,
+        volumenGalones: volumenGalonesTotal,
+        volumenLitros: volumenLitrosTotal,
       },
     };
   }

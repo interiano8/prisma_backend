@@ -7,6 +7,7 @@ import {
 import type {
   DispenserRepository,
   SimpleHoseConfig,
+  RestartControladorResult,
 } from '../../domain/ports/out/dispenser-repository.interface';
 import { NotFoundDomainError } from '../../domain/errors/domain-error';
 import {
@@ -397,5 +398,9 @@ export class DispensersService implements OnModuleInit, OnModuleDestroy {
         local.gallons = newGallons;
       }
     }
+  }
+
+  async restartControlador(): Promise<RestartControladorResult> {
+    return this.dispenserRepo.restartControlador();
   }
 }

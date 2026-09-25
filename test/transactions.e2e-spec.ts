@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { loadEncryptedEnv } from '../src/utils/env-loader';
+import { loadEnv } from '../src/utils/env-loader';
 import { DomainErrorFilter } from '../src/infrastructure/web/filters/domain-error.filter';
 import { PrismaService } from '../src/prisma/prisma.service';
 import helmet from 'helmet';
@@ -11,7 +11,7 @@ describe('Flujo transaccional (e2e contra BD de prueba)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    loadEncryptedEnv();
+    loadEnv();
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

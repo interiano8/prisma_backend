@@ -5,6 +5,10 @@ import { CampanasService } from '../../src/application/services/campanas.service
 import { InvoiceLealProcessor } from '../../src/application/services/invoice-leal.processor';
 import { ValidateAdminUseCase } from '../../src/application/use-cases/auth/validate-admin.use-case';
 import type { CreditNoteInput } from '../../src/domain/entities/invoice.entity';
+import {
+  NotFoundDomainError,
+  ConflictDomainError,
+} from '../../src/domain/errors/domain-error';
 import type { InvoiceQueryRepository } from '../../src/domain/ports/out/invoice-query-repository.interface';
 import type { InvoiceRepository } from '../../src/domain/ports/out/invoice-repository.interface';
 import type { DispenserRepository } from '../../src/domain/ports/out/dispenser-repository.interface';
@@ -283,10 +287,12 @@ describe('InvoicesService', () => {
         volume: 2,
         GradeNr: null,
         IsInvoiced: false,
+      ShiftId: 20260101,
       });
       dispenserRepo.getHoseFsMapping.mockResolvedValue({
         CodigoPOS: 'SUPER',
         TankIDs: 'T1',
+        unidadMedida: 'galones',
       });
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       const dto = baseDto();
@@ -302,6 +308,8 @@ describe('InvoicesService', () => {
               pumpNo: '1',
               pumpPositionNo: 'C',
               tankNo: 'T1',
+              unidadMedida: 'galones',
+              turnoControlador: '20260101',
               quantity: 2,
               unitPrice: 50,
               genPumpLedgEntry: 1,
@@ -372,10 +380,12 @@ describe('InvoicesService', () => {
         volume: 27.475,
         GradeNr: null,
         IsInvoiced: false,
+      ShiftId: 20260101,
       });
       dispenserRepo.getHoseFsMapping.mockResolvedValue({
         CodigoPOS: 'SUPER',
         TankIDs: 'T1',
+        unidadMedida: 'galones',
       });
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
       const dto = baseDto();
@@ -422,16 +432,19 @@ describe('InvoicesService', () => {
         volume: 25,
         GradeNr: null,
         IsInvoiced: false,
+      ShiftId: 20260101,
       });
       dispenserRepo.getHoseFsMapping.mockResolvedValue({
         CodigoPOS: 'SUPER',
         TankIDs: 'T1',
+        unidadMedida: 'galones',
       });
       dispenserRepo.getItemMetadata.mockResolvedValue({
         Description: 'GASOLINA SUPER',
         'VAT Prod_ Posting Group': 'ISV15',
         'Item Category Code': 'FUEL',
         'Gen_ Pump Ledg_ Entry': 1,
+        UnidadMedida: null,
       });
       (storeConfigRepo.findTasaByGrupo as jest.Mock).mockResolvedValue(15);
       const dto = baseDto();
@@ -474,6 +487,7 @@ describe('InvoicesService', () => {
         volume: 2,
         GradeNr: null,
         IsInvoiced: false,
+      ShiftId: 20260101,
       });
       dispenserRepo.getHoseFsMapping.mockResolvedValue(null);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
@@ -506,6 +520,21 @@ describe('InvoicesService', () => {
       );
     });
 
+    it('lanza NotFoundDomainError si no se encuentra la transacción', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      dispenserRepo.getSaleById.mockResolvedValue(null);
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], saleId: 99 }];
+
+      await expect(service.createInvoice(dto)).rejects.toBeInstanceOf(
+        NotFoundDomainError,
+      );
+    });
+
     it('lanza si la transacción ya fue facturada', async () => {
       invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
@@ -520,6 +549,7 @@ describe('InvoicesService', () => {
         volume: 2,
         GradeNr: null,
         IsInvoiced: true,
+      ShiftId: null,
       });
       const dto = baseDto();
       dto.items = [{ ...dto.items[0], saleId: 5 }];
@@ -527,6 +557,72 @@ describe('InvoicesService', () => {
       await expect(service.createInvoice(dto)).rejects.toThrow(
         'ya fue facturada anteriormente',
       );
+    });
+
+    it('lanza ConflictDomainError si la transacción ya fue facturada', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      dispenserRepo.getSaleById.mockResolvedValue({
+        PumpNumber: 1,
+        HoseNumber: '1',
+        amount: 100,
+        ppu: 50,
+        volume: 2,
+        GradeNr: null,
+        IsInvoiced: true,
+      ShiftId: null,
+      });
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], saleId: 5 }];
+
+      await expect(service.createInvoice(dto)).rejects.toBeInstanceOf(
+        ConflictDomainError,
+      );
+    });
+
+    it('factura un saleId pendiente del controlador aunque exista un id_venta viejo en las líneas', async () => {
+      // Escenario: controlador sustituido. El saleId del controlador actual está
+      // pendiente (IsInvoiced=false), pero en lineas_venta existe un id_venta igual
+      // (de un controlador anterior). La validación es SOLO contra fusion_sales
+      // (getSaleById/IsInvoiced), no contra las líneas del POS.
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([
+        { NextInvoiceOfNextInvoice: 'FAC-001-POS01-1' },
+      ] as never);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getSaleById.mockResolvedValue({
+        PumpNumber: 1,
+        HoseNumber: '1',
+        amount: 100,
+        ppu: 50,
+        volume: 2,
+        GradeNr: null,
+        IsInvoiced: false,
+      ShiftId: 20260101,
+      });
+      dispenserRepo.getHoseFsMapping.mockResolvedValue({
+        CodigoPOS: 'SUPER',
+        TankIDs: 'T1',
+        unidadMedida: 'galones',
+      });
+      dispenserRepo.getItemMetadata.mockResolvedValue(null);
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], saleId: 5 }];
+
+      await service.createInvoice(dto);
+
+      expect(invoiceRepo.executeInvoiceInsert).toHaveBeenCalled();
     });
 
     it('deriva ISV 15% desde el grupo del artículo', async () => {
@@ -546,6 +642,7 @@ describe('InvoicesService', () => {
         'VAT Prod_ Posting Group': 'ISV_15',
         'Item Category Code': 'CAT',
         'Gen_ Pump Ledg_ Entry': 1,
+        UnidadMedida: 'UND',
       });
 
       await service.createInvoice(baseDto());
@@ -558,6 +655,7 @@ describe('InvoicesService', () => {
               vatPercent: 15,
               vatProdPostingGroup: 'ISV_15',
               genPumpLedgEntry: 1,
+              unidadMedida: 'UND',
             }),
           ]),
         }),

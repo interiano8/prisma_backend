@@ -28,6 +28,7 @@ describe('OpenShiftUseCase', () => {
       createTurnoControlador: jest.fn(),
       getAvailableShifts: jest.fn(),
       getSalesReportData: jest.fn(),
+      getOpenShiftSaleIds: jest.fn(),
     };
 
     useCase = new OpenShiftUseCase(mockShiftRepository);

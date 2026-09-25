@@ -52,6 +52,7 @@ export class LoginUseCase {
     storeConfig.mostrarTeclado = posConfig?.mostrarTeclado ?? true;
     storeConfig.declararMontosIniciales =
       posConfig?.declararMontosIniciales ?? false;
+    storeConfig.caras = posConfig?.caras ?? [];
     // Cargar la configuración de impresora guardada (config JSON) para que
     // la impresión (preview/IP/nombre) funcione en todo el POS tras el login.
     const tpvConfig = await this.authRepository.findTpvConfig(dto.posNo);

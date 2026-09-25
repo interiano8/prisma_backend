@@ -42,6 +42,7 @@ export class LoginRfidUseCase {
     storeConfig.mostrarTeclado = posConfig?.mostrarTeclado ?? true;
     storeConfig.declararMontosIniciales =
       posConfig?.declararMontosIniciales ?? false;
+    storeConfig.caras = posConfig?.caras ?? [];
     const shiftInfo = await this.authRepository.getActiveShift(
       dto.storeId,
       dto.posNo,

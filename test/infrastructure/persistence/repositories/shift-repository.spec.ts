@@ -470,6 +470,11 @@ describe('ShiftRepositoryImpl', () => {
           },
         ]),
       },
+      metodoPago: {
+        findMany: jest.fn().mockResolvedValue([
+          { codigo: '1002', descripcion: 'EFECTIVO' },
+        ]),
+      },
       venta: {
         findMany: jest
           .fn()
@@ -493,12 +498,14 @@ describe('ShiftRepositoryImpl', () => {
         montoIsv: 0,
         montoDescuentoLinea: 5,
         cantidad: 10,
+        unidadMedida: null,
       },
     ]);
     expect(result.payments).toEqual([
       {
         descripcion: 'EFECTIVO',
         codigoMetodoPago: '1002',
+        metodoPago: 'EFECTIVO',
         monto: 100,
         montoIngresado: 100,
       },

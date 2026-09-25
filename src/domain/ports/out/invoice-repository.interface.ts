@@ -13,6 +13,8 @@ export interface InvoiceLineItem {
   pumpNo: string;
   pumpPositionNo: string;
   tankNo: string;
+  unidadMedida?: string | null;
+  turnoControlador?: string | null;
   itemCategoryCode: string;
   genPumpLedgEntry: number;
   vatProdPostingGroup: string;

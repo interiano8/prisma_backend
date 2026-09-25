@@ -100,12 +100,12 @@ model Tienda {
   avisoNuevosRangosNotaCredito     Int?     @map("aviso_nuevos_rangos_nota_credito")
   fusionAsignado                   Boolean? @map("fusion_asignado")
   ipFusion                         String?  @map("ip_fusion")
-  api                              String?  @map("api")
+  urlControlador                   String?  @map("url_controlador")
   variasLineasPermitidas           Boolean? @map("varias_lineas_permitidas")
   descuentosPermitidos             Boolean? @map("descuentos_permitidos")
   bloqueadoTransaccionesPendientes Boolean? @map("bloqueado_transacciones_pendientes")
   modoDepuracion                   Boolean? @map("modo_depuracion")
-  claveFusion                      String?  @map("clave_fusion")
+  claveControlador                 String?  @map("clave_controlador")
   codigoConsumidorFinal            String?  @map("codigo_consumidor_final")
   urlSaldo                         String?  @map("url_saldo")
   validarRfid                      Boolean? @map("validar_rfid")
@@ -149,6 +149,7 @@ model ConfiguracionPos {
   declararMontosIniciales  Boolean? @map("declarar_montos_iniciales")
   visualizacion            String?  @map("visualizacion")
   config                   Json?    @map("config")
+  caras                    Json?    @map("caras")
 
   @@map("configuracion_pos")
 }
@@ -438,6 +439,8 @@ model Venta {
   rangoDesde           String?   @map("rango_desde")
   rangoHasta           String?   @map("rango_hasta")
   fechaVenceRango      DateTime? @map("fecha_vence_rango") @db.Date
+  idTurno              String?   @map("id_turno")
+  numeroTurno          String?   @map("numero_turno")
 
   lineasVenta          LineaVenta[]
   pagosVenta           PagoVenta[]
@@ -468,6 +471,8 @@ model LineaVenta {
   numeroBomba            String?   @map("numero_bomba")
   posicionBomba          String?   @map("posicion_bomba")
   numeroTanque           String?   @map("numero_tanque")
+  unidadMedida           String?   @map("unidad_medida")
+  turnoControlador       String?   @map("turno_controlador")
   horaOperacion          DateTime? @map("hora_operacion") @db.Timestamptz(6)
   codigoCategoria         String?   @map("codigo_categoria")
   categoria               CategoriaProducto? @relation(fields: [codigoCategoria], references: [codigo])

@@ -37,6 +37,7 @@ export class DomainErrorFilter implements ExceptionFilter {
       statusCode: status,
       code: exception.code,
       message: exception.message,
+      details: exception.details ?? undefined,
     });
   }
 }

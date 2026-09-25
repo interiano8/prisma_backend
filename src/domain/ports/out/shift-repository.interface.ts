@@ -18,11 +18,14 @@ export interface ShiftSalesLine {
   montoIsv: number | null;
   montoDescuentoLinea: number | null;
   cantidad: number | null;
+  unidadMedida: string | null;
 }
 
 export interface ShiftSalePayment {
   descripcion: string | null;
   codigoMetodoPago: string | null;
+  /** Nombre real del método (metodoPago.descripcion) resuelto por código. */
+  metodoPago: string | null;
   monto: number | null;
   montoIngresado: number | null;
 }
@@ -68,6 +71,12 @@ export interface ShiftRepository {
   ): Promise<DbOpenShiftResult>;
   createShift(dto: OpenShiftCommand): Promise<Shift>;
   closeShift(dto: CloseShiftCommand): Promise<{ success: boolean }>;
+  /** sale_ids (fusion) de las ventas del turno abierto del empleado. */
+  getOpenShiftSaleIds(
+    storeId: string,
+    posNo: string,
+    employeeName: string,
+  ): Promise<number[]>;
   countTurnoControladorByPeriod(periodId: string): Promise<number>;
   createTurnoControlador(data: {
     periodId: string;

@@ -94,6 +94,7 @@ export type ConfiguracionPosCountAggregateOutputType = {
   declararMontosIniciales: number
   visualizacion: number
   config: number
+  caras: number
   _all: number
 }
 
@@ -166,6 +167,7 @@ export type ConfiguracionPosCountAggregateInputType = {
   declararMontosIniciales?: true
   visualizacion?: true
   config?: true
+  caras?: true
   _all?: true
 }
 
@@ -273,6 +275,7 @@ export type ConfiguracionPosGroupByOutputType = {
   declararMontosIniciales: boolean | null
   visualizacion: string | null
   config: runtime.JsonValue | null
+  caras: runtime.JsonValue | null
   _count: ConfiguracionPosCountAggregateOutputType | null
   _avg: ConfiguracionPosAvgAggregateOutputType | null
   _sum: ConfiguracionPosSumAggregateOutputType | null
@@ -316,6 +319,7 @@ export type ConfiguracionPosWhereInput = {
   declararMontosIniciales?: Prisma.BoolNullableFilter<"ConfiguracionPos"> | boolean | null
   visualizacion?: Prisma.StringNullableFilter<"ConfiguracionPos"> | string | null
   config?: Prisma.JsonNullableFilter<"ConfiguracionPos">
+  caras?: Prisma.JsonNullableFilter<"ConfiguracionPos">
 }
 
 export type ConfiguracionPosOrderByWithRelationInput = {
@@ -336,6 +340,7 @@ export type ConfiguracionPosOrderByWithRelationInput = {
   declararMontosIniciales?: Prisma.SortOrderInput | Prisma.SortOrder
   visualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   config?: Prisma.SortOrderInput | Prisma.SortOrder
+  caras?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type ConfiguracionPosWhereUniqueInput = Prisma.AtLeast<{
@@ -359,6 +364,7 @@ export type ConfiguracionPosWhereUniqueInput = Prisma.AtLeast<{
   declararMontosIniciales?: Prisma.BoolNullableFilter<"ConfiguracionPos"> | boolean | null
   visualizacion?: Prisma.StringNullableFilter<"ConfiguracionPos"> | string | null
   config?: Prisma.JsonNullableFilter<"ConfiguracionPos">
+  caras?: Prisma.JsonNullableFilter<"ConfiguracionPos">
 }, "id" | "codigoPos">
 
 export type ConfiguracionPosOrderByWithAggregationInput = {
@@ -379,6 +385,7 @@ export type ConfiguracionPosOrderByWithAggregationInput = {
   declararMontosIniciales?: Prisma.SortOrderInput | Prisma.SortOrder
   visualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   config?: Prisma.SortOrderInput | Prisma.SortOrder
+  caras?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ConfiguracionPosCountOrderByAggregateInput
   _avg?: Prisma.ConfiguracionPosAvgOrderByAggregateInput
   _max?: Prisma.ConfiguracionPosMaxOrderByAggregateInput
@@ -407,6 +414,7 @@ export type ConfiguracionPosScalarWhereWithAggregatesInput = {
   declararMontosIniciales?: Prisma.BoolNullableWithAggregatesFilter<"ConfiguracionPos"> | boolean | null
   visualizacion?: Prisma.StringNullableWithAggregatesFilter<"ConfiguracionPos"> | string | null
   config?: Prisma.JsonNullableWithAggregatesFilter<"ConfiguracionPos">
+  caras?: Prisma.JsonNullableWithAggregatesFilter<"ConfiguracionPos">
 }
 
 export type ConfiguracionPosCreateInput = {
@@ -426,6 +434,7 @@ export type ConfiguracionPosCreateInput = {
   declararMontosIniciales?: boolean | null
   visualizacion?: string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosUncheckedCreateInput = {
@@ -446,6 +455,7 @@ export type ConfiguracionPosUncheckedCreateInput = {
   declararMontosIniciales?: boolean | null
   visualizacion?: string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosUpdateInput = {
@@ -465,6 +475,7 @@ export type ConfiguracionPosUpdateInput = {
   declararMontosIniciales?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   visualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosUncheckedUpdateInput = {
@@ -485,6 +496,7 @@ export type ConfiguracionPosUncheckedUpdateInput = {
   declararMontosIniciales?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   visualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosCreateManyInput = {
@@ -505,6 +517,7 @@ export type ConfiguracionPosCreateManyInput = {
   declararMontosIniciales?: boolean | null
   visualizacion?: string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosUpdateManyMutationInput = {
@@ -524,6 +537,7 @@ export type ConfiguracionPosUpdateManyMutationInput = {
   declararMontosIniciales?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   visualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosUncheckedUpdateManyInput = {
@@ -544,6 +558,7 @@ export type ConfiguracionPosUncheckedUpdateManyInput = {
   declararMontosIniciales?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   visualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  caras?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ConfiguracionPosCountOrderByAggregateInput = {
@@ -564,6 +579,7 @@ export type ConfiguracionPosCountOrderByAggregateInput = {
   declararMontosIniciales?: Prisma.SortOrder
   visualizacion?: Prisma.SortOrder
   config?: Prisma.SortOrder
+  caras?: Prisma.SortOrder
 }
 
 export type ConfiguracionPosAvgOrderByAggregateInput = {
@@ -636,6 +652,7 @@ export type ConfiguracionPosSelect<ExtArgs extends runtime.Types.Extensions.Inte
   declararMontosIniciales?: boolean
   visualizacion?: boolean
   config?: boolean
+  caras?: boolean
 }, ExtArgs["result"]["configuracionPos"]>
 
 export type ConfiguracionPosSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -656,6 +673,7 @@ export type ConfiguracionPosSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   declararMontosIniciales?: boolean
   visualizacion?: boolean
   config?: boolean
+  caras?: boolean
 }, ExtArgs["result"]["configuracionPos"]>
 
 export type ConfiguracionPosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -676,6 +694,7 @@ export type ConfiguracionPosSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   declararMontosIniciales?: boolean
   visualizacion?: boolean
   config?: boolean
+  caras?: boolean
 }, ExtArgs["result"]["configuracionPos"]>
 
 export type ConfiguracionPosSelectScalar = {
@@ -696,9 +715,10 @@ export type ConfiguracionPosSelectScalar = {
   declararMontosIniciales?: boolean
   visualizacion?: boolean
   config?: boolean
+  caras?: boolean
 }
 
-export type ConfiguracionPosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigoPos" | "pantallaEnBomba" | "bloquearSoloPos" | "mostrarVideoPublicidad" | "reimprimirVarios" | "facturarVariasLineas" | "descuentoManual" | "ocultarBotonOtrasBombas" | "ocultarInformacionTurnos" | "mostrarBombas" | "numTransaccionesBombas" | "minutosAtrasada" | "mostrarTeclado" | "declararMontosIniciales" | "visualizacion" | "config", ExtArgs["result"]["configuracionPos"]>
+export type ConfiguracionPosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigoPos" | "pantallaEnBomba" | "bloquearSoloPos" | "mostrarVideoPublicidad" | "reimprimirVarios" | "facturarVariasLineas" | "descuentoManual" | "ocultarBotonOtrasBombas" | "ocultarInformacionTurnos" | "mostrarBombas" | "numTransaccionesBombas" | "minutosAtrasada" | "mostrarTeclado" | "declararMontosIniciales" | "visualizacion" | "config" | "caras", ExtArgs["result"]["configuracionPos"]>
 
 export type $ConfiguracionPosPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ConfiguracionPos"
@@ -721,6 +741,7 @@ export type $ConfiguracionPosPayload<ExtArgs extends runtime.Types.Extensions.In
     declararMontosIniciales: boolean | null
     visualizacion: string | null
     config: runtime.JsonValue | null
+    caras: runtime.JsonValue | null
   }, ExtArgs["result"]["configuracionPos"]>
   composites: {}
 }
@@ -1161,6 +1182,7 @@ export interface ConfiguracionPosFieldRefs {
   readonly declararMontosIniciales: Prisma.FieldRef<"ConfiguracionPos", 'Boolean'>
   readonly visualizacion: Prisma.FieldRef<"ConfiguracionPos", 'String'>
   readonly config: Prisma.FieldRef<"ConfiguracionPos", 'Json'>
+  readonly caras: Prisma.FieldRef<"ConfiguracionPos", 'Json'>
 }
     
 

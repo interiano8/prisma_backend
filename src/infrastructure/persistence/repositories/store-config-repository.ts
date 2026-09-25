@@ -32,6 +32,30 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
     }
   }
 
+  async findBlockedForPendingBomba(storeId: string): Promise<boolean> {
+    try {
+      const row = await this.prisma.tienda.findUnique({
+        where: { idTienda: storeId },
+        select: { bloqueadoTransaccionesBomba: true },
+      });
+      return row?.bloqueadoTransaccionesBomba === true;
+    } catch {
+      return false;
+    }
+  }
+
+  async findBlockedForPendingTurno(storeId: string): Promise<boolean> {
+    try {
+      const row = await this.prisma.tienda.findUnique({
+        where: { idTienda: storeId },
+        select: { bloqueadoTransaccionesTurno: true },
+      });
+      return row?.bloqueadoTransaccionesTurno === true;
+    } catch {
+      return false;
+    }
+  }
+
   async findHideShiftInfo(posCode: string): Promise<boolean> {
     try {
       const row = await this.prisma.configuracionPos.findUnique({
@@ -124,7 +148,7 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
       isGasStation: row.esControladorGas === true,
       isGasController: row.esControladorGas === true,
       ipFusionController: row.ipFusion || '',
-      fusionControllerKey: row.claveFusion || '',
+      claveControlador: row.claveControlador || '',
       isFusionAssigned: row.fusionAsignado === true,
       isLealEnabled: row.lealHabilitado === true,
       urlLeal: row.urlLeal || '',
@@ -142,13 +166,14 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
       address3: row.direccion3 || '',
       passAdmin: row.contrasenaAdmin || '',
       turnos: row.turnos ?? null,
+      caras: [],
       d3: row.d3 != null ? String(row.d3) : '',
       d4: row.d4 != null ? String(row.d4) : '',
       numberOfTransactionsWaiting: row.transaccionesPendientes ?? null,
       codeCountry: row.codigoPais || '',
       warningNewInvoiceRanges: row.avisoNuevosRangosFactura ?? null,
       warningNewCreditNotesRanges: row.avisoNuevosRangosNotaCredito ?? null,
-      api: row.api || '',
+      urlControlador: row.urlControlador || '',
       blockedForPendingTransactions:
         row.bloqueadoTransaccionesPendientes === true,
       debugMode: row.modoDepuracion === true,

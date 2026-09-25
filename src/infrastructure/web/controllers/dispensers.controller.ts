@@ -40,6 +40,11 @@ export class DispensersController {
     return this.dispensersService.getPumpTransactions(pumpId, lim);
   }
 
+  @Post('restart-controlador')
+  async restartControlador() {
+    return this.dispensersService.restartControlador();
+  }
+
   @Post('authorize')
   @HttpCode(HttpStatus.OK)
   authorize(@Body() dto: AuthorizePumpDto) {

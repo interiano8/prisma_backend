@@ -7,6 +7,8 @@ export interface PosConfig {
   declararMontosIniciales: boolean | null;
   visualizacion: string | null;
   config?: unknown;
+  /** Caras (pump ids) del POS. */
+  caras: number[] | null;
 }
 
 export interface PosConfigUpdateData {
@@ -18,6 +20,7 @@ export interface PosConfigUpdateData {
   declararMontosIniciales?: boolean;
   visualizacion?: string;
   config?: unknown;
+  caras?: number[];
 }
 
 export interface PosConfigRepository {

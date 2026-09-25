@@ -198,6 +198,52 @@ export class ShiftRepositoryImpl implements ShiftRepository {
     return this.mapShift(shift);
   }
 
+  async getOpenShiftSaleIds(
+    storeId: string,
+    posNo: string,
+    employeeName: string,
+  ): Promise<number[]> {
+    const gasStationCode = padStoreId(storeId);
+    void posNo;
+
+    const openShift = await this.prisma.turno.findFirst({
+      where: {
+        idTienda: gasStationCode,
+        nombreEmpleado: employeeName,
+        finTurno: null,
+      },
+      orderBy: { inicioTurno: 'desc' },
+    });
+    if (!openShift) return [];
+
+    const dayStart = new Date(openShift.inicioTurno);
+    dayStart.setHours(0, 0, 0, 0);
+    const dayEnd = new Date(dayStart);
+    dayEnd.setHours(23, 59, 59, 999);
+    const turnoNum = openShift.turno?.toString() || '';
+
+    const txs = await this.prisma.registroTransaccion.findMany({
+      where: {
+        numeroTurno: turnoNum,
+        fechaTurno: { gte: dayStart, lte: dayEnd },
+        tipoTransaccion: { in: [1, 2, 3] },
+      },
+      select: { idTransaccionPos: true },
+    });
+    const ids = txs.map((t) => t.idTransaccionPos);
+
+    const lineas = ids.length
+      ? await this.prisma.lineaVenta.findMany({
+          where: { idTransaccionPos: { in: ids }, idVenta: { not: null } },
+          distinct: ['idVenta'],
+          select: { idVenta: true },
+        })
+      : [];
+    return lineas
+      .map((l) => Number(l.idVenta))
+      .filter((n) => Number.isFinite(n) && n > 0);
+  }
+
   async closeShift(dto: CloseShiftCommand): Promise<{ success: boolean }> {
     const gasStationCode = padStoreId(dto.storeId);
 
@@ -379,6 +425,15 @@ export class ShiftRepositoryImpl implements ShiftRepository {
       const rawHeaders = await this.prisma.venta.findMany({
         where: { idTransaccionPos: { in: txIds } },
       });
+      const methodCodes = rawPayments
+        .map((p) => p.codigoMetodoPago)
+        .filter((c): c is string => !!c);
+      const methodRows = methodCodes.length
+        ? await this.prisma.metodoPago.findMany({
+            where: { codigo: { in: methodCodes } },
+          })
+        : [];
+      const methodMap = new Map(methodRows.map((m) => [m.codigo, m.descripcion]));
 for (const l of rawLines) {
         lines.push({
           numeroBomba: l.numeroBomba,
@@ -389,12 +444,16 @@ for (const l of rawLines) {
           montoDescuentoLinea:
             l.montoDescuentoLinea != null ? Number(l.montoDescuentoLinea) : null,
           cantidad: l.cantidad != null ? Number(l.cantidad) : null,
+          unidadMedida: l.unidadMedida ?? null,
         });
       }
       for (const p of rawPayments) {
         payments.push({
           descripcion: p.descripcion,
           codigoMetodoPago: p.codigoMetodoPago,
+          metodoPago: p.codigoMetodoPago
+            ? methodMap.get(p.codigoMetodoPago) ?? null
+            : null,
           monto: p.monto != null ? Number(p.monto) : null,
           montoIngresado:
             p.montoIngresado != null ? Number(p.montoIngresado) : null,

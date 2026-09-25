@@ -107,7 +107,6 @@ Sin token (o con token inválido/expirado) la API responde `401 Unauthorized`.
 | `JWT_SECRET` | Secreto para firmar/verificar los tokens (obligatoria; sin ella falla el sign/verify). |
 | `ADMIN_MASTER_PASSWORD` | Contraseña maestra de administrador validada en `validate-admin` (antes estaba hardcodeada en el código). |
 | `CORS_ORIGINS` | Lista de orígenes permitidos separados por coma. Vacío = CORS deshabilitado (solo same-origin). |
-| `KEYMASTER` | Clave maestra para descifrar `.env.enc` en producción. |
 
 Los tokens expiran a las **8 horas** (`TOKEN_TTL` en `src/auth/token.service.ts`).
 

@@ -5,12 +5,17 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { loadEncryptedEnv } from './utils/env-loader';
+import { loadEnv } from './utils/env-loader';
+import { ensureLicense } from './infrastructure/licensing/license';
 import { DomainErrorFilter } from './infrastructure/web/filters/domain-error.filter';
 
 async function bootstrap() {
-  // Load encrypted environment variables if .env.enc exists
-  loadEncryptedEnv();
+  // Carga las variables de entorno del archivo .env
+  loadEnv();
+
+  // Licencia: enrolamiento en la nube (primer arranque online) + validación
+  // offline no castigadora. Bypass WAYNE_SKIP_LICENSE solo fuera de producción.
+  await ensureLicense();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 

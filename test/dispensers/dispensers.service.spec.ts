@@ -85,11 +85,13 @@ describe('DispensersService', () => {
         {
           SaleID: 55,
           PumpNumber: 1,
+          HoseId: 1,
           amount: 120,
           ppu: 30,
           volume: 4,
           GradeNr: 1,
           IsInvoiced: false,
+          ShiftId: null,
         },
       ]);
 

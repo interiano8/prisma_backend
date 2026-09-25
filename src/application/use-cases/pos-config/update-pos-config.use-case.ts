@@ -21,6 +21,7 @@ export class UpdatePosConfigUseCase {
       mostrarTeclado?: boolean;
       declararMontosIniciales?: boolean;
       visualizacion?: string;
+      caras?: number[];
     },
   ): Promise<PosConfigData> {
     const data: PosConfigUpdateData = {};
@@ -41,6 +42,11 @@ export class UpdatePosConfigUseCase {
     if (partial.visualizacion !== undefined) {
       data.visualizacion =
         partial.visualizacion === 'categorias' ? 'categorias' : 'multimedia';
+    }
+    if (partial.caras !== undefined) {
+      data.caras = partial.caras
+        .map((c) => Number(c))
+        .filter((n) => Number.isFinite(n));
     }
 
     await this.posConfigRepository.upsert(posNo, data);

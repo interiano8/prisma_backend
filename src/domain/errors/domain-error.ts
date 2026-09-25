@@ -1,9 +1,11 @@
 export abstract class DomainError extends Error {
   abstract readonly code: string;
+  readonly details?: unknown;
 
-  constructor(message: string) {
+  constructor(message: string, details?: unknown) {
     super(message);
     this.name = new.target.name;
+    this.details = details;
   }
 }
 

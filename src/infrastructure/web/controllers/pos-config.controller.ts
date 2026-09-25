@@ -25,6 +25,7 @@ export class PosConfigController {
       mostrarTeclado?: boolean;
       declararMontosIniciales?: boolean;
       visualizacion?: string;
+      caras?: number[];
     },
   ) {
     return this.updatePosConfigUseCase.execute(posNo, body);

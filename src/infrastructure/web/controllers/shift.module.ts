@@ -8,6 +8,8 @@ import { GetShiftStatusUseCase } from '../../../application/use-cases/shift/get-
 import { OpenShiftUseCase } from '../../../application/use-cases/shift/open-shift.use-case';
 import { CloseShiftUseCase } from '../../../application/use-cases/shift/close-shift.use-case';
 import type { ShiftRepository } from '../../../domain/ports/out/shift-repository.interface';
+import type { DispenserRepository } from '../../../domain/ports/out/dispenser-repository.interface';
+import type { StoreConfigRepository } from '../../../domain/ports/out/store-config-repository.interface';
 
 @Module({
   imports: [DispensersModule],
@@ -28,8 +30,17 @@ import type { ShiftRepository } from '../../../domain/ports/out/shift-repository
     },
     {
       provide: CloseShiftUseCase,
-      useFactory: (repo: ShiftRepository) => new CloseShiftUseCase(repo),
-      inject: ['ShiftRepository'],
+      useFactory: (
+        repo: ShiftRepository,
+        dispenserRepo: DispenserRepository,
+        storeConfigRepo: StoreConfigRepository,
+      ) =>
+        new CloseShiftUseCase(repo, dispenserRepo, storeConfigRepo),
+      inject: [
+        'ShiftRepository',
+        'DispenserRepository',
+        'StoreConfigRepository',
+      ],
     },
   ],
   exports: [

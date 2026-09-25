@@ -27,12 +27,12 @@ export interface RawStore {
   WarningNewCreditNotesRanges: number | null;
   IsFusionAssigned: number;
   IPFusionController: string | null;
-  Api: string | null;
+  UrlControlador: string | null;
   MultipleItemsAllowed: number;
   AllowedToApplyDiscounts: number;
   BlockedForPendingTransactions: number;
   DebugMode: number;
-  FusionControllerKey: string | null;
+  ClaveControlador: string | null;
   NoConsumidorFinal: string | null;
   URLSaldo: string | null;
   ValidarRFID: number;
@@ -72,6 +72,7 @@ export interface AuthRepository {
     minutosAtrasada: number;
     mostrarTeclado: boolean;
     declararMontosIniciales: boolean;
+    caras: number[];
   } | null>;
   findPassAdmin(storeId: string): Promise<string | null>;
   updatePassAdmin(storeId: string, hash: string): Promise<void>;

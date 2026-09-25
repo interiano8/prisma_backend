@@ -74,6 +74,7 @@ describe('AuthRepositoryImpl', () => {
       minutosAtrasada: 8,
       mostrarTeclado: false,
       declararMontosIniciales: true,
+      caras: [],
     });
   });
 
@@ -194,7 +195,7 @@ describe('AuthRepositoryImpl', () => {
       direccion1: 'Dir 1',
       esControladorGas: true,
       ipFusion: '10.0.0.1',
-      claveFusion: 'KF',
+      claveControlador: 'KF',
       fusionAsignado: true,
       lealHabilitado: true,
       urlLeal: 'https://leal',
@@ -316,6 +317,7 @@ describe('AuthRepositoryImpl', () => {
       minutosAtrasada: 10,
       mostrarTeclado: true,
       declararMontosIniciales: false,
+      caras: [],
     });
   });
 

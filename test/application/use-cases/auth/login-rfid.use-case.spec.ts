@@ -66,7 +66,7 @@ describe('LoginRfidUseCase', () => {
       isGasStation: false,
       isGasController: false,
       ipFusionController: '',
-      fusionControllerKey: '',
+      claveControlador: '',
       isFusionAssigned: false,
       isLealEnabled: false,
       urlLeal: '',
@@ -90,7 +90,7 @@ describe('LoginRfidUseCase', () => {
       codeCountry: '',
       warningNewInvoiceRanges: null,
       warningNewCreditNotesRanges: null,
-      api: '',
+  urlControlador: '',
       blockedForPendingTransactions: false,
       debugMode: false,
       noConsumidorFinal: '',
@@ -107,6 +107,7 @@ describe('LoginRfidUseCase', () => {
       calculoInverso: false,
       campanas: false,
       nombreBotonFidelizacion: 'LEAL',
+        caras: [],
     });
     mockAuthRepository.findPosConfig.mockResolvedValue(null);
     mockAuthRepository.getActiveShift.mockResolvedValue({
@@ -178,7 +179,7 @@ describe('LoginRfidUseCase', () => {
       isGasStation: false,
       isGasController: false,
       ipFusionController: '',
-      fusionControllerKey: '',
+      claveControlador: '',
       isFusionAssigned: false,
       isLealEnabled: false,
       urlLeal: '',
@@ -202,7 +203,7 @@ describe('LoginRfidUseCase', () => {
       codeCountry: '',
       warningNewInvoiceRanges: null,
       warningNewCreditNotesRanges: null,
-      api: '',
+  urlControlador: '',
       blockedForPendingTransactions: false,
       debugMode: false,
       noConsumidorFinal: '',
@@ -219,6 +220,7 @@ describe('LoginRfidUseCase', () => {
       calculoInverso: false,
       campanas: false,
       nombreBotonFidelizacion: 'LEAL',
+        caras: [],
     });
     mockAuthRepository.findPosConfig.mockResolvedValue(null);
     mockAuthRepository.getActiveShift.mockResolvedValue({
@@ -286,6 +288,7 @@ describe('LoginRfidUseCase', () => {
       minutosAtrasada: 7,
       mostrarTeclado: false,
       declararMontosIniciales: true,
+      caras: [],
     });
     mockAuthRepository.getActiveShift.mockResolvedValue(null as never);
 

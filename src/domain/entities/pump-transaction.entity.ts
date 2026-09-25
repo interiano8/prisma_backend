@@ -16,4 +16,5 @@ export interface PumpTransaction {
   fecha: string;
   hora: string;
   despachador: string;
+  shiftId: number | null;
 }

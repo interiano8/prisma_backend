@@ -21,19 +21,7 @@ if (-not (Test-Path $NssmPath)) {
 
 Write-Host "--- Instalador de Servicio de Windows BCPOS Backend ---" -ForegroundColor Cyan
 
-# 3. Securely prompt for the Master Key (Keymaster)
-# Using -AsSecureString ensures the input is masked and not stored in command history
-$SecureKey = Read-Host "Ingrese la Master Key (Keymaster) para el servicio" -AsSecureString
-$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureKey)
-$PlainKey = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
-[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
-
-if ([string]::IsNullOrWhiteSpace($PlainKey)) {
-    Write-Error "La Master Key no puede estar vacia."
-    Exit
-}
-
-# 4. Resolve Node.exe path
+# 3. Resolve Node.exe path
 $NodePath = Get-Command node -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
 if (-not $NodePath) {
     # Check common installation directories
@@ -54,7 +42,7 @@ if (-not $NodePath) {
     Exit
 }
 
-# 5. Define service configuration
+# 4. Define service configuration
 $ServiceName = "backend-bcpos-app"
 $AppDirectory = $PSScriptRoot
 $AppScript = Join-Path $AppDirectory "dist\src\main.js"
@@ -63,7 +51,7 @@ if (-not (Test-Path $AppScript)) {
     Write-Warning "Advertencia: No se encontro el archivo compilado '$AppScript'. Asegurese de compilar el backend ejecutando 'pnpm run build' antes de iniciar el servicio."
 }
 
-# 6. Service Installation
+# 5. Service Installation
 Write-Host "Instalando servicio '$ServiceName'..." -ForegroundColor Green
 & $NssmPath install $ServiceName $NodePath $AppScript
 & $NssmPath set $ServiceName AppDirectory $AppDirectory
@@ -73,18 +61,7 @@ Write-Host "Instalando servicio '$ServiceName'..." -ForegroundColor Green
 & $NssmPath set $ServiceName AppStdout (Join-Path $AppDirectory "service_stdout.log")
 & $NssmPath set $ServiceName AppStderr (Join-Path $AppDirectory "service_stderr.log")
 
-# 7. Securely set the Keymaster env variable directly in Windows Registry to avoid leaking via process command line arguments
-Write-Host "Configurando variables de entorno del servicio directamente en el Registro..." -ForegroundColor Green
-$RegistryPath = "HKLM:\System\CurrentControlSet\Services\$ServiceName\Parameters"
-Set-ItemProperty -Path $RegistryPath -Name "AppEnvironmentExtra" -Value @("KEYMASTER=$PlainKey") -PropertyType MultiString
-
-# Clear sensitive variables from memory immediately
-$PlainKey = $null
-$SecureKey = $null
-$BSTR = $null
-[System.GC]::Collect()
-
-# 8. Start Service
+# 6. Start Service
 Write-Host "Iniciando servicio..." -ForegroundColor Green
 & $NssmPath start $ServiceName
 

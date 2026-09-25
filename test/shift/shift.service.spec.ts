@@ -20,6 +20,7 @@ describe('ShiftService', () => {
       createTurnoControlador: jest.fn(),
       getAvailableShifts: jest.fn(),
       getSalesReportData: jest.fn(),
+      getOpenShiftSaleIds: jest.fn(),
       findOpenShift: jest.fn(),
       findOpenShiftFromDb: jest.fn(),
       getOpenShiftByEmployee: jest.fn(),
@@ -33,6 +34,8 @@ describe('ShiftService', () => {
       findHideShiftInfo: jest.fn(),
       findExchangeRate: jest.fn(),
       findTasaByGrupo: jest.fn().mockResolvedValue(0),
+      findBlockedForPendingBomba: jest.fn().mockResolvedValue(false),
+      findBlockedForPendingTurno: jest.fn().mockResolvedValue(false),
     };
     dispenserRepo = {
       countPendingSalesForPos: jest.fn(),
@@ -62,7 +65,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock.mockResolvedValue(response({ success: true }));
 
@@ -101,7 +104,7 @@ describe('ShiftService', () => {
       storeConfigRepo.findBlockedForPendingTransactions.mockResolvedValue(true);
       dispenserRepo.countPendingSalesForPos.mockResolvedValue(0);
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock.mockResolvedValue(response({ success: true }));
 
@@ -136,7 +139,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'fusion.local/api/',
+  urlControlador: 'fusion.local/api/',
       } as never);
       fetchMock.mockResolvedValue(response({ success: true }));
 
@@ -159,7 +162,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock.mockResolvedValue(
         response({ errorCode: 'E1', message: 'boom' }),
@@ -180,7 +183,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock.mockResolvedValue(response({ message: 'ERROR: something' }));
 
@@ -199,7 +202,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock.mockResolvedValue(response({ errorCode: 'E42' }));
 
@@ -218,7 +221,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock.mockRejectedValue(new Error('ECONNREFUSED'));
 
@@ -239,7 +242,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock
         .mockResolvedValueOnce(response({ success: true }))
@@ -278,7 +281,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock
         .mockResolvedValueOnce(response({ success: true }))
@@ -300,7 +303,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       const consoleSpy = jest
         .spyOn(console, 'error')
@@ -328,7 +331,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock
         .mockResolvedValueOnce(response({ success: true }))
@@ -349,7 +352,7 @@ describe('ShiftService', () => {
         false,
       );
       storeConfigRepo.findByStoreId.mockResolvedValue({
-        api: 'http://fusion.local',
+  urlControlador: 'http://fusion.local',
       } as never);
       fetchMock
         .mockResolvedValueOnce(response({ success: true }))
@@ -445,8 +448,12 @@ describe('ShiftService', () => {
 
       expect(result.shouldHideData).toBe(false);
       expect(result.tasaCambio).toBe(24.5);
-      expect(result.combustibles).toEqual([{ name: 'Diesel', total: 150, cantidad: 0 }]);
-      expect(result.otrosProductos).toEqual([{ name: 'Diesel', total: 20, cantidad: 0 }]);
+      expect(result.combustibles).toEqual([
+        { name: 'Diesel', total: 150, cantidad: 0, volumenGalones: 0, volumenLitros: 0, unidadMedida: null },
+      ]);
+      expect(result.otrosProductos).toEqual([
+        { name: 'Diesel', total: 20, cantidad: 0, unidadMedida: null },
+      ]);
       expect(result.dispensadores).toEqual([{ PumpNo: '01' }]);
       expect(result.totales).toMatchObject({
         totalCombustible: 150,
@@ -553,7 +560,9 @@ describe('ShiftService', () => {
 
       expect(result.cobros).toEqual([{ name: 'CASH2', total: 50, cantidad: 1 }]);
       expect(result.movCaja).toEqual([{ name: 'CASH2', total: 50, cantidad: 0 }]);
-      expect(result.combustibles).toEqual([{ name: '', total: 100, cantidad: 0 }]);
+      expect(result.combustibles).toEqual([
+        { name: '', total: 100, cantidad: 0, volumenGalones: 0, volumenLitros: 0, unidadMedida: null },
+      ]);
       expect(result.impuestos).toEqual([{ name: '', total: 0, cantidad: 0 }]);
     });
 
@@ -610,7 +619,170 @@ describe('ShiftService', () => {
         '2026-08-15',
       );
 
-      expect(result.otrosProductos).toEqual([{ name: '', total: 40, cantidad: 0 }]);
+      expect(result.otrosProductos).toEqual([{ name: '', total: 40, cantidad: 0, unidadMedida: null }]);
+    });
+
+    it('convierte volumen a galones y litros según unidad GALON', async () => {
+      storeConfigRepo.findHideShiftInfo.mockResolvedValue(false);
+      storeConfigRepo.findExchangeRate.mockResolvedValue(1);
+      shiftRepo.getSalesReportData.mockResolvedValue({
+        lines: [
+          build({
+            ...baseLine,
+            numeroBomba: '01',
+            cantidad: 20,
+            unidadMedida: 'galones',
+          }),
+        ],
+        payments: [],
+        headers: [],
+      });
+
+      const result = await service.getShiftSalesReport(
+        '001',
+        'POS01',
+        'John',
+        '1',
+        '2026-08-15',
+      );
+
+      expect(result.combustibles).toEqual([
+        {
+          name: 'Diesel',
+          total: 100,
+          cantidad: 20,
+          volumenGalones: 20,
+          volumenLitros: 75.708,
+          unidadMedida: 'galones',
+        },
+      ]);
+      expect(result.totales).toMatchObject({
+        volumenGalones: 20,
+        volumenLitros: 75.708,
+      });
+    });
+
+    it('convierte volumen a galones y litros según unidad LITRO', async () => {
+      storeConfigRepo.findHideShiftInfo.mockResolvedValue(false);
+      storeConfigRepo.findExchangeRate.mockResolvedValue(1);
+      shiftRepo.getSalesReportData.mockResolvedValue({
+        lines: [
+          build({
+            ...baseLine,
+            numeroBomba: '01',
+            cantidad: 75.708,
+            unidadMedida: 'litros',
+          }),
+        ],
+        payments: [],
+        headers: [],
+      });
+
+      const result = await service.getShiftSalesReport(
+        '001',
+        'POS01',
+        'John',
+        '1',
+        '2026-08-15',
+      );
+
+      const gal = Math.round((75.708 / 3.785411784) * 1000) / 1000;
+      expect(result.combustibles[0].volumenGalones).toBe(gal);
+      expect(result.combustibles[0].volumenLitros).toBe(75.708);
+    });
+
+    it('trata la línea sin unidad como galones por defecto', async () => {
+      storeConfigRepo.findHideShiftInfo.mockResolvedValue(false);
+      storeConfigRepo.findExchangeRate.mockResolvedValue(1);
+      shiftRepo.getSalesReportData.mockResolvedValue({
+        lines: [
+          build({ ...baseLine, numeroBomba: '01', cantidad: 10 }),
+        ],
+        payments: [],
+        headers: [],
+      });
+
+      const result = await service.getShiftSalesReport(
+        '001',
+        'POS01',
+        'John',
+        '1',
+        '2026-08-15',
+      );
+
+      expect(result.combustibles[0].volumenGalones).toBe(10);
+      expect(result.combustibles[0].volumenLitros).toBe(37.854);
+    });
+
+    it('expone la unidad de medida en combustibles y otros productos', async () => {
+      storeConfigRepo.findHideShiftInfo.mockResolvedValue(false);
+      storeConfigRepo.findExchangeRate.mockResolvedValue(1);
+      shiftRepo.getSalesReportData.mockResolvedValue({
+        lines: [
+          build({
+            ...baseLine,
+            numeroBomba: '01',
+            cantidad: 10,
+            unidadMedida: 'galones',
+          }),
+          build({
+            ...baseLine,
+            numeroBomba: '',
+            descripcion: 'Gatorade',
+            montoConIsv: 30,
+            cantidad: 24,
+            unidadMedida: 'UND',
+          }),
+        ],
+        payments: [],
+        headers: [],
+      });
+
+      const result = await service.getShiftSalesReport(
+        '001',
+        'POS01',
+        'John',
+        '1',
+        '2026-08-15',
+      );
+
+      expect(result.combustibles[0].unidadMedida).toBe('galones');
+      expect(result.otrosProductos).toEqual([
+        { name: 'Gatorade', total: 30, cantidad: 24, unidadMedida: 'UND' },
+      ]);
+    });
+
+    it('agrupa cobros por el nombre real del método de pago', async () => {
+      storeConfigRepo.findHideShiftInfo.mockResolvedValue(false);
+      storeConfigRepo.findExchangeRate.mockResolvedValue(1);
+      shiftRepo.getSalesReportData.mockResolvedValue({
+        lines: [],
+        payments: [
+          build({
+            ...basePayment,
+            descripcion: 'TARJETA',
+            codigoMetodoPago: 'TC-1',
+            metodoPago: 'TARJETA ATLÁNTIDA',
+            monto: 1200,
+          }),
+        ],
+        headers: [],
+      });
+
+      const result = await service.getShiftSalesReport(
+        '001',
+        'POS01',
+        'John',
+        '1',
+        '2026-08-15',
+      );
+
+      expect(result.cobros).toEqual([
+        { name: 'TARJETA ATLÁNTIDA', total: 1200, cantidad: 1 },
+      ]);
+      expect(result.movCaja).toEqual([
+        { name: 'TARJETA ATLÁNTIDA', total: 1200, cantidad: 0 },
+      ]);
     });
   });
 });

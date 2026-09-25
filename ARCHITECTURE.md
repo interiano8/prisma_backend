@@ -83,10 +83,11 @@ Contrato verde: `lint:check` 0, `tsc` 0, `build` 0, `test` y `test:e2e` verdes.
 
 ## Variables de entorno
 
-Las variables se cargan encriptadas desde `.env.enc` (clave `KEYMASTER`) a
-través de `src/utils/env-loader.ts`. En desarrollo, sin `KEYMASTER`, cae a
-`.env` en texto plano. El loader **no sobreescribe** variables ya definidas en
-`process.env`, por lo que en CI se inyecta `DATABASE_URL` directamente.
+Las variables se cargan desde `.env` en texto plano a través de
+`src/utils/env-loader.ts` (se eliminó el soporte de `.env.enc` / `KEYMASTER`).
+El loader **no sobreescribe** variables ya definidas en `process.env`, por lo que
+en CI se inyecta `DATABASE_URL` directamente. El backend valida además una
+licencia por fingerprint al iniciar (ver `MANUAL-LICENCIAS.md`).
 
 ## Testing
 
@@ -99,3 +100,24 @@ través de `src/utils/env-loader.ts`. En desarrollo, sin `KEYMASTER`, cae a
   `utils/datetime.ts`, `domain/errors/**` y `infrastructure/web/filters/**`.
 - **Rendimiento** (`scripts/benchmark.ts`): mide ops/seg de los servicios de
   dominio calientes y falla si no se alcanza el umbral.
+
+## Sustitución del controlador (Fusion)
+
+Cuando se sustituye el controlador de Fusion por uno nuevo, los `saleId` se repiten
+(el sale 1 del controlador anterior ≠ el sale 1 del nuevo). Procedimiento **con
+intervención humana**:
+
+1. Detener wayne.
+2. **Limpiar/reemplazar `fusion_sales`** en la base `controlador` (vaciar la tabla o
+   restaurar el esquema) para que los `saleId` del controlador nuevo sean la autoridad.
+   Si no se hace, el sync chocará por PK (`ON CONFLICT (sale_id) DO NOTHING`) y
+   descartará ventas del nuevo controlador.
+3. Resetear el checkpoint del sync (`.syncstate` / posición inicial) para arrancar
+   desde el controlador nuevo.
+4. Reiniciar wayne.
+
+La validación de **doble facturación** de combustible lee `fusion_sales` del controlador
+**actual** (vía `getSaleById` → `IsInvoiced`/`clearedAt`) y **no** consulta
+`lineas_venta` por `id_venta`. Las líneas del POS solo registran la venta facturada;
+no participan en la decisión de "ya facturada". Así, un `id_venta` viejo en las líneas
+(controlador anterior) no bloquea facturar un `saleId` nuevo del controlador actual.

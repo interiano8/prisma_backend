@@ -25,6 +25,11 @@ export class PosConfigRepositoryImpl implements PosConfigRepository {
       declararMontosIniciales: row.declararMontosIniciales,
       visualizacion: row.visualizacion ?? null,
       config: row.config ?? undefined,
+      caras: Array.isArray(row.caras)
+        ? (row.caras as unknown[])
+            .map((c) => Number(c))
+            .filter((n) => Number.isFinite(n))
+        : null,
     };
   }
 

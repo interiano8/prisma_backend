@@ -47,6 +47,7 @@ describe('PosConfigRepositoryImpl', () => {
       declararMontosIniciales: false,
       visualizacion: 'categorias',
       config: { key: 'val' },
+      caras: null,
     });
   });
 

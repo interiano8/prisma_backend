@@ -11,7 +11,7 @@ export interface StoreConfig {
   serverTimezone?: string;
   isGasController: boolean;
   ipFusionController: string;
-  fusionControllerKey: string;
+  claveControlador: string;
   isFusionAssigned: boolean;
   isLealEnabled: boolean;
   urlLeal: string;
@@ -29,13 +29,14 @@ export interface StoreConfig {
   address3: string;
   passAdmin: string;
   turnos: number | null;
+  caras: number[];
   d3: string;
   d4: string;
   numberOfTransactionsWaiting: number | null;
   codeCountry: string;
   warningNewInvoiceRanges: number | null;
   warningNewCreditNotesRanges: number | null;
-  api: string;
+  urlControlador: string;
   blockedForPendingTransactions: boolean;
   debugMode: boolean;
   noConsumidorFinal: string;

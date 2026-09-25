@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { loadEncryptedEnv } from '../src/utils/env-loader';
+import { loadEnv } from '../src/utils/env-loader';
 import { DomainErrorFilter } from '../src/infrastructure/web/filters/domain-error.filter';
 import helmet from 'helmet';
 
@@ -10,7 +10,7 @@ describe('API (e2e - integración contra Postgres)', () => {
   let app: INestApplication;
 
   beforeAll(() => {
-    loadEncryptedEnv();
+    loadEnv();
   });
 
   beforeEach(async () => {

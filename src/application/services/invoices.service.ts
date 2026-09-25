@@ -11,6 +11,11 @@ import {
   LineTotals,
 } from '../../domain/services/discount.service';
 import { FUEL_DEFAULT_CODE, FUEL_CODE_PREFIX } from '../../domain/constants/business.constants';
+import {
+  BadRequestDomainError,
+  NotFoundDomainError,
+  ConflictDomainError,
+} from '../../domain/errors/domain-error';
 import { Mutex } from '../../utils/mutex';
 import { InvoiceLealProcessor } from './invoice-leal.processor';
 import { InvoiceResultMapper } from './invoice-result.mapper';
@@ -90,7 +95,7 @@ export class InvoicesService {
       !!dto.isTicket,
     );
     if (!rangeCheck.isValid) {
-      throw new Error(rangeCheck.message);
+      throw new BadRequestDomainError(rangeCheck.message);
     }
 
     // 1. Procesar Leal ANTES de insertar la factura (para validar OTP y evitar facturas huérfanas)
@@ -207,12 +212,12 @@ export class InvoicesService {
   ) {
     const sale = await this.dispenserRepo.getSaleById(saleId);
     if (!sale) {
-      throw new Error(
+      throw new NotFoundDomainError(
         `No se encontró la transacción de combustible #${saleId}.`,
       );
     }
     if (sale.IsInvoiced) {
-      throw new Error(
+      throw new ConflictDomainError(
         `La transacción de combustible #${saleId} ya fue documentada.`,
       );
     }
@@ -318,7 +323,7 @@ export class InvoicesService {
 
   async processCreditNote(dto: CreditNoteInput, user: CreditNoteUser) {
     if (!dto.adminPassword) {
-      throw new Error('Se requiere la contraseña de administrador para emitir una Nota de Crédito.');
+      throw new BadRequestDomainError('Se requiere la contraseña de administrador para emitir una Nota de Crédito.');
     }
     try {
       await this.validateAdminUseCase.execute({
@@ -326,7 +331,7 @@ export class InvoicesService {
         password: dto.adminPassword,
       });
     } catch {
-      throw new Error('Contraseña de administrador inválida.');
+      throw new BadRequestDomainError('Contraseña de administrador inválida.');
     }
 
     const shiftData = await this.invoiceQueryRepo.getOpenShiftForEmployee(
@@ -334,7 +339,7 @@ export class InvoicesService {
       user.name || user.username || '',
     );
     if (!shiftData) {
-      throw new Error(
+      throw new BadRequestDomainError(
         'No tiene un turno abierto para este usuario. Por favor, abra un turno.',
       );
     }
@@ -344,14 +349,14 @@ export class InvoicesService {
       dto.transactionId,
     )) as OriginalDocumentRow | null;
     if (!headerRow) {
-      throw new Error(
+      throw new NotFoundDomainError(
         `No se encontró el documento original ${dto.invoiceNo} en la base de datos.`,
       );
     }
 
     const docTypeStr = headerRow['POS Sales Doc_ Type']?.toString();
     if (docTypeStr?.trim() !== '1' && docTypeStr?.trim() !== '2') {
-      throw new Error(
+      throw new BadRequestDomainError(
         'No se puede anular este documento. Solo se puede hacer devolucion de facturas.',
       );
     }
@@ -361,7 +366,7 @@ export class InvoicesService {
       dto.transactionId,
     );
     if (hasReversion) {
-      throw new Error(
+      throw new ConflictDomainError(
         `La factura ${dto.invoiceNo} ya tiene una Nota de Crédito generada.`,
       );
     }
@@ -480,16 +485,18 @@ export class InvoicesService {
       let genPumpLedgEntry = 0;
       let vatProdPostingGroup = '';
       let saleIdVal = '';
+      let unidadMedida: string | null = null;
+      let turnoControlador: string | null = null;
 
       if (item.saleId) {
         const sale = await this.dispenserRepo.getSaleById(item.saleId);
         if (!sale) {
-          throw new Error(
+          throw new NotFoundDomainError(
             `No se encontró la transacción de combustible #${item.saleId} en FusionController.`,
           );
         }
         if (sale.IsInvoiced) {
-          throw new Error(
+          throw new ConflictDomainError(
             `La transacción de combustible #${item.saleId} ya fue facturada anteriormente.`,
           );
         }
@@ -507,6 +514,7 @@ export class InvoicesService {
         montoControlador = sale.amount - (item.discount || 0);
         saleIdVal = item.saleId.toString();
         genPumpLedgEntry = 1;
+        turnoControlador = sale.ShiftId != null ? String(sale.ShiftId) : null;
 
         const hoseFs = await this.dispenserRepo.getHoseFsMapping(
           sale.PumpNumber,
@@ -515,6 +523,7 @@ export class InvoicesService {
         if (hoseFs) {
           itemCode = hoseFs.CodigoPOS || FUEL_DEFAULT_CODE;
           tankNo = (hoseFs.TankIDs || '').toString();
+          unidadMedida = hoseFs.unidadMedida ?? null;
         }
       }
 
@@ -525,6 +534,7 @@ export class InvoicesService {
         itemCategoryCode = meta['Item Category Code'] || '';
         if (!item.saleId) {
           genPumpLedgEntry = meta['Gen_ Pump Ledg_ Entry'] || 0;
+          unidadMedida = meta.UnidadMedida ?? null;
         }
       }
 
@@ -570,6 +580,8 @@ export class InvoicesService {
         pumpNo,
         pumpPositionNo,
         tankNo,
+        unidadMedida,
+        turnoControlador,
         itemCategoryCode,
         genPumpLedgEntry,
         vatProdPostingGroup,

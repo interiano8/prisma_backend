@@ -475,11 +475,12 @@ describe('InvoiceRepositoryImpl (lecturas)', () => {
       const repo = new InvoiceRepositoryImpl(prisma as any);
 
       const result = await repo.executeInvoiceInsert({
-        storeId: '001',
+storeId: '001',
         posNo: 'POS01',
         employeeName: 'John',
         shiftDate: new Date(),
         shiftNumber: '1',
+        shiftId: 'TX-123',
         customerNo: 'C1',
         customerName: 'Cliente',
         customerRtn: '',
@@ -530,6 +531,8 @@ describe('InvoiceRepositoryImpl (lecturas)', () => {
           tipoDocumento: 1,
           tipoFacturacion: 1,
           numeroEmisor: 'PRISMA',
+          idTurno: 'TX-123',
+          numeroTurno: '1',
         }),
       });
       expect(tx.lineaVenta.create).toHaveBeenCalledWith({
@@ -707,14 +710,11 @@ describe('InvoiceRepositoryImpl (lecturas)', () => {
       });
     });
 
-    it('aplica la regla ganadora y reclama el despacho de combustible', async () => {
+    it('aplica la regla ganadora en la línea', async () => {
       const { prisma, tx } = buildPrisma();
       tx.$queryRaw
         .mockResolvedValueOnce([invSeries])
         .mockResolvedValueOnce([trSeries]);
-      (tx as any).ventaCombustible = {
-        updateMany: jest.fn().mockResolvedValue({ count: 1 }),
-      };
       tx.reglaDescuento.findMany.mockResolvedValue([
         {
           id: 'R1',
@@ -792,10 +792,6 @@ describe('InvoiceRepositoryImpl (lecturas)', () => {
           descuento: 20,
           montoDescuentoLinea: 20,
         }),
-      });
-      expect((tx as any).ventaCombustible.updateMany).toHaveBeenCalledWith({
-        where: { idVenta: 5, facturada: false },
-        data: { facturada: true, numeroPos: 1 },
       });
     });
 
@@ -973,6 +969,7 @@ describe('InvoiceRepositoryImpl (lecturas)', () => {
         employeeName: 'John',
         shiftStarting: new Date(),
         shiftNumber: '1',
+        shiftId: 'TX-123',
         customerNo: 'C1',
         customerName: 'Cliente',
         customerRtn: '',

@@ -72,7 +72,7 @@ describe('LoginUseCase', () => {
         isGasStation: false,
         isGasController: false,
         ipFusionController: '',
-        fusionControllerKey: '',
+        claveControlador: '',
         isFusionAssigned: false,
         isLealEnabled: false,
         urlLeal: '',
@@ -96,7 +96,7 @@ describe('LoginUseCase', () => {
         codeCountry: '504',
         warningNewInvoiceRanges: null,
         warningNewCreditNotesRanges: null,
-        api: '',
+  urlControlador: '',
         blockedForPendingTransactions: false,
         debugMode: false,
         noConsumidorFinal: 'CF',
@@ -113,6 +113,7 @@ describe('LoginUseCase', () => {
         calculoInverso: false,
         campanas: false,
         nombreBotonFidelizacion: 'LEAL',
+        caras: [],
       };
 
       const mockShiftInfo = {
@@ -169,7 +170,7 @@ describe('LoginUseCase', () => {
         isGasStation: false,
         isGasController: false,
         ipFusionController: '',
-        fusionControllerKey: '',
+        claveControlador: '',
         isFusionAssigned: false,
         isLealEnabled: false,
         urlLeal: '',
@@ -193,7 +194,7 @@ describe('LoginUseCase', () => {
         codeCountry: '',
         warningNewInvoiceRanges: null,
         warningNewCreditNotesRanges: null,
-        api: '',
+  urlControlador: '',
         blockedForPendingTransactions: false,
         debugMode: false,
         noConsumidorFinal: '',
@@ -210,6 +211,7 @@ describe('LoginUseCase', () => {
         calculoInverso: false,
         campanas: false,
         nombreBotonFidelizacion: 'LEAL',
+        caras: [],
       };
 
       mockAuthRepository.findUserByUsername.mockResolvedValue(mockUser);
@@ -247,7 +249,7 @@ describe('LoginUseCase', () => {
         isGasStation: false,
         isGasController: false,
         ipFusionController: '',
-        fusionControllerKey: '',
+        claveControlador: '',
         isFusionAssigned: false,
         isLealEnabled: false,
         urlLeal: '',
@@ -271,7 +273,7 @@ describe('LoginUseCase', () => {
         codeCountry: '',
         warningNewInvoiceRanges: null,
         warningNewCreditNotesRanges: null,
-        api: '',
+  urlControlador: '',
         blockedForPendingTransactions: false,
         debugMode: false,
         noConsumidorFinal: '',
@@ -288,6 +290,7 @@ describe('LoginUseCase', () => {
         calculoInverso: false,
         campanas: false,
         nombreBotonFidelizacion: 'LEAL',
+        caras: [],
       };
 
       mockAuthRepository.findUserByUsername.mockResolvedValue(mockUser);
@@ -441,6 +444,7 @@ describe('LoginUseCase', () => {
         minutosAtrasada: 7,
         mostrarTeclado: false,
         declararMontosIniciales: true,
+        caras: [3, 4],
       });
 
       const result = await loginUseCase.execute(validLoginRequest);
@@ -451,6 +455,7 @@ describe('LoginUseCase', () => {
       expect(result.storeConfig.minutosAtrasada).toBe(7);
       expect(result.storeConfig.mostrarTeclado).toBe(false);
       expect(result.storeConfig.declararMontosIniciales).toBe(true);
+      expect(result.storeConfig.caras).toEqual([3, 4]);
     });
 
     it('aplica valores por defecto cuando no hay configuración del POS', async () => {

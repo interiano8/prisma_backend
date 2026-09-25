@@ -71,12 +71,12 @@ export type TiendaMinAggregateOutputType = {
   avisoNuevosRangosNotaCredito: number | null
   fusionAsignado: boolean | null
   ipFusion: string | null
-  api: string | null
+  urlControlador: string | null
   variasLineasPermitidas: boolean | null
   descuentosPermitidos: boolean | null
   bloqueadoTransaccionesPendientes: boolean | null
   modoDepuracion: boolean | null
-  claveFusion: string | null
+  claveControlador: string | null
   codigoConsumidorFinal: string | null
   urlSaldo: string | null
   validarRfid: boolean | null
@@ -126,12 +126,12 @@ export type TiendaMaxAggregateOutputType = {
   avisoNuevosRangosNotaCredito: number | null
   fusionAsignado: boolean | null
   ipFusion: string | null
-  api: string | null
+  urlControlador: string | null
   variasLineasPermitidas: boolean | null
   descuentosPermitidos: boolean | null
   bloqueadoTransaccionesPendientes: boolean | null
   modoDepuracion: boolean | null
-  claveFusion: string | null
+  claveControlador: string | null
   codigoConsumidorFinal: string | null
   urlSaldo: string | null
   validarRfid: boolean | null
@@ -181,12 +181,12 @@ export type TiendaCountAggregateOutputType = {
   avisoNuevosRangosNotaCredito: number
   fusionAsignado: number
   ipFusion: number
-  api: number
+  urlControlador: number
   variasLineasPermitidas: number
   descuentosPermitidos: number
   bloqueadoTransaccionesPendientes: number
   modoDepuracion: number
-  claveFusion: number
+  claveControlador: number
   codigoConsumidorFinal: number
   urlSaldo: number
   validarRfid: number
@@ -256,12 +256,12 @@ export type TiendaMinAggregateInputType = {
   avisoNuevosRangosNotaCredito?: true
   fusionAsignado?: true
   ipFusion?: true
-  api?: true
+  urlControlador?: true
   variasLineasPermitidas?: true
   descuentosPermitidos?: true
   bloqueadoTransaccionesPendientes?: true
   modoDepuracion?: true
-  claveFusion?: true
+  claveControlador?: true
   codigoConsumidorFinal?: true
   urlSaldo?: true
   validarRfid?: true
@@ -311,12 +311,12 @@ export type TiendaMaxAggregateInputType = {
   avisoNuevosRangosNotaCredito?: true
   fusionAsignado?: true
   ipFusion?: true
-  api?: true
+  urlControlador?: true
   variasLineasPermitidas?: true
   descuentosPermitidos?: true
   bloqueadoTransaccionesPendientes?: true
   modoDepuracion?: true
-  claveFusion?: true
+  claveControlador?: true
   codigoConsumidorFinal?: true
   urlSaldo?: true
   validarRfid?: true
@@ -366,12 +366,12 @@ export type TiendaCountAggregateInputType = {
   avisoNuevosRangosNotaCredito?: true
   fusionAsignado?: true
   ipFusion?: true
-  api?: true
+  urlControlador?: true
   variasLineasPermitidas?: true
   descuentosPermitidos?: true
   bloqueadoTransaccionesPendientes?: true
   modoDepuracion?: true
-  claveFusion?: true
+  claveControlador?: true
   codigoConsumidorFinal?: true
   urlSaldo?: true
   validarRfid?: true
@@ -508,12 +508,12 @@ export type TiendaGroupByOutputType = {
   avisoNuevosRangosNotaCredito: number | null
   fusionAsignado: boolean | null
   ipFusion: string | null
-  api: string | null
+  urlControlador: string | null
   variasLineasPermitidas: boolean | null
   descuentosPermitidos: boolean | null
   bloqueadoTransaccionesPendientes: boolean | null
   modoDepuracion: boolean | null
-  claveFusion: string | null
+  claveControlador: string | null
   codigoConsumidorFinal: string | null
   urlSaldo: string | null
   validarRfid: boolean | null
@@ -586,12 +586,12 @@ export type TiendaWhereInput = {
   avisoNuevosRangosNotaCredito?: Prisma.IntNullableFilter<"Tienda"> | number | null
   fusionAsignado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  api?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  urlControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   modoDepuracion?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  claveFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
   codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlSaldo?: Prisma.StringNullableFilter<"Tienda"> | string | null
   validarRfid?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
@@ -642,12 +642,12 @@ export type TiendaOrderByWithRelationInput = {
   avisoNuevosRangosNotaCredito?: Prisma.SortOrderInput | Prisma.SortOrder
   fusionAsignado?: Prisma.SortOrderInput | Prisma.SortOrder
   ipFusion?: Prisma.SortOrderInput | Prisma.SortOrder
-  api?: Prisma.SortOrderInput | Prisma.SortOrder
+  urlControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrderInput | Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrderInput | Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrderInput | Prisma.SortOrder
   modoDepuracion?: Prisma.SortOrderInput | Prisma.SortOrder
-  claveFusion?: Prisma.SortOrderInput | Prisma.SortOrder
+  claveControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoConsumidorFinal?: Prisma.SortOrderInput | Prisma.SortOrder
   urlSaldo?: Prisma.SortOrderInput | Prisma.SortOrder
   validarRfid?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -701,12 +701,12 @@ export type TiendaWhereUniqueInput = Prisma.AtLeast<{
   avisoNuevosRangosNotaCredito?: Prisma.IntNullableFilter<"Tienda"> | number | null
   fusionAsignado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  api?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  urlControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   modoDepuracion?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  claveFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
   codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlSaldo?: Prisma.StringNullableFilter<"Tienda"> | string | null
   validarRfid?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
@@ -757,12 +757,12 @@ export type TiendaOrderByWithAggregationInput = {
   avisoNuevosRangosNotaCredito?: Prisma.SortOrderInput | Prisma.SortOrder
   fusionAsignado?: Prisma.SortOrderInput | Prisma.SortOrder
   ipFusion?: Prisma.SortOrderInput | Prisma.SortOrder
-  api?: Prisma.SortOrderInput | Prisma.SortOrder
+  urlControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrderInput | Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrderInput | Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrderInput | Prisma.SortOrder
   modoDepuracion?: Prisma.SortOrderInput | Prisma.SortOrder
-  claveFusion?: Prisma.SortOrderInput | Prisma.SortOrder
+  claveControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoConsumidorFinal?: Prisma.SortOrderInput | Prisma.SortOrder
   urlSaldo?: Prisma.SortOrderInput | Prisma.SortOrder
   validarRfid?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -820,12 +820,12 @@ export type TiendaScalarWhereWithAggregatesInput = {
   avisoNuevosRangosNotaCredito?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
   fusionAsignado?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  api?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
+  urlControlador?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   modoDepuracion?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  claveFusion?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   codigoConsumidorFinal?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   urlSaldo?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   validarRfid?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
@@ -875,12 +875,12 @@ export type TiendaCreateInput = {
   avisoNuevosRangosNotaCredito?: number | null
   fusionAsignado?: boolean | null
   ipFusion?: string | null
-  api?: string | null
+  urlControlador?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
   modoDepuracion?: boolean | null
-  claveFusion?: string | null
+  claveControlador?: string | null
   codigoConsumidorFinal?: string | null
   urlSaldo?: string | null
   validarRfid?: boolean | null
@@ -930,12 +930,12 @@ export type TiendaUncheckedCreateInput = {
   avisoNuevosRangosNotaCredito?: number | null
   fusionAsignado?: boolean | null
   ipFusion?: string | null
-  api?: string | null
+  urlControlador?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
   modoDepuracion?: boolean | null
-  claveFusion?: string | null
+  claveControlador?: string | null
   codigoConsumidorFinal?: string | null
   urlSaldo?: string | null
   validarRfid?: boolean | null
@@ -985,12 +985,12 @@ export type TiendaUpdateInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1040,12 +1040,12 @@ export type TiendaUncheckedUpdateInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1095,12 +1095,12 @@ export type TiendaCreateManyInput = {
   avisoNuevosRangosNotaCredito?: number | null
   fusionAsignado?: boolean | null
   ipFusion?: string | null
-  api?: string | null
+  urlControlador?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
   modoDepuracion?: boolean | null
-  claveFusion?: string | null
+  claveControlador?: string | null
   codigoConsumidorFinal?: string | null
   urlSaldo?: string | null
   validarRfid?: boolean | null
@@ -1150,12 +1150,12 @@ export type TiendaUpdateManyMutationInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1204,12 +1204,12 @@ export type TiendaUncheckedUpdateManyInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1259,12 +1259,12 @@ export type TiendaCountOrderByAggregateInput = {
   avisoNuevosRangosNotaCredito?: Prisma.SortOrder
   fusionAsignado?: Prisma.SortOrder
   ipFusion?: Prisma.SortOrder
-  api?: Prisma.SortOrder
+  urlControlador?: Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrder
   modoDepuracion?: Prisma.SortOrder
-  claveFusion?: Prisma.SortOrder
+  claveControlador?: Prisma.SortOrder
   codigoConsumidorFinal?: Prisma.SortOrder
   urlSaldo?: Prisma.SortOrder
   validarRfid?: Prisma.SortOrder
@@ -1323,12 +1323,12 @@ export type TiendaMaxOrderByAggregateInput = {
   avisoNuevosRangosNotaCredito?: Prisma.SortOrder
   fusionAsignado?: Prisma.SortOrder
   ipFusion?: Prisma.SortOrder
-  api?: Prisma.SortOrder
+  urlControlador?: Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrder
   modoDepuracion?: Prisma.SortOrder
-  claveFusion?: Prisma.SortOrder
+  claveControlador?: Prisma.SortOrder
   codigoConsumidorFinal?: Prisma.SortOrder
   urlSaldo?: Prisma.SortOrder
   validarRfid?: Prisma.SortOrder
@@ -1378,12 +1378,12 @@ export type TiendaMinOrderByAggregateInput = {
   avisoNuevosRangosNotaCredito?: Prisma.SortOrder
   fusionAsignado?: Prisma.SortOrder
   ipFusion?: Prisma.SortOrder
-  api?: Prisma.SortOrder
+  urlControlador?: Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrder
   modoDepuracion?: Prisma.SortOrder
-  claveFusion?: Prisma.SortOrder
+  claveControlador?: Prisma.SortOrder
   codigoConsumidorFinal?: Prisma.SortOrder
   urlSaldo?: Prisma.SortOrder
   validarRfid?: Prisma.SortOrder
@@ -1502,12 +1502,12 @@ export type TiendaCreateWithoutMonedaRefInput = {
   avisoNuevosRangosNotaCredito?: number | null
   fusionAsignado?: boolean | null
   ipFusion?: string | null
-  api?: string | null
+  urlControlador?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
   modoDepuracion?: boolean | null
-  claveFusion?: string | null
+  claveControlador?: string | null
   codigoConsumidorFinal?: string | null
   urlSaldo?: string | null
   validarRfid?: boolean | null
@@ -1556,12 +1556,12 @@ export type TiendaUncheckedCreateWithoutMonedaRefInput = {
   avisoNuevosRangosNotaCredito?: number | null
   fusionAsignado?: boolean | null
   ipFusion?: string | null
-  api?: string | null
+  urlControlador?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
   modoDepuracion?: boolean | null
-  claveFusion?: string | null
+  claveControlador?: string | null
   codigoConsumidorFinal?: string | null
   urlSaldo?: string | null
   validarRfid?: boolean | null
@@ -1639,12 +1639,12 @@ export type TiendaScalarWhereInput = {
   avisoNuevosRangosNotaCredito?: Prisma.IntNullableFilter<"Tienda"> | number | null
   fusionAsignado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  api?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  urlControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   modoDepuracion?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  claveFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
   codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlSaldo?: Prisma.StringNullableFilter<"Tienda"> | string | null
   validarRfid?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
@@ -1694,12 +1694,12 @@ export type TiendaCreateManyMonedaRefInput = {
   avisoNuevosRangosNotaCredito?: number | null
   fusionAsignado?: boolean | null
   ipFusion?: string | null
-  api?: string | null
+  urlControlador?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
   modoDepuracion?: boolean | null
-  claveFusion?: string | null
+  claveControlador?: string | null
   codigoConsumidorFinal?: string | null
   urlSaldo?: string | null
   validarRfid?: boolean | null
@@ -1748,12 +1748,12 @@ export type TiendaUpdateWithoutMonedaRefInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1802,12 +1802,12 @@ export type TiendaUncheckedUpdateWithoutMonedaRefInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1856,12 +1856,12 @@ export type TiendaUncheckedUpdateManyWithoutMonedaRefInput = {
   avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  api?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1912,12 +1912,12 @@ export type TiendaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   avisoNuevosRangosNotaCredito?: boolean
   fusionAsignado?: boolean
   ipFusion?: boolean
-  api?: boolean
+  urlControlador?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
   modoDepuracion?: boolean
-  claveFusion?: boolean
+  claveControlador?: boolean
   codigoConsumidorFinal?: boolean
   urlSaldo?: boolean
   validarRfid?: boolean
@@ -1968,12 +1968,12 @@ export type TiendaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   avisoNuevosRangosNotaCredito?: boolean
   fusionAsignado?: boolean
   ipFusion?: boolean
-  api?: boolean
+  urlControlador?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
   modoDepuracion?: boolean
-  claveFusion?: boolean
+  claveControlador?: boolean
   codigoConsumidorFinal?: boolean
   urlSaldo?: boolean
   validarRfid?: boolean
@@ -2024,12 +2024,12 @@ export type TiendaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   avisoNuevosRangosNotaCredito?: boolean
   fusionAsignado?: boolean
   ipFusion?: boolean
-  api?: boolean
+  urlControlador?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
   modoDepuracion?: boolean
-  claveFusion?: boolean
+  claveControlador?: boolean
   codigoConsumidorFinal?: boolean
   urlSaldo?: boolean
   validarRfid?: boolean
@@ -2080,12 +2080,12 @@ export type TiendaSelectScalar = {
   avisoNuevosRangosNotaCredito?: boolean
   fusionAsignado?: boolean
   ipFusion?: boolean
-  api?: boolean
+  urlControlador?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
   modoDepuracion?: boolean
-  claveFusion?: boolean
+  claveControlador?: boolean
   codigoConsumidorFinal?: boolean
   urlSaldo?: boolean
   validarRfid?: boolean
@@ -2108,7 +2108,7 @@ export type TiendaSelectScalar = {
   codigoMoneda?: boolean
 }
 
-export type TiendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTienda" | "casaMatriz" | "nombre" | "rtn" | "emisor" | "pais" | "estado" | "ciudad" | "direccion1" | "direccion2" | "direccion3" | "telefono" | "correo" | "contrasenaAdmin" | "turnos" | "d3" | "d4" | "transaccionesPendientes" | "urlLeal" | "lealHabilitado" | "codigoPais" | "esControladorGas" | "avisoNuevosRangosFactura" | "avisoNuevosRangosNotaCredito" | "fusionAsignado" | "ipFusion" | "api" | "variasLineasPermitidas" | "descuentosPermitidos" | "bloqueadoTransaccionesPendientes" | "modoDepuracion" | "claveFusion" | "codigoConsumidorFinal" | "urlSaldo" | "validarRfid" | "validarSaldoCredito" | "voxActivo" | "rangoIndividual" | "facturacionOrdenada" | "erp" | "urlActualizacion" | "urlBaseErp" | "turnoManual" | "calculoInverso" | "bloqueadoTransaccionesBomba" | "bloqueadoTransaccionesTurno" | "campanas" | "declararMontoInicial" | "nombreBotonFidelizacion" | "moneda" | "carpetaMultimedia" | "codigoMoneda", ExtArgs["result"]["tienda"]>
+export type TiendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTienda" | "casaMatriz" | "nombre" | "rtn" | "emisor" | "pais" | "estado" | "ciudad" | "direccion1" | "direccion2" | "direccion3" | "telefono" | "correo" | "contrasenaAdmin" | "turnos" | "d3" | "d4" | "transaccionesPendientes" | "urlLeal" | "lealHabilitado" | "codigoPais" | "esControladorGas" | "avisoNuevosRangosFactura" | "avisoNuevosRangosNotaCredito" | "fusionAsignado" | "ipFusion" | "urlControlador" | "variasLineasPermitidas" | "descuentosPermitidos" | "bloqueadoTransaccionesPendientes" | "modoDepuracion" | "claveControlador" | "codigoConsumidorFinal" | "urlSaldo" | "validarRfid" | "validarSaldoCredito" | "voxActivo" | "rangoIndividual" | "facturacionOrdenada" | "erp" | "urlActualizacion" | "urlBaseErp" | "turnoManual" | "calculoInverso" | "bloqueadoTransaccionesBomba" | "bloqueadoTransaccionesTurno" | "campanas" | "declararMontoInicial" | "nombreBotonFidelizacion" | "moneda" | "carpetaMultimedia" | "codigoMoneda", ExtArgs["result"]["tienda"]>
 export type TiendaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }
@@ -2151,12 +2151,12 @@ export type $TiendaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     avisoNuevosRangosNotaCredito: number | null
     fusionAsignado: boolean | null
     ipFusion: string | null
-    api: string | null
+    urlControlador: string | null
     variasLineasPermitidas: boolean | null
     descuentosPermitidos: boolean | null
     bloqueadoTransaccionesPendientes: boolean | null
     modoDepuracion: boolean | null
-    claveFusion: string | null
+    claveControlador: string | null
     codigoConsumidorFinal: string | null
     urlSaldo: string | null
     validarRfid: boolean | null
@@ -2627,12 +2627,12 @@ export interface TiendaFieldRefs {
   readonly avisoNuevosRangosNotaCredito: Prisma.FieldRef<"Tienda", 'Int'>
   readonly fusionAsignado: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly ipFusion: Prisma.FieldRef<"Tienda", 'String'>
-  readonly api: Prisma.FieldRef<"Tienda", 'String'>
+  readonly urlControlador: Prisma.FieldRef<"Tienda", 'String'>
   readonly variasLineasPermitidas: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly descuentosPermitidos: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly bloqueadoTransaccionesPendientes: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly modoDepuracion: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly claveFusion: Prisma.FieldRef<"Tienda", 'String'>
+  readonly claveControlador: Prisma.FieldRef<"Tienda", 'String'>
   readonly codigoConsumidorFinal: Prisma.FieldRef<"Tienda", 'String'>
   readonly urlSaldo: Prisma.FieldRef<"Tienda", 'String'>
   readonly validarRfid: Prisma.FieldRef<"Tienda", 'Boolean'>

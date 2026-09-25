@@ -52,18 +52,19 @@ export class DispenserRepositoryImpl implements DispenserRepository {
       return this.wayneApiKeyCache.key;
     }
 
-    let key = '';
-    try {
-      const store = await this.prisma.tienda.findFirst({
-        where: { claveControlador: { not: null }, NOT: { claveControlador: '' } },
-        orderBy: { idTienda: 'asc' },
-        select: { claveControlador: true },
-      });
-      key = store?.claveControlador ?? '';
-    } catch {
-      // Fallback si la consulta falla.
+    let key = process.env.WAYNE_API_KEY ?? '';
+    if (!key) {
+      try {
+        const store = await this.prisma.tienda.findFirst({
+          where: { claveControlador: { not: null }, NOT: { claveControlador: '' } },
+          orderBy: { idTienda: 'asc' },
+          select: { claveControlador: true },
+        });
+        key = store?.claveControlador ?? '';
+      } catch {
+        // Fallback si la consulta falla.
+      }
     }
-    if (!key) key = process.env.WAYNE_API_KEY ?? '';
 
     this.wayneApiKeyCache = { key, at: Date.now() };
     return key;
@@ -83,18 +84,20 @@ export class DispenserRepositoryImpl implements DispenserRepository {
       return this.wayneBaseUrlCache.url;
     }
 
-    let raw = '';
-    try {
-      const store = await this.prisma.tienda.findFirst({
-        where: { urlControlador: { not: null }, NOT: { urlControlador: '' } },
-        orderBy: { idTienda: 'asc' },
-        select: { urlControlador: true },
-      });
-      raw = store?.urlControlador ?? '';
-    } catch {
-      // Fallback si la consulta falla.
+    let raw = process.env.WAYNE_API_URL;
+    if (!raw) {
+      try {
+        const store = await this.prisma.tienda.findFirst({
+          where: { urlControlador: { not: null }, NOT: { urlControlador: '' } },
+          orderBy: { idTienda: 'asc' },
+          select: { urlControlador: true },
+        });
+        raw = store?.urlControlador ?? '';
+      } catch {
+        // Fallback si la consulta falla.
+      }
     }
-    if (!raw) raw = process.env.WAYNE_API_URL ?? 'http://localhost:5008';
+    if (!raw) raw = 'http://localhost:5008';
 
     const url = normalizeControllerUrl(raw);
     this.wayneBaseUrlCache = { url, at: Date.now() };

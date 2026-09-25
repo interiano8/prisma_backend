@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import * as fs from 'fs';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { normalizeControllerUrl } from '../../../utils/controller-url';
 import { validateLicense, licensePaths } from '../../licensing/license';
+
+import {
+  CloudSyncService,
+  CloudSyncStatus,
+} from '../../../application/services/cloud-sync.service';
 
 export interface ComponentHealth {
   status: 'up' | 'down' | 'degraded' | 'not_configured' | 'bypassed' | 'active' | 'unlicensed';
@@ -25,11 +30,15 @@ export interface HealthCheckResult {
   controller: ComponentHealth;
   licensing: ComponentHealth;
   system: SystemMetrics;
+  cloudSync?: CloudSyncStatus;
 }
 
 @Injectable()
 export class HealthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Optional() private readonly cloudSyncService?: CloudSyncService,
+  ) {}
 
   async checkHealth(): Promise<HealthCheckResult> {
     const [dbHealth, controllerHealth] = await Promise.all([
@@ -39,6 +48,7 @@ export class HealthService {
 
     const licensingHealth = this.checkLicensing();
     const system = this.getSystemMetrics();
+    const cloudSync = this.cloudSyncService?.getSyncStatus();
 
     let overallStatus: 'ok' | 'degraded' | 'error' = 'ok';
 
@@ -57,6 +67,7 @@ export class HealthService {
       controller: controllerHealth,
       licensing: licensingHealth,
       system,
+      cloudSync,
     };
   }
 

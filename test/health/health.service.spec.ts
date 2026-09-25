@@ -196,5 +196,23 @@ describe('HealthService & HealthController', () => {
         HttpStatus.SERVICE_UNAVAILABLE,
       );
     });
+
+    it('debe incluir cloudSync en el resultado si está disponible', async () => {
+      const mockCloudSync = {
+        getSyncStatus: jest.fn().mockReturnValue({
+          status: 'online',
+          pendingCount: 2,
+          lastSyncAt: '2026-09-25T12:00:00.000Z',
+          latencyMs: 45,
+        }),
+      };
+
+      const customService = new HealthService(mockPrisma, mockCloudSync as any);
+      const res = await customService.checkHealth();
+      expect(res.cloudSync).toBeDefined();
+      expect(res.cloudSync?.status).toBe('online');
+      expect(res.cloudSync?.pendingCount).toBe(2);
+      expect(res.cloudSync?.latencyMs).toBe(45);
+    });
   });
 });

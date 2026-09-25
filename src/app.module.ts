@@ -15,6 +15,7 @@ import { PrinterModule } from './infrastructure/web/controllers/printer.module';
 import { PosConfigModule } from './infrastructure/web/controllers/pos-config.module';
 import { StoreConfigModule } from './infrastructure/web/controllers/store-config.module';
 import { MediaModule } from './infrastructure/web/controllers/media.module';
+import { HealthModule } from './infrastructure/web/controllers/health.module';
 import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request-logger.middleware';
 
 @Module({
@@ -33,6 +34,7 @@ import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request
     PosConfigModule,
     StoreConfigModule,
     MediaModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

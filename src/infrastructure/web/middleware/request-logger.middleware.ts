@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { randomUUID } from 'crypto';
+import { defaultFileLogger } from '../../../utils/file-logger';
 
 @Injectable()
 export class RequestLoggerMiddleware implements NestMiddleware {
@@ -11,15 +12,15 @@ export class RequestLoggerMiddleware implements NestMiddleware {
     const requestId = this.resolveRequestId(req);
 
     res.setHeader('x-request-id', requestId);
-    this.logger.log(
-      `[${requestId}] ${req.method} ${req.originalUrl} - IP: ${req.ip}`,
-    );
+    const msgStart = `[${requestId}] ${req.method} ${req.originalUrl} - IP: ${req.ip}`;
+    this.logger.log(msgStart);
+    defaultFileLogger.writeLog(msgStart, 'HTTP');
 
     res.on('finish', () => {
       const durationMs = Date.now() - start;
-      this.logger.log(
-        `[${requestId}] ${req.method} ${req.originalUrl} - ${res.statusCode} (${durationMs} ms)`,
-      );
+      const msgFinish = `[${requestId}] ${req.method} ${req.originalUrl} - ${res.statusCode} (${durationMs} ms)`;
+      this.logger.log(msgFinish);
+      defaultFileLogger.writeLog(msgFinish, 'HTTP');
     });
 
     next();

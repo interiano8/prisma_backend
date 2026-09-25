@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -181,4 +182,12 @@ export class CreateInvoiceDto {
   @IsOptional()
   @IsString()
   lealPin?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  permitirFacturarSinAcumular?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  omitirAcumulacion?: boolean;
 }

@@ -373,12 +373,14 @@ describe('InvoiceLealProcessor', () => {
       );
     });
 
-    it('registra el error de acumulación en la consola', async () => {
+    it('registra el error de acumulación en la consola y lanza BadRequestDomainError', async () => {
       lealRepo.accumulatePoints.mockRejectedValue(new Error('leal down'));
       const errSpy = jest.spyOn(console, 'error').mockImplementation();
 
       const dto = baseDto({ lealIdAleatorioAcum: 'ACC-1', lealCustomerUid: 'U1' });
-      await processor.processAccumulation(dto, 'FAC-1');
+      await expect(processor.processAccumulation(dto, 'FAC-1')).rejects.toThrow(
+        'Error al acumular puntos en Leal: leal down. Puede reintentar la operación antes de emitir la factura.',
+      );
 
       expect(errSpy).toHaveBeenCalledWith(
         expect.stringContaining('Error al acumular puntos en Leal'),
@@ -462,7 +464,7 @@ describe('InvoiceLealProcessor', () => {
       });
     });
 
-    it('no bloquea y devuelve mensaje si acumular falla', async () => {
+    it('lanza BadRequestDomainError si acumular falla para permitir reintentar', async () => {
       lealRepo.accumulatePoints.mockRejectedValue(new Error('leal down'));
 
       const dto = baseDto({
@@ -470,10 +472,37 @@ describe('InvoiceLealProcessor', () => {
         lealCustomerUid: 'U1',
       });
 
+      await expect(processor.processAccumulation(dto, 'FAC-1')).rejects.toThrow(
+        'Error al acumular puntos en Leal',
+      );
+    });
+
+    it('permite continuar sin acumular si permitirFacturarSinAcumular es true', async () => {
+      lealRepo.accumulatePoints.mockRejectedValue(new Error('leal down'));
+
+      const dto = baseDto({
+        lealIdAleatorioAcum: 'ACC-1',
+        lealCustomerUid: 'U1',
+        permitirFacturarSinAcumular: true,
+      });
+
       const result = await processor.processAccumulation(dto, 'FAC-1');
 
       expect(result.result).toBeNull();
       expect(result.message).toContain('No se pudo acumular en Leal');
+    });
+
+    it('salta la acumulación si omitirAcumulacion es true', async () => {
+      const dto = baseDto({
+        lealIdAleatorioAcum: 'ACC-1',
+        lealCustomerUid: 'U1',
+        omitirAcumulacion: true,
+      });
+
+      const result = await processor.processAccumulation(dto, 'FAC-1');
+
+      expect(result.result).toBeNull();
+      expect(lealRepo.accumulatePoints).not.toHaveBeenCalled();
     });
   });
 

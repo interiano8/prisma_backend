@@ -82,6 +82,8 @@ export interface CreateInvoiceInput {
   lealCustomerName?: string;
   lealCustomerDni?: string;
   lealPin?: string;
+  permitirFacturarSinAcumular?: boolean;
+  omitirAcumulacion?: boolean;
 }
 
 export interface CreditNoteInput {

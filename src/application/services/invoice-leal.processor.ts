@@ -207,7 +207,11 @@ export class InvoiceLealProcessor {
     predictedInvoiceNo: string,
   ): Promise<{ result: LealOperationResult | null; message: string }> {
     let message = '';
-    if (!dto.lealIdAleatorioAcum || !dto.lealCustomerUid) {
+    if (
+      dto.omitirAcumulacion ||
+      !dto.lealIdAleatorioAcum ||
+      !dto.lealCustomerUid
+    ) {
       return { result: null, message };
     }
 
@@ -248,8 +252,9 @@ export class InvoiceLealProcessor {
       Items: lealItems,
     };
 
+    let result: LealTransactionResult;
     try {
-      const result = (await this.lealRepo.accumulatePoints({
+      result = (await this.lealRepo.accumulatePoints({
         customerId: dto.lealCustomerUid,
         invoiceNo: predictedInvoiceNo,
         noFactura: dto.lealIdAleatorioAcum,
@@ -258,32 +263,52 @@ export class InvoiceLealProcessor {
         totales: totalesData,
         pin: dto.lealPin,
       })) as LealTransactionResult;
-      if (result) {
-        const puntos = result.puntos || result.data?.puntos || 0;
-        const puntosActivos =
-          result.puntos_activos || result.data?.puntos_activos || 0;
-        message += `Puntos Acumulados: ${puntos} | Puntos Activos: ${puntosActivos}\n`;
-        return {
-          result: {
-            puntos,
-            puntosActivos,
-            idTransaccionLeal:
-              result.id_transaccion || result.data?.id_transaccion || '',
-          },
-          message,
-        };
-      }
     } catch (lealError: unknown) {
       const errorMessage =
         lealError instanceof Error ? lealError.message : String(lealError);
       console.error(
-        '⚠️ Error al acumular puntos en Leal (no bloquea la venta):',
+        '⚠️ Error al acumular puntos en Leal:',
         errorMessage,
       );
-      message += `⚠️ No se pudo acumular en Leal: ${errorMessage}\n`;
+      if (dto.permitirFacturarSinAcumular) {
+        message += `⚠️ No se pudo acumular en Leal: ${errorMessage}\n`;
+        return { result: null, message };
+      }
+      throw new BadRequestDomainError(
+        `Error al acumular puntos en Leal: ${errorMessage}. Puede reintentar la operación antes de emitir la factura.`,
+      );
     }
 
-    return { result: null, message };
+    const idTransaccionLeal =
+      result?.id_transaccion || result?.data?.id_transaccion;
+
+    if (!idTransaccionLeal || String(idTransaccionLeal).trim() === '') {
+      const errDesc =
+        result?.mensaje ||
+        result?.message ||
+        'No se recibió ID de transacción de acumulación en Leal.';
+      console.error('⚠️ Acumulación en Leal sin transacción válida:', errDesc);
+      if (dto.permitirFacturarSinAcumular) {
+        message += `⚠️ No se pudo confirmar acumulación en Leal: ${errDesc}\n`;
+        return { result: null, message };
+      }
+      throw new BadRequestDomainError(
+        `No se pudo confirmar la acumulación en Leal: ${errDesc}. Puede reintentar la operación antes de emitir la factura.`,
+      );
+    }
+
+    const puntos = result.puntos || result.data?.puntos || 0;
+    const puntosActivos =
+      result.puntos_activos || result.data?.puntos_activos || 0;
+    message += `Puntos Acumulados: ${puntos} | Puntos Activos: ${puntosActivos}\n`;
+    return {
+      result: {
+        puntos,
+        puntosActivos,
+        idTransaccionLeal: String(idTransaccionLeal),
+      },
+      message,
+    };
   }
 
   async persistTransactions(

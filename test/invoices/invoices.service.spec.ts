@@ -918,7 +918,7 @@ describe('InvoicesService', () => {
       expect(result.lealReprintMessage).toContain('Puntos Acumulados: 5');
     });
 
-    it('no bloquea la venta si falla la acumulación Leal', async () => {
+    it('aborta la creación de factura si falla la acumulación Leal para permitir reintentar', async () => {
       invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
         employeeName: 'John',
@@ -939,6 +939,37 @@ describe('InvoicesService', () => {
       dto.lealCustomerUid = 'U1';
       dto.lealIdAleatorioAcum = 'ACUM-1';
 
+      await expect(service.createInvoice(dto)).rejects.toThrow(
+        'Error al acumular puntos en Leal: leal down. Puede reintentar la operación antes de emitir la factura.',
+      );
+
+      expect(invoiceRepo.executeInvoiceInsert).not.toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalled();
+      consoleSpy.mockRestore();
+    });
+
+    it('emite la factura si falla la acumulación pero se permite facturar sin acumular', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getItemMetadata.mockResolvedValue(null);
+      const consoleSpy = jest
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+      lealRepo.accumulatePoints.mockRejectedValue(new Error('leal down'));
+      const dto = baseDto();
+      dto.lealCustomerUid = 'U1';
+      dto.lealIdAleatorioAcum = 'ACUM-1';
+      dto.permitirFacturarSinAcumular = true;
+
       const result = await service.createInvoice(dto);
 
       expect(result.success).toBe(true);
@@ -946,6 +977,7 @@ describe('InvoicesService', () => {
         'No se pudo acumular en Leal',
       );
       expect(consoleSpy).toHaveBeenCalled();
+      consoleSpy.mockRestore();
     });
 
     it('limpia ventas de bomba para códigos GAS-', async () => {

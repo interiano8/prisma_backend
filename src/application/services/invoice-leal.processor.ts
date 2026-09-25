@@ -1,6 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { LEAL_EXCLUDED_KEYWORDS } from '../../domain/constants/business.constants';
-import type { CreateInvoiceInput } from '../../domain/entities/invoice.entity';
+import { BadRequestDomainError } from '../../domain/errors/domain-error';
+import type {
+  CreateInvoiceInput,
+  InvoicePaymentInput,
+} from '../../domain/entities/invoice.entity';
 import type {
   LealRepository,
   LealTransactionResult,
@@ -28,6 +32,30 @@ export class InvoiceLealProcessor {
     private readonly invoiceQueryRepo: InvoiceQueryRepository,
   ) {}
 
+  isLealPayment(
+    payment: InvoicePaymentInput,
+    fidelizacionCodes?: Set<string>,
+  ): boolean {
+    if (payment.code && fidelizacionCodes?.has(payment.code)) return true;
+    const methodUpper = (payment.method || '').toUpperCase();
+    if (
+      methodUpper.includes('LEAL') ||
+      methodUpper.includes('PUNTOS') ||
+      methodUpper.includes('FIDELIZACION') ||
+      methodUpper.includes('FIDELIZACIÓN')
+    ) {
+      return true;
+    }
+    if (
+      payment.lealData &&
+      ((payment.lealData.puntos != null && payment.lealData.puntos > 0) ||
+        Boolean(payment.lealData.idPremio))
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   async processRedemptions(
     dto: CreateInvoiceInput,
     predictedInvoiceNo: string,
@@ -35,31 +63,143 @@ export class InvoiceLealProcessor {
     const redemptions: LealOperationResult[] = [];
     let message = '';
 
-    const lealPayments = dto.payments.filter((p) => p.lealData);
+    let fidelizacionCodes: Set<string> | undefined;
+    if (
+      typeof this.invoiceQueryRepo?.getFidelizacionPaymentCodes === 'function'
+    ) {
+      try {
+        const codes =
+          await this.invoiceQueryRepo.getFidelizacionPaymentCodes();
+        if (codes && codes.length > 0) {
+          fidelizacionCodes = new Set(codes);
+        }
+      } catch {
+        // Fallback a detección por método y lealData
+      }
+    }
+
+    const lealPayments = (dto.payments || []).filter((p) =>
+      this.isLealPayment(p, fidelizacionCodes),
+    );
+
     for (const lealPay of lealPayments) {
-      if (!lealPay.lealData) continue;
-      // factura = aleatorioRed (único), nota = factura real (solo como referencia)
-      const result = (await this.lealRepo.redeemPoints({
-        customerId: lealPay.lealData.uid,
-        points: lealPay.lealData.puntos || 0,
-        invoiceNo: dto.lealIdAleatorioRed ?? predictedInvoiceNo,
-        token: '',
-        idPremio: lealPay.lealData.idPremio,
-        otp: lealPay.lealData.otp,
-        nota: `Redencion Prisma ${predictedInvoiceNo}`,
-      })) as LealTransactionResult;
+      if (!lealPay.lealData) {
+        if (redemptions.length > 0) {
+          await this.compensatePartial(
+            redemptions,
+            dto.lealIdAleatorioRed,
+            predictedInvoiceNo,
+          );
+        }
+        throw new BadRequestDomainError(
+          'El pago con Leal requiere datos de redención válidos (lealData).',
+        );
+      }
+
+      if (!lealPay.lealData.uid || lealPay.lealData.uid.trim() === '') {
+        if (redemptions.length > 0) {
+          await this.compensatePartial(
+            redemptions,
+            dto.lealIdAleatorioRed,
+            predictedInvoiceNo,
+          );
+        }
+        throw new BadRequestDomainError(
+          'El pago con Leal requiere el UID del cliente.',
+        );
+      }
+
+      const puntos = lealPay.lealData.puntos ?? 0;
+      if (puntos <= 0 && !lealPay.lealData.idPremio) {
+        if (redemptions.length > 0) {
+          await this.compensatePartial(
+            redemptions,
+            dto.lealIdAleatorioRed,
+            predictedInvoiceNo,
+          );
+        }
+        throw new BadRequestDomainError(
+          'El pago con Leal requiere puntos a redimir o un premio válido.',
+        );
+      }
+
+      let result: LealTransactionResult;
+      try {
+        result = (await this.lealRepo.redeemPoints({
+          customerId: lealPay.lealData.uid,
+          points: puntos,
+          invoiceNo: dto.lealIdAleatorioRed ?? predictedInvoiceNo,
+          token: '',
+          idPremio: lealPay.lealData.idPremio,
+          otp: lealPay.lealData.otp,
+          nota: `Redencion Prisma ${predictedInvoiceNo}`,
+        })) as LealTransactionResult;
+      } catch (error: unknown) {
+        if (redemptions.length > 0) {
+          await this.compensatePartial(
+            redemptions,
+            dto.lealIdAleatorioRed,
+            predictedInvoiceNo,
+          );
+        }
+        const errMsg = error instanceof Error ? error.message : String(error);
+        throw new BadRequestDomainError(
+          `Error al procesar el pago con Leal: ${errMsg}`,
+        );
+      }
+
+      const idTransaccionLeal =
+        result?.id_transaccion || result?.data?.id_transaccion;
+
+      if (!idTransaccionLeal || String(idTransaccionLeal).trim() === '') {
+        if (redemptions.length > 0) {
+          await this.compensatePartial(
+            redemptions,
+            dto.lealIdAleatorioRed,
+            predictedInvoiceNo,
+          );
+        }
+        const errDesc =
+          result?.mensaje ||
+          result?.message ||
+          'No se recibió ID de transacción de Leal.';
+        throw new BadRequestDomainError(
+          `No se pudo confirmar el pago con Leal: ${errDesc}`,
+        );
+      }
+
       const puntosActivos =
-        result.puntos_activos || result.data?.puntos_activos || 0;
+        result.puntos_activos ?? result.data?.puntos_activos ?? 0;
+
       redemptions.push({
-        puntos: lealPay.lealData.puntos || 0,
+        puntos,
         puntosActivos,
-        idTransaccionLeal:
-          result.id_transaccion || result.data?.id_transaccion || '',
+        idTransaccionLeal: String(idTransaccionLeal),
       });
-      message += `Puntos Redimidos: ${lealPay.lealData.puntos || 0} | Puntos Activos: ${puntosActivos}\n`;
+      message += `Puntos Redimidos: ${puntos} | Puntos Activos: ${puntosActivos}\n`;
     }
 
     return { redemptions, message };
+  }
+
+  private async compensatePartial(
+    redemptions: LealOperationResult[],
+    lealIdAleatorioRed: string | undefined | null,
+    predictedInvoiceNo: string,
+  ): Promise<void> {
+    try {
+      await this.compensate({
+        redemptions,
+        accumulationResult: null,
+        lealIdAleatorioRed,
+        predictedInvoiceNo,
+      });
+    } catch (compErr: any) {
+      console.warn(
+        '[Leal] Error al compensar redenciones parciales:',
+        compErr?.message,
+      );
+    }
   }
 
   async processAccumulation(

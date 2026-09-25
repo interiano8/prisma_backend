@@ -111,7 +111,73 @@ describe('InvoiceLealProcessor', () => {
       ]);
     });
 
-    it('usa 0 y cadena vacía si el resultado no trae datos', async () => {
+    it('lanza BadRequestDomainError si el pago es Leal y no incluye lealData', async () => {
+      const dto = baseDto({
+        payments: [{ method: 'LEAL', code: 'LEAL', amount: 50 }],
+      });
+
+      await expect(processor.processRedemptions(dto, 'FAC-1')).rejects.toThrow(
+        'El pago con Leal requiere datos de redención válidos (lealData).',
+      );
+      expect(lealRepo.redeemPoints).not.toHaveBeenCalled();
+    });
+
+    it('lanza BadRequestDomainError si lealData no incluye UID', async () => {
+      const dto = baseDto({
+        payments: [
+          {
+            method: 'LEAL',
+            code: 'LEAL',
+            amount: 50,
+            lealData: { uid: '   ', puntos: 10 },
+          },
+        ],
+      });
+
+      await expect(processor.processRedemptions(dto, 'FAC-1')).rejects.toThrow(
+        'El pago con Leal requiere el UID del cliente.',
+      );
+      expect(lealRepo.redeemPoints).not.toHaveBeenCalled();
+    });
+
+    it('lanza BadRequestDomainError si lealData tiene puntos <= 0 y no tiene idPremio', async () => {
+      const dto = baseDto({
+        payments: [
+          {
+            method: 'LEAL',
+            code: 'LEAL',
+            amount: 50,
+            lealData: { uid: 'U1', puntos: 0 },
+          },
+        ],
+      });
+
+      await expect(processor.processRedemptions(dto, 'FAC-1')).rejects.toThrow(
+        'El pago con Leal requiere puntos a redimir o un premio válido.',
+      );
+      expect(lealRepo.redeemPoints).not.toHaveBeenCalled();
+    });
+
+    it('lanza BadRequestDomainError si redeemPoints falla o rechaza', async () => {
+      lealRepo.redeemPoints.mockRejectedValue(new Error('OTP inválido'));
+
+      const dto = baseDto({
+        payments: [
+          {
+            method: 'LEAL',
+            code: 'LEAL',
+            amount: 50,
+            lealData: { uid: 'U1', puntos: 20 },
+          },
+        ],
+      });
+
+      await expect(processor.processRedemptions(dto, 'FAC-1')).rejects.toThrow(
+        'Error al procesar el pago con Leal: OTP inválido',
+      );
+    });
+
+    it('lanza BadRequestDomainError si Leal devuelve resultado sin id_transaccion', async () => {
       lealRepo.redeemPoints.mockResolvedValue({});
 
       const dto = baseDto({
@@ -120,7 +186,67 @@ describe('InvoiceLealProcessor', () => {
             method: 'LEAL',
             code: 'LEAL',
             amount: 50,
-            lealData: { uid: 'U1' },
+            lealData: { uid: 'U1', puntos: 20 },
+          },
+        ],
+      });
+
+      await expect(processor.processRedemptions(dto, 'FAC-1')).rejects.toThrow(
+        'No se pudo confirmar el pago con Leal: No se recibió ID de transacción de Leal.',
+      );
+    });
+
+    it('compensa redenciones previas si una posterior falla en la misma transacción', async () => {
+      lealRepo.redeemPoints
+        .mockResolvedValueOnce({ id_transaccion: 'T1', puntos_activos: 80 })
+        .mockRejectedValueOnce(new Error('Saldo insuficiente'));
+
+      const dto = baseDto({
+        lealIdAleatorioRed: 'ALEATORIO-1',
+        payments: [
+          {
+            method: 'LEAL',
+            code: 'LEAL',
+            amount: 25,
+            lealData: { uid: 'U1', puntos: 25 },
+          },
+          {
+            method: 'LEAL',
+            code: 'LEAL',
+            amount: 25,
+            lealData: { uid: 'U1', puntos: 25 },
+          },
+        ],
+      });
+
+      await expect(processor.processRedemptions(dto, 'FAC-1')).rejects.toThrow(
+        'Saldo insuficiente',
+      );
+
+      expect(lealRepo.reverseTransaction).toHaveBeenCalledWith(
+        'T1',
+        'ALEATORIO-1',
+        '',
+      );
+    });
+
+    it('detecta pago Leal por código de fidelización configurado en BD', async () => {
+      invoiceQueryRepo.getFidelizacionPaymentCodes = jest
+        .fn()
+        .mockResolvedValue(['1009']);
+
+      lealRepo.redeemPoints.mockResolvedValue({
+        id_transaccion: 'T-FID',
+        puntos_activos: 50,
+      });
+
+      const dto = baseDto({
+        payments: [
+          {
+            method: 'OTRO NOMBRE',
+            code: '1009',
+            amount: 30,
+            lealData: { uid: 'U99', puntos: 30 },
           },
         ],
       });
@@ -128,7 +254,7 @@ describe('InvoiceLealProcessor', () => {
       const result = await processor.processRedemptions(dto, 'FAC-1');
 
       expect(result.redemptions).toEqual([
-        { puntos: 0, puntosActivos: 0, idTransaccionLeal: '' },
+        { puntos: 30, puntosActivos: 50, idTransaccionLeal: 'T-FID' },
       ]);
     });
   });

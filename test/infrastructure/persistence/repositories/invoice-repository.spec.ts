@@ -1926,5 +1926,22 @@ storeId: '001',
         take: 200,
       });
     });
+
+    it('getFidelizacionPaymentCodes devuelve lista de códigos y maneja errores', async () => {
+      const findMany = jest
+        .fn()
+        .mockResolvedValueOnce([{ codigo: '1009' }, { codigo: 'L01' }])
+        .mockRejectedValueOnce(new Error('db down'));
+      const repo = new InvoiceQueryRepositoryImpl({
+        metodoPago: { findMany },
+      } as any);
+
+      const codes = await repo.getFidelizacionPaymentCodes();
+      expect(codes).toEqual(['1009', 'L01']);
+
+      const fallback = await repo.getFidelizacionPaymentCodes();
+      expect(fallback).toEqual([]);
+    });
   });
 });
+

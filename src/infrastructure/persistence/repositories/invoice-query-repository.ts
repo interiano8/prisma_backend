@@ -575,4 +575,20 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
     });
   }
 
+  async getFidelizacionPaymentCodes(): Promise<string[]> {
+    try {
+      const rows = await this.prisma.metodoPago.findMany({
+        where: {
+          OR: [
+            { fidelizacion: true },
+            { categoria: 'FIDELIZACION' },
+          ],
+        },
+        select: { codigo: true },
+      });
+      return rows.map((r) => r.codigo);
+    } catch {
+      return [];
+    }
+  }
 }

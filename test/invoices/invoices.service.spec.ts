@@ -675,6 +675,10 @@ describe('InvoicesService', () => {
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
       campanasService.evaluateCampanas.mockResolvedValue([]);
       dispenserRepo.getItemMetadata.mockResolvedValue(null);
+      lealRepo.redeemPoints.mockResolvedValue({
+        id_transaccion: 'LEAL-1',
+        puntos_activos: 100,
+      });
       const dto = baseDto();
       dto.payments = [
         {
@@ -683,7 +687,12 @@ describe('InvoicesService', () => {
           amount: 10,
           reference: '1234567890123456789012345',
         },
-        { method: 'LEAL', code: 'L', amount: 5, lealData: undefined },
+        {
+          method: 'LEAL',
+          code: 'L',
+          amount: 5,
+          lealData: { uid: 'U1', puntos: 5 },
+        },
         { method: 'CREDITO', code: 'C', amount: 3 },
         { method: 'OTRO', code: 'O', amount: 1 },
       ];
@@ -766,6 +775,81 @@ describe('InvoicesService', () => {
       expect(result.lealReprintMessage).toContain('Puntos Redimidos: 10');
     });
 
+    it('aborta la creación de factura si el pago es Leal y no incluye lealData', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      const dto = baseDto();
+      dto.payments = [{ method: 'LEAL', code: 'L', amount: 50 }];
+
+      await expect(service.createInvoice(dto)).rejects.toThrow(
+        'El pago con Leal requiere datos de redención válidos',
+      );
+      expect(invoiceRepo.executeInvoiceInsert).not.toHaveBeenCalled();
+    });
+
+    it('aborta la creación de factura si el pago con Leal falla o es rechazado', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      lealRepo.redeemPoints.mockRejectedValue(
+        new Error('Saldo de puntos insuficiente'),
+      );
+      const dto = baseDto();
+      dto.payments = [
+        {
+          method: 'LEAL',
+          code: 'L',
+          amount: 50,
+          lealData: { uid: 'U1', puntos: 50 },
+        },
+      ];
+
+      await expect(service.createInvoice(dto)).rejects.toThrow(
+        'Saldo de puntos insuficiente',
+      );
+      expect(invoiceRepo.executeInvoiceInsert).not.toHaveBeenCalled();
+    });
+
+    it('aborta la creación de factura si Leal no devuelve un ID de transacción válido', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      lealRepo.redeemPoints.mockResolvedValue({});
+      const dto = baseDto();
+      dto.payments = [
+        {
+          method: 'LEAL',
+          code: 'L',
+          amount: 50,
+          lealData: { uid: 'U1', puntos: 50 },
+        },
+      ];
+
+      await expect(service.createInvoice(dto)).rejects.toThrow(
+        'No se pudo confirmar el pago con Leal',
+      );
+      expect(invoiceRepo.executeInvoiceInsert).not.toHaveBeenCalled();
+    });
+
     it('acumula puntos Leal excluyendo LEAL/CREDITO/CALIBRACION', async () => {
       invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),
@@ -789,12 +873,21 @@ describe('InvoicesService', () => {
         puntos_activos: 50,
         id_transaccion: 'LEAL-A',
       });
+      lealRepo.redeemPoints.mockResolvedValue({
+        puntos_activos: 100,
+        id_transaccion: 'LEAL-R',
+      });
       const dto = baseDto();
       dto.lealCustomerUid = 'U1';
       dto.lealIdAleatorioAcum = 'ACUM-1';
       dto.payments = [
         { method: 'EFECTIVO', code: 'CASH', amount: 100 },
-        { method: 'LEAL', code: 'L', amount: 50 },
+        {
+          method: 'LEAL',
+          code: 'L',
+          amount: 50,
+          lealData: { uid: 'U1', puntos: 50 },
+        },
       ];
 
       const result = await service.createInvoice(dto);

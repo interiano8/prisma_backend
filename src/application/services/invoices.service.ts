@@ -17,7 +17,10 @@ import {
   ConflictDomainError,
 } from '../../domain/errors/domain-error';
 import { Mutex } from '../../utils/mutex';
-import { InvoiceLealProcessor } from './invoice-leal.processor';
+import {
+  InvoiceLealProcessor,
+  LealOperationResult,
+} from './invoice-leal.processor';
 import { InvoiceResultMapper } from './invoice-result.mapper';
 import type {
   InvoiceRepository,
@@ -99,11 +102,39 @@ export class InvoicesService {
     }
 
     // 1. Procesar Leal ANTES de insertar la factura (para validar OTP y evitar facturas huérfanas)
-    const { redemptions: lealRedemptionResults, message: redemptionMessage } =
-      await this.lealProcessor.processRedemptions(dto, predictedInvoiceNo);
-    const { result: lealAccumulationResult, message: accumulationMessage } =
-      await this.lealProcessor.processAccumulation(dto, predictedInvoiceNo);
-    const lealReprintMessage = redemptionMessage + accumulationMessage;
+    let lealRedemptionResults: LealOperationResult[] = [];
+    let lealAccumulationResult: LealOperationResult | null = null;
+    let lealReprintMessage = '';
+    try {
+      const redResult = await this.lealProcessor.processRedemptions(
+        dto,
+        predictedInvoiceNo,
+      );
+      lealRedemptionResults = redResult.redemptions;
+      const accResult = await this.lealProcessor.processAccumulation(
+        dto,
+        predictedInvoiceNo,
+      );
+      lealAccumulationResult = accResult.result;
+      lealReprintMessage = redResult.message + accResult.message;
+    } catch (lealError) {
+      if (lealRedemptionResults.length > 0) {
+        try {
+          await this.lealProcessor.compensate({
+            redemptions: lealRedemptionResults,
+            accumulationResult: null,
+            lealIdAleatorioRed: dto.lealIdAleatorioRed,
+            predictedInvoiceNo,
+          });
+        } catch (compErr: any) {
+          console.warn(
+            '[Leal] Error en compensación de redenciones:',
+            compErr?.message,
+          );
+        }
+      }
+      throw lealError;
+    }
 
     // 2. Insertar factura en DB (solo si Leal se procesó correctamente)
     let executeResult;

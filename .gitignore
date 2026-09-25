@@ -38,3 +38,9 @@ Thumbs.db
 *.sqlite
 # Stryker sandbox
 .stryker-tmp/
+
+# Licencias locales del dispositivo
+license-state.json
+machine-id.txt
+*.pub
+

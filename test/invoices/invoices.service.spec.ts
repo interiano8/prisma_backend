@@ -877,6 +877,84 @@ describe('InvoicesService', () => {
       expect(dispenserRepo.updateSaleInvoiced).not.toHaveBeenCalled();
     });
 
+    it('llama updateSaleInvoiced con saleId y posNo cuando el item de combustible tiene saleId', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getItemMetadata.mockResolvedValue(null);
+      dispenserRepo.getSaleById.mockResolvedValue({
+        PumpNumber: 3,
+        HoseNumber: '1',
+        amount: 200,
+        ppu: 100,
+        volume: 2,
+        GradeNr: null,
+        IsInvoiced: false,
+        ShiftId: 20260101,
+      });
+      dispenserRepo.getHoseFsMapping.mockResolvedValue({
+        CodigoPOS: 'SUPER',
+        TankIDs: 'T1',
+        unidadMedida: 'galones',
+      });
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], code: 'GAS-3', saleId: 456 }];
+
+      await service.createInvoice(dto);
+
+      expect(dispensersService.clearPumpSale).toHaveBeenCalledWith(3);
+      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith('456', dto.posNo);
+    });
+
+    it('no rompe la creacion de factura si updateSaleInvoiced falla en wayne', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+      dispenserRepo.getItemMetadata.mockResolvedValue(null);
+      dispenserRepo.getSaleById.mockResolvedValue({
+        PumpNumber: 3,
+        HoseNumber: '1',
+        amount: 200,
+        ppu: 100,
+        volume: 2,
+        GradeNr: null,
+        IsInvoiced: false,
+        ShiftId: 20260101,
+      });
+      dispenserRepo.getHoseFsMapping.mockResolvedValue({
+        CodigoPOS: 'SUPER',
+        TankIDs: 'T1',
+        unidadMedida: 'galones',
+      });
+      dispenserRepo.updateSaleInvoiced.mockRejectedValueOnce(
+        new Error('wayne offline'),
+      );
+      const dto = baseDto();
+      dto.items = [{ ...dto.items[0], code: 'GAS-3', saleId: 789 }];
+
+      const result = await service.createInvoice(dto);
+
+      expect(result.success).toBe(true);
+      expect(dispensersService.clearPumpSale).toHaveBeenCalledWith(3);
+      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith('789', dto.posNo);
+    });
+
     it('ignora errores de campanas', async () => {
       invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),

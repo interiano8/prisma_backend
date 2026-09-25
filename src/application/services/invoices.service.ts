@@ -600,6 +600,19 @@ export class InvoicesService {
         if (!isNaN(pumpId)) {
           this.dispensersService.clearPumpSale(pumpId);
         }
+        if (item.saleId != null) {
+          try {
+            await this.dispenserRepo.updateSaleInvoiced(
+              String(item.saleId),
+              dto.posNo,
+            );
+          } catch (err) {
+            console.warn(
+              `[Factura] No se pudo marcar facturada la venta #${item.saleId} en wayne:`,
+              (err as Error).message,
+            );
+          }
+        }
       }
     }
   }

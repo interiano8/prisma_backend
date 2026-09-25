@@ -17,6 +17,9 @@ describe('CloudSyncService', () => {
       precioProducto: {
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
       },
+      reglaDescuento: {
+        upsert: jest.fn().mockResolvedValue({}),
+      },
     };
 
     service = new CloudSyncService(prismaMock);
@@ -140,6 +143,39 @@ describe('CloudSyncService', () => {
         where: { idManguera: 1 },
         data: { precioUnitarioConIsv: 33.5 },
       });
+    });
+
+    it('descarga y aplica reglas de descuento desde Store 000', async () => {
+      process.env.BACKOFFICE_SYNC_URL = 'https://backoffice.internal/api/sync';
+
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          hasUpdates: true,
+          masterVersion: 121,
+          discountRules: [
+            {
+              id: 'rule-flota-1',
+              codigoCliente: 'CLI-001',
+              tipoBeneficio: 'MONTO_VOLUMEN',
+              valor: 1.5,
+              cantidadMinima: 20,
+              prioridad: 10,
+              activo: true,
+            },
+          ],
+        }),
+      });
+
+      const result = await service.pullMasters();
+
+      expect(result.success).toBe(true);
+      expect(result.updated).toBe(true);
+      expect(prismaMock.reglaDescuento.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'rule-flota-1' },
+        }),
+      );
     });
   });
 });

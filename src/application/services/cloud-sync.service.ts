@@ -213,6 +213,43 @@ export class CloudSyncService {
               data: { precioUnitarioConIsv: price.unitPrice },
             }).catch(() => {});
           }
+
+          // Aplicar reglas de descuento sincronizadas desde Store 000
+          for (const rule of data.discountRules || []) {
+            await this.prisma.reglaDescuento.upsert({
+              where: { id: rule.id },
+              update: {
+                codigoCliente: rule.codigoCliente || null,
+                codigoProducto: rule.codigoProducto || null,
+                codigoCategoria: rule.codigoCategoria || null,
+                cantidadMinima: rule.cantidadMinima ?? null,
+                tipoBeneficio: rule.tipoBeneficio,
+                valor: rule.valor,
+                unidadVolumen: rule.unidadVolumen || null,
+                prioridad: rule.prioridad ?? 0,
+                fechaInicio: rule.fechaInicio ? new Date(rule.fechaInicio) : null,
+                fechaFin: rule.fechaFin ? new Date(rule.fechaFin) : null,
+                activo: rule.activo ?? true,
+                idTienda: rule.idTienda || null,
+              },
+              create: {
+                id: rule.id,
+                codigoCliente: rule.codigoCliente || null,
+                codigoProducto: rule.codigoProducto || null,
+                codigoCategoria: rule.codigoCategoria || null,
+                cantidadMinima: rule.cantidadMinima ?? null,
+                tipoBeneficio: rule.tipoBeneficio,
+                valor: rule.valor,
+                unidadVolumen: rule.unidadVolumen || null,
+                prioridad: rule.prioridad ?? 0,
+                fechaInicio: rule.fechaInicio ? new Date(rule.fechaInicio) : null,
+                fechaFin: rule.fechaFin ? new Date(rule.fechaFin) : null,
+                activo: rule.activo ?? true,
+                idTienda: rule.idTienda || null,
+              },
+            }).catch(() => {});
+          }
+
           return { success: true, updated: true };
         }
 

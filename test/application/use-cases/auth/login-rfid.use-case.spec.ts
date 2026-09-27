@@ -124,6 +124,8 @@ describe('LoginRfidUseCase', () => {
       sub: 7,
       username: 'rfid_user',
       profile: 'CAJERO',
+      roles: ['CAJERO'],
+      permissions: [],
     });
     expect(result.storeConfig.posNumber).toBe('POS01');
   });

@@ -38,4 +38,20 @@ describe('AdminGuard', () => {
 
     expect(guard.canActivate(ctxFor('ADMIN'))).toBe(true);
   });
+
+  it('permite cuando el usuario tiene rol ADMIN en lista de roles', () => {
+    const guard = new AdminGuard({ sign: jest.fn() } as any);
+    const ctx = {
+      switchToHttp: () => ({
+        getRequest: () => ({ user: { profile: 'CAJERO', roles: ['CAJERO', 'ADMIN'] } }),
+      }),
+    } as any;
+
+    expect(guard.canActivate(ctx)).toBe(true);
+  });
+
+  it('permite cuando el usuario tiene perfil SUPER_ADMIN', () => {
+    const guard = new AdminGuard({ sign: jest.fn() } as any);
+    expect(guard.canActivate(ctxFor('SUPER_ADMIN'))).toBe(true);
+  });
 });

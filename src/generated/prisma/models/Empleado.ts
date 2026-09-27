@@ -245,6 +245,7 @@ export type EmpleadoWhereInput = {
   hashContrasena?: Prisma.StringNullableFilter<"Empleado"> | string | null
   preferencias?: Prisma.JsonNullableFilter<"Empleado">
   ventas?: Prisma.VentaListRelationFilter
+  roles?: Prisma.EmpleadoRolListRelationFilter
 }
 
 export type EmpleadoOrderByWithRelationInput = {
@@ -258,6 +259,7 @@ export type EmpleadoOrderByWithRelationInput = {
   hashContrasena?: Prisma.SortOrderInput | Prisma.SortOrder
   preferencias?: Prisma.SortOrderInput | Prisma.SortOrder
   ventas?: Prisma.VentaOrderByRelationAggregateInput
+  roles?: Prisma.EmpleadoRolOrderByRelationAggregateInput
 }
 
 export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +276,7 @@ export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
   hashContrasena?: Prisma.StringNullableFilter<"Empleado"> | string | null
   preferencias?: Prisma.JsonNullableFilter<"Empleado">
   ventas?: Prisma.VentaListRelationFilter
+  roles?: Prisma.EmpleadoRolListRelationFilter
 }, "id" | "usuario">
 
 export type EmpleadoOrderByWithAggregationInput = {
@@ -318,6 +321,7 @@ export type EmpleadoCreateInput = {
   hashContrasena?: string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ventas?: Prisma.VentaCreateNestedManyWithoutEmpleadoInput
+  roles?: Prisma.EmpleadoRolCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateInput = {
@@ -331,6 +335,7 @@ export type EmpleadoUncheckedCreateInput = {
   hashContrasena?: string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ventas?: Prisma.VentaUncheckedCreateNestedManyWithoutEmpleadoInput
+  roles?: Prisma.EmpleadoRolUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUpdateInput = {
@@ -343,6 +348,7 @@ export type EmpleadoUpdateInput = {
   hashContrasena?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ventas?: Prisma.VentaUpdateManyWithoutEmpleadoNestedInput
+  roles?: Prisma.EmpleadoRolUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateInput = {
@@ -356,6 +362,7 @@ export type EmpleadoUncheckedUpdateInput = {
   hashContrasena?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ventas?: Prisma.VentaUncheckedUpdateManyWithoutEmpleadoNestedInput
+  roles?: Prisma.EmpleadoRolUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoCreateManyInput = {
@@ -435,6 +442,11 @@ export type EmpleadoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
+export type EmpleadoScalarRelationFilter = {
+  is?: Prisma.EmpleadoWhereInput
+  isNot?: Prisma.EmpleadoWhereInput
+}
+
 export type EmpleadoNullableScalarRelationFilter = {
   is?: Prisma.EmpleadoWhereInput | null
   isNot?: Prisma.EmpleadoWhereInput | null
@@ -460,6 +472,20 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type EmpleadoCreateNestedOneWithoutRolesInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutRolesInput, Prisma.EmpleadoUncheckedCreateWithoutRolesInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutRolesInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+}
+
+export type EmpleadoUpdateOneRequiredWithoutRolesNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutRolesInput, Prisma.EmpleadoUncheckedCreateWithoutRolesInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutRolesInput
+  upsert?: Prisma.EmpleadoUpsertWithoutRolesInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutRolesInput, Prisma.EmpleadoUpdateWithoutRolesInput>, Prisma.EmpleadoUncheckedUpdateWithoutRolesInput>
+}
+
 export type EmpleadoCreateNestedOneWithoutVentasInput = {
   create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutVentasInput, Prisma.EmpleadoUncheckedCreateWithoutVentasInput>
   connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutVentasInput
@@ -476,6 +502,72 @@ export type EmpleadoUpdateOneWithoutVentasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutVentasInput, Prisma.EmpleadoUpdateWithoutVentasInput>, Prisma.EmpleadoUncheckedUpdateWithoutVentasInput>
 }
 
+export type EmpleadoCreateWithoutRolesInput = {
+  nombre?: string | null
+  pin?: string | null
+  usuario: string
+  perfil?: string | null
+  estaActivo?: boolean | null
+  codigoRfid?: string | null
+  hashContrasena?: string | null
+  preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ventas?: Prisma.VentaCreateNestedManyWithoutEmpleadoInput
+}
+
+export type EmpleadoUncheckedCreateWithoutRolesInput = {
+  id?: number
+  nombre?: string | null
+  pin?: string | null
+  usuario: string
+  perfil?: string | null
+  estaActivo?: boolean | null
+  codigoRfid?: string | null
+  hashContrasena?: string | null
+  preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ventas?: Prisma.VentaUncheckedCreateNestedManyWithoutEmpleadoInput
+}
+
+export type EmpleadoCreateOrConnectWithoutRolesInput = {
+  where: Prisma.EmpleadoWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutRolesInput, Prisma.EmpleadoUncheckedCreateWithoutRolesInput>
+}
+
+export type EmpleadoUpsertWithoutRolesInput = {
+  update: Prisma.XOR<Prisma.EmpleadoUpdateWithoutRolesInput, Prisma.EmpleadoUncheckedUpdateWithoutRolesInput>
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutRolesInput, Prisma.EmpleadoUncheckedCreateWithoutRolesInput>
+  where?: Prisma.EmpleadoWhereInput
+}
+
+export type EmpleadoUpdateToOneWithWhereWithoutRolesInput = {
+  where?: Prisma.EmpleadoWhereInput
+  data: Prisma.XOR<Prisma.EmpleadoUpdateWithoutRolesInput, Prisma.EmpleadoUncheckedUpdateWithoutRolesInput>
+}
+
+export type EmpleadoUpdateWithoutRolesInput = {
+  nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  perfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estaActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  codigoRfid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hashContrasena?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ventas?: Prisma.VentaUpdateManyWithoutEmpleadoNestedInput
+}
+
+export type EmpleadoUncheckedUpdateWithoutRolesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  perfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estaActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  codigoRfid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hashContrasena?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ventas?: Prisma.VentaUncheckedUpdateManyWithoutEmpleadoNestedInput
+}
+
 export type EmpleadoCreateWithoutVentasInput = {
   nombre?: string | null
   pin?: string | null
@@ -485,6 +577,7 @@ export type EmpleadoCreateWithoutVentasInput = {
   codigoRfid?: string | null
   hashContrasena?: string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  roles?: Prisma.EmpleadoRolCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateWithoutVentasInput = {
@@ -497,6 +590,7 @@ export type EmpleadoUncheckedCreateWithoutVentasInput = {
   codigoRfid?: string | null
   hashContrasena?: string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  roles?: Prisma.EmpleadoRolUncheckedCreateNestedManyWithoutEmpleadoInput
 }
 
 export type EmpleadoCreateOrConnectWithoutVentasInput = {
@@ -524,6 +618,7 @@ export type EmpleadoUpdateWithoutVentasInput = {
   codigoRfid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashContrasena?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  roles?: Prisma.EmpleadoRolUpdateManyWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateWithoutVentasInput = {
@@ -536,6 +631,7 @@ export type EmpleadoUncheckedUpdateWithoutVentasInput = {
   codigoRfid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hashContrasena?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferencias?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  roles?: Prisma.EmpleadoRolUncheckedUpdateManyWithoutEmpleadoNestedInput
 }
 
 
@@ -545,10 +641,12 @@ export type EmpleadoUncheckedUpdateWithoutVentasInput = {
 
 export type EmpleadoCountOutputType = {
   ventas: number
+  roles: number
 }
 
 export type EmpleadoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ventas?: boolean | EmpleadoCountOutputTypeCountVentasArgs
+  roles?: boolean | EmpleadoCountOutputTypeCountRolesArgs
 }
 
 /**
@@ -568,6 +666,13 @@ export type EmpleadoCountOutputTypeCountVentasArgs<ExtArgs extends runtime.Types
   where?: Prisma.VentaWhereInput
 }
 
+/**
+ * EmpleadoCountOutputType without action
+ */
+export type EmpleadoCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmpleadoRolWhereInput
+}
+
 
 export type EmpleadoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -580,6 +685,7 @@ export type EmpleadoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   hashContrasena?: boolean
   preferencias?: boolean
   ventas?: boolean | Prisma.Empleado$ventasArgs<ExtArgs>
+  roles?: boolean | Prisma.Empleado$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empleado"]>
 
@@ -622,6 +728,7 @@ export type EmpleadoSelectScalar = {
 export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "pin" | "usuario" | "perfil" | "estaActivo" | "codigoRfid" | "hashContrasena" | "preferencias", ExtArgs["result"]["empleado"]>
 export type EmpleadoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ventas?: boolean | Prisma.Empleado$ventasArgs<ExtArgs>
+  roles?: boolean | Prisma.Empleado$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EmpleadoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -631,6 +738,7 @@ export type $EmpleadoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Empleado"
   objects: {
     ventas: Prisma.$VentaPayload<ExtArgs>[]
+    roles: Prisma.$EmpleadoRolPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1037,6 +1145,7 @@ readonly fields: EmpleadoFieldRefs;
 export interface Prisma__EmpleadoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   ventas<T extends Prisma.Empleado$ventasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$ventasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  roles<T extends Prisma.Empleado$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpleadoRolPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1489,6 +1598,30 @@ export type Empleado$ventasArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.VentaScalarFieldEnum | Prisma.VentaScalarFieldEnum[]
+}
+
+/**
+ * Empleado.roles
+ */
+export type Empleado$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmpleadoRol
+   */
+  select?: Prisma.EmpleadoRolSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmpleadoRol
+   */
+  omit?: Prisma.EmpleadoRolOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmpleadoRolInclude<ExtArgs> | null
+  where?: Prisma.EmpleadoRolWhereInput
+  orderBy?: Prisma.EmpleadoRolOrderByWithRelationInput | Prisma.EmpleadoRolOrderByWithRelationInput[]
+  cursor?: Prisma.EmpleadoRolWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmpleadoRolScalarFieldEnum | Prisma.EmpleadoRolScalarFieldEnum[]
 }
 
 /**

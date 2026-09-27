@@ -110,7 +110,11 @@ export interface DispenserRepository {
     pumpId: number,
     limit?: number,
   ): Promise<PumpTransaction[]>;
-  updateSaleInvoiced(saleId: string, posNumber: string): Promise<void>;
+  updateSaleInvoiced(
+    saleId: string,
+    posNumber: string,
+    employeeName?: string,
+  ): Promise<void>;
   reverseFusionSale(saleId: string): Promise<void>;
   renewTransactions(): Promise<number>;
   getHoseFsForPos(posNo: string): Promise<HosePumpId[]>;

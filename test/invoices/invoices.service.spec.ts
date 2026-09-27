@@ -1036,7 +1036,7 @@ describe('InvoicesService', () => {
       await service.createInvoice(dto);
 
       expect(dispensersService.clearPumpSale).toHaveBeenCalledWith(3);
-      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith('456', dto.posNo);
+      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith('456', dto.posNo, dto.employeeName);
     });
 
     it('no rompe la creacion de factura si updateSaleInvoiced falla en wayne', async () => {
@@ -1077,7 +1077,7 @@ describe('InvoicesService', () => {
 
       expect(result.success).toBe(true);
       expect(dispensersService.clearPumpSale).toHaveBeenCalledWith(3);
-      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith('789', dto.posNo);
+      expect(dispenserRepo.updateSaleInvoiced).toHaveBeenCalledWith('789', dto.posNo, dto.employeeName);
     });
 
     it('ignora errores de campanas', async () => {

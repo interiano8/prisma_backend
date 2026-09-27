@@ -196,6 +196,7 @@ describe('ProductRepositoryImpl', () => {
       valor: 10,
       unidadVolumen: undefined,
       prioridad: 1,
+      acumulable: false,
     });
     expect(prisma.reglaDescuento.findMany).toHaveBeenCalledWith(
       expect.objectContaining({ where: { activo: true, AND: expect.any(Array) } }),

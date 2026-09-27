@@ -8,4 +8,6 @@ export interface User {
   codigoRfid?: string;
   pinLeal?: string;
   preferencias?: { theme?: string; accent?: string } | null;
+  roles?: string[];
+  permissions?: string[];
 }

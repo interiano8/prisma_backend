@@ -25,4 +25,5 @@ export interface DiscountRule {
   valor: number;
   unidadVolumen?: UnidadVolumen;
   prioridad: number;
+  acumulable?: boolean;
 }

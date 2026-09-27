@@ -83,6 +83,7 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
       valor: Number(r.valor),
       unidadVolumen: r.unidadVolumen ?? undefined,
       prioridad: r.prioridad,
+      acumulable: r.acumulable ?? false,
     }));
     return this.discountService.evaluateBestRule(
       ruleDtos,
@@ -249,17 +250,26 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
             },
           });
           if (winner) {
-            await tx.lineaVentaDescuentoAplicado.create({
-              data: {
-                numeroEmisor: emisor,
-                numeroLineaDocumento: l.lineNo || 0,
-                idTransaccionPos: posTransactionId,
-                idRegla: winner.rule.id,
-                tipoBeneficio: winner.rule.tipoBeneficio,
-                valor: winner.rule.valor,
-                montoAplicado: winner.benefit,
-              },
-            });
+            const rulesToRecord =
+              winner.appliedRules && winner.appliedRules.length > 0
+                ? winner.appliedRules
+                : [{ rule: winner.rule, benefit: winner.benefit }];
+
+            for (const applied of rulesToRecord) {
+              if (applied.benefit > 0) {
+                await tx.lineaVentaDescuentoAplicado.create({
+                  data: {
+                    numeroEmisor: emisor,
+                    numeroLineaDocumento: l.lineNo || 0,
+                    idTransaccionPos: posTransactionId,
+                    idRegla: applied.rule.id,
+                    tipoBeneficio: applied.rule.tipoBeneficio,
+                    valor: applied.rule.valor,
+                    montoAplicado: applied.benefit,
+                  },
+                });
+              }
+            }
           }
         }
 

@@ -4,6 +4,8 @@ export interface TokenPayload {
   sub: number;
   username: string;
   profile: string;
+  roles?: string[];
+  permissions?: string[];
 }
 
 export interface TokenPort {

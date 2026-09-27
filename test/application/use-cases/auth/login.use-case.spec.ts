@@ -137,11 +137,15 @@ describe('LoginUseCase', () => {
         isActive: true,
         pinLeal: '1234',
         preferencias: null,
+        roles: ['ADMIN'],
+        permissions: [],
       });
       expect(mockTokenService.sign).toHaveBeenCalledWith({
         sub: 1,
         username: 'jdoe',
         profile: 'ADMIN',
+        roles: ['ADMIN'],
+        permissions: [],
       });
       expect(result.token).toBe('jwt.real.token');
       expect(result.storeConfig).toEqual(mockStore);

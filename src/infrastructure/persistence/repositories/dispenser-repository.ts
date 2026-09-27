@@ -325,12 +325,28 @@ export class DispenserRepositoryImpl implements DispenserRepository {
     }
   }
 
-  async updateSaleInvoiced(saleId: string, posNumber: string): Promise<void> {
+  async updateSaleInvoiced(
+    saleId: string,
+    posNumber: string,
+    employeeName?: string,
+  ): Promise<void> {
+    if (process.env.WAYNE_SKIP_CLEAR_SALE === 'true') {
+      return;
+    }
     try {
+      const clearOnController =
+        process.env.WAYNE_CLEAR_ON_CONTROLLER !== undefined
+          ? process.env.WAYNE_CLEAR_ON_CONTROLLER !== 'false'
+          : undefined;
+
       await this.wayneFetch(`/api/sales/${saleId}/clear`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentMethod: 'EFECTIVO' }),
+        body: JSON.stringify({
+          paymentMethod: 'EFECTIVO',
+          ...(employeeName ? { clearedBy: employeeName } : {}),
+          ...(clearOnController !== undefined ? { clearOnController } : {}),
+        }),
       });
     } catch (err) {
       console.warn('[Dispenser] Error marcando venta como facturada en wayne:', err);

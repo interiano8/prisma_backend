@@ -24,7 +24,9 @@ describe('AuthRepositoryImpl', () => {
 
     const user = await repo.findUserByUsername('jdoe');
 
-    expect(findUnique).toHaveBeenCalledWith({ where: { usuario: 'jdoe' } });
+    expect(findUnique).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { usuario: 'jdoe' } }),
+    );
     expect(user).not.toBeNull();
     expect(user!.username).toBe('jdoe');
     expect(user!.preferencias).toEqual({ theme: 'dark', accent: '#0070f3' });

@@ -398,10 +398,6 @@ export type MonedaUpdateOneWithoutTiendasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MonedaUpdateToOneWithWhereWithoutTiendasInput, Prisma.MonedaUpdateWithoutTiendasInput>, Prisma.MonedaUncheckedUpdateWithoutTiendasInput>
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type MonedaCreateNestedOneWithoutProductosInput = {
   create?: Prisma.XOR<Prisma.MonedaCreateWithoutProductosInput, Prisma.MonedaUncheckedCreateWithoutProductosInput>
   connectOrCreate?: Prisma.MonedaCreateOrConnectWithoutProductosInput

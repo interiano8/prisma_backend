@@ -553,10 +553,6 @@ export type TurnoSumOrderByAggregateInput = {
   montoInicial?: Prisma.SortOrder
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }

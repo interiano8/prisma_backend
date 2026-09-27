@@ -133,6 +133,72 @@ describe('DiscountService', () => {
       const result = service.evaluateBestRule([rule], 200, 100, 'IVA');
       expect(result?.benefit).toBe(100);
     });
+
+    it('combina regla base no acumulable con regla acumulable (acumulable: true)', () => {
+      const baseRule: DiscountRule = {
+        id: 'BASE',
+        tipoBeneficio: 'MONTO_FIJO',
+        valor: 25,
+        prioridad: 10,
+        acumulable: false,
+      };
+      const stackRule: DiscountRule = {
+        id: 'PROMO_STACK',
+        tipoBeneficio: 'MONTO_FIJO',
+        valor: 10,
+        prioridad: 5,
+        acumulable: true,
+      };
+      const result = service.evaluateBestRule([baseRule, stackRule], 1, 100, 'IVA');
+      expect(result?.benefit).toBe(35);
+      expect(result?.appliedRules).toHaveLength(2);
+      expect(result?.appliedRules?.[0].rule.id).toBe('BASE');
+      expect(result?.appliedRules?.[0].benefit).toBe(25);
+      expect(result?.appliedRules?.[1].rule.id).toBe('PROMO_STACK');
+      expect(result?.appliedRules?.[1].benefit).toBe(10);
+    });
+
+    it('aplica salvaguarda contable limitando el beneficio total al 100% de la base gravada', () => {
+      const baseRule: DiscountRule = {
+        id: 'BASE',
+        tipoBeneficio: 'MONTO_FIJO',
+        valor: 70,
+        prioridad: 10,
+        acumulable: false,
+      };
+      const stackRule: DiscountRule = {
+        id: 'STACK',
+        tipoBeneficio: 'MONTO_FIJO',
+        valor: 50,
+        prioridad: 5,
+        acumulable: true,
+      };
+      // baseGravada = 100
+      const result = service.evaluateBestRule([baseRule, stackRule], 1, 100, 'IVA');
+      expect(result?.benefit).toBe(100);
+      expect(result?.appliedRules).toHaveLength(2);
+      expect(result?.appliedRules?.[0].benefit).toBe(70);
+      expect(result?.appliedRules?.[1].benefit).toBe(30); // 100 - 70 = 30 restante
+    });
+
+    it('no acumula reglas entre sí cuando acumulable es false o ausente', () => {
+      const rule1: DiscountRule = {
+        id: 'R1',
+        tipoBeneficio: 'MONTO_FIJO',
+        valor: 30,
+        prioridad: 5,
+      };
+      const rule2: DiscountRule = {
+        id: 'R2',
+        tipoBeneficio: 'MONTO_FIJO',
+        valor: 20,
+        prioridad: 5,
+      };
+      const result = service.evaluateBestRule([rule1, rule2], 1, 100, 'IVA');
+      expect(result?.benefit).toBe(30);
+      expect(result?.appliedRules).toHaveLength(1);
+      expect(result?.appliedRules?.[0].rule.id).toBe('R1');
+    });
   });
 
   describe('evaluateBestRule (casos de borde)', () => {

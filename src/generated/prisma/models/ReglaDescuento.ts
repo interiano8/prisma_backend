@@ -51,6 +51,7 @@ export type ReglaDescuentoMinAggregateOutputType = {
   fechaInicio: Date | null
   fechaFin: Date | null
   activo: boolean | null
+  acumulable: boolean | null
   idTienda: string | null
 }
 
@@ -67,6 +68,7 @@ export type ReglaDescuentoMaxAggregateOutputType = {
   fechaInicio: Date | null
   fechaFin: Date | null
   activo: boolean | null
+  acumulable: boolean | null
   idTienda: string | null
 }
 
@@ -83,6 +85,7 @@ export type ReglaDescuentoCountAggregateOutputType = {
   fechaInicio: number
   fechaFin: number
   activo: number
+  acumulable: number
   idTienda: number
   _all: number
 }
@@ -113,6 +116,7 @@ export type ReglaDescuentoMinAggregateInputType = {
   fechaInicio?: true
   fechaFin?: true
   activo?: true
+  acumulable?: true
   idTienda?: true
 }
 
@@ -129,6 +133,7 @@ export type ReglaDescuentoMaxAggregateInputType = {
   fechaInicio?: true
   fechaFin?: true
   activo?: true
+  acumulable?: true
   idTienda?: true
 }
 
@@ -145,6 +150,7 @@ export type ReglaDescuentoCountAggregateInputType = {
   fechaInicio?: true
   fechaFin?: true
   activo?: true
+  acumulable?: true
   idTienda?: true
   _all?: true
 }
@@ -248,6 +254,7 @@ export type ReglaDescuentoGroupByOutputType = {
   fechaInicio: Date | null
   fechaFin: Date | null
   activo: boolean
+  acumulable: boolean
   idTienda: string | null
   _count: ReglaDescuentoCountAggregateOutputType | null
   _avg: ReglaDescuentoAvgAggregateOutputType | null
@@ -287,6 +294,7 @@ export type ReglaDescuentoWhereInput = {
   fechaInicio?: Prisma.DateTimeNullableFilter<"ReglaDescuento"> | Date | string | null
   fechaFin?: Prisma.DateTimeNullableFilter<"ReglaDescuento"> | Date | string | null
   activo?: Prisma.BoolFilter<"ReglaDescuento"> | boolean
+  acumulable?: Prisma.BoolFilter<"ReglaDescuento"> | boolean
   idTienda?: Prisma.StringNullableFilter<"ReglaDescuento"> | string | null
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoListRelationFilter
 }
@@ -304,6 +312,7 @@ export type ReglaDescuentoOrderByWithRelationInput = {
   fechaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaFin?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
+  acumulable?: Prisma.SortOrder
   idTienda?: Prisma.SortOrderInput | Prisma.SortOrder
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoOrderByRelationAggregateInput
 }
@@ -324,6 +333,7 @@ export type ReglaDescuentoWhereUniqueInput = Prisma.AtLeast<{
   fechaInicio?: Prisma.DateTimeNullableFilter<"ReglaDescuento"> | Date | string | null
   fechaFin?: Prisma.DateTimeNullableFilter<"ReglaDescuento"> | Date | string | null
   activo?: Prisma.BoolFilter<"ReglaDescuento"> | boolean
+  acumulable?: Prisma.BoolFilter<"ReglaDescuento"> | boolean
   idTienda?: Prisma.StringNullableFilter<"ReglaDescuento"> | string | null
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoListRelationFilter
 }, "id">
@@ -341,6 +351,7 @@ export type ReglaDescuentoOrderByWithAggregationInput = {
   fechaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaFin?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
+  acumulable?: Prisma.SortOrder
   idTienda?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReglaDescuentoCountOrderByAggregateInput
   _avg?: Prisma.ReglaDescuentoAvgOrderByAggregateInput
@@ -365,6 +376,7 @@ export type ReglaDescuentoScalarWhereWithAggregatesInput = {
   fechaInicio?: Prisma.DateTimeNullableWithAggregatesFilter<"ReglaDescuento"> | Date | string | null
   fechaFin?: Prisma.DateTimeNullableWithAggregatesFilter<"ReglaDescuento"> | Date | string | null
   activo?: Prisma.BoolWithAggregatesFilter<"ReglaDescuento"> | boolean
+  acumulable?: Prisma.BoolWithAggregatesFilter<"ReglaDescuento"> | boolean
   idTienda?: Prisma.StringNullableWithAggregatesFilter<"ReglaDescuento"> | string | null
 }
 
@@ -381,6 +393,7 @@ export type ReglaDescuentoCreateInput = {
   fechaInicio?: Date | string | null
   fechaFin?: Date | string | null
   activo?: boolean
+  acumulable?: boolean
   idTienda?: string | null
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoCreateNestedManyWithoutReglaInput
 }
@@ -398,6 +411,7 @@ export type ReglaDescuentoUncheckedCreateInput = {
   fechaInicio?: Date | string | null
   fechaFin?: Date | string | null
   activo?: boolean
+  acumulable?: boolean
   idTienda?: string | null
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoUncheckedCreateNestedManyWithoutReglaInput
 }
@@ -415,6 +429,7 @@ export type ReglaDescuentoUpdateInput = {
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  acumulable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   idTienda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoUpdateManyWithoutReglaNestedInput
 }
@@ -432,6 +447,7 @@ export type ReglaDescuentoUncheckedUpdateInput = {
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  acumulable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   idTienda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aplicaciones?: Prisma.LineaVentaDescuentoAplicadoUncheckedUpdateManyWithoutReglaNestedInput
 }
@@ -449,6 +465,7 @@ export type ReglaDescuentoCreateManyInput = {
   fechaInicio?: Date | string | null
   fechaFin?: Date | string | null
   activo?: boolean
+  acumulable?: boolean
   idTienda?: string | null
 }
 
@@ -465,6 +482,7 @@ export type ReglaDescuentoUpdateManyMutationInput = {
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  acumulable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   idTienda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -481,6 +499,7 @@ export type ReglaDescuentoUncheckedUpdateManyInput = {
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  acumulable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   idTienda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -497,6 +516,7 @@ export type ReglaDescuentoCountOrderByAggregateInput = {
   fechaInicio?: Prisma.SortOrder
   fechaFin?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  acumulable?: Prisma.SortOrder
   idTienda?: Prisma.SortOrder
 }
 
@@ -519,6 +539,7 @@ export type ReglaDescuentoMaxOrderByAggregateInput = {
   fechaInicio?: Prisma.SortOrder
   fechaFin?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  acumulable?: Prisma.SortOrder
   idTienda?: Prisma.SortOrder
 }
 
@@ -535,6 +556,7 @@ export type ReglaDescuentoMinOrderByAggregateInput = {
   fechaInicio?: Prisma.SortOrder
   fechaFin?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  acumulable?: Prisma.SortOrder
   idTienda?: Prisma.SortOrder
 }
 
@@ -584,6 +606,7 @@ export type ReglaDescuentoCreateWithoutAplicacionesInput = {
   fechaInicio?: Date | string | null
   fechaFin?: Date | string | null
   activo?: boolean
+  acumulable?: boolean
   idTienda?: string | null
 }
 
@@ -600,6 +623,7 @@ export type ReglaDescuentoUncheckedCreateWithoutAplicacionesInput = {
   fechaInicio?: Date | string | null
   fechaFin?: Date | string | null
   activo?: boolean
+  acumulable?: boolean
   idTienda?: string | null
 }
 
@@ -632,6 +656,7 @@ export type ReglaDescuentoUpdateWithoutAplicacionesInput = {
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  acumulable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   idTienda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -648,6 +673,7 @@ export type ReglaDescuentoUncheckedUpdateWithoutAplicacionesInput = {
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  acumulable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   idTienda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -695,6 +721,7 @@ export type ReglaDescuentoSelect<ExtArgs extends runtime.Types.Extensions.Intern
   fechaInicio?: boolean
   fechaFin?: boolean
   activo?: boolean
+  acumulable?: boolean
   idTienda?: boolean
   aplicaciones?: boolean | Prisma.ReglaDescuento$aplicacionesArgs<ExtArgs>
   _count?: boolean | Prisma.ReglaDescuentoCountOutputTypeDefaultArgs<ExtArgs>
@@ -713,6 +740,7 @@ export type ReglaDescuentoSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   fechaInicio?: boolean
   fechaFin?: boolean
   activo?: boolean
+  acumulable?: boolean
   idTienda?: boolean
 }, ExtArgs["result"]["reglaDescuento"]>
 
@@ -729,6 +757,7 @@ export type ReglaDescuentoSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   fechaInicio?: boolean
   fechaFin?: boolean
   activo?: boolean
+  acumulable?: boolean
   idTienda?: boolean
 }, ExtArgs["result"]["reglaDescuento"]>
 
@@ -745,10 +774,11 @@ export type ReglaDescuentoSelectScalar = {
   fechaInicio?: boolean
   fechaFin?: boolean
   activo?: boolean
+  acumulable?: boolean
   idTienda?: boolean
 }
 
-export type ReglaDescuentoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigoCliente" | "codigoProducto" | "codigoCategoria" | "cantidadMinima" | "tipoBeneficio" | "valor" | "unidadVolumen" | "prioridad" | "fechaInicio" | "fechaFin" | "activo" | "idTienda", ExtArgs["result"]["reglaDescuento"]>
+export type ReglaDescuentoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigoCliente" | "codigoProducto" | "codigoCategoria" | "cantidadMinima" | "tipoBeneficio" | "valor" | "unidadVolumen" | "prioridad" | "fechaInicio" | "fechaFin" | "activo" | "acumulable" | "idTienda", ExtArgs["result"]["reglaDescuento"]>
 export type ReglaDescuentoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   aplicaciones?: boolean | Prisma.ReglaDescuento$aplicacionesArgs<ExtArgs>
   _count?: boolean | Prisma.ReglaDescuentoCountOutputTypeDefaultArgs<ExtArgs>
@@ -774,6 +804,7 @@ export type $ReglaDescuentoPayload<ExtArgs extends runtime.Types.Extensions.Inte
     fechaInicio: Date | null
     fechaFin: Date | null
     activo: boolean
+    acumulable: boolean
     idTienda: string | null
   }, ExtArgs["result"]["reglaDescuento"]>
   composites: {}
@@ -1211,6 +1242,7 @@ export interface ReglaDescuentoFieldRefs {
   readonly fechaInicio: Prisma.FieldRef<"ReglaDescuento", 'DateTime'>
   readonly fechaFin: Prisma.FieldRef<"ReglaDescuento", 'DateTime'>
   readonly activo: Prisma.FieldRef<"ReglaDescuento", 'Boolean'>
+  readonly acumulable: Prisma.FieldRef<"ReglaDescuento", 'Boolean'>
   readonly idTienda: Prisma.FieldRef<"ReglaDescuento", 'String'>
 }
     

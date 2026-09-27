@@ -9,6 +9,10 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Empleado.js'
+export type * from './models/Rol.js'
+export type * from './models/Permiso.js'
+export type * from './models/RolPermiso.js'
+export type * from './models/EmpleadoRol.js'
 export type * from './models/Tienda.js'
 export type * from './models/ConfiguracionPos.js'
 export type * from './models/ConfiguracionTienda.js'

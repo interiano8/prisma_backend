@@ -636,6 +636,7 @@ export class InvoicesService {
             await this.dispenserRepo.updateSaleInvoiced(
               String(item.saleId),
               dto.posNo,
+              dto.employeeName,
             );
           } catch (err) {
             console.warn(

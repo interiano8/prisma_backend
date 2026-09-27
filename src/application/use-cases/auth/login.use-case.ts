@@ -75,11 +75,15 @@ export class LoginUseCase {
         isActive: true,
         pinLeal: user.pinLeal || '',
         preferencias: user.preferencias ?? null,
+        roles: user.roles || [user.profile || 'CAJERO'],
+        permissions: user.permissions || [],
       },
       token: this.tokenService.sign({
         sub: user.id,
         username: user.username,
         profile: user.profile || 'CAJERO',
+        roles: user.roles || [user.profile || 'CAJERO'],
+        permissions: user.permissions || [],
       }),
       storeConfig,
       shiftInfo: (shiftInfo || {

@@ -1,8 +1,10 @@
 # Dependencias
 node_modules/
 .pnpm-store/
+package-lock.json
+yarn.lock
 
-# Build
+# Build y Compilación
 dist/
 build/
 out/
@@ -12,6 +14,7 @@ out/
 coverage/
 reports/
 stryker-report/
+.stryker-tmp/
 
 # Entornos y secretos
 .env
@@ -25,22 +28,22 @@ stryker-report/
 logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
 
-# OS / editor
+# OS / Editor
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.suo
 
 # Base de datos local
 *.db
 *.sqlite
-# Stryker sandbox
-.stryker-tmp/
 
 # Licencias locales del dispositivo
 license-state.json
 machine-id.txt
 *.pub
-

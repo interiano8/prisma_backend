@@ -52,6 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Empleado: 'Empleado',
+  Rol: 'Rol',
+  Permiso: 'Permiso',
+  RolPermiso: 'RolPermiso',
+  EmpleadoRol: 'EmpleadoRol',
   Tienda: 'Tienda',
   ConfiguracionPos: 'ConfiguracionPos',
   ConfiguracionTienda: 'ConfiguracionTienda',
@@ -114,6 +118,45 @@ export const EmpleadoScalarFieldEnum = {
 } as const
 
 export type EmpleadoScalarFieldEnum = (typeof EmpleadoScalarFieldEnum)[keyof typeof EmpleadoScalarFieldEnum]
+
+
+export const RolScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  esSistema: 'esSistema',
+  estaActivo: 'estaActivo'
+} as const
+
+export type RolScalarFieldEnum = (typeof RolScalarFieldEnum)[keyof typeof RolScalarFieldEnum]
+
+
+export const PermisoScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  modulo: 'modulo',
+  descripcion: 'descripcion'
+} as const
+
+export type PermisoScalarFieldEnum = (typeof PermisoScalarFieldEnum)[keyof typeof PermisoScalarFieldEnum]
+
+
+export const RolPermisoScalarFieldEnum = {
+  idRol: 'idRol',
+  idPermiso: 'idPermiso',
+  creadoEn: 'creadoEn'
+} as const
+
+export type RolPermisoScalarFieldEnum = (typeof RolPermisoScalarFieldEnum)[keyof typeof RolPermisoScalarFieldEnum]
+
+
+export const EmpleadoRolScalarFieldEnum = {
+  idEmpleado: 'idEmpleado',
+  idRol: 'idRol',
+  creadoEn: 'creadoEn'
+} as const
+
+export type EmpleadoRolScalarFieldEnum = (typeof EmpleadoRolScalarFieldEnum)[keyof typeof EmpleadoRolScalarFieldEnum]
 
 
 export const TiendaScalarFieldEnum = {
@@ -343,6 +386,7 @@ export const ReglaDescuentoScalarFieldEnum = {
   fechaInicio: 'fechaInicio',
   fechaFin: 'fechaFin',
   activo: 'activo',
+  acumulable: 'acumulable',
   idTienda: 'idTienda'
 } as const
 

@@ -182,6 +182,7 @@ export class ProductRepositoryImpl implements ProductRepository {
       valor: Number(r.valor),
       unidadVolumen: r.unidadVolumen ?? undefined,
       prioridad: r.prioridad,
+      acumulable: r.acumulable ?? false,
     }));
   }
 

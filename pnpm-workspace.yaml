@@ -1,3 +1,5 @@
+packages:
+  - '.'
 overrides:
   qs: 6.16.0
   mysql2: 3.23.1

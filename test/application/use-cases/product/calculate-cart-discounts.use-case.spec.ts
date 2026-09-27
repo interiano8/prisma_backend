@@ -106,4 +106,20 @@ describe('CalculateCartDiscountsUseCase', () => {
       finalTotal: 150,
     });
   });
+
+  it('consolida reglas acumulables y actualiza totalDiscount y discountPercentage', async () => {
+    mockRepo.findApplicableDiscountRules.mockResolvedValue([
+      { id: 'R1', tipoBeneficio: 'PORCENTAJE', valor: 10, prioridad: 10, acumulable: false },
+      { id: 'R2', tipoBeneficio: 'PORCENTAJE', valor: 5, prioridad: 5, acumulable: true },
+    ]);
+
+    const result = await useCase.execute('C1', [
+      { code: 'P1', quantity: 1, vatGroup: 'IVA', unitPrice: 100 },
+    ]);
+
+    expect(result[0].hasDiscount).toBe(true);
+    expect(result[0].discountPercentage).toBe(15);
+    expect(result[0].totalDiscount).toBe(15);
+    expect(result[0].finalTotal).toBe(85);
+  });
 });

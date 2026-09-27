@@ -67,10 +67,55 @@ model Empleado {
   estaActivo     Boolean? @map("esta_activo")
   codigoRfid     String?  @map("codigo_rfid")
   hashContrasena String?  @map("hash_contrasena")
-  preferencias   Json?    @map("preferencias")
-  ventas         Venta[]  @relation("VentaVendedor")
+  preferencias   Json?         @map("preferencias")
+  ventas         Venta[]       @relation("VentaVendedor")
+  roles          EmpleadoRol[]
 
   @@map("empleados")
+}
+
+model Rol {
+  id          String        @id @map("id")
+  nombre      String        @map("nombre")
+  descripcion String?       @map("descripcion")
+  esSistema   Boolean       @default(false) @map("es_sistema")
+  estaActivo  Boolean       @default(true) @map("esta_activo")
+  permisos    RolPermiso[]
+  empleados   EmpleadoRol[]
+
+  @@map("roles")
+}
+
+model Permiso {
+  id          String        @id @map("id")
+  nombre      String        @map("nombre")
+  modulo      String        @map("modulo")
+  descripcion String?       @map("descripcion")
+  roles       RolPermiso[]
+
+  @@map("permisos")
+}
+
+model RolPermiso {
+  idRol     String   @map("id_rol")
+  idPermiso String   @map("id_permiso")
+  creadoEn  DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+  rol       Rol      @relation(fields: [idRol], references: [id], onDelete: Cascade)
+  permiso   Permiso  @relation(fields: [idPermiso], references: [id], onDelete: Cascade)
+
+  @@id([idRol, idPermiso])
+  @@map("roles_permisos")
+}
+
+model EmpleadoRol {
+  idEmpleado Int      @map("id_empleado")
+  idRol      String   @map("id_rol")
+  creadoEn   DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+  empleado   Empleado @relation(fields: [idEmpleado], references: [id], onDelete: Cascade)
+  rol        Rol      @relation(fields: [idRol], references: [id], onDelete: Cascade)
+
+  @@id([idEmpleado, idRol])
+  @@map("empleados_roles")
 }
 
 model Tienda {
@@ -309,6 +354,7 @@ model ReglaDescuento {
   fechaInicio     DateTime?         @map("fecha_inicio") @db.Date
   fechaFin        DateTime?         @map("fecha_fin") @db.Date
   activo          Boolean           @default(true) @map("activo")
+  acumulable      Boolean           @default(false) @map("acumulable")
   idTienda        String?           @map("id_tienda")
 
   aplicaciones    LineaVentaDescuentoAplicado[]

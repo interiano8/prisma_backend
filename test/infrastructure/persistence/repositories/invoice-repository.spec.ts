@@ -795,6 +795,96 @@ storeId: '001',
       });
     });
 
+    it('aplica múltiples reglas cuando hay reglas acumulables y crea múltiples filas en lineaVentaDescuentoAplicado', async () => {
+      const { prisma, tx } = buildPrisma();
+      tx.$queryRaw
+        .mockResolvedValueOnce([invSeries])
+        .mockResolvedValueOnce([trSeries]);
+      tx.reglaDescuento.findMany.mockResolvedValue([
+        {
+          id: 'R_BASE',
+          tipoBeneficio: 'MONTO_FIJO',
+          valor: 15,
+          prioridad: 10,
+          acumulable: false,
+        },
+        {
+          id: 'R_STACK',
+          tipoBeneficio: 'MONTO_FIJO',
+          valor: 5,
+          prioridad: 5,
+          acumulable: true,
+        },
+      ]);
+      const repo = new InvoiceRepositoryImpl(prisma as any);
+
+      await repo.executeInvoiceInsert({
+        storeId: '001',
+        posNo: '1',
+        employeeName: 'John',
+        shiftDate: new Date(),
+        shiftNumber: '1',
+        customerNo: 'C1',
+        customerName: 'Cliente',
+        customerRtn: '',
+        total: 100,
+        tax: 0,
+        discount: 0,
+        isTicket: false,
+        isCredit: false,
+        comment: '',
+        km: '',
+        orden: '',
+        placa: '',
+        chofer: '',
+        lines: [
+          {
+            lineNo: 1,
+            itemCode: 'P1',
+            description: 'P',
+            quantity: 1,
+            unitPrice: 100,
+            vatPercent: 0,
+            vatAmount: 0,
+            amountIncludingVAT: 100,
+            montoGravado: 100,
+            discount: 0,
+            pumpNo: '',
+            pumpPositionNo: '',
+            tankNo: '',
+            itemCategoryCode: '',
+            genPumpLedgEntry: 0,
+            vatProdPostingGroup: '',
+            saleId: 5,
+          },
+        ],
+        payments: [
+          {
+            code: 'CASH',
+            amount: 80,
+            chargeLineNo: 1,
+            reference: '',
+            description: 'EFECTIVO',
+          },
+        ],
+      });
+
+      expect(tx.lineaVenta.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          descuento: 20,
+          montoDescuentoLinea: 20,
+        }),
+      });
+
+      expect(tx.lineaVentaDescuentoAplicado.create).toHaveBeenCalledTimes(2);
+      expect(tx.lineaVentaDescuentoAplicado.create).toHaveBeenNthCalledWith(1, {
+        data: expect.objectContaining({ idRegla: 'R_BASE', montoAplicado: 15 }),
+      });
+      expect(tx.lineaVentaDescuentoAplicado.create).toHaveBeenNthCalledWith(2, {
+        data: expect.objectContaining({ idRegla: 'R_STACK', montoAplicado: 5 }),
+      });
+    });
+
     it('mapea reglas con campos nulos y línea sin datos', async () => {
       const { prisma, tx } = buildPrisma();
       tx.$queryRaw

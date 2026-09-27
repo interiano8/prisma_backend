@@ -1,5 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, OnModuleDestroy, Optional } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { StoreBootstrapService } from './store-bootstrap.service';
 
 export interface CloudSyncStatus {
   status: 'online' | 'offline' | 'syncing' | 'not_configured';
@@ -11,7 +12,7 @@ export interface CloudSyncStatus {
 }
 
 @Injectable()
-export class CloudSyncService {
+export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(CloudSyncService.name);
 
   private status: 'online' | 'offline' | 'syncing' | 'not_configured' = 'online';
@@ -21,11 +22,24 @@ export class CloudSyncService {
   private error: string | null = null;
   private masterVersion = 0;
   private lastSyncedTimestamp: Date = new Date(0);
+  private lastSyncedShiftTimestamp: Date = new Date(0);
+  private heartbeatTimer: NodeJS.Timeout | null = null;
+  private isSyncing = false;
+  private isPinging = false;
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Optional() private readonly storeBootstrapService?: StoreBootstrapService,
+  ) {}
+
+  getBaseSyncUrl(): string {
+    const raw = (process.env.BACKOFFICE_SYNC_URL || '').trim().replace(/\/+$/, '');
+    if (!raw) return '';
+    return raw.endsWith('/sync') ? raw : `${raw}/sync`;
+  }
 
   getSyncStatus(): CloudSyncStatus {
-    const syncUrl = process.env.BACKOFFICE_SYNC_URL;
+    const syncUrl = this.getBaseSyncUrl();
     if (!syncUrl || syncUrl.trim() === '') {
       return {
         status: 'not_configured',
@@ -44,19 +58,132 @@ export class CloudSyncService {
     };
   }
 
+  async getClosedShiftsForSync(): Promise<any[]> {
+    if (!this.prisma.turno?.findMany) {
+      return [];
+    }
+
+    try {
+      const shifts = await this.prisma.turno.findMany({
+        where: {
+          finTurno: {
+            not: null,
+            gt: this.lastSyncedShiftTimestamp,
+          },
+        },
+        orderBy: { finTurno: 'asc' },
+        take: 10,
+      });
+
+      const result: any[] = [];
+      for (const s of shifts) {
+        const dayStart = new Date(s.inicioTurno);
+        dayStart.setHours(0, 0, 0, 0);
+        const dayEnd = new Date(dayStart);
+        dayEnd.setHours(23, 59, 59, 999);
+        const turnoNum = s.turno?.toString() || '1';
+
+        const txs = this.prisma.registroTransaccion?.findMany
+          ? await this.prisma.registroTransaccion.findMany({
+              where: {
+                numeroTurno: turnoNum,
+                fechaTurno: { gte: dayStart, lte: dayEnd },
+                tipoTransaccion: { in: [1, 2, 3] },
+              },
+              select: { idTransaccionPos: true },
+              orderBy: { fechaHoraTransaccion: 'asc' },
+            })
+          : [];
+
+        const txIds = txs.map((t: any) => t.idTransaccionPos);
+        const sales =
+          txIds.length > 0 && this.prisma.venta?.findMany
+            ? await this.prisma.venta.findMany({
+                where: { idTransaccionPos: { in: txIds } },
+                select: { monto: true, subtotal: true },
+              })
+            : [];
+
+        const totalSalesCount = sales.length;
+        const totalSalesAmount =
+          Math.round(
+            sales.reduce((sum: number, v: any) => sum + (Number(v.monto) || 0), 0) * 100,
+          ) / 100;
+        const totalDiscount =
+          Math.round(
+            sales.reduce(
+              (sum: number, v: any) =>
+                sum + (v.subtotal ? Math.max(0, Number(v.subtotal) - Number(v.monto)) : 0),
+              0,
+            ) * 100,
+          ) / 100;
+
+        let cashDeclared = Number(s.importeContado) || 0;
+        let cardDeclared = 0;
+        let otherDeclared = 0;
+
+        if (s.detallePagos && typeof s.detallePagos === 'object') {
+          const dp = s.detallePagos as Record<string, number>;
+          for (const [key, val] of Object.entries(dp)) {
+            const k = key.toUpperCase();
+            const amount = Number(val) || 0;
+            if (k.includes('EFECT') || k === '1002') {
+              cashDeclared = amount;
+            } else if (k.includes('TARJ') || k === '1003' || k === '1004') {
+              cardDeclared += amount;
+            } else {
+              otherDeclared += amount;
+            }
+          }
+        }
+
+        result.push({
+          shiftDate: s.inicioTurno.toISOString().split('T')[0],
+          shiftNo: turnoNum,
+          employeeName: s.nombreEmpleado || 'Cajero',
+          startTime: s.inicioTurno.toISOString(),
+          endTime: s.finTurno ? s.finTurno.toISOString() : undefined,
+          status: 'CLOSED',
+          totalSale: totalSalesAmount,
+          totalDiscount,
+          cashDeclared,
+          cardDeclared,
+          otherDeclared,
+          controlTotals: {
+            totalSalesCount,
+            totalSalesAmount,
+            firstTransactionId: txIds.length > 0 ? txIds[0] : undefined,
+            lastTransactionId:
+              txIds.length > 0 ? txIds[txIds.length - 1] : undefined,
+          },
+        });
+      }
+
+      return result;
+    } catch (err: any) {
+      this.logger.warn(`Error al consultar turnos cerrados para sync: ${err.message}`);
+      return [];
+    }
+  }
+
   async syncPendingSales(): Promise<{ success: boolean; syncedCount: number }> {
-    const syncUrl = process.env.BACKOFFICE_SYNC_URL;
+    const syncUrl = this.getBaseSyncUrl();
     if (!syncUrl || syncUrl.trim() === '') {
       this.status = 'not_configured';
       return { success: true, syncedCount: 0 };
     }
+
+    if (this.isSyncing) {
+      return { success: true, syncedCount: 0 };
+    }
+    this.isSyncing = true;
 
     const storeCode = process.env.STORE_CODE || '001';
     const syncKey = process.env.BACKOFFICE_SYNC_KEY || 'prisma-cloud-sync-key';
     const start = Date.now();
 
     try {
-      // 1. Consultar ventas pendientes generadas después del último cursor
+      // 1. Consultar ventas y turnos pendientes
       const pendingSales = await this.prisma.venta.findMany({
         where: {
           fechaHoraVenta: {
@@ -73,9 +200,11 @@ export class CloudSyncService {
         take: 50,
       });
 
+      const closedShifts = await this.getClosedShiftsForSync();
+
       this.pendingCount = pendingSales.length;
 
-      if (pendingSales.length === 0) {
+      if (pendingSales.length === 0 && closedShifts.length === 0) {
         this.status = 'online';
         this.latencyMs = Date.now() - start;
         return { success: true, syncedCount: 0 };
@@ -117,7 +246,7 @@ export class CloudSyncService {
             amount: Number(l.montoConIsv) || 0,
             unitPrice: Number(l.precioUnitarioConIsv) || 0,
             volume: Number(l.cantidad) || 0,
-            productName: l.codigoProducto || 'Combustible',
+            productName: l.descripcion || 'Combustible',
             pumpId: l.posicionBomba ? String(l.posicionBomba) : undefined,
             tankId: l.numeroTanque ? String(l.numeroTanque) : undefined,
             discount: Number(l.montoDescuentoLinea) || 0,
@@ -130,6 +259,7 @@ export class CloudSyncService {
             esTicket: p.esTicket || false,
           })),
         })),
+        shifts: closedShifts.length > 0 ? closedShifts : undefined,
         queueCount: pendingSales.length,
       };
 
@@ -153,9 +283,17 @@ export class CloudSyncService {
         }
 
         const resData = (await res.json()) as any;
-        const lastItem = pendingSales[pendingSales.length - 1];
-        if (lastItem.fechaHoraVenta) {
-          this.lastSyncedTimestamp = lastItem.fechaHoraVenta;
+        if (pendingSales.length > 0) {
+          const lastItem = pendingSales[pendingSales.length - 1];
+          if (lastItem.fechaHoraVenta) {
+            this.lastSyncedTimestamp = lastItem.fechaHoraVenta;
+          }
+        }
+        if (closedShifts.length > 0) {
+          const lastShift = closedShifts[closedShifts.length - 1];
+          if (lastShift.endTime) {
+            this.lastSyncedShiftTimestamp = new Date(lastShift.endTime);
+          }
         }
 
         this.lastSyncAt = new Date().toISOString();
@@ -176,11 +314,13 @@ export class CloudSyncService {
       this.error = err.message || 'Error de conexión con Backoffice Cloud';
       this.logger.warn(`Sincronización con Backoffice en cola: ${this.error}`);
       return { success: false, syncedCount: 0 };
+    } finally {
+      this.isSyncing = false;
     }
   }
 
   async pullMasters(): Promise<{ success: boolean; updated: boolean }> {
-    const syncUrl = process.env.BACKOFFICE_SYNC_URL;
+    const syncUrl = this.getBaseSyncUrl();
     if (!syncUrl || syncUrl.trim() === '') {
       return { success: true, updated: false };
     }
@@ -206,12 +346,20 @@ export class CloudSyncService {
         const data = (await res.json()) as any;
         if (data.hasUpdates) {
           this.masterVersion = data.masterVersion;
+          // Sincronizar actualización de configuración y mangueras de tienda
+          if (this.storeBootstrapService) {
+            await this.storeBootstrapService.bootstrapStoreConfig().catch((err) => {
+              this.logger.debug(`Error en actualización de config de tienda: ${err.message}`);
+            });
+          }
           // Aplicar precios si vienen en el payload
           for (const price of data.fuelPrices || []) {
-            await this.prisma.precioProducto.updateMany({
-              where: { idManguera: price.gradeId },
-              data: { precioUnitarioConIsv: price.unitPrice },
-            }).catch(() => {});
+            if (this.prisma.precioProducto?.updateMany) {
+              await (this.prisma.precioProducto.updateMany as any)({
+                where: { idManguera: price.gradeId },
+                data: { precioUnitarioConIsv: price.unitPrice },
+              }).catch(() => {});
+            }
           }
 
           // Aplicar reglas de descuento sincronizadas desde Store 000
@@ -230,6 +378,7 @@ export class CloudSyncService {
                 fechaInicio: rule.fechaInicio ? new Date(rule.fechaInicio) : null,
                 fechaFin: rule.fechaFin ? new Date(rule.fechaFin) : null,
                 activo: rule.activo ?? true,
+                acumulable: rule.acumulable ?? false,
                 idTienda: rule.idTienda || null,
               },
               create: {
@@ -245,6 +394,7 @@ export class CloudSyncService {
                 fechaInicio: rule.fechaInicio ? new Date(rule.fechaInicio) : null,
                 fechaFin: rule.fechaFin ? new Date(rule.fechaFin) : null,
                 activo: rule.activo ?? true,
+                acumulable: rule.acumulable ?? false,
                 idTienda: rule.idTienda || null,
               },
             }).catch(() => {});
@@ -261,5 +411,124 @@ export class CloudSyncService {
       this.logger.debug(`No se pudo verificar maestros de nube: ${err.message}`);
       return { success: false, updated: false };
     }
+  }
+
+  async sendHeartbeatPing(): Promise<{
+    success: boolean;
+    latencyMs?: number;
+    serverTime?: string;
+    error?: string;
+  }> {
+    const syncUrl = this.getBaseSyncUrl();
+    if (!syncUrl || syncUrl.trim() === '') {
+      this.status = 'not_configured';
+      return { success: false, error: 'BACKOFFICE_SYNC_URL not configured' };
+    }
+
+    const storeCode = process.env.STORE_CODE || '001';
+    const syncKey = process.env.BACKOFFICE_SYNC_KEY || 'prisma-cloud-sync-key';
+    const start = Date.now();
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    try {
+      const res = await fetch(`${syncUrl.replace(/\/+$/, '')}/ping`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-sync-key': syncKey,
+        },
+        body: JSON.stringify({
+          storeCode,
+          queueCount: this.pendingCount,
+        }),
+        signal: controller.signal,
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+
+      const data = (await res.json()) as any;
+      const latency = Date.now() - start;
+      const wasOffline = this.status === 'offline';
+
+      this.latencyMs = latency;
+      this.status = 'online';
+      this.error = null;
+
+      // Reintento automático no bloqueante de la cola local si nos acabamos de reconectar o hay ventas acumuladas
+      if (wasOffline || this.pendingCount > 0) {
+        this.logger.log('Conectividad con Hub detectada activa. Disparando sincronización no bloqueante de cola...');
+        this.triggerNonBlockingSync();
+      }
+
+      return {
+        success: true,
+        latencyMs: latency,
+        serverTime: data.serverTime,
+      };
+    } catch (err: any) {
+      this.status = 'offline';
+      this.error = err.message || 'Error al enviar latido a Backoffice Cloud';
+      this.logger.debug(`Latido de monitoreo fallido: ${this.error}`);
+      return { success: false, error: this.error || undefined };
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  triggerNonBlockingSync(): void {
+    if (this.isSyncing) return;
+    this.syncPendingSales().catch((err) => {
+      this.logger.warn(`Error en sincronización en segundo plano: ${err.message}`);
+    });
+  }
+
+  startHeartbeatLoop(intervalMs?: number): void {
+    this.stopHeartbeatLoop();
+    const interval =
+      intervalMs ??
+      (process.env.SYNC_HEARTBEAT_INTERVAL_MS
+        ? Number(process.env.SYNC_HEARTBEAT_INTERVAL_MS)
+        : 30000);
+
+    this.heartbeatTimer = setInterval(async () => {
+      if (this.isPinging) return;
+      this.isPinging = true;
+      try {
+        await this.sendHeartbeatPing();
+      } finally {
+        this.isPinging = false;
+      }
+    }, interval);
+
+    if (this.heartbeatTimer.unref) {
+      this.heartbeatTimer.unref();
+    }
+  }
+
+  stopHeartbeatLoop(): void {
+    if (this.heartbeatTimer) {
+      clearInterval(this.heartbeatTimer);
+      this.heartbeatTimer = null;
+    }
+  }
+
+  onModuleInit(): void {
+    const syncUrl = process.env.BACKOFFICE_SYNC_URL;
+    if (syncUrl && syncUrl.trim() !== '' && process.env.NODE_ENV !== 'test') {
+      if (this.storeBootstrapService) {
+        this.storeBootstrapService.bootstrapStoreConfig().catch((err) => {
+          this.logger.warn(`Error en bootstrap inicial de tienda: ${err.message}`);
+        });
+      }
+      this.startHeartbeatLoop();
+    }
+  }
+
+  onModuleDestroy(): void {
+    this.stopHeartbeatLoop();
   }
 }

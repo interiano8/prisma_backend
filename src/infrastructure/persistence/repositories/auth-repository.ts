@@ -18,6 +18,19 @@ export class AuthRepositoryImpl implements AuthRepository {
   async findUserByUsername(username: string): Promise<User | null> {
     const row = await this.prisma.empleado.findUnique({
       where: { usuario: username },
+      include: {
+        roles: {
+          include: {
+            rol: {
+              include: {
+                permisos: {
+                  select: { idPermiso: true },
+                },
+              },
+            },
+          },
+        },
+      },
     });
     if (!row) return null;
     return this.mapUser(row);
@@ -38,6 +51,19 @@ export class AuthRepositoryImpl implements AuthRepository {
   async findUserByRfid(rfidCode: string): Promise<User | null> {
     const employees = await this.prisma.empleado.findMany({
       where: { estaActivo: true, codigoRfid: { not: null } },
+      include: {
+        roles: {
+          include: {
+            rol: {
+              include: {
+                permisos: {
+                  select: { idPermiso: true },
+                },
+              },
+            },
+          },
+        },
+      },
     });
     for (const emp of employees) {
       const storedRfid = (emp.codigoRfid || '').trim();
@@ -159,7 +185,23 @@ export class AuthRepositoryImpl implements AuthRepository {
     return { Message: 'No open shift found', Shift: null };
   }
 
-  private mapUser(row: Empleado): User {
+  private mapUser(row: any): User {
+    const activeRoles = (row.roles || [])
+      .map((r: any) => r.rol)
+      .filter((rol: any) => rol && rol.estaActivo !== false);
+    const roles: string[] = activeRoles.map((r: any) => r.id);
+
+    if (roles.length === 0 && row.perfil) {
+      roles.push(row.perfil);
+    }
+
+    const permissionSet = new Set<string>();
+    for (const r of activeRoles) {
+      for (const p of r.permisos || []) {
+        if (p.idPermiso) permissionSet.add(p.idPermiso);
+      }
+    }
+
     return {
       id: row.id,
       username: row.usuario,
@@ -173,6 +215,8 @@ export class AuthRepositoryImpl implements AuthRepository {
         row.preferencias != null
           ? (row.preferencias as { theme?: string; accent?: string })
           : null,
+      roles,
+      permissions: Array.from(permissionSet),
     };
   }
 

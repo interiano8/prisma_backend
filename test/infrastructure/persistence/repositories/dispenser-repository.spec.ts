@@ -155,6 +155,61 @@ describe('DispenserRepositoryImpl', () => {
     warn.mockRestore();
   });
 
+  it('updateSaleInvoiced envía clearOnController cuando WAYNE_CLEAR_ON_CONTROLLER está definido', async () => {
+    const clear = jest.fn().mockResolvedValue(ok({ success: true }));
+    global.fetch = clear;
+    const repo = new DispenserRepositoryImpl({} as any);
+
+    const prev = process.env.WAYNE_CLEAR_ON_CONTROLLER;
+    try {
+      process.env.WAYNE_CLEAR_ON_CONTROLLER = 'false';
+      await repo.updateSaleInvoiced('456', '01');
+
+      expect(clear).toHaveBeenCalledWith(
+        expect.stringContaining('/api/sales/456/clear'),
+        expect.objectContaining({
+          body: JSON.stringify({ paymentMethod: 'EFECTIVO', clearOnController: false }),
+        }),
+      );
+    } finally {
+      process.env.WAYNE_CLEAR_ON_CONTROLLER = prev;
+    }
+  });
+
+  it('updateSaleInvoiced envía clearedBy cuando employeeName está presente', async () => {
+    const clear = jest.fn().mockResolvedValue(ok({ success: true }));
+    global.fetch = clear;
+    const repo = new DispenserRepositoryImpl({} as any);
+
+    await repo.updateSaleInvoiced('555', '01', 'JUAN');
+
+    expect(clear).toHaveBeenCalledWith(
+      expect.stringContaining('/api/sales/555/clear'),
+      expect.objectContaining({
+        method: 'POST',
+      }),
+    );
+    const sentBody = JSON.parse(clear.mock.calls[0][1].body);
+    expect(sentBody.clearedBy).toBe('JUAN');
+    expect(sentBody.paymentMethod).toBe('EFECTIVO');
+  });
+
+  it('updateSaleInvoiced omite llamada al clear si WAYNE_SKIP_CLEAR_SALE es true', async () => {
+    const clear = jest.fn().mockResolvedValue(ok({ success: true }));
+    global.fetch = clear;
+    const repo = new DispenserRepositoryImpl({} as any);
+
+    const prev = process.env.WAYNE_SKIP_CLEAR_SALE;
+    try {
+      process.env.WAYNE_SKIP_CLEAR_SALE = 'true';
+      await repo.updateSaleInvoiced('789', '01');
+
+      expect(clear).not.toHaveBeenCalled();
+    } finally {
+      process.env.WAYNE_SKIP_CLEAR_SALE = prev;
+    }
+  });
+
   it('renewTransactions es no-op (el controlador es dueño)', async () => {
     const repo = new DispenserRepositoryImpl({} as any);
     expect(await repo.renewTransactions()).toBe(0);

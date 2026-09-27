@@ -69,10 +69,16 @@ export class CalculateCartDiscountsUseCase {
           winner.benefit,
         );
         const percentage =
-          winner.rule.tipoBeneficio === 'PORCENTAJE' ? winner.rule.valor : 0;
+          winner.appliedRules && winner.appliedRules.length > 0
+            ? winner.appliedRules.reduce(
+                (sum, ar) =>
+                  sum + (ar.rule.tipoBeneficio === 'PORCENTAJE' ? ar.rule.valor : 0),
+                0,
+              )
+            : (winner.rule.tipoBeneficio === 'PORCENTAJE' ? winner.rule.valor : 0);
         return {
           code: item.code,
-          hasDiscount: true,
+          hasDiscount: winner.benefit > 0,
           discountPercentage: percentage,
           quantity: item.quantity,
           unitPriceWithIsv: item.unitPrice,

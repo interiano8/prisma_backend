@@ -73,8 +73,6 @@ export class CustomerRepositoryImpl implements CustomerRepository {
         nombre: name,
         rtn,
         tipoFacturacion: 1,
-        estado: '0',
-        grupoPromo: 'Prisma',
         fechaActualizacion: new Date(),
       },
     });

@@ -61,7 +61,6 @@ export type VentaMinAggregateOutputType = {
   nombreCliente: string | null
   tipoFacturacion: number | null
   comentario: string | null
-  erpId: string | null
   numeroLinea: number | null
   subtotal: runtime.Decimal | null
   kilometraje: string | null
@@ -94,7 +93,6 @@ export type VentaMaxAggregateOutputType = {
   nombreCliente: string | null
   tipoFacturacion: number | null
   comentario: string | null
-  erpId: string | null
   numeroLinea: number | null
   subtotal: runtime.Decimal | null
   kilometraje: string | null
@@ -127,7 +125,6 @@ export type VentaCountAggregateOutputType = {
   nombreCliente: number
   tipoFacturacion: number
   comentario: number
-  erpId: number
   numeroLinea: number
   subtotal: number
   kilometraje: number
@@ -180,7 +177,6 @@ export type VentaMinAggregateInputType = {
   nombreCliente?: true
   tipoFacturacion?: true
   comentario?: true
-  erpId?: true
   numeroLinea?: true
   subtotal?: true
   kilometraje?: true
@@ -213,7 +209,6 @@ export type VentaMaxAggregateInputType = {
   nombreCliente?: true
   tipoFacturacion?: true
   comentario?: true
-  erpId?: true
   numeroLinea?: true
   subtotal?: true
   kilometraje?: true
@@ -246,7 +241,6 @@ export type VentaCountAggregateInputType = {
   nombreCliente?: true
   tipoFacturacion?: true
   comentario?: true
-  erpId?: true
   numeroLinea?: true
   subtotal?: true
   kilometraje?: true
@@ -366,7 +360,6 @@ export type VentaGroupByOutputType = {
   nombreCliente: string | null
   tipoFacturacion: number | null
   comentario: string | null
-  erpId: string | null
   numeroLinea: number | null
   subtotal: runtime.Decimal | null
   kilometraje: string | null
@@ -422,7 +415,6 @@ export type VentaWhereInput = {
   nombreCliente?: Prisma.StringNullableFilter<"Venta"> | string | null
   tipoFacturacion?: Prisma.IntNullableFilter<"Venta"> | number | null
   comentario?: Prisma.StringNullableFilter<"Venta"> | string | null
-  erpId?: Prisma.StringNullableFilter<"Venta"> | string | null
   numeroLinea?: Prisma.IntNullableFilter<"Venta"> | number | null
   subtotal?: Prisma.DecimalNullableFilter<"Venta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.StringNullableFilter<"Venta"> | string | null
@@ -459,7 +451,6 @@ export type VentaOrderByWithRelationInput = {
   nombreCliente?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
   comentario?: Prisma.SortOrderInput | Prisma.SortOrder
-  erpId?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroLinea?: Prisma.SortOrderInput | Prisma.SortOrder
   subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   kilometraje?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -500,7 +491,6 @@ export type VentaWhereUniqueInput = Prisma.AtLeast<{
   nombreCliente?: Prisma.StringNullableFilter<"Venta"> | string | null
   tipoFacturacion?: Prisma.IntNullableFilter<"Venta"> | number | null
   comentario?: Prisma.StringNullableFilter<"Venta"> | string | null
-  erpId?: Prisma.StringNullableFilter<"Venta"> | string | null
   numeroLinea?: Prisma.IntNullableFilter<"Venta"> | number | null
   subtotal?: Prisma.DecimalNullableFilter<"Venta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.StringNullableFilter<"Venta"> | string | null
@@ -537,7 +527,6 @@ export type VentaOrderByWithAggregationInput = {
   nombreCliente?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
   comentario?: Prisma.SortOrderInput | Prisma.SortOrder
-  erpId?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroLinea?: Prisma.SortOrderInput | Prisma.SortOrder
   subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   kilometraje?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -578,7 +567,6 @@ export type VentaScalarWhereWithAggregatesInput = {
   nombreCliente?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
   tipoFacturacion?: Prisma.IntNullableWithAggregatesFilter<"Venta"> | number | null
   comentario?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
-  erpId?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
   numeroLinea?: Prisma.IntNullableWithAggregatesFilter<"Venta"> | number | null
   subtotal?: Prisma.DecimalNullableWithAggregatesFilter<"Venta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
@@ -610,7 +598,6 @@ export type VentaCreateInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -647,7 +634,6 @@ export type VentaUncheckedCreateInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -682,7 +668,6 @@ export type VentaUpdateInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -719,7 +704,6 @@ export type VentaUncheckedUpdateInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -755,7 +739,6 @@ export type VentaCreateManyInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -787,7 +770,6 @@ export type VentaUpdateManyMutationInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -820,7 +802,6 @@ export type VentaUncheckedUpdateManyInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -868,7 +849,6 @@ export type VentaCountOrderByAggregateInput = {
   nombreCliente?: Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrder
   comentario?: Prisma.SortOrder
-  erpId?: Prisma.SortOrder
   numeroLinea?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   kilometraje?: Prisma.SortOrder
@@ -910,7 +890,6 @@ export type VentaMaxOrderByAggregateInput = {
   nombreCliente?: Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrder
   comentario?: Prisma.SortOrder
-  erpId?: Prisma.SortOrder
   numeroLinea?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   kilometraje?: Prisma.SortOrder
@@ -943,7 +922,6 @@ export type VentaMinOrderByAggregateInput = {
   nombreCliente?: Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrder
   comentario?: Prisma.SortOrder
-  erpId?: Prisma.SortOrder
   numeroLinea?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   kilometraje?: Prisma.SortOrder
@@ -1082,7 +1060,6 @@ export type VentaCreateWithoutEmpleadoInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1117,7 +1094,6 @@ export type VentaUncheckedCreateWithoutEmpleadoInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1182,7 +1158,6 @@ export type VentaScalarWhereInput = {
   nombreCliente?: Prisma.StringNullableFilter<"Venta"> | string | null
   tipoFacturacion?: Prisma.IntNullableFilter<"Venta"> | number | null
   comentario?: Prisma.StringNullableFilter<"Venta"> | string | null
-  erpId?: Prisma.StringNullableFilter<"Venta"> | string | null
   numeroLinea?: Prisma.IntNullableFilter<"Venta"> | number | null
   subtotal?: Prisma.DecimalNullableFilter<"Venta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.StringNullableFilter<"Venta"> | string | null
@@ -1214,7 +1189,6 @@ export type VentaCreateWithoutLineasVentaInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1250,7 +1224,6 @@ export type VentaUncheckedCreateWithoutLineasVentaInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1300,7 +1273,6 @@ export type VentaUpdateWithoutLineasVentaInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1336,7 +1308,6 @@ export type VentaUncheckedUpdateWithoutLineasVentaInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1370,7 +1341,6 @@ export type VentaCreateWithoutPagosVentaInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1406,7 +1376,6 @@ export type VentaUncheckedCreateWithoutPagosVentaInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1456,7 +1425,6 @@ export type VentaUpdateWithoutPagosVentaInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1492,7 +1460,6 @@ export type VentaUncheckedUpdateWithoutPagosVentaInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1526,7 +1493,6 @@ export type VentaCreateWithoutVentasLealInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1562,7 +1528,6 @@ export type VentaUncheckedCreateWithoutVentasLealInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1612,7 +1577,6 @@ export type VentaUpdateWithoutVentasLealInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1648,7 +1612,6 @@ export type VentaUncheckedUpdateWithoutVentasLealInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1682,7 +1645,6 @@ export type VentaCreateManyEmpleadoInput = {
   nombreCliente?: string | null
   tipoFacturacion?: number | null
   comentario?: string | null
-  erpId?: string | null
   numeroLinea?: number | null
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: string | null
@@ -1714,7 +1676,6 @@ export type VentaUpdateWithoutEmpleadoInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1749,7 +1710,6 @@ export type VentaUncheckedUpdateWithoutEmpleadoInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1784,7 +1744,6 @@ export type VentaUncheckedUpdateManyWithoutEmpleadoInput = {
   nombreCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comentario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  erpId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroLinea?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   kilometraje?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1866,7 +1825,6 @@ export type VentaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   nombreCliente?: boolean
   tipoFacturacion?: boolean
   comentario?: boolean
-  erpId?: boolean
   numeroLinea?: boolean
   subtotal?: boolean
   kilometraje?: boolean
@@ -1904,7 +1862,6 @@ export type VentaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   nombreCliente?: boolean
   tipoFacturacion?: boolean
   comentario?: boolean
-  erpId?: boolean
   numeroLinea?: boolean
   subtotal?: boolean
   kilometraje?: boolean
@@ -1938,7 +1895,6 @@ export type VentaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   nombreCliente?: boolean
   tipoFacturacion?: boolean
   comentario?: boolean
-  erpId?: boolean
   numeroLinea?: boolean
   subtotal?: boolean
   kilometraje?: boolean
@@ -1972,7 +1928,6 @@ export type VentaSelectScalar = {
   nombreCliente?: boolean
   tipoFacturacion?: boolean
   comentario?: boolean
-  erpId?: boolean
   numeroLinea?: boolean
   subtotal?: boolean
   kilometraje?: boolean
@@ -1988,7 +1943,7 @@ export type VentaSelectScalar = {
   numeroTurno?: boolean
 }
 
-export type VentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "codigoCliente" | "fechaHoraVenta" | "monto" | "placa" | "documentoRelacionado" | "codigoVendedor" | "rtnCliente" | "nombreCliente" | "tipoFacturacion" | "comentario" | "erpId" | "numeroLinea" | "subtotal" | "kilometraje" | "orden" | "placaOrden" | "chofer" | "cambio" | "cai" | "rangoDesde" | "rangoHasta" | "fechaVenceRango" | "idTurno" | "numeroTurno", ExtArgs["result"]["venta"]>
+export type VentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "codigoCliente" | "fechaHoraVenta" | "monto" | "placa" | "documentoRelacionado" | "codigoVendedor" | "rtnCliente" | "nombreCliente" | "tipoFacturacion" | "comentario" | "numeroLinea" | "subtotal" | "kilometraje" | "orden" | "placaOrden" | "chofer" | "cambio" | "cai" | "rangoDesde" | "rangoHasta" | "fechaVenceRango" | "idTurno" | "numeroTurno", ExtArgs["result"]["venta"]>
 export type VentaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empleado?: boolean | Prisma.Venta$empleadoArgs<ExtArgs>
   lineasVenta?: boolean | Prisma.Venta$lineasVentaArgs<ExtArgs>
@@ -2028,7 +1983,6 @@ export type $VentaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     nombreCliente: string | null
     tipoFacturacion: number | null
     comentario: string | null
-    erpId: string | null
     numeroLinea: number | null
     subtotal: runtime.Decimal | null
     kilometraje: string | null
@@ -2485,7 +2439,6 @@ export interface VentaFieldRefs {
   readonly nombreCliente: Prisma.FieldRef<"Venta", 'String'>
   readonly tipoFacturacion: Prisma.FieldRef<"Venta", 'Int'>
   readonly comentario: Prisma.FieldRef<"Venta", 'String'>
-  readonly erpId: Prisma.FieldRef<"Venta", 'String'>
   readonly numeroLinea: Prisma.FieldRef<"Venta", 'Int'>
   readonly subtotal: Prisma.FieldRef<"Venta", 'Decimal'>
   readonly kilometraje: Prisma.FieldRef<"Venta", 'String'>

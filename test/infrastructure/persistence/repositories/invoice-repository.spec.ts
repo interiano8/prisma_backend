@@ -124,15 +124,12 @@ describe('InvoiceRepositoryImpl (lecturas)', () => {
     expect(payments[0].EsTicket).toBe(1);
   });
 
-  it('getReasons mapea los motivos', async () => {
-    const findMany = jest
-      .fn()
-      .mockResolvedValue([{ id: 1, motivo: 'Error de caja' }]);
-    const repo = new InvoiceQueryRepositoryImpl({ motivo: { findMany } } as any);
+  it('getReasons devuelve arreglo vacio al depreciar la tabla', async () => {
+    const repo = new InvoiceQueryRepositoryImpl({} as any);
 
     const reasons = await repo.getReasons();
 
-    expect(reasons[0]).toEqual({ Id_motivo: 1, motivo: 'Error de caja' });
+    expect(reasons).toEqual([]);
   });
 
   it('getOriginalDocument mapea el encabezado', async () => {

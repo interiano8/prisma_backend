@@ -20,20 +20,8 @@ export type ProductoModel = runtime.Types.Result.DefaultSelection<Prisma.$Produc
 
 export type AggregateProducto = {
   _count: ProductoCountAggregateOutputType | null
-  _avg: ProductoAvgAggregateOutputType | null
-  _sum: ProductoSumAggregateOutputType | null
   _min: ProductoMinAggregateOutputType | null
   _max: ProductoMaxAggregateOutputType | null
-}
-
-export type ProductoAvgAggregateOutputType = {
-  factorConversionUm: runtime.Decimal | null
-  idProveedor: number | null
-}
-
-export type ProductoSumAggregateOutputType = {
-  factorConversionUm: runtime.Decimal | null
-  idProveedor: number | null
 }
 
 export type ProductoMinAggregateOutputType = {
@@ -43,18 +31,8 @@ export type ProductoMinAggregateOutputType = {
   imagen: runtime.Bytes | null
   grupoIsv: string | null
   codigoCategoria: string | null
-  codigoGrupo: string | null
-  bonificado: boolean | null
-  factorConversionUm: runtime.Decimal | null
   codigoUmEtiquetas: string | null
   generaAsientoBomba: boolean | null
-  grupoDescuento: string | null
-  permiteCambioPrecio: boolean | null
-  codigoCategoriaPromo: string | null
-  permiteCantidadNegativa: boolean | null
-  bcId: string | null
-  idProveedor: number | null
-  aplicaDescuentoEdad: boolean | null
   codigoMoneda: string | null
 }
 
@@ -65,18 +43,8 @@ export type ProductoMaxAggregateOutputType = {
   imagen: runtime.Bytes | null
   grupoIsv: string | null
   codigoCategoria: string | null
-  codigoGrupo: string | null
-  bonificado: boolean | null
-  factorConversionUm: runtime.Decimal | null
   codigoUmEtiquetas: string | null
   generaAsientoBomba: boolean | null
-  grupoDescuento: string | null
-  permiteCambioPrecio: boolean | null
-  codigoCategoriaPromo: string | null
-  permiteCantidadNegativa: boolean | null
-  bcId: string | null
-  idProveedor: number | null
-  aplicaDescuentoEdad: boolean | null
   codigoMoneda: string | null
 }
 
@@ -87,32 +55,12 @@ export type ProductoCountAggregateOutputType = {
   imagen: number
   grupoIsv: number
   codigoCategoria: number
-  codigoGrupo: number
-  bonificado: number
-  factorConversionUm: number
   codigoUmEtiquetas: number
   generaAsientoBomba: number
-  grupoDescuento: number
-  permiteCambioPrecio: number
-  codigoCategoriaPromo: number
-  permiteCantidadNegativa: number
-  bcId: number
-  idProveedor: number
-  aplicaDescuentoEdad: number
   codigoMoneda: number
   _all: number
 }
 
-
-export type ProductoAvgAggregateInputType = {
-  factorConversionUm?: true
-  idProveedor?: true
-}
-
-export type ProductoSumAggregateInputType = {
-  factorConversionUm?: true
-  idProveedor?: true
-}
 
 export type ProductoMinAggregateInputType = {
   codigo?: true
@@ -121,18 +69,8 @@ export type ProductoMinAggregateInputType = {
   imagen?: true
   grupoIsv?: true
   codigoCategoria?: true
-  codigoGrupo?: true
-  bonificado?: true
-  factorConversionUm?: true
   codigoUmEtiquetas?: true
   generaAsientoBomba?: true
-  grupoDescuento?: true
-  permiteCambioPrecio?: true
-  codigoCategoriaPromo?: true
-  permiteCantidadNegativa?: true
-  bcId?: true
-  idProveedor?: true
-  aplicaDescuentoEdad?: true
   codigoMoneda?: true
 }
 
@@ -143,18 +81,8 @@ export type ProductoMaxAggregateInputType = {
   imagen?: true
   grupoIsv?: true
   codigoCategoria?: true
-  codigoGrupo?: true
-  bonificado?: true
-  factorConversionUm?: true
   codigoUmEtiquetas?: true
   generaAsientoBomba?: true
-  grupoDescuento?: true
-  permiteCambioPrecio?: true
-  codigoCategoriaPromo?: true
-  permiteCantidadNegativa?: true
-  bcId?: true
-  idProveedor?: true
-  aplicaDescuentoEdad?: true
   codigoMoneda?: true
 }
 
@@ -165,18 +93,8 @@ export type ProductoCountAggregateInputType = {
   imagen?: true
   grupoIsv?: true
   codigoCategoria?: true
-  codigoGrupo?: true
-  bonificado?: true
-  factorConversionUm?: true
   codigoUmEtiquetas?: true
   generaAsientoBomba?: true
-  grupoDescuento?: true
-  permiteCambioPrecio?: true
-  codigoCategoriaPromo?: true
-  permiteCantidadNegativa?: true
-  bcId?: true
-  idProveedor?: true
-  aplicaDescuentoEdad?: true
   codigoMoneda?: true
   _all?: true
 }
@@ -219,18 +137,6 @@ export type ProductoAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ProductoAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ProductoSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProductoMinAggregateInputType
@@ -261,8 +167,6 @@ export type ProductoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: ProductoCountAggregateInputType | true
-  _avg?: ProductoAvgAggregateInputType
-  _sum?: ProductoSumAggregateInputType
   _min?: ProductoMinAggregateInputType
   _max?: ProductoMaxAggregateInputType
 }
@@ -274,22 +178,10 @@ export type ProductoGroupByOutputType = {
   imagen: runtime.Bytes | null
   grupoIsv: string | null
   codigoCategoria: string | null
-  codigoGrupo: string | null
-  bonificado: boolean | null
-  factorConversionUm: runtime.Decimal | null
   codigoUmEtiquetas: string | null
   generaAsientoBomba: boolean | null
-  grupoDescuento: string | null
-  permiteCambioPrecio: boolean | null
-  codigoCategoriaPromo: string | null
-  permiteCantidadNegativa: boolean | null
-  bcId: string | null
-  idProveedor: number | null
-  aplicaDescuentoEdad: boolean | null
   codigoMoneda: string | null
   _count: ProductoCountAggregateOutputType | null
-  _avg: ProductoAvgAggregateOutputType | null
-  _sum: ProductoSumAggregateOutputType | null
   _min: ProductoMinAggregateOutputType | null
   _max: ProductoMaxAggregateOutputType | null
 }
@@ -319,18 +211,8 @@ export type ProductoWhereInput = {
   imagen?: Prisma.BytesNullableFilter<"Producto"> | runtime.Bytes | null
   grupoIsv?: Prisma.StringNullableFilter<"Producto"> | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"Producto"> | string | null
-  codigoGrupo?: Prisma.StringNullableFilter<"Producto"> | string | null
-  bonificado?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  factorConversionUm?: Prisma.DecimalNullableFilter<"Producto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.StringNullableFilter<"Producto"> | string | null
   generaAsientoBomba?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  grupoDescuento?: Prisma.StringNullableFilter<"Producto"> | string | null
-  permiteCambioPrecio?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  codigoCategoriaPromo?: Prisma.StringNullableFilter<"Producto"> | string | null
-  permiteCantidadNegativa?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  bcId?: Prisma.StringNullableFilter<"Producto"> | string | null
-  idProveedor?: Prisma.IntNullableFilter<"Producto"> | number | null
-  aplicaDescuentoEdad?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableFilter<"Producto"> | string | null
   categoria?: Prisma.XOR<Prisma.CategoriaProductoNullableScalarRelationFilter, Prisma.CategoriaProductoWhereInput> | null
   moneda?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
@@ -344,18 +226,8 @@ export type ProductoOrderByWithRelationInput = {
   imagen?: Prisma.SortOrderInput | Prisma.SortOrder
   grupoIsv?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoGrupo?: Prisma.SortOrderInput | Prisma.SortOrder
-  bonificado?: Prisma.SortOrderInput | Prisma.SortOrder
-  factorConversionUm?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoUmEtiquetas?: Prisma.SortOrderInput | Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrderInput | Prisma.SortOrder
-  permiteCambioPrecio?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoCategoriaPromo?: Prisma.SortOrderInput | Prisma.SortOrder
-  permiteCantidadNegativa?: Prisma.SortOrderInput | Prisma.SortOrder
-  bcId?: Prisma.SortOrderInput | Prisma.SortOrder
-  idProveedor?: Prisma.SortOrderInput | Prisma.SortOrder
-  aplicaDescuentoEdad?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
   categoria?: Prisma.CategoriaProductoOrderByWithRelationInput
   moneda?: Prisma.MonedaOrderByWithRelationInput
@@ -372,18 +244,8 @@ export type ProductoWhereUniqueInput = Prisma.AtLeast<{
   imagen?: Prisma.BytesNullableFilter<"Producto"> | runtime.Bytes | null
   grupoIsv?: Prisma.StringNullableFilter<"Producto"> | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"Producto"> | string | null
-  codigoGrupo?: Prisma.StringNullableFilter<"Producto"> | string | null
-  bonificado?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  factorConversionUm?: Prisma.DecimalNullableFilter<"Producto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.StringNullableFilter<"Producto"> | string | null
   generaAsientoBomba?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  grupoDescuento?: Prisma.StringNullableFilter<"Producto"> | string | null
-  permiteCambioPrecio?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  codigoCategoriaPromo?: Prisma.StringNullableFilter<"Producto"> | string | null
-  permiteCantidadNegativa?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  bcId?: Prisma.StringNullableFilter<"Producto"> | string | null
-  idProveedor?: Prisma.IntNullableFilter<"Producto"> | number | null
-  aplicaDescuentoEdad?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableFilter<"Producto"> | string | null
   categoria?: Prisma.XOR<Prisma.CategoriaProductoNullableScalarRelationFilter, Prisma.CategoriaProductoWhereInput> | null
   moneda?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
@@ -397,24 +259,12 @@ export type ProductoOrderByWithAggregationInput = {
   imagen?: Prisma.SortOrderInput | Prisma.SortOrder
   grupoIsv?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoGrupo?: Prisma.SortOrderInput | Prisma.SortOrder
-  bonificado?: Prisma.SortOrderInput | Prisma.SortOrder
-  factorConversionUm?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoUmEtiquetas?: Prisma.SortOrderInput | Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrderInput | Prisma.SortOrder
-  permiteCambioPrecio?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoCategoriaPromo?: Prisma.SortOrderInput | Prisma.SortOrder
-  permiteCantidadNegativa?: Prisma.SortOrderInput | Prisma.SortOrder
-  bcId?: Prisma.SortOrderInput | Prisma.SortOrder
-  idProveedor?: Prisma.SortOrderInput | Prisma.SortOrder
-  aplicaDescuentoEdad?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProductoCountOrderByAggregateInput
-  _avg?: Prisma.ProductoAvgOrderByAggregateInput
   _max?: Prisma.ProductoMaxOrderByAggregateInput
   _min?: Prisma.ProductoMinOrderByAggregateInput
-  _sum?: Prisma.ProductoSumOrderByAggregateInput
 }
 
 export type ProductoScalarWhereWithAggregatesInput = {
@@ -427,18 +277,8 @@ export type ProductoScalarWhereWithAggregatesInput = {
   imagen?: Prisma.BytesNullableWithAggregatesFilter<"Producto"> | runtime.Bytes | null
   grupoIsv?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
   codigoCategoria?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
-  codigoGrupo?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
-  bonificado?: Prisma.BoolNullableWithAggregatesFilter<"Producto"> | boolean | null
-  factorConversionUm?: Prisma.DecimalNullableWithAggregatesFilter<"Producto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
   generaAsientoBomba?: Prisma.BoolNullableWithAggregatesFilter<"Producto"> | boolean | null
-  grupoDescuento?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
-  permiteCambioPrecio?: Prisma.BoolNullableWithAggregatesFilter<"Producto"> | boolean | null
-  codigoCategoriaPromo?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
-  permiteCantidadNegativa?: Prisma.BoolNullableWithAggregatesFilter<"Producto"> | boolean | null
-  bcId?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
-  idProveedor?: Prisma.IntNullableWithAggregatesFilter<"Producto"> | number | null
-  aplicaDescuentoEdad?: Prisma.BoolNullableWithAggregatesFilter<"Producto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableWithAggregatesFilter<"Producto"> | string | null
 }
 
@@ -448,18 +288,8 @@ export type ProductoCreateInput = {
   bloqueado?: boolean | null
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   categoria?: Prisma.CategoriaProductoCreateNestedOneWithoutProductosInput
   moneda?: Prisma.MonedaCreateNestedOneWithoutProductosInput
   codigosBarras?: Prisma.CodigoBarrasCreateNestedManyWithoutProductoInput
@@ -472,18 +302,8 @@ export type ProductoUncheckedCreateInput = {
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
   codigoCategoria?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   codigoMoneda?: string | null
   codigosBarras?: Prisma.CodigoBarrasUncheckedCreateNestedManyWithoutProductoInput
 }
@@ -494,18 +314,8 @@ export type ProductoUpdateInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   categoria?: Prisma.CategoriaProductoUpdateOneWithoutProductosNestedInput
   moneda?: Prisma.MonedaUpdateOneWithoutProductosNestedInput
   codigosBarras?: Prisma.CodigoBarrasUpdateManyWithoutProductoNestedInput
@@ -518,18 +328,8 @@ export type ProductoUncheckedUpdateInput = {
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigosBarras?: Prisma.CodigoBarrasUncheckedUpdateManyWithoutProductoNestedInput
 }
@@ -541,18 +341,8 @@ export type ProductoCreateManyInput = {
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
   codigoCategoria?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   codigoMoneda?: string | null
 }
 
@@ -562,18 +352,8 @@ export type ProductoUpdateManyMutationInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type ProductoUncheckedUpdateManyInput = {
@@ -583,18 +363,8 @@ export type ProductoUncheckedUpdateManyInput = {
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -620,24 +390,9 @@ export type ProductoCountOrderByAggregateInput = {
   imagen?: Prisma.SortOrder
   grupoIsv?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
-  codigoGrupo?: Prisma.SortOrder
-  bonificado?: Prisma.SortOrder
-  factorConversionUm?: Prisma.SortOrder
   codigoUmEtiquetas?: Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrder
-  permiteCambioPrecio?: Prisma.SortOrder
-  codigoCategoriaPromo?: Prisma.SortOrder
-  permiteCantidadNegativa?: Prisma.SortOrder
-  bcId?: Prisma.SortOrder
-  idProveedor?: Prisma.SortOrder
-  aplicaDescuentoEdad?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
-}
-
-export type ProductoAvgOrderByAggregateInput = {
-  factorConversionUm?: Prisma.SortOrder
-  idProveedor?: Prisma.SortOrder
 }
 
 export type ProductoMaxOrderByAggregateInput = {
@@ -647,18 +402,8 @@ export type ProductoMaxOrderByAggregateInput = {
   imagen?: Prisma.SortOrder
   grupoIsv?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
-  codigoGrupo?: Prisma.SortOrder
-  bonificado?: Prisma.SortOrder
-  factorConversionUm?: Prisma.SortOrder
   codigoUmEtiquetas?: Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrder
-  permiteCambioPrecio?: Prisma.SortOrder
-  codigoCategoriaPromo?: Prisma.SortOrder
-  permiteCantidadNegativa?: Prisma.SortOrder
-  bcId?: Prisma.SortOrder
-  idProveedor?: Prisma.SortOrder
-  aplicaDescuentoEdad?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
 }
 
@@ -669,24 +414,9 @@ export type ProductoMinOrderByAggregateInput = {
   imagen?: Prisma.SortOrder
   grupoIsv?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
-  codigoGrupo?: Prisma.SortOrder
-  bonificado?: Prisma.SortOrder
-  factorConversionUm?: Prisma.SortOrder
   codigoUmEtiquetas?: Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrder
-  permiteCambioPrecio?: Prisma.SortOrder
-  codigoCategoriaPromo?: Prisma.SortOrder
-  permiteCantidadNegativa?: Prisma.SortOrder
-  bcId?: Prisma.SortOrder
-  idProveedor?: Prisma.SortOrder
-  aplicaDescuentoEdad?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
-}
-
-export type ProductoSumOrderByAggregateInput = {
-  factorConversionUm?: Prisma.SortOrder
-  idProveedor?: Prisma.SortOrder
 }
 
 export type ProductoCreateNestedManyWithoutMonedaInput = {
@@ -797,18 +527,8 @@ export type ProductoCreateWithoutMonedaInput = {
   bloqueado?: boolean | null
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   categoria?: Prisma.CategoriaProductoCreateNestedOneWithoutProductosInput
   codigosBarras?: Prisma.CodigoBarrasCreateNestedManyWithoutProductoInput
 }
@@ -820,18 +540,8 @@ export type ProductoUncheckedCreateWithoutMonedaInput = {
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
   codigoCategoria?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   codigosBarras?: Prisma.CodigoBarrasUncheckedCreateNestedManyWithoutProductoInput
 }
 
@@ -871,18 +581,8 @@ export type ProductoScalarWhereInput = {
   imagen?: Prisma.BytesNullableFilter<"Producto"> | runtime.Bytes | null
   grupoIsv?: Prisma.StringNullableFilter<"Producto"> | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"Producto"> | string | null
-  codigoGrupo?: Prisma.StringNullableFilter<"Producto"> | string | null
-  bonificado?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  factorConversionUm?: Prisma.DecimalNullableFilter<"Producto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.StringNullableFilter<"Producto"> | string | null
   generaAsientoBomba?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  grupoDescuento?: Prisma.StringNullableFilter<"Producto"> | string | null
-  permiteCambioPrecio?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  codigoCategoriaPromo?: Prisma.StringNullableFilter<"Producto"> | string | null
-  permiteCantidadNegativa?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
-  bcId?: Prisma.StringNullableFilter<"Producto"> | string | null
-  idProveedor?: Prisma.IntNullableFilter<"Producto"> | number | null
-  aplicaDescuentoEdad?: Prisma.BoolNullableFilter<"Producto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableFilter<"Producto"> | string | null
 }
 
@@ -892,18 +592,8 @@ export type ProductoCreateWithoutCodigosBarrasInput = {
   bloqueado?: boolean | null
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   categoria?: Prisma.CategoriaProductoCreateNestedOneWithoutProductosInput
   moneda?: Prisma.MonedaCreateNestedOneWithoutProductosInput
 }
@@ -915,18 +605,8 @@ export type ProductoUncheckedCreateWithoutCodigosBarrasInput = {
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
   codigoCategoria?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   codigoMoneda?: string | null
 }
 
@@ -952,18 +632,8 @@ export type ProductoUpdateWithoutCodigosBarrasInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   categoria?: Prisma.CategoriaProductoUpdateOneWithoutProductosNestedInput
   moneda?: Prisma.MonedaUpdateOneWithoutProductosNestedInput
 }
@@ -975,18 +645,8 @@ export type ProductoUncheckedUpdateWithoutCodigosBarrasInput = {
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -996,18 +656,8 @@ export type ProductoCreateWithoutCategoriaInput = {
   bloqueado?: boolean | null
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   moneda?: Prisma.MonedaCreateNestedOneWithoutProductosInput
   codigosBarras?: Prisma.CodigoBarrasCreateNestedManyWithoutProductoInput
 }
@@ -1018,18 +668,8 @@ export type ProductoUncheckedCreateWithoutCategoriaInput = {
   bloqueado?: boolean | null
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   codigoMoneda?: string | null
   codigosBarras?: Prisma.CodigoBarrasUncheckedCreateNestedManyWithoutProductoInput
 }
@@ -1067,18 +707,8 @@ export type ProductoCreateManyMonedaInput = {
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
   codigoCategoria?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
 }
 
 export type ProductoUpdateWithoutMonedaInput = {
@@ -1087,18 +717,8 @@ export type ProductoUpdateWithoutMonedaInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   categoria?: Prisma.CategoriaProductoUpdateOneWithoutProductosNestedInput
   codigosBarras?: Prisma.CodigoBarrasUpdateManyWithoutProductoNestedInput
 }
@@ -1110,18 +730,8 @@ export type ProductoUncheckedUpdateWithoutMonedaInput = {
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigosBarras?: Prisma.CodigoBarrasUncheckedUpdateManyWithoutProductoNestedInput
 }
 
@@ -1132,18 +742,8 @@ export type ProductoUncheckedUpdateManyWithoutMonedaInput = {
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type ProductoCreateManyCategoriaInput = {
@@ -1152,18 +752,8 @@ export type ProductoCreateManyCategoriaInput = {
   bloqueado?: boolean | null
   imagen?: runtime.Bytes | null
   grupoIsv?: string | null
-  codigoGrupo?: string | null
-  bonificado?: boolean | null
-  factorConversionUm?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: string | null
   generaAsientoBomba?: boolean | null
-  grupoDescuento?: string | null
-  permiteCambioPrecio?: boolean | null
-  codigoCategoriaPromo?: string | null
-  permiteCantidadNegativa?: boolean | null
-  bcId?: string | null
-  idProveedor?: number | null
-  aplicaDescuentoEdad?: boolean | null
   codigoMoneda?: string | null
 }
 
@@ -1173,18 +763,8 @@ export type ProductoUpdateWithoutCategoriaInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   moneda?: Prisma.MonedaUpdateOneWithoutProductosNestedInput
   codigosBarras?: Prisma.CodigoBarrasUpdateManyWithoutProductoNestedInput
 }
@@ -1195,18 +775,8 @@ export type ProductoUncheckedUpdateWithoutCategoriaInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigosBarras?: Prisma.CodigoBarrasUncheckedUpdateManyWithoutProductoNestedInput
 }
@@ -1217,18 +787,8 @@ export type ProductoUncheckedUpdateManyWithoutCategoriaInput = {
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   imagen?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoGrupo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  factorConversionUm?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   codigoUmEtiquetas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCambioPrecio?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoCategoriaPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  permiteCantidadNegativa?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bcId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idProveedor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  aplicaDescuentoEdad?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1270,18 +830,8 @@ export type ProductoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   imagen?: boolean
   grupoIsv?: boolean
   codigoCategoria?: boolean
-  codigoGrupo?: boolean
-  bonificado?: boolean
-  factorConversionUm?: boolean
   codigoUmEtiquetas?: boolean
   generaAsientoBomba?: boolean
-  grupoDescuento?: boolean
-  permiteCambioPrecio?: boolean
-  codigoCategoriaPromo?: boolean
-  permiteCantidadNegativa?: boolean
-  bcId?: boolean
-  idProveedor?: boolean
-  aplicaDescuentoEdad?: boolean
   codigoMoneda?: boolean
   categoria?: boolean | Prisma.Producto$categoriaArgs<ExtArgs>
   moneda?: boolean | Prisma.Producto$monedaArgs<ExtArgs>
@@ -1296,18 +846,8 @@ export type ProductoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   imagen?: boolean
   grupoIsv?: boolean
   codigoCategoria?: boolean
-  codigoGrupo?: boolean
-  bonificado?: boolean
-  factorConversionUm?: boolean
   codigoUmEtiquetas?: boolean
   generaAsientoBomba?: boolean
-  grupoDescuento?: boolean
-  permiteCambioPrecio?: boolean
-  codigoCategoriaPromo?: boolean
-  permiteCantidadNegativa?: boolean
-  bcId?: boolean
-  idProveedor?: boolean
-  aplicaDescuentoEdad?: boolean
   codigoMoneda?: boolean
   categoria?: boolean | Prisma.Producto$categoriaArgs<ExtArgs>
   moneda?: boolean | Prisma.Producto$monedaArgs<ExtArgs>
@@ -1320,18 +860,8 @@ export type ProductoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   imagen?: boolean
   grupoIsv?: boolean
   codigoCategoria?: boolean
-  codigoGrupo?: boolean
-  bonificado?: boolean
-  factorConversionUm?: boolean
   codigoUmEtiquetas?: boolean
   generaAsientoBomba?: boolean
-  grupoDescuento?: boolean
-  permiteCambioPrecio?: boolean
-  codigoCategoriaPromo?: boolean
-  permiteCantidadNegativa?: boolean
-  bcId?: boolean
-  idProveedor?: boolean
-  aplicaDescuentoEdad?: boolean
   codigoMoneda?: boolean
   categoria?: boolean | Prisma.Producto$categoriaArgs<ExtArgs>
   moneda?: boolean | Prisma.Producto$monedaArgs<ExtArgs>
@@ -1344,22 +874,12 @@ export type ProductoSelectScalar = {
   imagen?: boolean
   grupoIsv?: boolean
   codigoCategoria?: boolean
-  codigoGrupo?: boolean
-  bonificado?: boolean
-  factorConversionUm?: boolean
   codigoUmEtiquetas?: boolean
   generaAsientoBomba?: boolean
-  grupoDescuento?: boolean
-  permiteCambioPrecio?: boolean
-  codigoCategoriaPromo?: boolean
-  permiteCantidadNegativa?: boolean
-  bcId?: boolean
-  idProveedor?: boolean
-  aplicaDescuentoEdad?: boolean
   codigoMoneda?: boolean
 }
 
-export type ProductoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"codigo" | "descripcion" | "bloqueado" | "imagen" | "grupoIsv" | "codigoCategoria" | "codigoGrupo" | "bonificado" | "factorConversionUm" | "codigoUmEtiquetas" | "generaAsientoBomba" | "grupoDescuento" | "permiteCambioPrecio" | "codigoCategoriaPromo" | "permiteCantidadNegativa" | "bcId" | "idProveedor" | "aplicaDescuentoEdad" | "codigoMoneda", ExtArgs["result"]["producto"]>
+export type ProductoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"codigo" | "descripcion" | "bloqueado" | "imagen" | "grupoIsv" | "codigoCategoria" | "codigoUmEtiquetas" | "generaAsientoBomba" | "codigoMoneda", ExtArgs["result"]["producto"]>
 export type ProductoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.Producto$categoriaArgs<ExtArgs>
   moneda?: boolean | Prisma.Producto$monedaArgs<ExtArgs>
@@ -1389,18 +909,8 @@ export type $ProductoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     imagen: runtime.Bytes | null
     grupoIsv: string | null
     codigoCategoria: string | null
-    codigoGrupo: string | null
-    bonificado: boolean | null
-    factorConversionUm: runtime.Decimal | null
     codigoUmEtiquetas: string | null
     generaAsientoBomba: boolean | null
-    grupoDescuento: string | null
-    permiteCambioPrecio: boolean | null
-    codigoCategoriaPromo: string | null
-    permiteCantidadNegativa: boolean | null
-    bcId: string | null
-    idProveedor: number | null
-    aplicaDescuentoEdad: boolean | null
     codigoMoneda: string | null
   }, ExtArgs["result"]["producto"]>
   composites: {}
@@ -1834,18 +1344,8 @@ export interface ProductoFieldRefs {
   readonly imagen: Prisma.FieldRef<"Producto", 'Bytes'>
   readonly grupoIsv: Prisma.FieldRef<"Producto", 'String'>
   readonly codigoCategoria: Prisma.FieldRef<"Producto", 'String'>
-  readonly codigoGrupo: Prisma.FieldRef<"Producto", 'String'>
-  readonly bonificado: Prisma.FieldRef<"Producto", 'Boolean'>
-  readonly factorConversionUm: Prisma.FieldRef<"Producto", 'Decimal'>
   readonly codigoUmEtiquetas: Prisma.FieldRef<"Producto", 'String'>
   readonly generaAsientoBomba: Prisma.FieldRef<"Producto", 'Boolean'>
-  readonly grupoDescuento: Prisma.FieldRef<"Producto", 'String'>
-  readonly permiteCambioPrecio: Prisma.FieldRef<"Producto", 'Boolean'>
-  readonly codigoCategoriaPromo: Prisma.FieldRef<"Producto", 'String'>
-  readonly permiteCantidadNegativa: Prisma.FieldRef<"Producto", 'Boolean'>
-  readonly bcId: Prisma.FieldRef<"Producto", 'String'>
-  readonly idProveedor: Prisma.FieldRef<"Producto", 'Int'>
-  readonly aplicaDescuentoEdad: Prisma.FieldRef<"Producto", 'Boolean'>
   readonly codigoMoneda: Prisma.FieldRef<"Producto", 'String'>
 }
     

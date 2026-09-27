@@ -32,28 +32,12 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
     }
   }
 
-  async findBlockedForPendingBomba(storeId: string): Promise<boolean> {
-    try {
-      const row = await this.prisma.tienda.findUnique({
-        where: { idTienda: storeId },
-        select: { bloqueadoTransaccionesBomba: true },
-      });
-      return row?.bloqueadoTransaccionesBomba === true;
-    } catch {
-      return false;
-    }
+  async findBlockedForPendingBomba(_storeId: string): Promise<boolean> {
+    return false;
   }
 
-  async findBlockedForPendingTurno(storeId: string): Promise<boolean> {
-    try {
-      const row = await this.prisma.tienda.findUnique({
-        where: { idTienda: storeId },
-        select: { bloqueadoTransaccionesTurno: true },
-      });
-      return row?.bloqueadoTransaccionesTurno === true;
-    } catch {
-      return false;
-    }
+  async findBlockedForPendingTurno(_storeId: string): Promise<boolean> {
+    return false;
   }
 
   async findHideShiftInfo(posCode: string): Promise<boolean> {
@@ -149,7 +133,7 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
       isGasController: row.esControladorGas === true,
       ipFusionController: row.ipFusion || '',
       claveControlador: row.claveControlador || '',
-      isFusionAssigned: row.fusionAsignado === true,
+      isFusionAssigned: false,
       isLealEnabled: row.lealHabilitado === true,
       urlLeal: row.urlLeal || '',
       descuentoManual: row.descuentosPermitidos === true,
@@ -158,37 +142,37 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
       casaMatriz: row.casaMatriz || '',
       name: row.nombre || '',
       rtn: row.rtn || '',
-      country: row.pais || '',
-      state: row.estado || '',
-      city: row.ciudad || '',
+      country: '',
+      state: '',
+      city: '',
       address1: row.direccion1 || '',
-      address2: row.direccion2 || '',
-      address3: row.direccion3 || '',
+      address2: '',
+      address3: '',
       passAdmin: row.contrasenaAdmin || '',
-      turnos: row.turnos ?? null,
+      turnos: null,
       caras: [],
-      d3: row.d3 != null ? String(row.d3) : '',
-      d4: row.d4 != null ? String(row.d4) : '',
-      numberOfTransactionsWaiting: row.transaccionesPendientes ?? null,
-      codeCountry: row.codigoPais || '',
-      warningNewInvoiceRanges: row.avisoNuevosRangosFactura ?? null,
-      warningNewCreditNotesRanges: row.avisoNuevosRangosNotaCredito ?? null,
+      d3: '',
+      d4: '',
+      numberOfTransactionsWaiting: null,
+      codeCountry: '',
+      warningNewInvoiceRanges: null,
+      warningNewCreditNotesRanges: null,
       urlControlador: row.urlControlador || '',
       blockedForPendingTransactions:
         row.bloqueadoTransaccionesPendientes === true,
-      debugMode: row.modoDepuracion === true,
+      debugMode: false,
       noConsumidorFinal: row.codigoConsumidorFinal || '',
-      urlSaldo: row.urlSaldo || '',
-      validarRFID: row.validarRfid === true,
+      urlSaldo: '',
+      validarRFID: false,
       validarSaldoCredito: row.validarSaldoCredito === true,
-      voxIsActive: row.voxActivo === true,
-      rangoIndividual: row.rangoIndividual === true,
-      facturacionOrdenada: row.facturacionOrdenada === true,
-      erp: row.erp || '',
-      urlActualizacion: row.urlActualizacion || '',
-      urlBaseERP: row.urlBaseErp || '',
-      turnoManual: row.turnoManual === true,
-      calculoInverso: row.calculoInverso === true,
+      voxIsActive: false,
+      rangoIndividual: false,
+      facturacionOrdenada: false,
+      erp: '',
+      urlActualizacion: '',
+      urlBaseERP: '',
+      turnoManual: false,
+      calculoInverso: false,
       campanas: row.campanas === true,
       nombreBotonFidelizacion: row.nombreBotonFidelizacion || 'LEAL',
       moneda: row.moneda || 'L.',

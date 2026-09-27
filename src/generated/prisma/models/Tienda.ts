@@ -20,28 +20,8 @@ export type TiendaModel = runtime.Types.Result.DefaultSelection<Prisma.$TiendaPa
 
 export type AggregateTienda = {
   _count: TiendaCountAggregateOutputType | null
-  _avg: TiendaAvgAggregateOutputType | null
-  _sum: TiendaSumAggregateOutputType | null
   _min: TiendaMinAggregateOutputType | null
   _max: TiendaMaxAggregateOutputType | null
-}
-
-export type TiendaAvgAggregateOutputType = {
-  turnos: number | null
-  d3: number | null
-  d4: number | null
-  transaccionesPendientes: number | null
-  avisoNuevosRangosFactura: number | null
-  avisoNuevosRangosNotaCredito: number | null
-}
-
-export type TiendaSumAggregateOutputType = {
-  turnos: number | null
-  d3: number | null
-  d4: number | null
-  transaccionesPendientes: number | null
-  avisoNuevosRangosFactura: number | null
-  avisoNuevosRangosNotaCredito: number | null
 }
 
 export type TiendaMinAggregateOutputType = {
@@ -50,53 +30,26 @@ export type TiendaMinAggregateOutputType = {
   nombre: string | null
   rtn: string | null
   emisor: string | null
-  pais: string | null
-  estado: string | null
-  ciudad: string | null
   direccion1: string | null
-  direccion2: string | null
-  direccion3: string | null
   telefono: string | null
   correo: string | null
   contrasenaAdmin: string | null
-  turnos: number | null
-  d3: number | null
-  d4: number | null
-  transaccionesPendientes: number | null
-  urlLeal: string | null
-  lealHabilitado: boolean | null
-  codigoPais: string | null
   esControladorGas: boolean | null
-  avisoNuevosRangosFactura: number | null
-  avisoNuevosRangosNotaCredito: number | null
-  fusionAsignado: boolean | null
   ipFusion: string | null
   urlControlador: string | null
+  claveControlador: string | null
+  codigoConsumidorFinal: string | null
   variasLineasPermitidas: boolean | null
   descuentosPermitidos: boolean | null
   bloqueadoTransaccionesPendientes: boolean | null
-  modoDepuracion: boolean | null
-  claveControlador: string | null
-  codigoConsumidorFinal: string | null
-  urlSaldo: string | null
-  validarRfid: boolean | null
   validarSaldoCredito: boolean | null
-  voxActivo: boolean | null
-  rangoIndividual: boolean | null
-  facturacionOrdenada: boolean | null
-  erp: string | null
-  urlActualizacion: string | null
-  urlBaseErp: string | null
-  turnoManual: boolean | null
-  calculoInverso: boolean | null
-  bloqueadoTransaccionesBomba: boolean | null
-  bloqueadoTransaccionesTurno: boolean | null
   campanas: boolean | null
-  declararMontoInicial: boolean | null
   nombreBotonFidelizacion: string | null
   moneda: string | null
   carpetaMultimedia: string | null
   codigoMoneda: string | null
+  urlLeal: string | null
+  lealHabilitado: boolean | null
 }
 
 export type TiendaMaxAggregateOutputType = {
@@ -105,53 +58,26 @@ export type TiendaMaxAggregateOutputType = {
   nombre: string | null
   rtn: string | null
   emisor: string | null
-  pais: string | null
-  estado: string | null
-  ciudad: string | null
   direccion1: string | null
-  direccion2: string | null
-  direccion3: string | null
   telefono: string | null
   correo: string | null
   contrasenaAdmin: string | null
-  turnos: number | null
-  d3: number | null
-  d4: number | null
-  transaccionesPendientes: number | null
-  urlLeal: string | null
-  lealHabilitado: boolean | null
-  codigoPais: string | null
   esControladorGas: boolean | null
-  avisoNuevosRangosFactura: number | null
-  avisoNuevosRangosNotaCredito: number | null
-  fusionAsignado: boolean | null
   ipFusion: string | null
   urlControlador: string | null
+  claveControlador: string | null
+  codigoConsumidorFinal: string | null
   variasLineasPermitidas: boolean | null
   descuentosPermitidos: boolean | null
   bloqueadoTransaccionesPendientes: boolean | null
-  modoDepuracion: boolean | null
-  claveControlador: string | null
-  codigoConsumidorFinal: string | null
-  urlSaldo: string | null
-  validarRfid: boolean | null
   validarSaldoCredito: boolean | null
-  voxActivo: boolean | null
-  rangoIndividual: boolean | null
-  facturacionOrdenada: boolean | null
-  erp: string | null
-  urlActualizacion: string | null
-  urlBaseErp: string | null
-  turnoManual: boolean | null
-  calculoInverso: boolean | null
-  bloqueadoTransaccionesBomba: boolean | null
-  bloqueadoTransaccionesTurno: boolean | null
   campanas: boolean | null
-  declararMontoInicial: boolean | null
   nombreBotonFidelizacion: string | null
   moneda: string | null
   carpetaMultimedia: string | null
   codigoMoneda: string | null
+  urlLeal: string | null
+  lealHabilitado: boolean | null
 }
 
 export type TiendaCountAggregateOutputType = {
@@ -160,74 +86,29 @@ export type TiendaCountAggregateOutputType = {
   nombre: number
   rtn: number
   emisor: number
-  pais: number
-  estado: number
-  ciudad: number
   direccion1: number
-  direccion2: number
-  direccion3: number
   telefono: number
   correo: number
   contrasenaAdmin: number
-  turnos: number
-  d3: number
-  d4: number
-  transaccionesPendientes: number
-  urlLeal: number
-  lealHabilitado: number
-  codigoPais: number
   esControladorGas: number
-  avisoNuevosRangosFactura: number
-  avisoNuevosRangosNotaCredito: number
-  fusionAsignado: number
   ipFusion: number
   urlControlador: number
+  claveControlador: number
+  codigoConsumidorFinal: number
   variasLineasPermitidas: number
   descuentosPermitidos: number
   bloqueadoTransaccionesPendientes: number
-  modoDepuracion: number
-  claveControlador: number
-  codigoConsumidorFinal: number
-  urlSaldo: number
-  validarRfid: number
   validarSaldoCredito: number
-  voxActivo: number
-  rangoIndividual: number
-  facturacionOrdenada: number
-  erp: number
-  urlActualizacion: number
-  urlBaseErp: number
-  turnoManual: number
-  calculoInverso: number
-  bloqueadoTransaccionesBomba: number
-  bloqueadoTransaccionesTurno: number
   campanas: number
-  declararMontoInicial: number
   nombreBotonFidelizacion: number
   moneda: number
   carpetaMultimedia: number
   codigoMoneda: number
+  urlLeal: number
+  lealHabilitado: number
   _all: number
 }
 
-
-export type TiendaAvgAggregateInputType = {
-  turnos?: true
-  d3?: true
-  d4?: true
-  transaccionesPendientes?: true
-  avisoNuevosRangosFactura?: true
-  avisoNuevosRangosNotaCredito?: true
-}
-
-export type TiendaSumAggregateInputType = {
-  turnos?: true
-  d3?: true
-  d4?: true
-  transaccionesPendientes?: true
-  avisoNuevosRangosFactura?: true
-  avisoNuevosRangosNotaCredito?: true
-}
 
 export type TiendaMinAggregateInputType = {
   idTienda?: true
@@ -235,53 +116,26 @@ export type TiendaMinAggregateInputType = {
   nombre?: true
   rtn?: true
   emisor?: true
-  pais?: true
-  estado?: true
-  ciudad?: true
   direccion1?: true
-  direccion2?: true
-  direccion3?: true
   telefono?: true
   correo?: true
   contrasenaAdmin?: true
-  turnos?: true
-  d3?: true
-  d4?: true
-  transaccionesPendientes?: true
-  urlLeal?: true
-  lealHabilitado?: true
-  codigoPais?: true
   esControladorGas?: true
-  avisoNuevosRangosFactura?: true
-  avisoNuevosRangosNotaCredito?: true
-  fusionAsignado?: true
   ipFusion?: true
   urlControlador?: true
+  claveControlador?: true
+  codigoConsumidorFinal?: true
   variasLineasPermitidas?: true
   descuentosPermitidos?: true
   bloqueadoTransaccionesPendientes?: true
-  modoDepuracion?: true
-  claveControlador?: true
-  codigoConsumidorFinal?: true
-  urlSaldo?: true
-  validarRfid?: true
   validarSaldoCredito?: true
-  voxActivo?: true
-  rangoIndividual?: true
-  facturacionOrdenada?: true
-  erp?: true
-  urlActualizacion?: true
-  urlBaseErp?: true
-  turnoManual?: true
-  calculoInverso?: true
-  bloqueadoTransaccionesBomba?: true
-  bloqueadoTransaccionesTurno?: true
   campanas?: true
-  declararMontoInicial?: true
   nombreBotonFidelizacion?: true
   moneda?: true
   carpetaMultimedia?: true
   codigoMoneda?: true
+  urlLeal?: true
+  lealHabilitado?: true
 }
 
 export type TiendaMaxAggregateInputType = {
@@ -290,53 +144,26 @@ export type TiendaMaxAggregateInputType = {
   nombre?: true
   rtn?: true
   emisor?: true
-  pais?: true
-  estado?: true
-  ciudad?: true
   direccion1?: true
-  direccion2?: true
-  direccion3?: true
   telefono?: true
   correo?: true
   contrasenaAdmin?: true
-  turnos?: true
-  d3?: true
-  d4?: true
-  transaccionesPendientes?: true
-  urlLeal?: true
-  lealHabilitado?: true
-  codigoPais?: true
   esControladorGas?: true
-  avisoNuevosRangosFactura?: true
-  avisoNuevosRangosNotaCredito?: true
-  fusionAsignado?: true
   ipFusion?: true
   urlControlador?: true
+  claveControlador?: true
+  codigoConsumidorFinal?: true
   variasLineasPermitidas?: true
   descuentosPermitidos?: true
   bloqueadoTransaccionesPendientes?: true
-  modoDepuracion?: true
-  claveControlador?: true
-  codigoConsumidorFinal?: true
-  urlSaldo?: true
-  validarRfid?: true
   validarSaldoCredito?: true
-  voxActivo?: true
-  rangoIndividual?: true
-  facturacionOrdenada?: true
-  erp?: true
-  urlActualizacion?: true
-  urlBaseErp?: true
-  turnoManual?: true
-  calculoInverso?: true
-  bloqueadoTransaccionesBomba?: true
-  bloqueadoTransaccionesTurno?: true
   campanas?: true
-  declararMontoInicial?: true
   nombreBotonFidelizacion?: true
   moneda?: true
   carpetaMultimedia?: true
   codigoMoneda?: true
+  urlLeal?: true
+  lealHabilitado?: true
 }
 
 export type TiendaCountAggregateInputType = {
@@ -345,53 +172,26 @@ export type TiendaCountAggregateInputType = {
   nombre?: true
   rtn?: true
   emisor?: true
-  pais?: true
-  estado?: true
-  ciudad?: true
   direccion1?: true
-  direccion2?: true
-  direccion3?: true
   telefono?: true
   correo?: true
   contrasenaAdmin?: true
-  turnos?: true
-  d3?: true
-  d4?: true
-  transaccionesPendientes?: true
-  urlLeal?: true
-  lealHabilitado?: true
-  codigoPais?: true
   esControladorGas?: true
-  avisoNuevosRangosFactura?: true
-  avisoNuevosRangosNotaCredito?: true
-  fusionAsignado?: true
   ipFusion?: true
   urlControlador?: true
+  claveControlador?: true
+  codigoConsumidorFinal?: true
   variasLineasPermitidas?: true
   descuentosPermitidos?: true
   bloqueadoTransaccionesPendientes?: true
-  modoDepuracion?: true
-  claveControlador?: true
-  codigoConsumidorFinal?: true
-  urlSaldo?: true
-  validarRfid?: true
   validarSaldoCredito?: true
-  voxActivo?: true
-  rangoIndividual?: true
-  facturacionOrdenada?: true
-  erp?: true
-  urlActualizacion?: true
-  urlBaseErp?: true
-  turnoManual?: true
-  calculoInverso?: true
-  bloqueadoTransaccionesBomba?: true
-  bloqueadoTransaccionesTurno?: true
   campanas?: true
-  declararMontoInicial?: true
   nombreBotonFidelizacion?: true
   moneda?: true
   carpetaMultimedia?: true
   codigoMoneda?: true
+  urlLeal?: true
+  lealHabilitado?: true
   _all?: true
 }
 
@@ -433,18 +233,6 @@ export type TiendaAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: TiendaAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: TiendaSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: TiendaMinAggregateInputType
@@ -475,8 +263,6 @@ export type TiendaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: TiendaCountAggregateInputType | true
-  _avg?: TiendaAvgAggregateInputType
-  _sum?: TiendaSumAggregateInputType
   _min?: TiendaMinAggregateInputType
   _max?: TiendaMaxAggregateInputType
 }
@@ -487,56 +273,27 @@ export type TiendaGroupByOutputType = {
   nombre: string | null
   rtn: string | null
   emisor: string | null
-  pais: string | null
-  estado: string | null
-  ciudad: string | null
   direccion1: string | null
-  direccion2: string | null
-  direccion3: string | null
   telefono: string | null
   correo: string | null
   contrasenaAdmin: string | null
-  turnos: number | null
-  d3: number | null
-  d4: number | null
-  transaccionesPendientes: number | null
-  urlLeal: string | null
-  lealHabilitado: boolean | null
-  codigoPais: string | null
   esControladorGas: boolean | null
-  avisoNuevosRangosFactura: number | null
-  avisoNuevosRangosNotaCredito: number | null
-  fusionAsignado: boolean | null
   ipFusion: string | null
   urlControlador: string | null
+  claveControlador: string | null
+  codigoConsumidorFinal: string | null
   variasLineasPermitidas: boolean | null
   descuentosPermitidos: boolean | null
   bloqueadoTransaccionesPendientes: boolean | null
-  modoDepuracion: boolean | null
-  claveControlador: string | null
-  codigoConsumidorFinal: string | null
-  urlSaldo: string | null
-  validarRfid: boolean | null
   validarSaldoCredito: boolean | null
-  voxActivo: boolean | null
-  rangoIndividual: boolean | null
-  facturacionOrdenada: boolean | null
-  erp: string | null
-  urlActualizacion: string | null
-  urlBaseErp: string | null
-  turnoManual: boolean | null
-  calculoInverso: boolean | null
-  bloqueadoTransaccionesBomba: boolean | null
-  bloqueadoTransaccionesTurno: boolean | null
   campanas: boolean | null
-  declararMontoInicial: boolean | null
   nombreBotonFidelizacion: string | null
   moneda: string | null
   carpetaMultimedia: string | null
   codigoMoneda: string | null
+  urlLeal: string | null
+  lealHabilitado: boolean | null
   _count: TiendaCountAggregateOutputType | null
-  _avg: TiendaAvgAggregateOutputType | null
-  _sum: TiendaSumAggregateOutputType | null
   _min: TiendaMinAggregateOutputType | null
   _max: TiendaMaxAggregateOutputType | null
 }
@@ -565,53 +322,26 @@ export type TiendaWhereInput = {
   nombre?: Prisma.StringNullableFilter<"Tienda"> | string | null
   rtn?: Prisma.StringNullableFilter<"Tienda"> | string | null
   emisor?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  pais?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  estado?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  ciudad?: Prisma.StringNullableFilter<"Tienda"> | string | null
   direccion1?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  direccion2?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  direccion3?: Prisma.StringNullableFilter<"Tienda"> | string | null
   telefono?: Prisma.StringNullableFilter<"Tienda"> | string | null
   correo?: Prisma.StringNullableFilter<"Tienda"> | string | null
   contrasenaAdmin?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  turnos?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  d3?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  d4?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  transaccionesPendientes?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  codigoPais?: Prisma.StringNullableFilter<"Tienda"> | string | null
   esControladorGas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  avisoNuevosRangosFactura?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  fusionAsignado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  modoDepuracion?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlSaldo?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  validarRfid?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   validarSaldoCredito?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  voxActivo?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  rangoIndividual?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  facturacionOrdenada?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  erp?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlActualizacion?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlBaseErp?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  turnoManual?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  calculoInverso?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   campanas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  declararMontoInicial?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   nombreBotonFidelizacion?: Prisma.StringNullableFilter<"Tienda"> | string | null
   moneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
   carpetaMultimedia?: Prisma.StringNullableFilter<"Tienda"> | string | null
   codigoMoneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   monedaRef?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
 }
 
@@ -621,53 +351,26 @@ export type TiendaOrderByWithRelationInput = {
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
   rtn?: Prisma.SortOrderInput | Prisma.SortOrder
   emisor?: Prisma.SortOrderInput | Prisma.SortOrder
-  pais?: Prisma.SortOrderInput | Prisma.SortOrder
-  estado?: Prisma.SortOrderInput | Prisma.SortOrder
-  ciudad?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion1?: Prisma.SortOrderInput | Prisma.SortOrder
-  direccion2?: Prisma.SortOrderInput | Prisma.SortOrder
-  direccion3?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasenaAdmin?: Prisma.SortOrderInput | Prisma.SortOrder
-  turnos?: Prisma.SortOrderInput | Prisma.SortOrder
-  d3?: Prisma.SortOrderInput | Prisma.SortOrder
-  d4?: Prisma.SortOrderInput | Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlLeal?: Prisma.SortOrderInput | Prisma.SortOrder
-  lealHabilitado?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoPais?: Prisma.SortOrderInput | Prisma.SortOrder
   esControladorGas?: Prisma.SortOrderInput | Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrderInput | Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrderInput | Prisma.SortOrder
-  fusionAsignado?: Prisma.SortOrderInput | Prisma.SortOrder
   ipFusion?: Prisma.SortOrderInput | Prisma.SortOrder
   urlControlador?: Prisma.SortOrderInput | Prisma.SortOrder
+  claveControlador?: Prisma.SortOrderInput | Prisma.SortOrder
+  codigoConsumidorFinal?: Prisma.SortOrderInput | Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrderInput | Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrderInput | Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrderInput | Prisma.SortOrder
-  modoDepuracion?: Prisma.SortOrderInput | Prisma.SortOrder
-  claveControlador?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoConsumidorFinal?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlSaldo?: Prisma.SortOrderInput | Prisma.SortOrder
-  validarRfid?: Prisma.SortOrderInput | Prisma.SortOrder
   validarSaldoCredito?: Prisma.SortOrderInput | Prisma.SortOrder
-  voxActivo?: Prisma.SortOrderInput | Prisma.SortOrder
-  rangoIndividual?: Prisma.SortOrderInput | Prisma.SortOrder
-  facturacionOrdenada?: Prisma.SortOrderInput | Prisma.SortOrder
-  erp?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlBaseErp?: Prisma.SortOrderInput | Prisma.SortOrder
-  turnoManual?: Prisma.SortOrderInput | Prisma.SortOrder
-  calculoInverso?: Prisma.SortOrderInput | Prisma.SortOrder
-  bloqueadoTransaccionesBomba?: Prisma.SortOrderInput | Prisma.SortOrder
-  bloqueadoTransaccionesTurno?: Prisma.SortOrderInput | Prisma.SortOrder
   campanas?: Prisma.SortOrderInput | Prisma.SortOrder
-  declararMontoInicial?: Prisma.SortOrderInput | Prisma.SortOrder
   nombreBotonFidelizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   moneda?: Prisma.SortOrderInput | Prisma.SortOrder
   carpetaMultimedia?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
+  urlLeal?: Prisma.SortOrderInput | Prisma.SortOrder
+  lealHabilitado?: Prisma.SortOrderInput | Prisma.SortOrder
   monedaRef?: Prisma.MonedaOrderByWithRelationInput
 }
 
@@ -680,53 +383,26 @@ export type TiendaWhereUniqueInput = Prisma.AtLeast<{
   nombre?: Prisma.StringNullableFilter<"Tienda"> | string | null
   rtn?: Prisma.StringNullableFilter<"Tienda"> | string | null
   emisor?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  pais?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  estado?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  ciudad?: Prisma.StringNullableFilter<"Tienda"> | string | null
   direccion1?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  direccion2?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  direccion3?: Prisma.StringNullableFilter<"Tienda"> | string | null
   telefono?: Prisma.StringNullableFilter<"Tienda"> | string | null
   correo?: Prisma.StringNullableFilter<"Tienda"> | string | null
   contrasenaAdmin?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  turnos?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  d3?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  d4?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  transaccionesPendientes?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  codigoPais?: Prisma.StringNullableFilter<"Tienda"> | string | null
   esControladorGas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  avisoNuevosRangosFactura?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  fusionAsignado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  modoDepuracion?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlSaldo?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  validarRfid?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   validarSaldoCredito?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  voxActivo?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  rangoIndividual?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  facturacionOrdenada?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  erp?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlActualizacion?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlBaseErp?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  turnoManual?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  calculoInverso?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   campanas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  declararMontoInicial?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   nombreBotonFidelizacion?: Prisma.StringNullableFilter<"Tienda"> | string | null
   moneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
   carpetaMultimedia?: Prisma.StringNullableFilter<"Tienda"> | string | null
   codigoMoneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   monedaRef?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
 }, "idTienda">
 
@@ -736,58 +412,29 @@ export type TiendaOrderByWithAggregationInput = {
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
   rtn?: Prisma.SortOrderInput | Prisma.SortOrder
   emisor?: Prisma.SortOrderInput | Prisma.SortOrder
-  pais?: Prisma.SortOrderInput | Prisma.SortOrder
-  estado?: Prisma.SortOrderInput | Prisma.SortOrder
-  ciudad?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion1?: Prisma.SortOrderInput | Prisma.SortOrder
-  direccion2?: Prisma.SortOrderInput | Prisma.SortOrder
-  direccion3?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasenaAdmin?: Prisma.SortOrderInput | Prisma.SortOrder
-  turnos?: Prisma.SortOrderInput | Prisma.SortOrder
-  d3?: Prisma.SortOrderInput | Prisma.SortOrder
-  d4?: Prisma.SortOrderInput | Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlLeal?: Prisma.SortOrderInput | Prisma.SortOrder
-  lealHabilitado?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoPais?: Prisma.SortOrderInput | Prisma.SortOrder
   esControladorGas?: Prisma.SortOrderInput | Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrderInput | Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrderInput | Prisma.SortOrder
-  fusionAsignado?: Prisma.SortOrderInput | Prisma.SortOrder
   ipFusion?: Prisma.SortOrderInput | Prisma.SortOrder
   urlControlador?: Prisma.SortOrderInput | Prisma.SortOrder
+  claveControlador?: Prisma.SortOrderInput | Prisma.SortOrder
+  codigoConsumidorFinal?: Prisma.SortOrderInput | Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrderInput | Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrderInput | Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrderInput | Prisma.SortOrder
-  modoDepuracion?: Prisma.SortOrderInput | Prisma.SortOrder
-  claveControlador?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoConsumidorFinal?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlSaldo?: Prisma.SortOrderInput | Prisma.SortOrder
-  validarRfid?: Prisma.SortOrderInput | Prisma.SortOrder
   validarSaldoCredito?: Prisma.SortOrderInput | Prisma.SortOrder
-  voxActivo?: Prisma.SortOrderInput | Prisma.SortOrder
-  rangoIndividual?: Prisma.SortOrderInput | Prisma.SortOrder
-  facturacionOrdenada?: Prisma.SortOrderInput | Prisma.SortOrder
-  erp?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  urlBaseErp?: Prisma.SortOrderInput | Prisma.SortOrder
-  turnoManual?: Prisma.SortOrderInput | Prisma.SortOrder
-  calculoInverso?: Prisma.SortOrderInput | Prisma.SortOrder
-  bloqueadoTransaccionesBomba?: Prisma.SortOrderInput | Prisma.SortOrder
-  bloqueadoTransaccionesTurno?: Prisma.SortOrderInput | Prisma.SortOrder
   campanas?: Prisma.SortOrderInput | Prisma.SortOrder
-  declararMontoInicial?: Prisma.SortOrderInput | Prisma.SortOrder
   nombreBotonFidelizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   moneda?: Prisma.SortOrderInput | Prisma.SortOrder
   carpetaMultimedia?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
+  urlLeal?: Prisma.SortOrderInput | Prisma.SortOrder
+  lealHabilitado?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TiendaCountOrderByAggregateInput
-  _avg?: Prisma.TiendaAvgOrderByAggregateInput
   _max?: Prisma.TiendaMaxOrderByAggregateInput
   _min?: Prisma.TiendaMinOrderByAggregateInput
-  _sum?: Prisma.TiendaSumOrderByAggregateInput
 }
 
 export type TiendaScalarWhereWithAggregatesInput = {
@@ -799,53 +446,26 @@ export type TiendaScalarWhereWithAggregatesInput = {
   nombre?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   rtn?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   emisor?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  pais?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  estado?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  ciudad?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   direccion1?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  direccion2?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  direccion3?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   correo?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   contrasenaAdmin?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  turnos?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
-  d3?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
-  d4?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
-  transaccionesPendientes?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
-  urlLeal?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  lealHabilitado?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  codigoPais?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   esControladorGas?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  avisoNuevosRangosFactura?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.IntNullableWithAggregatesFilter<"Tienda"> | number | null
-  fusionAsignado?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   urlControlador?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
+  codigoConsumidorFinal?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  modoDepuracion?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  claveControlador?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  codigoConsumidorFinal?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  urlSaldo?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  validarRfid?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   validarSaldoCredito?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  voxActivo?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  rangoIndividual?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  facturacionOrdenada?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  erp?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  urlActualizacion?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  urlBaseErp?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
-  turnoManual?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  calculoInverso?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   campanas?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
-  declararMontoInicial?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
   nombreBotonFidelizacion?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   moneda?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   carpetaMultimedia?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   codigoMoneda?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
+  urlLeal?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
+  lealHabilitado?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
 }
 
 export type TiendaCreateInput = {
@@ -854,52 +474,25 @@ export type TiendaCreateInput = {
   nombre?: string | null
   rtn?: string | null
   emisor?: string | null
-  pais?: string | null
-  estado?: string | null
-  ciudad?: string | null
   direccion1?: string | null
-  direccion2?: string | null
-  direccion3?: string | null
   telefono?: string | null
   correo?: string | null
   contrasenaAdmin?: string | null
-  turnos?: number | null
-  d3?: number | null
-  d4?: number | null
-  transaccionesPendientes?: number | null
-  urlLeal?: string | null
-  lealHabilitado?: boolean | null
-  codigoPais?: string | null
   esControladorGas?: boolean | null
-  avisoNuevosRangosFactura?: number | null
-  avisoNuevosRangosNotaCredito?: number | null
-  fusionAsignado?: boolean | null
   ipFusion?: string | null
   urlControlador?: string | null
+  claveControlador?: string | null
+  codigoConsumidorFinal?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
-  modoDepuracion?: boolean | null
-  claveControlador?: string | null
-  codigoConsumidorFinal?: string | null
-  urlSaldo?: string | null
-  validarRfid?: boolean | null
   validarSaldoCredito?: boolean | null
-  voxActivo?: boolean | null
-  rangoIndividual?: boolean | null
-  facturacionOrdenada?: boolean | null
-  erp?: string | null
-  urlActualizacion?: string | null
-  urlBaseErp?: string | null
-  turnoManual?: boolean | null
-  calculoInverso?: boolean | null
-  bloqueadoTransaccionesBomba?: boolean | null
-  bloqueadoTransaccionesTurno?: boolean | null
   campanas?: boolean | null
-  declararMontoInicial?: boolean | null
   nombreBotonFidelizacion?: string | null
   moneda?: string | null
   carpetaMultimedia?: string | null
+  urlLeal?: string | null
+  lealHabilitado?: boolean | null
   monedaRef?: Prisma.MonedaCreateNestedOneWithoutTiendasInput
 }
 
@@ -909,53 +502,26 @@ export type TiendaUncheckedCreateInput = {
   nombre?: string | null
   rtn?: string | null
   emisor?: string | null
-  pais?: string | null
-  estado?: string | null
-  ciudad?: string | null
   direccion1?: string | null
-  direccion2?: string | null
-  direccion3?: string | null
   telefono?: string | null
   correo?: string | null
   contrasenaAdmin?: string | null
-  turnos?: number | null
-  d3?: number | null
-  d4?: number | null
-  transaccionesPendientes?: number | null
-  urlLeal?: string | null
-  lealHabilitado?: boolean | null
-  codigoPais?: string | null
   esControladorGas?: boolean | null
-  avisoNuevosRangosFactura?: number | null
-  avisoNuevosRangosNotaCredito?: number | null
-  fusionAsignado?: boolean | null
   ipFusion?: string | null
   urlControlador?: string | null
+  claveControlador?: string | null
+  codigoConsumidorFinal?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
-  modoDepuracion?: boolean | null
-  claveControlador?: string | null
-  codigoConsumidorFinal?: string | null
-  urlSaldo?: string | null
-  validarRfid?: boolean | null
   validarSaldoCredito?: boolean | null
-  voxActivo?: boolean | null
-  rangoIndividual?: boolean | null
-  facturacionOrdenada?: boolean | null
-  erp?: string | null
-  urlActualizacion?: string | null
-  urlBaseErp?: string | null
-  turnoManual?: boolean | null
-  calculoInverso?: boolean | null
-  bloqueadoTransaccionesBomba?: boolean | null
-  bloqueadoTransaccionesTurno?: boolean | null
   campanas?: boolean | null
-  declararMontoInicial?: boolean | null
   nombreBotonFidelizacion?: string | null
   moneda?: string | null
   carpetaMultimedia?: string | null
   codigoMoneda?: string | null
+  urlLeal?: string | null
+  lealHabilitado?: boolean | null
 }
 
 export type TiendaUpdateInput = {
@@ -964,52 +530,25 @@ export type TiendaUpdateInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   monedaRef?: Prisma.MonedaUpdateOneWithoutTiendasNestedInput
 }
 
@@ -1019,53 +558,26 @@ export type TiendaUncheckedUpdateInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type TiendaCreateManyInput = {
@@ -1074,53 +586,26 @@ export type TiendaCreateManyInput = {
   nombre?: string | null
   rtn?: string | null
   emisor?: string | null
-  pais?: string | null
-  estado?: string | null
-  ciudad?: string | null
   direccion1?: string | null
-  direccion2?: string | null
-  direccion3?: string | null
   telefono?: string | null
   correo?: string | null
   contrasenaAdmin?: string | null
-  turnos?: number | null
-  d3?: number | null
-  d4?: number | null
-  transaccionesPendientes?: number | null
-  urlLeal?: string | null
-  lealHabilitado?: boolean | null
-  codigoPais?: string | null
   esControladorGas?: boolean | null
-  avisoNuevosRangosFactura?: number | null
-  avisoNuevosRangosNotaCredito?: number | null
-  fusionAsignado?: boolean | null
   ipFusion?: string | null
   urlControlador?: string | null
+  claveControlador?: string | null
+  codigoConsumidorFinal?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
-  modoDepuracion?: boolean | null
-  claveControlador?: string | null
-  codigoConsumidorFinal?: string | null
-  urlSaldo?: string | null
-  validarRfid?: boolean | null
   validarSaldoCredito?: boolean | null
-  voxActivo?: boolean | null
-  rangoIndividual?: boolean | null
-  facturacionOrdenada?: boolean | null
-  erp?: string | null
-  urlActualizacion?: string | null
-  urlBaseErp?: string | null
-  turnoManual?: boolean | null
-  calculoInverso?: boolean | null
-  bloqueadoTransaccionesBomba?: boolean | null
-  bloqueadoTransaccionesTurno?: boolean | null
   campanas?: boolean | null
-  declararMontoInicial?: boolean | null
   nombreBotonFidelizacion?: string | null
   moneda?: string | null
   carpetaMultimedia?: string | null
   codigoMoneda?: string | null
+  urlLeal?: string | null
+  lealHabilitado?: boolean | null
 }
 
 export type TiendaUpdateManyMutationInput = {
@@ -1129,52 +614,25 @@ export type TiendaUpdateManyMutationInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type TiendaUncheckedUpdateManyInput = {
@@ -1183,53 +641,26 @@ export type TiendaUncheckedUpdateManyInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type TiendaCountOrderByAggregateInput = {
@@ -1238,62 +669,26 @@ export type TiendaCountOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   rtn?: Prisma.SortOrder
   emisor?: Prisma.SortOrder
-  pais?: Prisma.SortOrder
-  estado?: Prisma.SortOrder
-  ciudad?: Prisma.SortOrder
   direccion1?: Prisma.SortOrder
-  direccion2?: Prisma.SortOrder
-  direccion3?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   contrasenaAdmin?: Prisma.SortOrder
-  turnos?: Prisma.SortOrder
-  d3?: Prisma.SortOrder
-  d4?: Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrder
-  urlLeal?: Prisma.SortOrder
-  lealHabilitado?: Prisma.SortOrder
-  codigoPais?: Prisma.SortOrder
   esControladorGas?: Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrder
-  fusionAsignado?: Prisma.SortOrder
   ipFusion?: Prisma.SortOrder
   urlControlador?: Prisma.SortOrder
+  claveControlador?: Prisma.SortOrder
+  codigoConsumidorFinal?: Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrder
-  modoDepuracion?: Prisma.SortOrder
-  claveControlador?: Prisma.SortOrder
-  codigoConsumidorFinal?: Prisma.SortOrder
-  urlSaldo?: Prisma.SortOrder
-  validarRfid?: Prisma.SortOrder
   validarSaldoCredito?: Prisma.SortOrder
-  voxActivo?: Prisma.SortOrder
-  rangoIndividual?: Prisma.SortOrder
-  facturacionOrdenada?: Prisma.SortOrder
-  erp?: Prisma.SortOrder
-  urlActualizacion?: Prisma.SortOrder
-  urlBaseErp?: Prisma.SortOrder
-  turnoManual?: Prisma.SortOrder
-  calculoInverso?: Prisma.SortOrder
-  bloqueadoTransaccionesBomba?: Prisma.SortOrder
-  bloqueadoTransaccionesTurno?: Prisma.SortOrder
   campanas?: Prisma.SortOrder
-  declararMontoInicial?: Prisma.SortOrder
   nombreBotonFidelizacion?: Prisma.SortOrder
   moneda?: Prisma.SortOrder
   carpetaMultimedia?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
-}
-
-export type TiendaAvgOrderByAggregateInput = {
-  turnos?: Prisma.SortOrder
-  d3?: Prisma.SortOrder
-  d4?: Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrder
+  urlLeal?: Prisma.SortOrder
+  lealHabilitado?: Prisma.SortOrder
 }
 
 export type TiendaMaxOrderByAggregateInput = {
@@ -1302,53 +697,26 @@ export type TiendaMaxOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   rtn?: Prisma.SortOrder
   emisor?: Prisma.SortOrder
-  pais?: Prisma.SortOrder
-  estado?: Prisma.SortOrder
-  ciudad?: Prisma.SortOrder
   direccion1?: Prisma.SortOrder
-  direccion2?: Prisma.SortOrder
-  direccion3?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   contrasenaAdmin?: Prisma.SortOrder
-  turnos?: Prisma.SortOrder
-  d3?: Prisma.SortOrder
-  d4?: Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrder
-  urlLeal?: Prisma.SortOrder
-  lealHabilitado?: Prisma.SortOrder
-  codigoPais?: Prisma.SortOrder
   esControladorGas?: Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrder
-  fusionAsignado?: Prisma.SortOrder
   ipFusion?: Prisma.SortOrder
   urlControlador?: Prisma.SortOrder
+  claveControlador?: Prisma.SortOrder
+  codigoConsumidorFinal?: Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrder
-  modoDepuracion?: Prisma.SortOrder
-  claveControlador?: Prisma.SortOrder
-  codigoConsumidorFinal?: Prisma.SortOrder
-  urlSaldo?: Prisma.SortOrder
-  validarRfid?: Prisma.SortOrder
   validarSaldoCredito?: Prisma.SortOrder
-  voxActivo?: Prisma.SortOrder
-  rangoIndividual?: Prisma.SortOrder
-  facturacionOrdenada?: Prisma.SortOrder
-  erp?: Prisma.SortOrder
-  urlActualizacion?: Prisma.SortOrder
-  urlBaseErp?: Prisma.SortOrder
-  turnoManual?: Prisma.SortOrder
-  calculoInverso?: Prisma.SortOrder
-  bloqueadoTransaccionesBomba?: Prisma.SortOrder
-  bloqueadoTransaccionesTurno?: Prisma.SortOrder
   campanas?: Prisma.SortOrder
-  declararMontoInicial?: Prisma.SortOrder
   nombreBotonFidelizacion?: Prisma.SortOrder
   moneda?: Prisma.SortOrder
   carpetaMultimedia?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
+  urlLeal?: Prisma.SortOrder
+  lealHabilitado?: Prisma.SortOrder
 }
 
 export type TiendaMinOrderByAggregateInput = {
@@ -1357,62 +725,26 @@ export type TiendaMinOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   rtn?: Prisma.SortOrder
   emisor?: Prisma.SortOrder
-  pais?: Prisma.SortOrder
-  estado?: Prisma.SortOrder
-  ciudad?: Prisma.SortOrder
   direccion1?: Prisma.SortOrder
-  direccion2?: Prisma.SortOrder
-  direccion3?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   contrasenaAdmin?: Prisma.SortOrder
-  turnos?: Prisma.SortOrder
-  d3?: Prisma.SortOrder
-  d4?: Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrder
-  urlLeal?: Prisma.SortOrder
-  lealHabilitado?: Prisma.SortOrder
-  codigoPais?: Prisma.SortOrder
   esControladorGas?: Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrder
-  fusionAsignado?: Prisma.SortOrder
   ipFusion?: Prisma.SortOrder
   urlControlador?: Prisma.SortOrder
+  claveControlador?: Prisma.SortOrder
+  codigoConsumidorFinal?: Prisma.SortOrder
   variasLineasPermitidas?: Prisma.SortOrder
   descuentosPermitidos?: Prisma.SortOrder
   bloqueadoTransaccionesPendientes?: Prisma.SortOrder
-  modoDepuracion?: Prisma.SortOrder
-  claveControlador?: Prisma.SortOrder
-  codigoConsumidorFinal?: Prisma.SortOrder
-  urlSaldo?: Prisma.SortOrder
-  validarRfid?: Prisma.SortOrder
   validarSaldoCredito?: Prisma.SortOrder
-  voxActivo?: Prisma.SortOrder
-  rangoIndividual?: Prisma.SortOrder
-  facturacionOrdenada?: Prisma.SortOrder
-  erp?: Prisma.SortOrder
-  urlActualizacion?: Prisma.SortOrder
-  urlBaseErp?: Prisma.SortOrder
-  turnoManual?: Prisma.SortOrder
-  calculoInverso?: Prisma.SortOrder
-  bloqueadoTransaccionesBomba?: Prisma.SortOrder
-  bloqueadoTransaccionesTurno?: Prisma.SortOrder
   campanas?: Prisma.SortOrder
-  declararMontoInicial?: Prisma.SortOrder
   nombreBotonFidelizacion?: Prisma.SortOrder
   moneda?: Prisma.SortOrder
   carpetaMultimedia?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
-}
-
-export type TiendaSumOrderByAggregateInput = {
-  turnos?: Prisma.SortOrder
-  d3?: Prisma.SortOrder
-  d4?: Prisma.SortOrder
-  transaccionesPendientes?: Prisma.SortOrder
-  avisoNuevosRangosFactura?: Prisma.SortOrder
-  avisoNuevosRangosNotaCredito?: Prisma.SortOrder
+  urlLeal?: Prisma.SortOrder
+  lealHabilitado?: Prisma.SortOrder
 }
 
 export type TiendaListRelationFilter = {
@@ -1423,14 +755,6 @@ export type TiendaListRelationFilter = {
 
 export type TiendaOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type TiendaCreateNestedManyWithoutMonedaRefInput = {
@@ -1481,52 +805,25 @@ export type TiendaCreateWithoutMonedaRefInput = {
   nombre?: string | null
   rtn?: string | null
   emisor?: string | null
-  pais?: string | null
-  estado?: string | null
-  ciudad?: string | null
   direccion1?: string | null
-  direccion2?: string | null
-  direccion3?: string | null
   telefono?: string | null
   correo?: string | null
   contrasenaAdmin?: string | null
-  turnos?: number | null
-  d3?: number | null
-  d4?: number | null
-  transaccionesPendientes?: number | null
-  urlLeal?: string | null
-  lealHabilitado?: boolean | null
-  codigoPais?: string | null
   esControladorGas?: boolean | null
-  avisoNuevosRangosFactura?: number | null
-  avisoNuevosRangosNotaCredito?: number | null
-  fusionAsignado?: boolean | null
   ipFusion?: string | null
   urlControlador?: string | null
+  claveControlador?: string | null
+  codigoConsumidorFinal?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
-  modoDepuracion?: boolean | null
-  claveControlador?: string | null
-  codigoConsumidorFinal?: string | null
-  urlSaldo?: string | null
-  validarRfid?: boolean | null
   validarSaldoCredito?: boolean | null
-  voxActivo?: boolean | null
-  rangoIndividual?: boolean | null
-  facturacionOrdenada?: boolean | null
-  erp?: string | null
-  urlActualizacion?: string | null
-  urlBaseErp?: string | null
-  turnoManual?: boolean | null
-  calculoInverso?: boolean | null
-  bloqueadoTransaccionesBomba?: boolean | null
-  bloqueadoTransaccionesTurno?: boolean | null
   campanas?: boolean | null
-  declararMontoInicial?: boolean | null
   nombreBotonFidelizacion?: string | null
   moneda?: string | null
   carpetaMultimedia?: string | null
+  urlLeal?: string | null
+  lealHabilitado?: boolean | null
 }
 
 export type TiendaUncheckedCreateWithoutMonedaRefInput = {
@@ -1535,52 +832,25 @@ export type TiendaUncheckedCreateWithoutMonedaRefInput = {
   nombre?: string | null
   rtn?: string | null
   emisor?: string | null
-  pais?: string | null
-  estado?: string | null
-  ciudad?: string | null
   direccion1?: string | null
-  direccion2?: string | null
-  direccion3?: string | null
   telefono?: string | null
   correo?: string | null
   contrasenaAdmin?: string | null
-  turnos?: number | null
-  d3?: number | null
-  d4?: number | null
-  transaccionesPendientes?: number | null
-  urlLeal?: string | null
-  lealHabilitado?: boolean | null
-  codigoPais?: string | null
   esControladorGas?: boolean | null
-  avisoNuevosRangosFactura?: number | null
-  avisoNuevosRangosNotaCredito?: number | null
-  fusionAsignado?: boolean | null
   ipFusion?: string | null
   urlControlador?: string | null
+  claveControlador?: string | null
+  codigoConsumidorFinal?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
-  modoDepuracion?: boolean | null
-  claveControlador?: string | null
-  codigoConsumidorFinal?: string | null
-  urlSaldo?: string | null
-  validarRfid?: boolean | null
   validarSaldoCredito?: boolean | null
-  voxActivo?: boolean | null
-  rangoIndividual?: boolean | null
-  facturacionOrdenada?: boolean | null
-  erp?: string | null
-  urlActualizacion?: string | null
-  urlBaseErp?: string | null
-  turnoManual?: boolean | null
-  calculoInverso?: boolean | null
-  bloqueadoTransaccionesBomba?: boolean | null
-  bloqueadoTransaccionesTurno?: boolean | null
   campanas?: boolean | null
-  declararMontoInicial?: boolean | null
   nombreBotonFidelizacion?: string | null
   moneda?: string | null
   carpetaMultimedia?: string | null
+  urlLeal?: string | null
+  lealHabilitado?: boolean | null
 }
 
 export type TiendaCreateOrConnectWithoutMonedaRefInput = {
@@ -1618,53 +888,26 @@ export type TiendaScalarWhereInput = {
   nombre?: Prisma.StringNullableFilter<"Tienda"> | string | null
   rtn?: Prisma.StringNullableFilter<"Tienda"> | string | null
   emisor?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  pais?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  estado?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  ciudad?: Prisma.StringNullableFilter<"Tienda"> | string | null
   direccion1?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  direccion2?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  direccion3?: Prisma.StringNullableFilter<"Tienda"> | string | null
   telefono?: Prisma.StringNullableFilter<"Tienda"> | string | null
   correo?: Prisma.StringNullableFilter<"Tienda"> | string | null
   contrasenaAdmin?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  turnos?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  d3?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  d4?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  transaccionesPendientes?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  codigoPais?: Prisma.StringNullableFilter<"Tienda"> | string | null
   esControladorGas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  avisoNuevosRangosFactura?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.IntNullableFilter<"Tienda"> | number | null
-  fusionAsignado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   ipFusion?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   variasLineasPermitidas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   descuentosPermitidos?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  modoDepuracion?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  claveControlador?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  codigoConsumidorFinal?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlSaldo?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  validarRfid?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   validarSaldoCredito?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  voxActivo?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  rangoIndividual?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  facturacionOrdenada?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  erp?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlActualizacion?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  urlBaseErp?: Prisma.StringNullableFilter<"Tienda"> | string | null
-  turnoManual?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  calculoInverso?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   campanas?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
-  declararMontoInicial?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
   nombreBotonFidelizacion?: Prisma.StringNullableFilter<"Tienda"> | string | null
   moneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
   carpetaMultimedia?: Prisma.StringNullableFilter<"Tienda"> | string | null
   codigoMoneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
+  lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
 }
 
 export type TiendaCreateManyMonedaRefInput = {
@@ -1673,52 +916,25 @@ export type TiendaCreateManyMonedaRefInput = {
   nombre?: string | null
   rtn?: string | null
   emisor?: string | null
-  pais?: string | null
-  estado?: string | null
-  ciudad?: string | null
   direccion1?: string | null
-  direccion2?: string | null
-  direccion3?: string | null
   telefono?: string | null
   correo?: string | null
   contrasenaAdmin?: string | null
-  turnos?: number | null
-  d3?: number | null
-  d4?: number | null
-  transaccionesPendientes?: number | null
-  urlLeal?: string | null
-  lealHabilitado?: boolean | null
-  codigoPais?: string | null
   esControladorGas?: boolean | null
-  avisoNuevosRangosFactura?: number | null
-  avisoNuevosRangosNotaCredito?: number | null
-  fusionAsignado?: boolean | null
   ipFusion?: string | null
   urlControlador?: string | null
+  claveControlador?: string | null
+  codigoConsumidorFinal?: string | null
   variasLineasPermitidas?: boolean | null
   descuentosPermitidos?: boolean | null
   bloqueadoTransaccionesPendientes?: boolean | null
-  modoDepuracion?: boolean | null
-  claveControlador?: string | null
-  codigoConsumidorFinal?: string | null
-  urlSaldo?: string | null
-  validarRfid?: boolean | null
   validarSaldoCredito?: boolean | null
-  voxActivo?: boolean | null
-  rangoIndividual?: boolean | null
-  facturacionOrdenada?: boolean | null
-  erp?: string | null
-  urlActualizacion?: string | null
-  urlBaseErp?: string | null
-  turnoManual?: boolean | null
-  calculoInverso?: boolean | null
-  bloqueadoTransaccionesBomba?: boolean | null
-  bloqueadoTransaccionesTurno?: boolean | null
   campanas?: boolean | null
-  declararMontoInicial?: boolean | null
   nombreBotonFidelizacion?: string | null
   moneda?: string | null
   carpetaMultimedia?: string | null
+  urlLeal?: string | null
+  lealHabilitado?: boolean | null
 }
 
 export type TiendaUpdateWithoutMonedaRefInput = {
@@ -1727,52 +943,25 @@ export type TiendaUpdateWithoutMonedaRefInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type TiendaUncheckedUpdateWithoutMonedaRefInput = {
@@ -1781,52 +970,25 @@ export type TiendaUncheckedUpdateWithoutMonedaRefInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type TiendaUncheckedUpdateManyWithoutMonedaRefInput = {
@@ -1835,52 +997,25 @@ export type TiendaUncheckedUpdateManyWithoutMonedaRefInput = {
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emisor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccion3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasenaAdmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnos?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d3?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  d4?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  transaccionesPendientes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   esControladorGas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  avisoNuevosRangosFactura?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  avisoNuevosRangosNotaCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  fusionAsignado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ipFusion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variasLineasPermitidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   descuentosPermitidos?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   bloqueadoTransaccionesPendientes?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  modoDepuracion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  claveControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoConsumidorFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlSaldo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  validarRfid?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   validarSaldoCredito?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  voxActivo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  rangoIndividual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  facturacionOrdenada?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  erp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlActualizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  urlBaseErp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  turnoManual?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  calculoInverso?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bloqueadoTransaccionesTurno?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   campanas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  declararMontoInicial?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   nombreBotonFidelizacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 
@@ -1891,53 +1026,26 @@ export type TiendaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   nombre?: boolean
   rtn?: boolean
   emisor?: boolean
-  pais?: boolean
-  estado?: boolean
-  ciudad?: boolean
   direccion1?: boolean
-  direccion2?: boolean
-  direccion3?: boolean
   telefono?: boolean
   correo?: boolean
   contrasenaAdmin?: boolean
-  turnos?: boolean
-  d3?: boolean
-  d4?: boolean
-  transaccionesPendientes?: boolean
-  urlLeal?: boolean
-  lealHabilitado?: boolean
-  codigoPais?: boolean
   esControladorGas?: boolean
-  avisoNuevosRangosFactura?: boolean
-  avisoNuevosRangosNotaCredito?: boolean
-  fusionAsignado?: boolean
   ipFusion?: boolean
   urlControlador?: boolean
+  claveControlador?: boolean
+  codigoConsumidorFinal?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
-  modoDepuracion?: boolean
-  claveControlador?: boolean
-  codigoConsumidorFinal?: boolean
-  urlSaldo?: boolean
-  validarRfid?: boolean
   validarSaldoCredito?: boolean
-  voxActivo?: boolean
-  rangoIndividual?: boolean
-  facturacionOrdenada?: boolean
-  erp?: boolean
-  urlActualizacion?: boolean
-  urlBaseErp?: boolean
-  turnoManual?: boolean
-  calculoInverso?: boolean
-  bloqueadoTransaccionesBomba?: boolean
-  bloqueadoTransaccionesTurno?: boolean
   campanas?: boolean
-  declararMontoInicial?: boolean
   nombreBotonFidelizacion?: boolean
   moneda?: boolean
   carpetaMultimedia?: boolean
   codigoMoneda?: boolean
+  urlLeal?: boolean
+  lealHabilitado?: boolean
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }, ExtArgs["result"]["tienda"]>
 
@@ -1947,53 +1055,26 @@ export type TiendaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   nombre?: boolean
   rtn?: boolean
   emisor?: boolean
-  pais?: boolean
-  estado?: boolean
-  ciudad?: boolean
   direccion1?: boolean
-  direccion2?: boolean
-  direccion3?: boolean
   telefono?: boolean
   correo?: boolean
   contrasenaAdmin?: boolean
-  turnos?: boolean
-  d3?: boolean
-  d4?: boolean
-  transaccionesPendientes?: boolean
-  urlLeal?: boolean
-  lealHabilitado?: boolean
-  codigoPais?: boolean
   esControladorGas?: boolean
-  avisoNuevosRangosFactura?: boolean
-  avisoNuevosRangosNotaCredito?: boolean
-  fusionAsignado?: boolean
   ipFusion?: boolean
   urlControlador?: boolean
+  claveControlador?: boolean
+  codigoConsumidorFinal?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
-  modoDepuracion?: boolean
-  claveControlador?: boolean
-  codigoConsumidorFinal?: boolean
-  urlSaldo?: boolean
-  validarRfid?: boolean
   validarSaldoCredito?: boolean
-  voxActivo?: boolean
-  rangoIndividual?: boolean
-  facturacionOrdenada?: boolean
-  erp?: boolean
-  urlActualizacion?: boolean
-  urlBaseErp?: boolean
-  turnoManual?: boolean
-  calculoInverso?: boolean
-  bloqueadoTransaccionesBomba?: boolean
-  bloqueadoTransaccionesTurno?: boolean
   campanas?: boolean
-  declararMontoInicial?: boolean
   nombreBotonFidelizacion?: boolean
   moneda?: boolean
   carpetaMultimedia?: boolean
   codigoMoneda?: boolean
+  urlLeal?: boolean
+  lealHabilitado?: boolean
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }, ExtArgs["result"]["tienda"]>
 
@@ -2003,53 +1084,26 @@ export type TiendaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   nombre?: boolean
   rtn?: boolean
   emisor?: boolean
-  pais?: boolean
-  estado?: boolean
-  ciudad?: boolean
   direccion1?: boolean
-  direccion2?: boolean
-  direccion3?: boolean
   telefono?: boolean
   correo?: boolean
   contrasenaAdmin?: boolean
-  turnos?: boolean
-  d3?: boolean
-  d4?: boolean
-  transaccionesPendientes?: boolean
-  urlLeal?: boolean
-  lealHabilitado?: boolean
-  codigoPais?: boolean
   esControladorGas?: boolean
-  avisoNuevosRangosFactura?: boolean
-  avisoNuevosRangosNotaCredito?: boolean
-  fusionAsignado?: boolean
   ipFusion?: boolean
   urlControlador?: boolean
+  claveControlador?: boolean
+  codigoConsumidorFinal?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
-  modoDepuracion?: boolean
-  claveControlador?: boolean
-  codigoConsumidorFinal?: boolean
-  urlSaldo?: boolean
-  validarRfid?: boolean
   validarSaldoCredito?: boolean
-  voxActivo?: boolean
-  rangoIndividual?: boolean
-  facturacionOrdenada?: boolean
-  erp?: boolean
-  urlActualizacion?: boolean
-  urlBaseErp?: boolean
-  turnoManual?: boolean
-  calculoInverso?: boolean
-  bloqueadoTransaccionesBomba?: boolean
-  bloqueadoTransaccionesTurno?: boolean
   campanas?: boolean
-  declararMontoInicial?: boolean
   nombreBotonFidelizacion?: boolean
   moneda?: boolean
   carpetaMultimedia?: boolean
   codigoMoneda?: boolean
+  urlLeal?: boolean
+  lealHabilitado?: boolean
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }, ExtArgs["result"]["tienda"]>
 
@@ -2059,56 +1113,29 @@ export type TiendaSelectScalar = {
   nombre?: boolean
   rtn?: boolean
   emisor?: boolean
-  pais?: boolean
-  estado?: boolean
-  ciudad?: boolean
   direccion1?: boolean
-  direccion2?: boolean
-  direccion3?: boolean
   telefono?: boolean
   correo?: boolean
   contrasenaAdmin?: boolean
-  turnos?: boolean
-  d3?: boolean
-  d4?: boolean
-  transaccionesPendientes?: boolean
-  urlLeal?: boolean
-  lealHabilitado?: boolean
-  codigoPais?: boolean
   esControladorGas?: boolean
-  avisoNuevosRangosFactura?: boolean
-  avisoNuevosRangosNotaCredito?: boolean
-  fusionAsignado?: boolean
   ipFusion?: boolean
   urlControlador?: boolean
+  claveControlador?: boolean
+  codigoConsumidorFinal?: boolean
   variasLineasPermitidas?: boolean
   descuentosPermitidos?: boolean
   bloqueadoTransaccionesPendientes?: boolean
-  modoDepuracion?: boolean
-  claveControlador?: boolean
-  codigoConsumidorFinal?: boolean
-  urlSaldo?: boolean
-  validarRfid?: boolean
   validarSaldoCredito?: boolean
-  voxActivo?: boolean
-  rangoIndividual?: boolean
-  facturacionOrdenada?: boolean
-  erp?: boolean
-  urlActualizacion?: boolean
-  urlBaseErp?: boolean
-  turnoManual?: boolean
-  calculoInverso?: boolean
-  bloqueadoTransaccionesBomba?: boolean
-  bloqueadoTransaccionesTurno?: boolean
   campanas?: boolean
-  declararMontoInicial?: boolean
   nombreBotonFidelizacion?: boolean
   moneda?: boolean
   carpetaMultimedia?: boolean
   codigoMoneda?: boolean
+  urlLeal?: boolean
+  lealHabilitado?: boolean
 }
 
-export type TiendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTienda" | "casaMatriz" | "nombre" | "rtn" | "emisor" | "pais" | "estado" | "ciudad" | "direccion1" | "direccion2" | "direccion3" | "telefono" | "correo" | "contrasenaAdmin" | "turnos" | "d3" | "d4" | "transaccionesPendientes" | "urlLeal" | "lealHabilitado" | "codigoPais" | "esControladorGas" | "avisoNuevosRangosFactura" | "avisoNuevosRangosNotaCredito" | "fusionAsignado" | "ipFusion" | "urlControlador" | "variasLineasPermitidas" | "descuentosPermitidos" | "bloqueadoTransaccionesPendientes" | "modoDepuracion" | "claveControlador" | "codigoConsumidorFinal" | "urlSaldo" | "validarRfid" | "validarSaldoCredito" | "voxActivo" | "rangoIndividual" | "facturacionOrdenada" | "erp" | "urlActualizacion" | "urlBaseErp" | "turnoManual" | "calculoInverso" | "bloqueadoTransaccionesBomba" | "bloqueadoTransaccionesTurno" | "campanas" | "declararMontoInicial" | "nombreBotonFidelizacion" | "moneda" | "carpetaMultimedia" | "codigoMoneda", ExtArgs["result"]["tienda"]>
+export type TiendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTienda" | "casaMatriz" | "nombre" | "rtn" | "emisor" | "direccion1" | "telefono" | "correo" | "contrasenaAdmin" | "esControladorGas" | "ipFusion" | "urlControlador" | "claveControlador" | "codigoConsumidorFinal" | "variasLineasPermitidas" | "descuentosPermitidos" | "bloqueadoTransaccionesPendientes" | "validarSaldoCredito" | "campanas" | "nombreBotonFidelizacion" | "moneda" | "carpetaMultimedia" | "codigoMoneda" | "urlLeal" | "lealHabilitado", ExtArgs["result"]["tienda"]>
 export type TiendaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }
@@ -2130,53 +1157,26 @@ export type $TiendaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     nombre: string | null
     rtn: string | null
     emisor: string | null
-    pais: string | null
-    estado: string | null
-    ciudad: string | null
     direccion1: string | null
-    direccion2: string | null
-    direccion3: string | null
     telefono: string | null
     correo: string | null
     contrasenaAdmin: string | null
-    turnos: number | null
-    d3: number | null
-    d4: number | null
-    transaccionesPendientes: number | null
-    urlLeal: string | null
-    lealHabilitado: boolean | null
-    codigoPais: string | null
     esControladorGas: boolean | null
-    avisoNuevosRangosFactura: number | null
-    avisoNuevosRangosNotaCredito: number | null
-    fusionAsignado: boolean | null
     ipFusion: string | null
     urlControlador: string | null
+    claveControlador: string | null
+    codigoConsumidorFinal: string | null
     variasLineasPermitidas: boolean | null
     descuentosPermitidos: boolean | null
     bloqueadoTransaccionesPendientes: boolean | null
-    modoDepuracion: boolean | null
-    claveControlador: string | null
-    codigoConsumidorFinal: string | null
-    urlSaldo: string | null
-    validarRfid: boolean | null
     validarSaldoCredito: boolean | null
-    voxActivo: boolean | null
-    rangoIndividual: boolean | null
-    facturacionOrdenada: boolean | null
-    erp: string | null
-    urlActualizacion: string | null
-    urlBaseErp: string | null
-    turnoManual: boolean | null
-    calculoInverso: boolean | null
-    bloqueadoTransaccionesBomba: boolean | null
-    bloqueadoTransaccionesTurno: boolean | null
     campanas: boolean | null
-    declararMontoInicial: boolean | null
     nombreBotonFidelizacion: string | null
     moneda: string | null
     carpetaMultimedia: string | null
     codigoMoneda: string | null
+    urlLeal: string | null
+    lealHabilitado: boolean | null
   }, ExtArgs["result"]["tienda"]>
   composites: {}
 }
@@ -2606,53 +1606,26 @@ export interface TiendaFieldRefs {
   readonly nombre: Prisma.FieldRef<"Tienda", 'String'>
   readonly rtn: Prisma.FieldRef<"Tienda", 'String'>
   readonly emisor: Prisma.FieldRef<"Tienda", 'String'>
-  readonly pais: Prisma.FieldRef<"Tienda", 'String'>
-  readonly estado: Prisma.FieldRef<"Tienda", 'String'>
-  readonly ciudad: Prisma.FieldRef<"Tienda", 'String'>
   readonly direccion1: Prisma.FieldRef<"Tienda", 'String'>
-  readonly direccion2: Prisma.FieldRef<"Tienda", 'String'>
-  readonly direccion3: Prisma.FieldRef<"Tienda", 'String'>
   readonly telefono: Prisma.FieldRef<"Tienda", 'String'>
   readonly correo: Prisma.FieldRef<"Tienda", 'String'>
   readonly contrasenaAdmin: Prisma.FieldRef<"Tienda", 'String'>
-  readonly turnos: Prisma.FieldRef<"Tienda", 'Int'>
-  readonly d3: Prisma.FieldRef<"Tienda", 'Int'>
-  readonly d4: Prisma.FieldRef<"Tienda", 'Int'>
-  readonly transaccionesPendientes: Prisma.FieldRef<"Tienda", 'Int'>
-  readonly urlLeal: Prisma.FieldRef<"Tienda", 'String'>
-  readonly lealHabilitado: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly codigoPais: Prisma.FieldRef<"Tienda", 'String'>
   readonly esControladorGas: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly avisoNuevosRangosFactura: Prisma.FieldRef<"Tienda", 'Int'>
-  readonly avisoNuevosRangosNotaCredito: Prisma.FieldRef<"Tienda", 'Int'>
-  readonly fusionAsignado: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly ipFusion: Prisma.FieldRef<"Tienda", 'String'>
   readonly urlControlador: Prisma.FieldRef<"Tienda", 'String'>
+  readonly claveControlador: Prisma.FieldRef<"Tienda", 'String'>
+  readonly codigoConsumidorFinal: Prisma.FieldRef<"Tienda", 'String'>
   readonly variasLineasPermitidas: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly descuentosPermitidos: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly bloqueadoTransaccionesPendientes: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly modoDepuracion: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly claveControlador: Prisma.FieldRef<"Tienda", 'String'>
-  readonly codigoConsumidorFinal: Prisma.FieldRef<"Tienda", 'String'>
-  readonly urlSaldo: Prisma.FieldRef<"Tienda", 'String'>
-  readonly validarRfid: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly validarSaldoCredito: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly voxActivo: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly rangoIndividual: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly facturacionOrdenada: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly erp: Prisma.FieldRef<"Tienda", 'String'>
-  readonly urlActualizacion: Prisma.FieldRef<"Tienda", 'String'>
-  readonly urlBaseErp: Prisma.FieldRef<"Tienda", 'String'>
-  readonly turnoManual: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly calculoInverso: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly bloqueadoTransaccionesBomba: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly bloqueadoTransaccionesTurno: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly campanas: Prisma.FieldRef<"Tienda", 'Boolean'>
-  readonly declararMontoInicial: Prisma.FieldRef<"Tienda", 'Boolean'>
   readonly nombreBotonFidelizacion: Prisma.FieldRef<"Tienda", 'String'>
   readonly moneda: Prisma.FieldRef<"Tienda", 'String'>
   readonly carpetaMultimedia: Prisma.FieldRef<"Tienda", 'String'>
   readonly codigoMoneda: Prisma.FieldRef<"Tienda", 'String'>
+  readonly urlLeal: Prisma.FieldRef<"Tienda", 'String'>
+  readonly lealHabilitado: Prisma.FieldRef<"Tienda", 'Boolean'>
 }
     
 

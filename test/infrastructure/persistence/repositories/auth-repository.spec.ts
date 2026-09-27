@@ -230,8 +230,6 @@ describe('AuthRepositoryImpl', () => {
       isGasStation: true,
       isLealEnabled: true,
       urlLeal: 'https://leal',
-      d3: '5',
-      turnos: 2,
     });
     expect(config!.casaMatriz).toBe('TITULO');
     expect(config!.phone).toBe('2222');
@@ -251,12 +249,9 @@ describe('AuthRepositoryImpl', () => {
       casaMatriz: 'T',
       nombre: 'N',
       rtn: 'RTN',
-      pais: 'HN',
       lealHabilitado: true,
       esControladorGas: true,
       variasLineasPermitidas: true,
-      fusionAsignado: false,
-      declararMontoInicial: true,
     };
     const repo = new AuthRepositoryImpl({
       tienda: { findUnique: jest.fn().mockResolvedValue(row) },
@@ -270,7 +265,6 @@ describe('AuthRepositoryImpl', () => {
       IsGasController: 1,
       MultipleItemsAllowed: 1,
       IsFusionAssigned: 0,
-      DeclararMontoInicial: 1,
     });
   });
 

@@ -63,7 +63,6 @@ describe('StoreConfigRepositoryImpl', () => {
     expect(config).not.toBeNull();
     expect(config!.storeId).toBe('001');
     expect(config!.rtn).toBe('06019995197170');
-    expect(config!.turnoManual).toBe(true);
     expect(config!.campanas).toBe(true);
   });
 
@@ -178,8 +177,6 @@ describe('StoreConfigRepositoryImpl', () => {
           ...tiendaRow,
           nombre: '',
           casaMatriz: 'TITULO CAIDA',
-          d3: 7,
-          d4: 0,
           nombreBotonFidelizacion: null,
         }),
       },
@@ -188,8 +185,6 @@ describe('StoreConfigRepositoryImpl', () => {
     const config = await repo.findByStoreId('001');
 
     expect(config!.storeName).toBe('TITULO CAIDA');
-    expect(config!.d3).toBe('7');
-    expect(config!.d4).toBe('0');
     expect(config!.nombreBotonFidelizacion).toBe('LEAL');
   });
 

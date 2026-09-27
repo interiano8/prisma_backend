@@ -411,12 +411,7 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
   }
 
   async getReasons(): Promise<ReasonRow[]> {
-    try {
-      const rows = await this.prisma.motivo.findMany();
-      return rows.map((r) => ({ Id_motivo: r.id, motivo: r.motivo }));
-    } catch {
-      return [];
-    }
+    return [];
   }
 
   async searchInvoices(
@@ -545,7 +540,7 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
       'Salesperson Code': r.codigoVendedor,
       'POS Code': r.codigoPos,
       'Emitter No_': r.numeroEmisor,
-      'ERP ID': r.erpId,
+      'ERP ID': null,
     }));
 
     if (page) {

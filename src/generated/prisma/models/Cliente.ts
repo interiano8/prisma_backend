@@ -28,19 +28,11 @@ export type AggregateCliente = {
 
 export type ClienteAvgAggregateOutputType = {
   tipoFacturacion: number | null
-  tipoActualizacion: number | null
-  idDepartamento: number | null
-  idMunicipio: number | null
-  saldoMonedaLocal: runtime.Decimal | null
   saldo: runtime.Decimal | null
 }
 
 export type ClienteSumAggregateOutputType = {
   tipoFacturacion: number | null
-  tipoActualizacion: number | null
-  idDepartamento: number | null
-  idMunicipio: number | null
-  saldoMonedaLocal: runtime.Decimal | null
   saldo: runtime.Decimal | null
 }
 
@@ -48,103 +40,50 @@ export type ClienteMinAggregateOutputType = {
   codigo: string | null
   nombre: string | null
   direccion: string | null
-  ciudad: string | null
   telefono: string | null
-  grupoDescuento: string | null
-  codigoPais: string | null
   bloqueado: boolean | null
   rtn: string | null
-  codigoPostal: string | null
-  municipio: string | null
   correo: string | null
   tipoFacturacion: number | null
-  estado: string | null
-  grupoPromo: string | null
-  tipoActualizacion: number | null
   fechaActualizacion: Date | null
-  bcid: string | null
-  fechaNacimiento: Date | null
-  idDepartamento: number | null
-  idMunicipio: number | null
-  saldoMonedaLocal: runtime.Decimal | null
   saldo: runtime.Decimal | null
-  grupoContable: string | null
-  grupoContableNegocio: string | null
 }
 
 export type ClienteMaxAggregateOutputType = {
   codigo: string | null
   nombre: string | null
   direccion: string | null
-  ciudad: string | null
   telefono: string | null
-  grupoDescuento: string | null
-  codigoPais: string | null
   bloqueado: boolean | null
   rtn: string | null
-  codigoPostal: string | null
-  municipio: string | null
   correo: string | null
   tipoFacturacion: number | null
-  estado: string | null
-  grupoPromo: string | null
-  tipoActualizacion: number | null
   fechaActualizacion: Date | null
-  bcid: string | null
-  fechaNacimiento: Date | null
-  idDepartamento: number | null
-  idMunicipio: number | null
-  saldoMonedaLocal: runtime.Decimal | null
   saldo: runtime.Decimal | null
-  grupoContable: string | null
-  grupoContableNegocio: string | null
 }
 
 export type ClienteCountAggregateOutputType = {
   codigo: number
   nombre: number
   direccion: number
-  ciudad: number
   telefono: number
-  grupoDescuento: number
-  codigoPais: number
   bloqueado: number
   rtn: number
-  codigoPostal: number
-  municipio: number
   correo: number
   tipoFacturacion: number
-  estado: number
-  grupoPromo: number
-  tipoActualizacion: number
   fechaActualizacion: number
-  bcid: number
-  fechaNacimiento: number
-  idDepartamento: number
-  idMunicipio: number
-  saldoMonedaLocal: number
   saldo: number
-  grupoContable: number
-  grupoContableNegocio: number
   _all: number
 }
 
 
 export type ClienteAvgAggregateInputType = {
   tipoFacturacion?: true
-  tipoActualizacion?: true
-  idDepartamento?: true
-  idMunicipio?: true
-  saldoMonedaLocal?: true
   saldo?: true
 }
 
 export type ClienteSumAggregateInputType = {
   tipoFacturacion?: true
-  tipoActualizacion?: true
-  idDepartamento?: true
-  idMunicipio?: true
-  saldoMonedaLocal?: true
   saldo?: true
 }
 
@@ -152,84 +91,39 @@ export type ClienteMinAggregateInputType = {
   codigo?: true
   nombre?: true
   direccion?: true
-  ciudad?: true
   telefono?: true
-  grupoDescuento?: true
-  codigoPais?: true
   bloqueado?: true
   rtn?: true
-  codigoPostal?: true
-  municipio?: true
   correo?: true
   tipoFacturacion?: true
-  estado?: true
-  grupoPromo?: true
-  tipoActualizacion?: true
   fechaActualizacion?: true
-  bcid?: true
-  fechaNacimiento?: true
-  idDepartamento?: true
-  idMunicipio?: true
-  saldoMonedaLocal?: true
   saldo?: true
-  grupoContable?: true
-  grupoContableNegocio?: true
 }
 
 export type ClienteMaxAggregateInputType = {
   codigo?: true
   nombre?: true
   direccion?: true
-  ciudad?: true
   telefono?: true
-  grupoDescuento?: true
-  codigoPais?: true
   bloqueado?: true
   rtn?: true
-  codigoPostal?: true
-  municipio?: true
   correo?: true
   tipoFacturacion?: true
-  estado?: true
-  grupoPromo?: true
-  tipoActualizacion?: true
   fechaActualizacion?: true
-  bcid?: true
-  fechaNacimiento?: true
-  idDepartamento?: true
-  idMunicipio?: true
-  saldoMonedaLocal?: true
   saldo?: true
-  grupoContable?: true
-  grupoContableNegocio?: true
 }
 
 export type ClienteCountAggregateInputType = {
   codigo?: true
   nombre?: true
   direccion?: true
-  ciudad?: true
   telefono?: true
-  grupoDescuento?: true
-  codigoPais?: true
   bloqueado?: true
   rtn?: true
-  codigoPostal?: true
-  municipio?: true
   correo?: true
   tipoFacturacion?: true
-  estado?: true
-  grupoPromo?: true
-  tipoActualizacion?: true
   fechaActualizacion?: true
-  bcid?: true
-  fechaNacimiento?: true
-  idDepartamento?: true
-  idMunicipio?: true
-  saldoMonedaLocal?: true
   saldo?: true
-  grupoContable?: true
-  grupoContableNegocio?: true
   _all?: true
 }
 
@@ -323,28 +217,13 @@ export type ClienteGroupByOutputType = {
   codigo: string
   nombre: string | null
   direccion: string | null
-  ciudad: string | null
   telefono: string | null
-  grupoDescuento: string | null
-  codigoPais: string | null
   bloqueado: boolean | null
   rtn: string | null
-  codigoPostal: string | null
-  municipio: string | null
   correo: string | null
   tipoFacturacion: number | null
-  estado: string | null
-  grupoPromo: string | null
-  tipoActualizacion: number | null
   fechaActualizacion: Date | null
-  bcid: string | null
-  fechaNacimiento: Date | null
-  idDepartamento: number | null
-  idMunicipio: number | null
-  saldoMonedaLocal: runtime.Decimal | null
   saldo: runtime.Decimal | null
-  grupoContable: string | null
-  grupoContableNegocio: string | null
   _count: ClienteCountAggregateOutputType | null
   _avg: ClienteAvgAggregateOutputType | null
   _sum: ClienteSumAggregateOutputType | null
@@ -374,56 +253,26 @@ export type ClienteWhereInput = {
   codigo?: Prisma.StringFilter<"Cliente"> | string
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   direccion?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  ciudad?: Prisma.StringNullableFilter<"Cliente"> | string | null
   telefono?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  grupoDescuento?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  codigoPais?: Prisma.StringNullableFilter<"Cliente"> | string | null
   bloqueado?: Prisma.BoolNullableFilter<"Cliente"> | boolean | null
   rtn?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  codigoPostal?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  municipio?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
   tipoFacturacion?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  estado?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  grupoPromo?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  tipoActualizacion?: Prisma.IntNullableFilter<"Cliente"> | number | null
   fechaActualizacion?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  bcid?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  fechaNacimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  idDepartamento?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  idMunicipio?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  saldoMonedaLocal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  grupoContableNegocio?: Prisma.StringNullableFilter<"Cliente"> | string | null
 }
 
 export type ClienteOrderByWithRelationInput = {
   codigo?: Prisma.SortOrder
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
-  ciudad?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoPais?: Prisma.SortOrderInput | Prisma.SortOrder
   bloqueado?: Prisma.SortOrderInput | Prisma.SortOrder
   rtn?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoPostal?: Prisma.SortOrderInput | Prisma.SortOrder
-  municipio?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  estado?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoPromo?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  bcid?: Prisma.SortOrderInput | Prisma.SortOrder
-  fechaNacimiento?: Prisma.SortOrderInput | Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrderInput | Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrderInput | Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   saldo?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoContable?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoContableNegocio?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type ClienteWhereUniqueInput = Prisma.AtLeast<{
@@ -433,56 +282,26 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ClienteWhereInput | Prisma.ClienteWhereInput[]
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   direccion?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  ciudad?: Prisma.StringNullableFilter<"Cliente"> | string | null
   telefono?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  grupoDescuento?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  codigoPais?: Prisma.StringNullableFilter<"Cliente"> | string | null
   bloqueado?: Prisma.BoolNullableFilter<"Cliente"> | boolean | null
   rtn?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  codigoPostal?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  municipio?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
   tipoFacturacion?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  estado?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  grupoPromo?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  tipoActualizacion?: Prisma.IntNullableFilter<"Cliente"> | number | null
   fechaActualizacion?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  bcid?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  fechaNacimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  idDepartamento?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  idMunicipio?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  saldoMonedaLocal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  grupoContableNegocio?: Prisma.StringNullableFilter<"Cliente"> | string | null
 }, "codigo">
 
 export type ClienteOrderByWithAggregationInput = {
   codigo?: Prisma.SortOrder
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
-  ciudad?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoPais?: Prisma.SortOrderInput | Prisma.SortOrder
   bloqueado?: Prisma.SortOrderInput | Prisma.SortOrder
   rtn?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoPostal?: Prisma.SortOrderInput | Prisma.SortOrder
-  municipio?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  estado?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoPromo?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  bcid?: Prisma.SortOrderInput | Prisma.SortOrder
-  fechaNacimiento?: Prisma.SortOrderInput | Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrderInput | Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrderInput | Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   saldo?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoContable?: Prisma.SortOrderInput | Prisma.SortOrder
-  grupoContableNegocio?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ClienteCountOrderByAggregateInput
   _avg?: Prisma.ClienteAvgOrderByAggregateInput
   _max?: Prisma.ClienteMaxOrderByAggregateInput
@@ -497,260 +316,121 @@ export type ClienteScalarWhereWithAggregatesInput = {
   codigo?: Prisma.StringWithAggregatesFilter<"Cliente"> | string
   nombre?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   direccion?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  ciudad?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  grupoDescuento?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  codigoPais?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   bloqueado?: Prisma.BoolNullableWithAggregatesFilter<"Cliente"> | boolean | null
   rtn?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  codigoPostal?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  municipio?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   tipoFacturacion?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
-  estado?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  grupoPromo?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  tipoActualizacion?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
   fechaActualizacion?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
-  bcid?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  fechaNacimiento?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
-  idDepartamento?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
-  idMunicipio?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
-  saldoMonedaLocal?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  grupoContableNegocio?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
 }
 
 export type ClienteCreateInput = {
   codigo: string
   nombre?: string | null
   direccion?: string | null
-  ciudad?: string | null
   telefono?: string | null
-  grupoDescuento?: string | null
-  codigoPais?: string | null
   bloqueado?: boolean | null
   rtn?: string | null
-  codigoPostal?: string | null
-  municipio?: string | null
   correo?: string | null
   tipoFacturacion?: number | null
-  estado?: string | null
-  grupoPromo?: string | null
-  tipoActualizacion?: number | null
   fechaActualizacion?: Date | string | null
-  bcid?: string | null
-  fechaNacimiento?: Date | string | null
-  idDepartamento?: number | null
-  idMunicipio?: number | null
-  saldoMonedaLocal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: string | null
-  grupoContableNegocio?: string | null
 }
 
 export type ClienteUncheckedCreateInput = {
   codigo: string
   nombre?: string | null
   direccion?: string | null
-  ciudad?: string | null
   telefono?: string | null
-  grupoDescuento?: string | null
-  codigoPais?: string | null
   bloqueado?: boolean | null
   rtn?: string | null
-  codigoPostal?: string | null
-  municipio?: string | null
   correo?: string | null
   tipoFacturacion?: number | null
-  estado?: string | null
-  grupoPromo?: string | null
-  tipoActualizacion?: number | null
   fechaActualizacion?: Date | string | null
-  bcid?: string | null
-  fechaNacimiento?: Date | string | null
-  idDepartamento?: number | null
-  idMunicipio?: number | null
-  saldoMonedaLocal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: string | null
-  grupoContableNegocio?: string | null
 }
 
 export type ClienteUpdateInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPostal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoActualizacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bcid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaNacimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  idDepartamento?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  idMunicipio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  saldoMonedaLocal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoContableNegocio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClienteUncheckedUpdateInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPostal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoActualizacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bcid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaNacimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  idDepartamento?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  idMunicipio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  saldoMonedaLocal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoContableNegocio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClienteCreateManyInput = {
   codigo: string
   nombre?: string | null
   direccion?: string | null
-  ciudad?: string | null
   telefono?: string | null
-  grupoDescuento?: string | null
-  codigoPais?: string | null
   bloqueado?: boolean | null
   rtn?: string | null
-  codigoPostal?: string | null
-  municipio?: string | null
   correo?: string | null
   tipoFacturacion?: number | null
-  estado?: string | null
-  grupoPromo?: string | null
-  tipoActualizacion?: number | null
   fechaActualizacion?: Date | string | null
-  bcid?: string | null
-  fechaNacimiento?: Date | string | null
-  idDepartamento?: number | null
-  idMunicipio?: number | null
-  saldoMonedaLocal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: string | null
-  grupoContableNegocio?: string | null
 }
 
 export type ClienteUpdateManyMutationInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPostal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoActualizacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bcid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaNacimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  idDepartamento?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  idMunicipio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  saldoMonedaLocal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoContableNegocio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClienteUncheckedUpdateManyInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ciudad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoDescuento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bloqueado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   rtn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  codigoPostal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  estado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoPromo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoActualizacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bcid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaNacimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  idDepartamento?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  idMunicipio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  saldoMonedaLocal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  grupoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  grupoContableNegocio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClienteCountOrderByAggregateInput = {
   codigo?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
-  ciudad?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrder
-  codigoPais?: Prisma.SortOrder
   bloqueado?: Prisma.SortOrder
   rtn?: Prisma.SortOrder
-  codigoPostal?: Prisma.SortOrder
-  municipio?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrder
-  estado?: Prisma.SortOrder
-  grupoPromo?: Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrder
-  bcid?: Prisma.SortOrder
-  fechaNacimiento?: Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
-  grupoContable?: Prisma.SortOrder
-  grupoContableNegocio?: Prisma.SortOrder
 }
 
 export type ClienteAvgOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
 }
 
@@ -758,64 +438,30 @@ export type ClienteMaxOrderByAggregateInput = {
   codigo?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
-  ciudad?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrder
-  codigoPais?: Prisma.SortOrder
   bloqueado?: Prisma.SortOrder
   rtn?: Prisma.SortOrder
-  codigoPostal?: Prisma.SortOrder
-  municipio?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrder
-  estado?: Prisma.SortOrder
-  grupoPromo?: Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrder
-  bcid?: Prisma.SortOrder
-  fechaNacimiento?: Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
-  grupoContable?: Prisma.SortOrder
-  grupoContableNegocio?: Prisma.SortOrder
 }
 
 export type ClienteMinOrderByAggregateInput = {
   codigo?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
-  ciudad?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
-  grupoDescuento?: Prisma.SortOrder
-  codigoPais?: Prisma.SortOrder
   bloqueado?: Prisma.SortOrder
   rtn?: Prisma.SortOrder
-  codigoPostal?: Prisma.SortOrder
-  municipio?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   tipoFacturacion?: Prisma.SortOrder
-  estado?: Prisma.SortOrder
-  grupoPromo?: Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrder
-  bcid?: Prisma.SortOrder
-  fechaNacimiento?: Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
-  grupoContable?: Prisma.SortOrder
-  grupoContableNegocio?: Prisma.SortOrder
 }
 
 export type ClienteSumOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
-  tipoActualizacion?: Prisma.SortOrder
-  idDepartamento?: Prisma.SortOrder
-  idMunicipio?: Prisma.SortOrder
-  saldoMonedaLocal?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
 }
 
@@ -825,115 +471,55 @@ export type ClienteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   codigo?: boolean
   nombre?: boolean
   direccion?: boolean
-  ciudad?: boolean
   telefono?: boolean
-  grupoDescuento?: boolean
-  codigoPais?: boolean
   bloqueado?: boolean
   rtn?: boolean
-  codigoPostal?: boolean
-  municipio?: boolean
   correo?: boolean
   tipoFacturacion?: boolean
-  estado?: boolean
-  grupoPromo?: boolean
-  tipoActualizacion?: boolean
   fechaActualizacion?: boolean
-  bcid?: boolean
-  fechaNacimiento?: boolean
-  idDepartamento?: boolean
-  idMunicipio?: boolean
-  saldoMonedaLocal?: boolean
   saldo?: boolean
-  grupoContable?: boolean
-  grupoContableNegocio?: boolean
 }, ExtArgs["result"]["cliente"]>
 
 export type ClienteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   codigo?: boolean
   nombre?: boolean
   direccion?: boolean
-  ciudad?: boolean
   telefono?: boolean
-  grupoDescuento?: boolean
-  codigoPais?: boolean
   bloqueado?: boolean
   rtn?: boolean
-  codigoPostal?: boolean
-  municipio?: boolean
   correo?: boolean
   tipoFacturacion?: boolean
-  estado?: boolean
-  grupoPromo?: boolean
-  tipoActualizacion?: boolean
   fechaActualizacion?: boolean
-  bcid?: boolean
-  fechaNacimiento?: boolean
-  idDepartamento?: boolean
-  idMunicipio?: boolean
-  saldoMonedaLocal?: boolean
   saldo?: boolean
-  grupoContable?: boolean
-  grupoContableNegocio?: boolean
 }, ExtArgs["result"]["cliente"]>
 
 export type ClienteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   codigo?: boolean
   nombre?: boolean
   direccion?: boolean
-  ciudad?: boolean
   telefono?: boolean
-  grupoDescuento?: boolean
-  codigoPais?: boolean
   bloqueado?: boolean
   rtn?: boolean
-  codigoPostal?: boolean
-  municipio?: boolean
   correo?: boolean
   tipoFacturacion?: boolean
-  estado?: boolean
-  grupoPromo?: boolean
-  tipoActualizacion?: boolean
   fechaActualizacion?: boolean
-  bcid?: boolean
-  fechaNacimiento?: boolean
-  idDepartamento?: boolean
-  idMunicipio?: boolean
-  saldoMonedaLocal?: boolean
   saldo?: boolean
-  grupoContable?: boolean
-  grupoContableNegocio?: boolean
 }, ExtArgs["result"]["cliente"]>
 
 export type ClienteSelectScalar = {
   codigo?: boolean
   nombre?: boolean
   direccion?: boolean
-  ciudad?: boolean
   telefono?: boolean
-  grupoDescuento?: boolean
-  codigoPais?: boolean
   bloqueado?: boolean
   rtn?: boolean
-  codigoPostal?: boolean
-  municipio?: boolean
   correo?: boolean
   tipoFacturacion?: boolean
-  estado?: boolean
-  grupoPromo?: boolean
-  tipoActualizacion?: boolean
   fechaActualizacion?: boolean
-  bcid?: boolean
-  fechaNacimiento?: boolean
-  idDepartamento?: boolean
-  idMunicipio?: boolean
-  saldoMonedaLocal?: boolean
   saldo?: boolean
-  grupoContable?: boolean
-  grupoContableNegocio?: boolean
 }
 
-export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"codigo" | "nombre" | "direccion" | "ciudad" | "telefono" | "grupoDescuento" | "codigoPais" | "bloqueado" | "rtn" | "codigoPostal" | "municipio" | "correo" | "tipoFacturacion" | "estado" | "grupoPromo" | "tipoActualizacion" | "fechaActualizacion" | "bcid" | "fechaNacimiento" | "idDepartamento" | "idMunicipio" | "saldoMonedaLocal" | "saldo" | "grupoContable" | "grupoContableNegocio", ExtArgs["result"]["cliente"]>
+export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"codigo" | "nombre" | "direccion" | "telefono" | "bloqueado" | "rtn" | "correo" | "tipoFacturacion" | "fechaActualizacion" | "saldo", ExtArgs["result"]["cliente"]>
 
 export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Cliente"
@@ -942,28 +528,13 @@ export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     codigo: string
     nombre: string | null
     direccion: string | null
-    ciudad: string | null
     telefono: string | null
-    grupoDescuento: string | null
-    codigoPais: string | null
     bloqueado: boolean | null
     rtn: string | null
-    codigoPostal: string | null
-    municipio: string | null
     correo: string | null
     tipoFacturacion: number | null
-    estado: string | null
-    grupoPromo: string | null
-    tipoActualizacion: number | null
     fechaActualizacion: Date | null
-    bcid: string | null
-    fechaNacimiento: Date | null
-    idDepartamento: number | null
-    idMunicipio: number | null
-    saldoMonedaLocal: runtime.Decimal | null
     saldo: runtime.Decimal | null
-    grupoContable: string | null
-    grupoContableNegocio: string | null
   }, ExtArgs["result"]["cliente"]>
   composites: {}
 }
@@ -1390,28 +961,13 @@ export interface ClienteFieldRefs {
   readonly codigo: Prisma.FieldRef<"Cliente", 'String'>
   readonly nombre: Prisma.FieldRef<"Cliente", 'String'>
   readonly direccion: Prisma.FieldRef<"Cliente", 'String'>
-  readonly ciudad: Prisma.FieldRef<"Cliente", 'String'>
   readonly telefono: Prisma.FieldRef<"Cliente", 'String'>
-  readonly grupoDescuento: Prisma.FieldRef<"Cliente", 'String'>
-  readonly codigoPais: Prisma.FieldRef<"Cliente", 'String'>
   readonly bloqueado: Prisma.FieldRef<"Cliente", 'Boolean'>
   readonly rtn: Prisma.FieldRef<"Cliente", 'String'>
-  readonly codigoPostal: Prisma.FieldRef<"Cliente", 'String'>
-  readonly municipio: Prisma.FieldRef<"Cliente", 'String'>
   readonly correo: Prisma.FieldRef<"Cliente", 'String'>
   readonly tipoFacturacion: Prisma.FieldRef<"Cliente", 'Int'>
-  readonly estado: Prisma.FieldRef<"Cliente", 'String'>
-  readonly grupoPromo: Prisma.FieldRef<"Cliente", 'String'>
-  readonly tipoActualizacion: Prisma.FieldRef<"Cliente", 'Int'>
   readonly fechaActualizacion: Prisma.FieldRef<"Cliente", 'DateTime'>
-  readonly bcid: Prisma.FieldRef<"Cliente", 'String'>
-  readonly fechaNacimiento: Prisma.FieldRef<"Cliente", 'DateTime'>
-  readonly idDepartamento: Prisma.FieldRef<"Cliente", 'Int'>
-  readonly idMunicipio: Prisma.FieldRef<"Cliente", 'Int'>
-  readonly saldoMonedaLocal: Prisma.FieldRef<"Cliente", 'Decimal'>
   readonly saldo: Prisma.FieldRef<"Cliente", 'Decimal'>
-  readonly grupoContable: Prisma.FieldRef<"Cliente", 'String'>
-  readonly grupoContableNegocio: Prisma.FieldRef<"Cliente", 'String'>
 }
     
 

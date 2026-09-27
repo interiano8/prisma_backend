@@ -16,10 +16,11 @@ async function main() {
   const invoices = app.get(InvoicesService);
   const prisma = app.get(PrismaService);
 
-  const pendings = await prisma.ventaCombustible.findMany({
-    where: { facturada: false },
-    select: { idVenta: true, numeroBomba: true },
-  });
+  const pendings: any[] =
+    (await (prisma as any).ventaCombustible?.findMany?.({
+      where: { facturada: false },
+      select: { idVenta: true, numeroBomba: true },
+    })) ?? [];
 
   const unique = new Map<number, number>();
   for (const p of pendings) unique.set(p.idVenta, p.numeroBomba ?? 0);

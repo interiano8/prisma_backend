@@ -632,6 +632,14 @@ export type ConfiguracionPosSumOrderByAggregateInput = {
   minutosAtrasada?: Prisma.SortOrder
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 
 
 export type ConfiguracionPosSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{

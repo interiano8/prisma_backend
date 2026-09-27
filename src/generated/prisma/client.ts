@@ -135,11 +135,6 @@ export type MetodoPago = Prisma.MetodoPagoModel
  */
 export type SerieDocumento = Prisma.SerieDocumentoModel
 /**
- * Model Motivo
- * 
- */
-export type Motivo = Prisma.MotivoModel
-/**
  * Model TasaCambio
  * 
  */
@@ -149,11 +144,6 @@ export type TasaCambio = Prisma.TasaCambioModel
  * 
  */
 export type GrupoImpuesto = Prisma.GrupoImpuestoModel
-/**
- * Model TipoReferencia
- * 
- */
-export type TipoReferencia = Prisma.TipoReferenciaModel
 /**
  * Model Venta
  * 
@@ -175,11 +165,6 @@ export type PagoVenta = Prisma.PagoVentaModel
  */
 export type VentaLeal = Prisma.VentaLealModel
 /**
- * Model MediaProgramacion
- * 
- */
-export type MediaProgramacion = Prisma.MediaProgramacionModel
-/**
  * Model RegistroTransaccion
  * 
  */
@@ -189,11 +174,6 @@ export type RegistroTransaccion = Prisma.RegistroTransaccionModel
  * 
  */
 export type Manguera = Prisma.MangueraModel
-/**
- * Model TurnoControlador
- * 
- */
-export type TurnoControlador = Prisma.TurnoControladorModel
 /**
  * Model ConfiguracionLeal
  * 
@@ -214,8 +194,3 @@ export type CondicionCampana = Prisma.CondicionCampanaModel
  * 
  */
 export type ParticipacionCampana = Prisma.ParticipacionCampanaModel
-/**
- * Model VentaCombustible
- * 
- */
-export type VentaCombustible = Prisma.VentaCombustibleModel

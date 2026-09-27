@@ -70,23 +70,18 @@ export const ModelName = {
   LineaVentaDescuentoAplicado: 'LineaVentaDescuentoAplicado',
   MetodoPago: 'MetodoPago',
   SerieDocumento: 'SerieDocumento',
-  Motivo: 'Motivo',
   TasaCambio: 'TasaCambio',
   GrupoImpuesto: 'GrupoImpuesto',
-  TipoReferencia: 'TipoReferencia',
   Venta: 'Venta',
   LineaVenta: 'LineaVenta',
   PagoVenta: 'PagoVenta',
   VentaLeal: 'VentaLeal',
-  MediaProgramacion: 'MediaProgramacion',
   RegistroTransaccion: 'RegistroTransaccion',
   Manguera: 'Manguera',
-  TurnoControlador: 'TurnoControlador',
   ConfiguracionLeal: 'ConfiguracionLeal',
   Campana: 'Campana',
   CondicionCampana: 'CondicionCampana',
-  ParticipacionCampana: 'ParticipacionCampana',
-  VentaCombustible: 'VentaCombustible'
+  ParticipacionCampana: 'ParticipacionCampana'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -165,53 +160,26 @@ export const TiendaScalarFieldEnum = {
   nombre: 'nombre',
   rtn: 'rtn',
   emisor: 'emisor',
-  pais: 'pais',
-  estado: 'estado',
-  ciudad: 'ciudad',
   direccion1: 'direccion1',
-  direccion2: 'direccion2',
-  direccion3: 'direccion3',
   telefono: 'telefono',
   correo: 'correo',
   contrasenaAdmin: 'contrasenaAdmin',
-  turnos: 'turnos',
-  d3: 'd3',
-  d4: 'd4',
-  transaccionesPendientes: 'transaccionesPendientes',
-  urlLeal: 'urlLeal',
-  lealHabilitado: 'lealHabilitado',
-  codigoPais: 'codigoPais',
   esControladorGas: 'esControladorGas',
-  avisoNuevosRangosFactura: 'avisoNuevosRangosFactura',
-  avisoNuevosRangosNotaCredito: 'avisoNuevosRangosNotaCredito',
-  fusionAsignado: 'fusionAsignado',
   ipFusion: 'ipFusion',
   urlControlador: 'urlControlador',
+  claveControlador: 'claveControlador',
+  codigoConsumidorFinal: 'codigoConsumidorFinal',
   variasLineasPermitidas: 'variasLineasPermitidas',
   descuentosPermitidos: 'descuentosPermitidos',
   bloqueadoTransaccionesPendientes: 'bloqueadoTransaccionesPendientes',
-  modoDepuracion: 'modoDepuracion',
-  claveControlador: 'claveControlador',
-  codigoConsumidorFinal: 'codigoConsumidorFinal',
-  urlSaldo: 'urlSaldo',
-  validarRfid: 'validarRfid',
   validarSaldoCredito: 'validarSaldoCredito',
-  voxActivo: 'voxActivo',
-  rangoIndividual: 'rangoIndividual',
-  facturacionOrdenada: 'facturacionOrdenada',
-  erp: 'erp',
-  urlActualizacion: 'urlActualizacion',
-  urlBaseErp: 'urlBaseErp',
-  turnoManual: 'turnoManual',
-  calculoInverso: 'calculoInverso',
-  bloqueadoTransaccionesBomba: 'bloqueadoTransaccionesBomba',
-  bloqueadoTransaccionesTurno: 'bloqueadoTransaccionesTurno',
   campanas: 'campanas',
-  declararMontoInicial: 'declararMontoInicial',
   nombreBotonFidelizacion: 'nombreBotonFidelizacion',
   moneda: 'moneda',
   carpetaMultimedia: 'carpetaMultimedia',
-  codigoMoneda: 'codigoMoneda'
+  codigoMoneda: 'codigoMoneda',
+  urlLeal: 'urlLeal',
+  lealHabilitado: 'lealHabilitado'
 } as const
 
 export type TiendaScalarFieldEnum = (typeof TiendaScalarFieldEnum)[keyof typeof TiendaScalarFieldEnum]
@@ -255,15 +223,13 @@ export const TurnoScalarFieldEnum = {
   codigoPos: 'codigoPos',
   posCierre: 'posCierre',
   turno: 'turno',
-  idDiaSemana: 'idDiaSemana',
   inicioTurno: 'inicioTurno',
   finTurno: 'finTurno',
   importeContado: 'importeContado',
   nombreEmpleado: 'nombreEmpleado',
   montoInicial: 'montoInicial',
   detallePagos: 'detallePagos',
-  fsShiftId: 'fsShiftId',
-  turnoConciliador: 'turnoConciliador'
+  fsShiftId: 'fsShiftId'
 } as const
 
 export type TurnoScalarFieldEnum = (typeof TurnoScalarFieldEnum)[keyof typeof TurnoScalarFieldEnum]
@@ -284,28 +250,13 @@ export const ClienteScalarFieldEnum = {
   codigo: 'codigo',
   nombre: 'nombre',
   direccion: 'direccion',
-  ciudad: 'ciudad',
   telefono: 'telefono',
-  grupoDescuento: 'grupoDescuento',
-  codigoPais: 'codigoPais',
   bloqueado: 'bloqueado',
   rtn: 'rtn',
-  codigoPostal: 'codigoPostal',
-  municipio: 'municipio',
   correo: 'correo',
   tipoFacturacion: 'tipoFacturacion',
-  estado: 'estado',
-  grupoPromo: 'grupoPromo',
-  tipoActualizacion: 'tipoActualizacion',
   fechaActualizacion: 'fechaActualizacion',
-  bcid: 'bcid',
-  fechaNacimiento: 'fechaNacimiento',
-  idDepartamento: 'idDepartamento',
-  idMunicipio: 'idMunicipio',
-  saldoMonedaLocal: 'saldoMonedaLocal',
-  saldo: 'saldo',
-  grupoContable: 'grupoContable',
-  grupoContableNegocio: 'grupoContableNegocio'
+  saldo: 'saldo'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
@@ -327,18 +278,8 @@ export const ProductoScalarFieldEnum = {
   imagen: 'imagen',
   grupoIsv: 'grupoIsv',
   codigoCategoria: 'codigoCategoria',
-  codigoGrupo: 'codigoGrupo',
-  bonificado: 'bonificado',
-  factorConversionUm: 'factorConversionUm',
   codigoUmEtiquetas: 'codigoUmEtiquetas',
   generaAsientoBomba: 'generaAsientoBomba',
-  grupoDescuento: 'grupoDescuento',
-  permiteCambioPrecio: 'permiteCambioPrecio',
-  codigoCategoriaPromo: 'codigoCategoriaPromo',
-  permiteCantidadNegativa: 'permiteCantidadNegativa',
-  bcId: 'bcId',
-  idProveedor: 'idProveedor',
-  aplicaDescuentoEdad: 'aplicaDescuentoEdad',
   codigoMoneda: 'codigoMoneda'
 } as const
 
@@ -347,10 +288,7 @@ export type ProductoScalarFieldEnum = (typeof ProductoScalarFieldEnum)[keyof typ
 
 export const CategoriaProductoScalarFieldEnum = {
   codigo: 'codigo',
-  descripcion: 'descripcion',
-  tipoCategoria: 'tipoCategoria',
-  tipoActualizacion: 'tipoActualizacion',
-  fechaActualizacion: 'fechaActualizacion'
+  descripcion: 'descripcion'
 } as const
 
 export type CategoriaProductoScalarFieldEnum = (typeof CategoriaProductoScalarFieldEnum)[keyof typeof CategoriaProductoScalarFieldEnum]
@@ -362,10 +300,8 @@ export const PrecioProductoScalarFieldEnum = {
   idTienda: 'idTienda',
   fechaInicio: 'fechaInicio',
   horaInicio: 'horaInicio',
-  cantidadMinima: 'cantidadMinima',
   precioUnitario: 'precioUnitario',
   fechaFin: 'fechaFin',
-  horaFin: 'horaFin',
   estado: 'estado',
   codigoMoneda: 'codigoMoneda'
 } as const
@@ -447,14 +383,6 @@ export const SerieDocumentoScalarFieldEnum = {
 export type SerieDocumentoScalarFieldEnum = (typeof SerieDocumentoScalarFieldEnum)[keyof typeof SerieDocumentoScalarFieldEnum]
 
 
-export const MotivoScalarFieldEnum = {
-  id: 'id',
-  motivo: 'motivo'
-} as const
-
-export type MotivoScalarFieldEnum = (typeof MotivoScalarFieldEnum)[keyof typeof MotivoScalarFieldEnum]
-
-
 export const TasaCambioScalarFieldEnum = {
   id: 'id',
   tasa: 'tasa',
@@ -470,16 +398,6 @@ export const GrupoImpuestoScalarFieldEnum = {
 } as const
 
 export type GrupoImpuestoScalarFieldEnum = (typeof GrupoImpuestoScalarFieldEnum)[keyof typeof GrupoImpuestoScalarFieldEnum]
-
-
-export const TipoReferenciaScalarFieldEnum = {
-  id: 'id',
-  campo: 'campo',
-  codigo: 'codigo',
-  descripcion: 'descripcion'
-} as const
-
-export type TipoReferenciaScalarFieldEnum = (typeof TipoReferenciaScalarFieldEnum)[keyof typeof TipoReferenciaScalarFieldEnum]
 
 
 export const VentaScalarFieldEnum = {
@@ -499,7 +417,6 @@ export const VentaScalarFieldEnum = {
   nombreCliente: 'nombreCliente',
   tipoFacturacion: 'tipoFacturacion',
   comentario: 'comentario',
-  erpId: 'erpId',
   numeroLinea: 'numeroLinea',
   subtotal: 'subtotal',
   kilometraje: 'kilometraje',
@@ -543,19 +460,12 @@ export const LineaVentaScalarFieldEnum = {
   turnoControlador: 'turnoControlador',
   horaOperacion: 'horaOperacion',
   codigoCategoria: 'codigoCategoria',
-  bonificado: 'bonificado',
   devuelto: 'devuelto',
   generaAsientoBomba: 'generaAsientoBomba',
   grupoIsv: 'grupoIsv',
   idTransaccionOrigen: 'idTransaccionOrigen',
   documentoOrigen: 'documentoOrigen',
   lineaDocumentoOrigen: 'lineaDocumentoOrigen',
-  numeroTransaccionDoms: 'numeroTransaccionDoms',
-  prepago: 'prepago',
-  devolucion: 'devolucion',
-  numeroLineaAplicada: 'numeroLineaAplicada',
-  puntosFidelidad: 'puntosFidelidad',
-  idDespachador: 'idDespachador',
   idVenta: 'idVenta',
   montoGravado: 'montoGravado'
 } as const
@@ -574,7 +484,6 @@ export const PagoVentaScalarFieldEnum = {
   numeroTarjeta: 'numeroTarjeta',
   descripcion: 'descripcion',
   datosAdicionales: 'datosAdicionales',
-  idDespachador: 'idDespachador',
   tasaCambio: 'tasaCambio',
   montoIngresado: 'montoIngresado',
   esTicket: 'esTicket'
@@ -597,18 +506,6 @@ export const VentaLealScalarFieldEnum = {
 } as const
 
 export type VentaLealScalarFieldEnum = (typeof VentaLealScalarFieldEnum)[keyof typeof VentaLealScalarFieldEnum]
-
-
-export const MediaProgramacionScalarFieldEnum = {
-  id: 'id',
-  archivo: 'archivo',
-  tipo: 'tipo',
-  fechaInicio: 'fechaInicio',
-  fechaFin: 'fechaFin',
-  habilitado: 'habilitado'
-} as const
-
-export type MediaProgramacionScalarFieldEnum = (typeof MediaProgramacionScalarFieldEnum)[keyof typeof MediaProgramacionScalarFieldEnum]
 
 
 export const RegistroTransaccionScalarFieldEnum = {
@@ -644,18 +541,6 @@ export const MangueraScalarFieldEnum = {
 } as const
 
 export type MangueraScalarFieldEnum = (typeof MangueraScalarFieldEnum)[keyof typeof MangueraScalarFieldEnum]
-
-
-export const TurnoControladorScalarFieldEnum = {
-  id: 'id',
-  periodId: 'periodId',
-  startDate: 'startDate',
-  startTime: 'startTime',
-  additionalDetails: 'additionalDetails',
-  fechaCreacion: 'fechaCreacion'
-} as const
-
-export type TurnoControladorScalarFieldEnum = (typeof TurnoControladorScalarFieldEnum)[keyof typeof TurnoControladorScalarFieldEnum]
 
 
 export const ConfiguracionLealScalarFieldEnum = {
@@ -703,38 +588,6 @@ export const ParticipacionCampanaScalarFieldEnum = {
 } as const
 
 export type ParticipacionCampanaScalarFieldEnum = (typeof ParticipacionCampanaScalarFieldEnum)[keyof typeof ParticipacionCampanaScalarFieldEnum]
-
-
-export const VentaCombustibleScalarFieldEnum = {
-  idVenta: 'idVenta',
-  numeroPos: 'numeroPos',
-  numeroBomba: 'numeroBomba',
-  numeroManguera: 'numeroManguera',
-  monto: 'monto',
-  precioUnitario: 'precioUnitario',
-  volumen: 'volumen',
-  volumenFinal: 'volumenFinal',
-  volumenInicial: 'volumenInicial',
-  tipoPago: 'tipoPago',
-  infoPago: 'infoPago',
-  temperaturaCompensada: 'temperaturaCompensada',
-  idTurno: 'idTurno',
-  numeroGrado: 'numeroGrado',
-  nivelPrecio: 'nivelPrecio',
-  tipoTransaccion: 'tipoTransaccion',
-  fechaTransaccion: 'fechaTransaccion',
-  horaTransaccion: 'horaTransaccion',
-  montoPreestablecido: 'montoPreestablecido',
-  alarmaPago: 'alarmaPago',
-  atcvo: 'atcvo',
-  avgtm: 'avgtm',
-  atcivo: 'atcivo',
-  atcfvo: 'atcfvo',
-  facturada: 'facturada',
-  fecha: 'fecha'
-} as const
-
-export type VentaCombustibleScalarFieldEnum = (typeof VentaCombustibleScalarFieldEnum)[keyof typeof VentaCombustibleScalarFieldEnum]
 
 
 export const SortOrder = {

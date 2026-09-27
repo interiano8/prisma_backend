@@ -29,7 +29,6 @@ export type AggregatePagoVenta = {
 export type PagoVentaAvgAggregateOutputType = {
   numeroLineaPago: number | null
   monto: runtime.Decimal | null
-  idDespachador: number | null
   tasaCambio: runtime.Decimal | null
   montoIngresado: runtime.Decimal | null
 }
@@ -37,7 +36,6 @@ export type PagoVentaAvgAggregateOutputType = {
 export type PagoVentaSumAggregateOutputType = {
   numeroLineaPago: number | null
   monto: runtime.Decimal | null
-  idDespachador: number | null
   tasaCambio: runtime.Decimal | null
   montoIngresado: runtime.Decimal | null
 }
@@ -53,7 +51,6 @@ export type PagoVentaMinAggregateOutputType = {
   numeroTarjeta: string | null
   descripcion: string | null
   datosAdicionales: string | null
-  idDespachador: number | null
   tasaCambio: runtime.Decimal | null
   montoIngresado: runtime.Decimal | null
   esTicket: boolean | null
@@ -70,7 +67,6 @@ export type PagoVentaMaxAggregateOutputType = {
   numeroTarjeta: string | null
   descripcion: string | null
   datosAdicionales: string | null
-  idDespachador: number | null
   tasaCambio: runtime.Decimal | null
   montoIngresado: runtime.Decimal | null
   esTicket: boolean | null
@@ -87,7 +83,6 @@ export type PagoVentaCountAggregateOutputType = {
   numeroTarjeta: number
   descripcion: number
   datosAdicionales: number
-  idDespachador: number
   tasaCambio: number
   montoIngresado: number
   esTicket: number
@@ -98,7 +93,6 @@ export type PagoVentaCountAggregateOutputType = {
 export type PagoVentaAvgAggregateInputType = {
   numeroLineaPago?: true
   monto?: true
-  idDespachador?: true
   tasaCambio?: true
   montoIngresado?: true
 }
@@ -106,7 +100,6 @@ export type PagoVentaAvgAggregateInputType = {
 export type PagoVentaSumAggregateInputType = {
   numeroLineaPago?: true
   monto?: true
-  idDespachador?: true
   tasaCambio?: true
   montoIngresado?: true
 }
@@ -122,7 +115,6 @@ export type PagoVentaMinAggregateInputType = {
   numeroTarjeta?: true
   descripcion?: true
   datosAdicionales?: true
-  idDespachador?: true
   tasaCambio?: true
   montoIngresado?: true
   esTicket?: true
@@ -139,7 +131,6 @@ export type PagoVentaMaxAggregateInputType = {
   numeroTarjeta?: true
   descripcion?: true
   datosAdicionales?: true
-  idDespachador?: true
   tasaCambio?: true
   montoIngresado?: true
   esTicket?: true
@@ -156,7 +147,6 @@ export type PagoVentaCountAggregateInputType = {
   numeroTarjeta?: true
   descripcion?: true
   datosAdicionales?: true
-  idDespachador?: true
   tasaCambio?: true
   montoIngresado?: true
   esTicket?: true
@@ -260,7 +250,6 @@ export type PagoVentaGroupByOutputType = {
   numeroTarjeta: string | null
   descripcion: string | null
   datosAdicionales: string | null
-  idDespachador: number | null
   tasaCambio: runtime.Decimal | null
   montoIngresado: runtime.Decimal | null
   esTicket: boolean | null
@@ -300,7 +289,6 @@ export type PagoVentaWhereInput = {
   numeroTarjeta?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
   descripcion?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
   datosAdicionales?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
-  idDespachador?: Prisma.IntNullableFilter<"PagoVenta"> | number | null
   tasaCambio?: Prisma.DecimalNullableFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.DecimalNullableFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.BoolNullableFilter<"PagoVenta"> | boolean | null
@@ -318,7 +306,6 @@ export type PagoVentaOrderByWithRelationInput = {
   numeroTarjeta?: Prisma.SortOrderInput | Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   datosAdicionales?: Prisma.SortOrderInput | Prisma.SortOrder
-  idDespachador?: Prisma.SortOrderInput | Prisma.SortOrder
   tasaCambio?: Prisma.SortOrderInput | Prisma.SortOrder
   montoIngresado?: Prisma.SortOrderInput | Prisma.SortOrder
   esTicket?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,7 +327,6 @@ export type PagoVentaWhereUniqueInput = Prisma.AtLeast<{
   numeroTarjeta?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
   descripcion?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
   datosAdicionales?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
-  idDespachador?: Prisma.IntNullableFilter<"PagoVenta"> | number | null
   tasaCambio?: Prisma.DecimalNullableFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.DecimalNullableFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.BoolNullableFilter<"PagoVenta"> | boolean | null
@@ -358,7 +344,6 @@ export type PagoVentaOrderByWithAggregationInput = {
   numeroTarjeta?: Prisma.SortOrderInput | Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   datosAdicionales?: Prisma.SortOrderInput | Prisma.SortOrder
-  idDespachador?: Prisma.SortOrderInput | Prisma.SortOrder
   tasaCambio?: Prisma.SortOrderInput | Prisma.SortOrder
   montoIngresado?: Prisma.SortOrderInput | Prisma.SortOrder
   esTicket?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -383,7 +368,6 @@ export type PagoVentaScalarWhereWithAggregatesInput = {
   numeroTarjeta?: Prisma.StringNullableWithAggregatesFilter<"PagoVenta"> | string | null
   descripcion?: Prisma.StringNullableWithAggregatesFilter<"PagoVenta"> | string | null
   datosAdicionales?: Prisma.StringNullableWithAggregatesFilter<"PagoVenta"> | string | null
-  idDespachador?: Prisma.IntNullableWithAggregatesFilter<"PagoVenta"> | number | null
   tasaCambio?: Prisma.DecimalNullableWithAggregatesFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.DecimalNullableWithAggregatesFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.BoolNullableWithAggregatesFilter<"PagoVenta"> | boolean | null
@@ -398,7 +382,6 @@ export type PagoVentaCreateInput = {
   numeroTarjeta?: string | null
   descripcion?: string | null
   datosAdicionales?: string | null
-  idDespachador?: number | null
   tasaCambio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: boolean | null
@@ -416,7 +399,6 @@ export type PagoVentaUncheckedCreateInput = {
   numeroTarjeta?: string | null
   descripcion?: string | null
   datosAdicionales?: string | null
-  idDespachador?: number | null
   tasaCambio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: boolean | null
@@ -431,7 +413,6 @@ export type PagoVentaUpdateInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -449,7 +430,6 @@ export type PagoVentaUncheckedUpdateInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -466,7 +446,6 @@ export type PagoVentaCreateManyInput = {
   numeroTarjeta?: string | null
   descripcion?: string | null
   datosAdicionales?: string | null
-  idDespachador?: number | null
   tasaCambio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: boolean | null
@@ -481,7 +460,6 @@ export type PagoVentaUpdateManyMutationInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -498,7 +476,6 @@ export type PagoVentaUncheckedUpdateManyInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -530,7 +507,6 @@ export type PagoVentaCountOrderByAggregateInput = {
   numeroTarjeta?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   datosAdicionales?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   tasaCambio?: Prisma.SortOrder
   montoIngresado?: Prisma.SortOrder
   esTicket?: Prisma.SortOrder
@@ -539,7 +515,6 @@ export type PagoVentaCountOrderByAggregateInput = {
 export type PagoVentaAvgOrderByAggregateInput = {
   numeroLineaPago?: Prisma.SortOrder
   monto?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   tasaCambio?: Prisma.SortOrder
   montoIngresado?: Prisma.SortOrder
 }
@@ -555,7 +530,6 @@ export type PagoVentaMaxOrderByAggregateInput = {
   numeroTarjeta?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   datosAdicionales?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   tasaCambio?: Prisma.SortOrder
   montoIngresado?: Prisma.SortOrder
   esTicket?: Prisma.SortOrder
@@ -572,7 +546,6 @@ export type PagoVentaMinOrderByAggregateInput = {
   numeroTarjeta?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   datosAdicionales?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   tasaCambio?: Prisma.SortOrder
   montoIngresado?: Prisma.SortOrder
   esTicket?: Prisma.SortOrder
@@ -581,7 +554,6 @@ export type PagoVentaMinOrderByAggregateInput = {
 export type PagoVentaSumOrderByAggregateInput = {
   numeroLineaPago?: Prisma.SortOrder
   monto?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   tasaCambio?: Prisma.SortOrder
   montoIngresado?: Prisma.SortOrder
 }
@@ -637,7 +609,6 @@ export type PagoVentaCreateWithoutVentaInput = {
   numeroTarjeta?: string | null
   descripcion?: string | null
   datosAdicionales?: string | null
-  idDespachador?: number | null
   tasaCambio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: boolean | null
@@ -652,7 +623,6 @@ export type PagoVentaUncheckedCreateWithoutVentaInput = {
   numeroTarjeta?: string | null
   descripcion?: string | null
   datosAdicionales?: string | null
-  idDespachador?: number | null
   tasaCambio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: boolean | null
@@ -698,7 +668,6 @@ export type PagoVentaScalarWhereInput = {
   numeroTarjeta?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
   descripcion?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
   datosAdicionales?: Prisma.StringNullableFilter<"PagoVenta"> | string | null
-  idDespachador?: Prisma.IntNullableFilter<"PagoVenta"> | number | null
   tasaCambio?: Prisma.DecimalNullableFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.DecimalNullableFilter<"PagoVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.BoolNullableFilter<"PagoVenta"> | boolean | null
@@ -713,7 +682,6 @@ export type PagoVentaCreateManyVentaInput = {
   numeroTarjeta?: string | null
   descripcion?: string | null
   datosAdicionales?: string | null
-  idDespachador?: number | null
   tasaCambio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: boolean | null
@@ -728,7 +696,6 @@ export type PagoVentaUpdateWithoutVentaInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -743,7 +710,6 @@ export type PagoVentaUncheckedUpdateWithoutVentaInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -758,7 +724,6 @@ export type PagoVentaUncheckedUpdateManyWithoutVentaInput = {
   numeroTarjeta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datosAdicionales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasaCambio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   montoIngresado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   esTicket?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -777,7 +742,6 @@ export type PagoVentaSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   numeroTarjeta?: boolean
   descripcion?: boolean
   datosAdicionales?: boolean
-  idDespachador?: boolean
   tasaCambio?: boolean
   montoIngresado?: boolean
   esTicket?: boolean
@@ -795,7 +759,6 @@ export type PagoVentaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   numeroTarjeta?: boolean
   descripcion?: boolean
   datosAdicionales?: boolean
-  idDespachador?: boolean
   tasaCambio?: boolean
   montoIngresado?: boolean
   esTicket?: boolean
@@ -813,7 +776,6 @@ export type PagoVentaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   numeroTarjeta?: boolean
   descripcion?: boolean
   datosAdicionales?: boolean
-  idDespachador?: boolean
   tasaCambio?: boolean
   montoIngresado?: boolean
   esTicket?: boolean
@@ -831,13 +793,12 @@ export type PagoVentaSelectScalar = {
   numeroTarjeta?: boolean
   descripcion?: boolean
   datosAdicionales?: boolean
-  idDespachador?: boolean
   tasaCambio?: boolean
   montoIngresado?: boolean
   esTicket?: boolean
 }
 
-export type PagoVentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroLineaPago" | "idTransaccionPos" | "numeroEmisor" | "idTienda" | "codigoPos" | "codigoMetodoPago" | "monto" | "numeroTarjeta" | "descripcion" | "datosAdicionales" | "idDespachador" | "tasaCambio" | "montoIngresado" | "esTicket", ExtArgs["result"]["pagoVenta"]>
+export type PagoVentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroLineaPago" | "idTransaccionPos" | "numeroEmisor" | "idTienda" | "codigoPos" | "codigoMetodoPago" | "monto" | "numeroTarjeta" | "descripcion" | "datosAdicionales" | "tasaCambio" | "montoIngresado" | "esTicket", ExtArgs["result"]["pagoVenta"]>
 export type PagoVentaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   venta?: boolean | Prisma.PagoVenta$ventaArgs<ExtArgs>
 }
@@ -864,7 +825,6 @@ export type $PagoVentaPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     numeroTarjeta: string | null
     descripcion: string | null
     datosAdicionales: string | null
-    idDespachador: number | null
     tasaCambio: runtime.Decimal | null
     montoIngresado: runtime.Decimal | null
     esTicket: boolean | null
@@ -1302,7 +1262,6 @@ export interface PagoVentaFieldRefs {
   readonly numeroTarjeta: Prisma.FieldRef<"PagoVenta", 'String'>
   readonly descripcion: Prisma.FieldRef<"PagoVenta", 'String'>
   readonly datosAdicionales: Prisma.FieldRef<"PagoVenta", 'String'>
-  readonly idDespachador: Prisma.FieldRef<"PagoVenta", 'Int'>
   readonly tasaCambio: Prisma.FieldRef<"PagoVenta", 'Decimal'>
   readonly montoIngresado: Prisma.FieldRef<"PagoVenta", 'Decimal'>
   readonly esTicket: Prisma.FieldRef<"PagoVenta", 'Boolean'>

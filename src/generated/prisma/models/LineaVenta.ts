@@ -38,9 +38,6 @@ export type LineaVentaAvgAggregateOutputType = {
   montoIsv: runtime.Decimal | null
   montoConIsv: runtime.Decimal | null
   lineaDocumentoOrigen: number | null
-  numeroLineaAplicada: number | null
-  puntosFidelidad: runtime.Decimal | null
-  idDespachador: number | null
   montoGravado: runtime.Decimal | null
 }
 
@@ -56,9 +53,6 @@ export type LineaVentaSumAggregateOutputType = {
   montoIsv: runtime.Decimal | null
   montoConIsv: runtime.Decimal | null
   lineaDocumentoOrigen: number | null
-  numeroLineaAplicada: number | null
-  puntosFidelidad: runtime.Decimal | null
-  idDespachador: number | null
   montoGravado: runtime.Decimal | null
 }
 
@@ -87,19 +81,12 @@ export type LineaVentaMinAggregateOutputType = {
   turnoControlador: string | null
   horaOperacion: Date | null
   codigoCategoria: string | null
-  bonificado: boolean | null
   devuelto: boolean | null
   generaAsientoBomba: boolean | null
   grupoIsv: string | null
   idTransaccionOrigen: string | null
   documentoOrigen: string | null
   lineaDocumentoOrigen: number | null
-  numeroTransaccionDoms: string | null
-  prepago: boolean | null
-  devolucion: boolean | null
-  numeroLineaAplicada: number | null
-  puntosFidelidad: runtime.Decimal | null
-  idDespachador: number | null
   idVenta: string | null
   montoGravado: runtime.Decimal | null
 }
@@ -129,19 +116,12 @@ export type LineaVentaMaxAggregateOutputType = {
   turnoControlador: string | null
   horaOperacion: Date | null
   codigoCategoria: string | null
-  bonificado: boolean | null
   devuelto: boolean | null
   generaAsientoBomba: boolean | null
   grupoIsv: string | null
   idTransaccionOrigen: string | null
   documentoOrigen: string | null
   lineaDocumentoOrigen: number | null
-  numeroTransaccionDoms: string | null
-  prepago: boolean | null
-  devolucion: boolean | null
-  numeroLineaAplicada: number | null
-  puntosFidelidad: runtime.Decimal | null
-  idDespachador: number | null
   idVenta: string | null
   montoGravado: runtime.Decimal | null
 }
@@ -171,19 +151,12 @@ export type LineaVentaCountAggregateOutputType = {
   turnoControlador: number
   horaOperacion: number
   codigoCategoria: number
-  bonificado: number
   devuelto: number
   generaAsientoBomba: number
   grupoIsv: number
   idTransaccionOrigen: number
   documentoOrigen: number
   lineaDocumentoOrigen: number
-  numeroTransaccionDoms: number
-  prepago: number
-  devolucion: number
-  numeroLineaAplicada: number
-  puntosFidelidad: number
-  idDespachador: number
   idVenta: number
   montoGravado: number
   _all: number
@@ -202,9 +175,6 @@ export type LineaVentaAvgAggregateInputType = {
   montoIsv?: true
   montoConIsv?: true
   lineaDocumentoOrigen?: true
-  numeroLineaAplicada?: true
-  puntosFidelidad?: true
-  idDespachador?: true
   montoGravado?: true
 }
 
@@ -220,9 +190,6 @@ export type LineaVentaSumAggregateInputType = {
   montoIsv?: true
   montoConIsv?: true
   lineaDocumentoOrigen?: true
-  numeroLineaAplicada?: true
-  puntosFidelidad?: true
-  idDespachador?: true
   montoGravado?: true
 }
 
@@ -251,19 +218,12 @@ export type LineaVentaMinAggregateInputType = {
   turnoControlador?: true
   horaOperacion?: true
   codigoCategoria?: true
-  bonificado?: true
   devuelto?: true
   generaAsientoBomba?: true
   grupoIsv?: true
   idTransaccionOrigen?: true
   documentoOrigen?: true
   lineaDocumentoOrigen?: true
-  numeroTransaccionDoms?: true
-  prepago?: true
-  devolucion?: true
-  numeroLineaAplicada?: true
-  puntosFidelidad?: true
-  idDespachador?: true
   idVenta?: true
   montoGravado?: true
 }
@@ -293,19 +253,12 @@ export type LineaVentaMaxAggregateInputType = {
   turnoControlador?: true
   horaOperacion?: true
   codigoCategoria?: true
-  bonificado?: true
   devuelto?: true
   generaAsientoBomba?: true
   grupoIsv?: true
   idTransaccionOrigen?: true
   documentoOrigen?: true
   lineaDocumentoOrigen?: true
-  numeroTransaccionDoms?: true
-  prepago?: true
-  devolucion?: true
-  numeroLineaAplicada?: true
-  puntosFidelidad?: true
-  idDespachador?: true
   idVenta?: true
   montoGravado?: true
 }
@@ -335,19 +288,12 @@ export type LineaVentaCountAggregateInputType = {
   turnoControlador?: true
   horaOperacion?: true
   codigoCategoria?: true
-  bonificado?: true
   devuelto?: true
   generaAsientoBomba?: true
   grupoIsv?: true
   idTransaccionOrigen?: true
   documentoOrigen?: true
   lineaDocumentoOrigen?: true
-  numeroTransaccionDoms?: true
-  prepago?: true
-  devolucion?: true
-  numeroLineaAplicada?: true
-  puntosFidelidad?: true
-  idDespachador?: true
   idVenta?: true
   montoGravado?: true
   _all?: true
@@ -464,19 +410,12 @@ export type LineaVentaGroupByOutputType = {
   turnoControlador: string | null
   horaOperacion: Date | null
   codigoCategoria: string | null
-  bonificado: boolean | null
   devuelto: boolean | null
   generaAsientoBomba: boolean | null
   grupoIsv: string | null
   idTransaccionOrigen: string | null
   documentoOrigen: string | null
   lineaDocumentoOrigen: number | null
-  numeroTransaccionDoms: string | null
-  prepago: boolean | null
-  devolucion: boolean | null
-  numeroLineaAplicada: number | null
-  puntosFidelidad: runtime.Decimal | null
-  idDespachador: number | null
   idVenta: string | null
   montoGravado: runtime.Decimal | null
   _count: LineaVentaCountAggregateOutputType | null
@@ -529,19 +468,12 @@ export type LineaVentaWhereInput = {
   turnoControlador?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
-  bonificado?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   devuelto?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   generaAsientoBomba?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   grupoIsv?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   idTransaccionOrigen?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   documentoOrigen?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   lineaDocumentoOrigen?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
-  numeroTransaccionDoms?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
-  prepago?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
-  devolucion?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
-  numeroLineaAplicada?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
-  puntosFidelidad?: Prisma.DecimalNullableFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
   idVenta?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   montoGravado?: Prisma.DecimalNullableFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.XOR<Prisma.CategoriaProductoNullableScalarRelationFilter, Prisma.CategoriaProductoWhereInput> | null
@@ -574,19 +506,12 @@ export type LineaVentaOrderByWithRelationInput = {
   turnoControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   horaOperacion?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
-  bonificado?: Prisma.SortOrderInput | Prisma.SortOrder
   devuelto?: Prisma.SortOrderInput | Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   grupoIsv?: Prisma.SortOrderInput | Prisma.SortOrder
   idTransaccionOrigen?: Prisma.SortOrderInput | Prisma.SortOrder
   documentoOrigen?: Prisma.SortOrderInput | Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrderInput | Prisma.SortOrder
-  numeroTransaccionDoms?: Prisma.SortOrderInput | Prisma.SortOrder
-  prepago?: Prisma.SortOrderInput | Prisma.SortOrder
-  devolucion?: Prisma.SortOrderInput | Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrderInput | Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrderInput | Prisma.SortOrder
-  idDespachador?: Prisma.SortOrderInput | Prisma.SortOrder
   idVenta?: Prisma.SortOrderInput | Prisma.SortOrder
   montoGravado?: Prisma.SortOrderInput | Prisma.SortOrder
   categoria?: Prisma.CategoriaProductoOrderByWithRelationInput
@@ -623,19 +548,12 @@ export type LineaVentaWhereUniqueInput = Prisma.AtLeast<{
   turnoControlador?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
-  bonificado?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   devuelto?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   generaAsientoBomba?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   grupoIsv?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   idTransaccionOrigen?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   documentoOrigen?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   lineaDocumentoOrigen?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
-  numeroTransaccionDoms?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
-  prepago?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
-  devolucion?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
-  numeroLineaAplicada?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
-  puntosFidelidad?: Prisma.DecimalNullableFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
   idVenta?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   montoGravado?: Prisma.DecimalNullableFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.XOR<Prisma.CategoriaProductoNullableScalarRelationFilter, Prisma.CategoriaProductoWhereInput> | null
@@ -668,19 +586,12 @@ export type LineaVentaOrderByWithAggregationInput = {
   turnoControlador?: Prisma.SortOrderInput | Prisma.SortOrder
   horaOperacion?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
-  bonificado?: Prisma.SortOrderInput | Prisma.SortOrder
   devuelto?: Prisma.SortOrderInput | Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   grupoIsv?: Prisma.SortOrderInput | Prisma.SortOrder
   idTransaccionOrigen?: Prisma.SortOrderInput | Prisma.SortOrder
   documentoOrigen?: Prisma.SortOrderInput | Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrderInput | Prisma.SortOrder
-  numeroTransaccionDoms?: Prisma.SortOrderInput | Prisma.SortOrder
-  prepago?: Prisma.SortOrderInput | Prisma.SortOrder
-  devolucion?: Prisma.SortOrderInput | Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrderInput | Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrderInput | Prisma.SortOrder
-  idDespachador?: Prisma.SortOrderInput | Prisma.SortOrder
   idVenta?: Prisma.SortOrderInput | Prisma.SortOrder
   montoGravado?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LineaVentaCountOrderByAggregateInput
@@ -718,19 +629,12 @@ export type LineaVentaScalarWhereWithAggregatesInput = {
   turnoControlador?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableWithAggregatesFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
-  bonificado?: Prisma.BoolNullableWithAggregatesFilter<"LineaVenta"> | boolean | null
   devuelto?: Prisma.BoolNullableWithAggregatesFilter<"LineaVenta"> | boolean | null
   generaAsientoBomba?: Prisma.BoolNullableWithAggregatesFilter<"LineaVenta"> | boolean | null
   grupoIsv?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   idTransaccionOrigen?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   documentoOrigen?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   lineaDocumentoOrigen?: Prisma.IntNullableWithAggregatesFilter<"LineaVenta"> | number | null
-  numeroTransaccionDoms?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
-  prepago?: Prisma.BoolNullableWithAggregatesFilter<"LineaVenta"> | boolean | null
-  devolucion?: Prisma.BoolNullableWithAggregatesFilter<"LineaVenta"> | boolean | null
-  numeroLineaAplicada?: Prisma.IntNullableWithAggregatesFilter<"LineaVenta"> | number | null
-  puntosFidelidad?: Prisma.DecimalNullableWithAggregatesFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.IntNullableWithAggregatesFilter<"LineaVenta"> | number | null
   idVenta?: Prisma.StringNullableWithAggregatesFilter<"LineaVenta"> | string | null
   montoGravado?: Prisma.DecimalNullableWithAggregatesFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -757,19 +661,12 @@ export type LineaVentaCreateInput = {
   unidadMedida?: string | null
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.CategoriaProductoCreateNestedOneWithoutLineasVentaInput
@@ -802,19 +699,12 @@ export type LineaVentaUncheckedCreateInput = {
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   descuentosAplicados?: Prisma.LineaVentaDescuentoAplicadoUncheckedCreateNestedManyWithoutLineaVentaInput
@@ -842,19 +732,12 @@ export type LineaVentaUpdateInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.CategoriaProductoUpdateOneWithoutLineasVentaNestedInput
@@ -887,19 +770,12 @@ export type LineaVentaUncheckedUpdateInput = {
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   descuentosAplicados?: Prisma.LineaVentaDescuentoAplicadoUncheckedUpdateManyWithoutLineaVentaNestedInput
@@ -930,19 +806,12 @@ export type LineaVentaCreateManyInput = {
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -969,19 +838,12 @@ export type LineaVentaUpdateManyMutationInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1011,19 +873,12 @@ export type LineaVentaUncheckedUpdateManyInput = {
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1074,19 +929,12 @@ export type LineaVentaCountOrderByAggregateInput = {
   turnoControlador?: Prisma.SortOrder
   horaOperacion?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
-  bonificado?: Prisma.SortOrder
   devuelto?: Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrder
   grupoIsv?: Prisma.SortOrder
   idTransaccionOrigen?: Prisma.SortOrder
   documentoOrigen?: Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrder
-  numeroTransaccionDoms?: Prisma.SortOrder
-  prepago?: Prisma.SortOrder
-  devolucion?: Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   idVenta?: Prisma.SortOrder
   montoGravado?: Prisma.SortOrder
 }
@@ -1103,9 +951,6 @@ export type LineaVentaAvgOrderByAggregateInput = {
   montoIsv?: Prisma.SortOrder
   montoConIsv?: Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   montoGravado?: Prisma.SortOrder
 }
 
@@ -1134,19 +979,12 @@ export type LineaVentaMaxOrderByAggregateInput = {
   turnoControlador?: Prisma.SortOrder
   horaOperacion?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
-  bonificado?: Prisma.SortOrder
   devuelto?: Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrder
   grupoIsv?: Prisma.SortOrder
   idTransaccionOrigen?: Prisma.SortOrder
   documentoOrigen?: Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrder
-  numeroTransaccionDoms?: Prisma.SortOrder
-  prepago?: Prisma.SortOrder
-  devolucion?: Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   idVenta?: Prisma.SortOrder
   montoGravado?: Prisma.SortOrder
 }
@@ -1176,19 +1014,12 @@ export type LineaVentaMinOrderByAggregateInput = {
   turnoControlador?: Prisma.SortOrder
   horaOperacion?: Prisma.SortOrder
   codigoCategoria?: Prisma.SortOrder
-  bonificado?: Prisma.SortOrder
   devuelto?: Prisma.SortOrder
   generaAsientoBomba?: Prisma.SortOrder
   grupoIsv?: Prisma.SortOrder
   idTransaccionOrigen?: Prisma.SortOrder
   documentoOrigen?: Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrder
-  numeroTransaccionDoms?: Prisma.SortOrder
-  prepago?: Prisma.SortOrder
-  devolucion?: Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   idVenta?: Prisma.SortOrder
   montoGravado?: Prisma.SortOrder
 }
@@ -1205,9 +1036,6 @@ export type LineaVentaSumOrderByAggregateInput = {
   montoIsv?: Prisma.SortOrder
   montoConIsv?: Prisma.SortOrder
   lineaDocumentoOrigen?: Prisma.SortOrder
-  numeroLineaAplicada?: Prisma.SortOrder
-  puntosFidelidad?: Prisma.SortOrder
-  idDespachador?: Prisma.SortOrder
   montoGravado?: Prisma.SortOrder
 }
 
@@ -1331,19 +1159,12 @@ export type LineaVentaCreateWithoutCategoriaInput = {
   unidadMedida?: string | null
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   venta: Prisma.VentaCreateNestedOneWithoutLineasVentaInput
@@ -1374,19 +1195,12 @@ export type LineaVentaUncheckedCreateWithoutCategoriaInput = {
   unidadMedida?: string | null
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   descuentosAplicados?: Prisma.LineaVentaDescuentoAplicadoUncheckedCreateNestedManyWithoutLineaVentaInput
@@ -1446,19 +1260,12 @@ export type LineaVentaScalarWhereInput = {
   turnoControlador?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   horaOperacion?: Prisma.DateTimeNullableFilter<"LineaVenta"> | Date | string | null
   codigoCategoria?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
-  bonificado?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   devuelto?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   generaAsientoBomba?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
   grupoIsv?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   idTransaccionOrigen?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   documentoOrigen?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   lineaDocumentoOrigen?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
-  numeroTransaccionDoms?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
-  prepago?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
-  devolucion?: Prisma.BoolNullableFilter<"LineaVenta"> | boolean | null
-  numeroLineaAplicada?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
-  puntosFidelidad?: Prisma.DecimalNullableFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.IntNullableFilter<"LineaVenta"> | number | null
   idVenta?: Prisma.StringNullableFilter<"LineaVenta"> | string | null
   montoGravado?: Prisma.DecimalNullableFilter<"LineaVenta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1485,19 +1292,12 @@ export type LineaVentaCreateWithoutDescuentosAplicadosInput = {
   unidadMedida?: string | null
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.CategoriaProductoCreateNestedOneWithoutLineasVentaInput
@@ -1529,19 +1329,12 @@ export type LineaVentaUncheckedCreateWithoutDescuentosAplicadosInput = {
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1584,19 +1377,12 @@ export type LineaVentaUpdateWithoutDescuentosAplicadosInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.CategoriaProductoUpdateOneWithoutLineasVentaNestedInput
@@ -1628,19 +1414,12 @@ export type LineaVentaUncheckedUpdateWithoutDescuentosAplicadosInput = {
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1667,19 +1446,12 @@ export type LineaVentaCreateWithoutVentaInput = {
   unidadMedida?: string | null
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.CategoriaProductoCreateNestedOneWithoutLineasVentaInput
@@ -1709,19 +1481,12 @@ export type LineaVentaUncheckedCreateWithoutVentaInput = {
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   descuentosAplicados?: Prisma.LineaVentaDescuentoAplicadoUncheckedCreateNestedManyWithoutLineaVentaInput
@@ -1777,19 +1542,12 @@ export type LineaVentaCreateManyCategoriaInput = {
   unidadMedida?: string | null
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1816,19 +1574,12 @@ export type LineaVentaUpdateWithoutCategoriaInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   venta?: Prisma.VentaUpdateOneRequiredWithoutLineasVentaNestedInput
@@ -1859,19 +1610,12 @@ export type LineaVentaUncheckedUpdateWithoutCategoriaInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   descuentosAplicados?: Prisma.LineaVentaDescuentoAplicadoUncheckedUpdateManyWithoutLineaVentaNestedInput
@@ -1901,19 +1645,12 @@ export type LineaVentaUncheckedUpdateManyWithoutCategoriaInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1941,19 +1678,12 @@ export type LineaVentaCreateManyVentaInput = {
   turnoControlador?: string | null
   horaOperacion?: Date | string | null
   codigoCategoria?: string | null
-  bonificado?: boolean | null
   devuelto?: boolean | null
   generaAsientoBomba?: boolean | null
   grupoIsv?: string | null
   idTransaccionOrigen?: string | null
   documentoOrigen?: string | null
   lineaDocumentoOrigen?: number | null
-  numeroTransaccionDoms?: string | null
-  prepago?: boolean | null
-  devolucion?: boolean | null
-  numeroLineaAplicada?: number | null
-  puntosFidelidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: number | null
   idVenta?: string | null
   montoGravado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -1980,19 +1710,12 @@ export type LineaVentaUpdateWithoutVentaInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoria?: Prisma.CategoriaProductoUpdateOneWithoutLineasVentaNestedInput
@@ -2022,19 +1745,12 @@ export type LineaVentaUncheckedUpdateWithoutVentaInput = {
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   descuentosAplicados?: Prisma.LineaVentaDescuentoAplicadoUncheckedUpdateManyWithoutLineaVentaNestedInput
@@ -2063,19 +1779,12 @@ export type LineaVentaUncheckedUpdateManyWithoutVentaInput = {
   turnoControlador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horaOperacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   codigoCategoria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bonificado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   devuelto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   generaAsientoBomba?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   grupoIsv?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idTransaccionOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoOrigen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineaDocumentoOrigen?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  numeroTransaccionDoms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  prepago?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  devolucion?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  numeroLineaAplicada?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  puntosFidelidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  idDespachador?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idVenta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   montoGravado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
@@ -2136,19 +1845,12 @@ export type LineaVentaSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
-  bonificado?: boolean
   devuelto?: boolean
   generaAsientoBomba?: boolean
   grupoIsv?: boolean
   idTransaccionOrigen?: boolean
   documentoOrigen?: boolean
   lineaDocumentoOrigen?: boolean
-  numeroTransaccionDoms?: boolean
-  prepago?: boolean
-  devolucion?: boolean
-  numeroLineaAplicada?: boolean
-  puntosFidelidad?: boolean
-  idDespachador?: boolean
   idVenta?: boolean
   montoGravado?: boolean
   categoria?: boolean | Prisma.LineaVenta$categoriaArgs<ExtArgs>
@@ -2182,19 +1884,12 @@ export type LineaVentaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
-  bonificado?: boolean
   devuelto?: boolean
   generaAsientoBomba?: boolean
   grupoIsv?: boolean
   idTransaccionOrigen?: boolean
   documentoOrigen?: boolean
   lineaDocumentoOrigen?: boolean
-  numeroTransaccionDoms?: boolean
-  prepago?: boolean
-  devolucion?: boolean
-  numeroLineaAplicada?: boolean
-  puntosFidelidad?: boolean
-  idDespachador?: boolean
   idVenta?: boolean
   montoGravado?: boolean
   categoria?: boolean | Prisma.LineaVenta$categoriaArgs<ExtArgs>
@@ -2226,19 +1921,12 @@ export type LineaVentaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
-  bonificado?: boolean
   devuelto?: boolean
   generaAsientoBomba?: boolean
   grupoIsv?: boolean
   idTransaccionOrigen?: boolean
   documentoOrigen?: boolean
   lineaDocumentoOrigen?: boolean
-  numeroTransaccionDoms?: boolean
-  prepago?: boolean
-  devolucion?: boolean
-  numeroLineaAplicada?: boolean
-  puntosFidelidad?: boolean
-  idDespachador?: boolean
   idVenta?: boolean
   montoGravado?: boolean
   categoria?: boolean | Prisma.LineaVenta$categoriaArgs<ExtArgs>
@@ -2270,24 +1958,17 @@ export type LineaVentaSelectScalar = {
   turnoControlador?: boolean
   horaOperacion?: boolean
   codigoCategoria?: boolean
-  bonificado?: boolean
   devuelto?: boolean
   generaAsientoBomba?: boolean
   grupoIsv?: boolean
   idTransaccionOrigen?: boolean
   documentoOrigen?: boolean
   lineaDocumentoOrigen?: boolean
-  numeroTransaccionDoms?: boolean
-  prepago?: boolean
-  devolucion?: boolean
-  numeroLineaAplicada?: boolean
-  puntosFidelidad?: boolean
-  idDespachador?: boolean
   idVenta?: boolean
   montoGravado?: boolean
 }
 
-export type LineaVentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "numeroLineaDocumento" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "numeroVenta" | "descripcion" | "cantidad" | "precioUnitarioConIsv" | "montoDescuentoUnitario" | "descuento" | "montoDescuentoLinea" | "isv" | "montoIsv" | "montoConIsv" | "numeroBomba" | "posicionBomba" | "numeroTanque" | "unidadMedida" | "turnoControlador" | "horaOperacion" | "codigoCategoria" | "bonificado" | "devuelto" | "generaAsientoBomba" | "grupoIsv" | "idTransaccionOrigen" | "documentoOrigen" | "lineaDocumentoOrigen" | "numeroTransaccionDoms" | "prepago" | "devolucion" | "numeroLineaAplicada" | "puntosFidelidad" | "idDespachador" | "idVenta" | "montoGravado", ExtArgs["result"]["lineaVenta"]>
+export type LineaVentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "numeroLineaDocumento" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "numeroVenta" | "descripcion" | "cantidad" | "precioUnitarioConIsv" | "montoDescuentoUnitario" | "descuento" | "montoDescuentoLinea" | "isv" | "montoIsv" | "montoConIsv" | "numeroBomba" | "posicionBomba" | "numeroTanque" | "unidadMedida" | "turnoControlador" | "horaOperacion" | "codigoCategoria" | "devuelto" | "generaAsientoBomba" | "grupoIsv" | "idTransaccionOrigen" | "documentoOrigen" | "lineaDocumentoOrigen" | "idVenta" | "montoGravado", ExtArgs["result"]["lineaVenta"]>
 export type LineaVentaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.LineaVenta$categoriaArgs<ExtArgs>
   venta?: boolean | Prisma.VentaDefaultArgs<ExtArgs>
@@ -2335,19 +2016,12 @@ export type $LineaVentaPayload<ExtArgs extends runtime.Types.Extensions.Internal
     turnoControlador: string | null
     horaOperacion: Date | null
     codigoCategoria: string | null
-    bonificado: boolean | null
     devuelto: boolean | null
     generaAsientoBomba: boolean | null
     grupoIsv: string | null
     idTransaccionOrigen: string | null
     documentoOrigen: string | null
     lineaDocumentoOrigen: number | null
-    numeroTransaccionDoms: string | null
-    prepago: boolean | null
-    devolucion: boolean | null
-    numeroLineaAplicada: number | null
-    puntosFidelidad: runtime.Decimal | null
-    idDespachador: number | null
     idVenta: string | null
     montoGravado: runtime.Decimal | null
   }, ExtArgs["result"]["lineaVenta"]>
@@ -2800,19 +2474,12 @@ export interface LineaVentaFieldRefs {
   readonly turnoControlador: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly horaOperacion: Prisma.FieldRef<"LineaVenta", 'DateTime'>
   readonly codigoCategoria: Prisma.FieldRef<"LineaVenta", 'String'>
-  readonly bonificado: Prisma.FieldRef<"LineaVenta", 'Boolean'>
   readonly devuelto: Prisma.FieldRef<"LineaVenta", 'Boolean'>
   readonly generaAsientoBomba: Prisma.FieldRef<"LineaVenta", 'Boolean'>
   readonly grupoIsv: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly idTransaccionOrigen: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly documentoOrigen: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly lineaDocumentoOrigen: Prisma.FieldRef<"LineaVenta", 'Int'>
-  readonly numeroTransaccionDoms: Prisma.FieldRef<"LineaVenta", 'String'>
-  readonly prepago: Prisma.FieldRef<"LineaVenta", 'Boolean'>
-  readonly devolucion: Prisma.FieldRef<"LineaVenta", 'Boolean'>
-  readonly numeroLineaAplicada: Prisma.FieldRef<"LineaVenta", 'Int'>
-  readonly puntosFidelidad: Prisma.FieldRef<"LineaVenta", 'Decimal'>
-  readonly idDespachador: Prisma.FieldRef<"LineaVenta", 'Int'>
   readonly idVenta: Prisma.FieldRef<"LineaVenta", 'String'>
   readonly montoGravado: Prisma.FieldRef<"LineaVenta", 'Decimal'>
 }

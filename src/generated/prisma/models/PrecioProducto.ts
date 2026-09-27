@@ -28,13 +28,11 @@ export type AggregatePrecioProducto = {
 
 export type PrecioProductoAvgAggregateOutputType = {
   id: number | null
-  cantidadMinima: runtime.Decimal | null
   precioUnitario: runtime.Decimal | null
 }
 
 export type PrecioProductoSumAggregateOutputType = {
   id: number | null
-  cantidadMinima: runtime.Decimal | null
   precioUnitario: runtime.Decimal | null
 }
 
@@ -44,10 +42,8 @@ export type PrecioProductoMinAggregateOutputType = {
   idTienda: string | null
   fechaInicio: Date | null
   horaInicio: Date | null
-  cantidadMinima: runtime.Decimal | null
   precioUnitario: runtime.Decimal | null
   fechaFin: Date | null
-  horaFin: Date | null
   estado: boolean | null
   codigoMoneda: string | null
 }
@@ -58,10 +54,8 @@ export type PrecioProductoMaxAggregateOutputType = {
   idTienda: string | null
   fechaInicio: Date | null
   horaInicio: Date | null
-  cantidadMinima: runtime.Decimal | null
   precioUnitario: runtime.Decimal | null
   fechaFin: Date | null
-  horaFin: Date | null
   estado: boolean | null
   codigoMoneda: string | null
 }
@@ -72,10 +66,8 @@ export type PrecioProductoCountAggregateOutputType = {
   idTienda: number
   fechaInicio: number
   horaInicio: number
-  cantidadMinima: number
   precioUnitario: number
   fechaFin: number
-  horaFin: number
   estado: number
   codigoMoneda: number
   _all: number
@@ -84,13 +76,11 @@ export type PrecioProductoCountAggregateOutputType = {
 
 export type PrecioProductoAvgAggregateInputType = {
   id?: true
-  cantidadMinima?: true
   precioUnitario?: true
 }
 
 export type PrecioProductoSumAggregateInputType = {
   id?: true
-  cantidadMinima?: true
   precioUnitario?: true
 }
 
@@ -100,10 +90,8 @@ export type PrecioProductoMinAggregateInputType = {
   idTienda?: true
   fechaInicio?: true
   horaInicio?: true
-  cantidadMinima?: true
   precioUnitario?: true
   fechaFin?: true
-  horaFin?: true
   estado?: true
   codigoMoneda?: true
 }
@@ -114,10 +102,8 @@ export type PrecioProductoMaxAggregateInputType = {
   idTienda?: true
   fechaInicio?: true
   horaInicio?: true
-  cantidadMinima?: true
   precioUnitario?: true
   fechaFin?: true
-  horaFin?: true
   estado?: true
   codigoMoneda?: true
 }
@@ -128,10 +114,8 @@ export type PrecioProductoCountAggregateInputType = {
   idTienda?: true
   fechaInicio?: true
   horaInicio?: true
-  cantidadMinima?: true
   precioUnitario?: true
   fechaFin?: true
-  horaFin?: true
   estado?: true
   codigoMoneda?: true
   _all?: true
@@ -229,10 +213,8 @@ export type PrecioProductoGroupByOutputType = {
   idTienda: string
   fechaInicio: Date | null
   horaInicio: Date | null
-  cantidadMinima: runtime.Decimal | null
   precioUnitario: runtime.Decimal | null
   fechaFin: Date | null
-  horaFin: Date | null
   estado: boolean | null
   codigoMoneda: string | null
   _count: PrecioProductoCountAggregateOutputType | null
@@ -266,10 +248,8 @@ export type PrecioProductoWhereInput = {
   idTienda?: Prisma.StringFilter<"PrecioProducto"> | string
   fechaInicio?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
-  cantidadMinima?: Prisma.DecimalNullableFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.DecimalNullableFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
-  horaFin?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
   estado?: Prisma.BoolNullableFilter<"PrecioProducto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableFilter<"PrecioProducto"> | string | null
   moneda?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
@@ -281,10 +261,8 @@ export type PrecioProductoOrderByWithRelationInput = {
   idTienda?: Prisma.SortOrder
   fechaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
   horaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrderInput | Prisma.SortOrder
   precioUnitario?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaFin?: Prisma.SortOrderInput | Prisma.SortOrder
-  horaFin?: Prisma.SortOrderInput | Prisma.SortOrder
   estado?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
   moneda?: Prisma.MonedaOrderByWithRelationInput
@@ -299,10 +277,8 @@ export type PrecioProductoWhereUniqueInput = Prisma.AtLeast<{
   idTienda?: Prisma.StringFilter<"PrecioProducto"> | string
   fechaInicio?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
-  cantidadMinima?: Prisma.DecimalNullableFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.DecimalNullableFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
-  horaFin?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
   estado?: Prisma.BoolNullableFilter<"PrecioProducto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableFilter<"PrecioProducto"> | string | null
   moneda?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
@@ -314,10 +290,8 @@ export type PrecioProductoOrderByWithAggregationInput = {
   idTienda?: Prisma.SortOrder
   fechaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
   horaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrderInput | Prisma.SortOrder
   precioUnitario?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaFin?: Prisma.SortOrderInput | Prisma.SortOrder
-  horaFin?: Prisma.SortOrderInput | Prisma.SortOrder
   estado?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PrecioProductoCountOrderByAggregateInput
@@ -336,10 +310,8 @@ export type PrecioProductoScalarWhereWithAggregatesInput = {
   idTienda?: Prisma.StringWithAggregatesFilter<"PrecioProducto"> | string
   fechaInicio?: Prisma.DateTimeNullableWithAggregatesFilter<"PrecioProducto"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableWithAggregatesFilter<"PrecioProducto"> | Date | string | null
-  cantidadMinima?: Prisma.DecimalNullableWithAggregatesFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.DecimalNullableWithAggregatesFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.DateTimeNullableWithAggregatesFilter<"PrecioProducto"> | Date | string | null
-  horaFin?: Prisma.DateTimeNullableWithAggregatesFilter<"PrecioProducto"> | Date | string | null
   estado?: Prisma.BoolNullableWithAggregatesFilter<"PrecioProducto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableWithAggregatesFilter<"PrecioProducto"> | string | null
 }
@@ -349,10 +321,8 @@ export type PrecioProductoCreateInput = {
   idTienda: string
   fechaInicio?: Date | string | null
   horaInicio?: Date | string | null
-  cantidadMinima?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Date | string | null
-  horaFin?: Date | string | null
   estado?: boolean | null
   moneda?: Prisma.MonedaCreateNestedOneWithoutPreciosProductoInput
 }
@@ -363,10 +333,8 @@ export type PrecioProductoUncheckedCreateInput = {
   idTienda: string
   fechaInicio?: Date | string | null
   horaInicio?: Date | string | null
-  cantidadMinima?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Date | string | null
-  horaFin?: Date | string | null
   estado?: boolean | null
   codigoMoneda?: string | null
 }
@@ -376,10 +344,8 @@ export type PrecioProductoUpdateInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   moneda?: Prisma.MonedaUpdateOneWithoutPreciosProductoNestedInput
 }
@@ -390,10 +356,8 @@ export type PrecioProductoUncheckedUpdateInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -404,10 +368,8 @@ export type PrecioProductoCreateManyInput = {
   idTienda: string
   fechaInicio?: Date | string | null
   horaInicio?: Date | string | null
-  cantidadMinima?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Date | string | null
-  horaFin?: Date | string | null
   estado?: boolean | null
   codigoMoneda?: string | null
 }
@@ -417,10 +379,8 @@ export type PrecioProductoUpdateManyMutationInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
@@ -430,10 +390,8 @@ export type PrecioProductoUncheckedUpdateManyInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -454,17 +412,14 @@ export type PrecioProductoCountOrderByAggregateInput = {
   idTienda?: Prisma.SortOrder
   fechaInicio?: Prisma.SortOrder
   horaInicio?: Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrder
   precioUnitario?: Prisma.SortOrder
   fechaFin?: Prisma.SortOrder
-  horaFin?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
 }
 
 export type PrecioProductoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrder
   precioUnitario?: Prisma.SortOrder
 }
 
@@ -474,10 +429,8 @@ export type PrecioProductoMaxOrderByAggregateInput = {
   idTienda?: Prisma.SortOrder
   fechaInicio?: Prisma.SortOrder
   horaInicio?: Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrder
   precioUnitario?: Prisma.SortOrder
   fechaFin?: Prisma.SortOrder
-  horaFin?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
 }
@@ -488,17 +441,14 @@ export type PrecioProductoMinOrderByAggregateInput = {
   idTienda?: Prisma.SortOrder
   fechaInicio?: Prisma.SortOrder
   horaInicio?: Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrder
   precioUnitario?: Prisma.SortOrder
   fechaFin?: Prisma.SortOrder
-  horaFin?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   codigoMoneda?: Prisma.SortOrder
 }
 
 export type PrecioProductoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  cantidadMinima?: Prisma.SortOrder
   precioUnitario?: Prisma.SortOrder
 }
 
@@ -549,10 +499,8 @@ export type PrecioProductoCreateWithoutMonedaInput = {
   idTienda: string
   fechaInicio?: Date | string | null
   horaInicio?: Date | string | null
-  cantidadMinima?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Date | string | null
-  horaFin?: Date | string | null
   estado?: boolean | null
 }
 
@@ -562,10 +510,8 @@ export type PrecioProductoUncheckedCreateWithoutMonedaInput = {
   idTienda: string
   fechaInicio?: Date | string | null
   horaInicio?: Date | string | null
-  cantidadMinima?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Date | string | null
-  horaFin?: Date | string | null
   estado?: boolean | null
 }
 
@@ -604,10 +550,8 @@ export type PrecioProductoScalarWhereInput = {
   idTienda?: Prisma.StringFilter<"PrecioProducto"> | string
   fechaInicio?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
-  cantidadMinima?: Prisma.DecimalNullableFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.DecimalNullableFilter<"PrecioProducto"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
-  horaFin?: Prisma.DateTimeNullableFilter<"PrecioProducto"> | Date | string | null
   estado?: Prisma.BoolNullableFilter<"PrecioProducto"> | boolean | null
   codigoMoneda?: Prisma.StringNullableFilter<"PrecioProducto"> | string | null
 }
@@ -618,10 +562,8 @@ export type PrecioProductoCreateManyMonedaInput = {
   idTienda: string
   fechaInicio?: Date | string | null
   horaInicio?: Date | string | null
-  cantidadMinima?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Date | string | null
-  horaFin?: Date | string | null
   estado?: boolean | null
 }
 
@@ -630,10 +572,8 @@ export type PrecioProductoUpdateWithoutMonedaInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
@@ -643,10 +583,8 @@ export type PrecioProductoUncheckedUpdateWithoutMonedaInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
@@ -656,10 +594,8 @@ export type PrecioProductoUncheckedUpdateManyWithoutMonedaInput = {
   idTienda?: Prisma.StringFieldUpdateOperationsInput | string
   fechaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cantidadMinima?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   fechaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
@@ -671,10 +607,8 @@ export type PrecioProductoSelect<ExtArgs extends runtime.Types.Extensions.Intern
   idTienda?: boolean
   fechaInicio?: boolean
   horaInicio?: boolean
-  cantidadMinima?: boolean
   precioUnitario?: boolean
   fechaFin?: boolean
-  horaFin?: boolean
   estado?: boolean
   codigoMoneda?: boolean
   moneda?: boolean | Prisma.PrecioProducto$monedaArgs<ExtArgs>
@@ -686,10 +620,8 @@ export type PrecioProductoSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   idTienda?: boolean
   fechaInicio?: boolean
   horaInicio?: boolean
-  cantidadMinima?: boolean
   precioUnitario?: boolean
   fechaFin?: boolean
-  horaFin?: boolean
   estado?: boolean
   codigoMoneda?: boolean
   moneda?: boolean | Prisma.PrecioProducto$monedaArgs<ExtArgs>
@@ -701,10 +633,8 @@ export type PrecioProductoSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   idTienda?: boolean
   fechaInicio?: boolean
   horaInicio?: boolean
-  cantidadMinima?: boolean
   precioUnitario?: boolean
   fechaFin?: boolean
-  horaFin?: boolean
   estado?: boolean
   codigoMoneda?: boolean
   moneda?: boolean | Prisma.PrecioProducto$monedaArgs<ExtArgs>
@@ -716,15 +646,13 @@ export type PrecioProductoSelectScalar = {
   idTienda?: boolean
   fechaInicio?: boolean
   horaInicio?: boolean
-  cantidadMinima?: boolean
   precioUnitario?: boolean
   fechaFin?: boolean
-  horaFin?: boolean
   estado?: boolean
   codigoMoneda?: boolean
 }
 
-export type PrecioProductoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigoProducto" | "idTienda" | "fechaInicio" | "horaInicio" | "cantidadMinima" | "precioUnitario" | "fechaFin" | "horaFin" | "estado" | "codigoMoneda", ExtArgs["result"]["precioProducto"]>
+export type PrecioProductoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigoProducto" | "idTienda" | "fechaInicio" | "horaInicio" | "precioUnitario" | "fechaFin" | "estado" | "codigoMoneda", ExtArgs["result"]["precioProducto"]>
 export type PrecioProductoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   moneda?: boolean | Prisma.PrecioProducto$monedaArgs<ExtArgs>
 }
@@ -746,10 +674,8 @@ export type $PrecioProductoPayload<ExtArgs extends runtime.Types.Extensions.Inte
     idTienda: string
     fechaInicio: Date | null
     horaInicio: Date | null
-    cantidadMinima: runtime.Decimal | null
     precioUnitario: runtime.Decimal | null
     fechaFin: Date | null
-    horaFin: Date | null
     estado: boolean | null
     codigoMoneda: string | null
   }, ExtArgs["result"]["precioProducto"]>
@@ -1181,10 +1107,8 @@ export interface PrecioProductoFieldRefs {
   readonly idTienda: Prisma.FieldRef<"PrecioProducto", 'String'>
   readonly fechaInicio: Prisma.FieldRef<"PrecioProducto", 'DateTime'>
   readonly horaInicio: Prisma.FieldRef<"PrecioProducto", 'DateTime'>
-  readonly cantidadMinima: Prisma.FieldRef<"PrecioProducto", 'Decimal'>
   readonly precioUnitario: Prisma.FieldRef<"PrecioProducto", 'Decimal'>
   readonly fechaFin: Prisma.FieldRef<"PrecioProducto", 'DateTime'>
-  readonly horaFin: Prisma.FieldRef<"PrecioProducto", 'DateTime'>
   readonly estado: Prisma.FieldRef<"PrecioProducto", 'Boolean'>
   readonly codigoMoneda: Prisma.FieldRef<"PrecioProducto", 'String'>
 }

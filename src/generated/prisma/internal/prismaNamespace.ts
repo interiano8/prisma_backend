@@ -416,23 +416,18 @@ export const ModelName = {
   LineaVentaDescuentoAplicado: 'LineaVentaDescuentoAplicado',
   MetodoPago: 'MetodoPago',
   SerieDocumento: 'SerieDocumento',
-  Motivo: 'Motivo',
   TasaCambio: 'TasaCambio',
   GrupoImpuesto: 'GrupoImpuesto',
-  TipoReferencia: 'TipoReferencia',
   Venta: 'Venta',
   LineaVenta: 'LineaVenta',
   PagoVenta: 'PagoVenta',
   VentaLeal: 'VentaLeal',
-  MediaProgramacion: 'MediaProgramacion',
   RegistroTransaccion: 'RegistroTransaccion',
   Manguera: 'Manguera',
-  TurnoControlador: 'TurnoControlador',
   ConfiguracionLeal: 'ConfiguracionLeal',
   Campana: 'Campana',
   CondicionCampana: 'CondicionCampana',
-  ParticipacionCampana: 'ParticipacionCampana',
-  VentaCombustible: 'VentaCombustible'
+  ParticipacionCampana: 'ParticipacionCampana'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -448,7 +443,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "motivo" | "tasaCambio" | "grupoImpuesto" | "tipoReferencia" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "mediaProgramacion" | "registroTransaccion" | "manguera" | "turnoControlador" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana" | "ventaCombustible"
+    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1858,80 +1853,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Motivo: {
-      payload: Prisma.$MotivoPayload<ExtArgs>
-      fields: Prisma.MotivoFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MotivoFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MotivoFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>
-        }
-        findFirst: {
-          args: Prisma.MotivoFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MotivoFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>
-        }
-        findMany: {
-          args: Prisma.MotivoFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>[]
-        }
-        create: {
-          args: Prisma.MotivoCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>
-        }
-        createMany: {
-          args: Prisma.MotivoCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MotivoCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>[]
-        }
-        delete: {
-          args: Prisma.MotivoDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>
-        }
-        update: {
-          args: Prisma.MotivoUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>
-        }
-        deleteMany: {
-          args: Prisma.MotivoDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MotivoUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MotivoUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>[]
-        }
-        upsert: {
-          args: Prisma.MotivoUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MotivoPayload>
-        }
-        aggregate: {
-          args: Prisma.MotivoAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMotivo>
-        }
-        groupBy: {
-          args: Prisma.MotivoGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MotivoGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MotivoCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MotivoCountAggregateOutputType> | number
-        }
-      }
-    }
     TasaCambio: {
       payload: Prisma.$TasaCambioPayload<ExtArgs>
       fields: Prisma.TasaCambioFieldRefs
@@ -2077,80 +1998,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.GrupoImpuestoCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.GrupoImpuestoCountAggregateOutputType> | number
-        }
-      }
-    }
-    TipoReferencia: {
-      payload: Prisma.$TipoReferenciaPayload<ExtArgs>
-      fields: Prisma.TipoReferenciaFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.TipoReferenciaFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.TipoReferenciaFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>
-        }
-        findFirst: {
-          args: Prisma.TipoReferenciaFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.TipoReferenciaFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>
-        }
-        findMany: {
-          args: Prisma.TipoReferenciaFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>[]
-        }
-        create: {
-          args: Prisma.TipoReferenciaCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>
-        }
-        createMany: {
-          args: Prisma.TipoReferenciaCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.TipoReferenciaCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>[]
-        }
-        delete: {
-          args: Prisma.TipoReferenciaDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>
-        }
-        update: {
-          args: Prisma.TipoReferenciaUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>
-        }
-        deleteMany: {
-          args: Prisma.TipoReferenciaDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.TipoReferenciaUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.TipoReferenciaUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>[]
-        }
-        upsert: {
-          args: Prisma.TipoReferenciaUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TipoReferenciaPayload>
-        }
-        aggregate: {
-          args: Prisma.TipoReferenciaAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTipoReferencia>
-        }
-        groupBy: {
-          args: Prisma.TipoReferenciaGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TipoReferenciaGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.TipoReferenciaCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TipoReferenciaCountAggregateOutputType> | number
         }
       }
     }
@@ -2450,80 +2297,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    MediaProgramacion: {
-      payload: Prisma.$MediaProgramacionPayload<ExtArgs>
-      fields: Prisma.MediaProgramacionFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MediaProgramacionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MediaProgramacionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>
-        }
-        findFirst: {
-          args: Prisma.MediaProgramacionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MediaProgramacionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>
-        }
-        findMany: {
-          args: Prisma.MediaProgramacionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>[]
-        }
-        create: {
-          args: Prisma.MediaProgramacionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>
-        }
-        createMany: {
-          args: Prisma.MediaProgramacionCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MediaProgramacionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>[]
-        }
-        delete: {
-          args: Prisma.MediaProgramacionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>
-        }
-        update: {
-          args: Prisma.MediaProgramacionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>
-        }
-        deleteMany: {
-          args: Prisma.MediaProgramacionDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MediaProgramacionUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MediaProgramacionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>[]
-        }
-        upsert: {
-          args: Prisma.MediaProgramacionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaProgramacionPayload>
-        }
-        aggregate: {
-          args: Prisma.MediaProgramacionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMediaProgramacion>
-        }
-        groupBy: {
-          args: Prisma.MediaProgramacionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MediaProgramacionGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MediaProgramacionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MediaProgramacionCountAggregateOutputType> | number
-        }
-      }
-    }
     RegistroTransaccion: {
       payload: Prisma.$RegistroTransaccionPayload<ExtArgs>
       fields: Prisma.RegistroTransaccionFieldRefs
@@ -2669,80 +2442,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.MangueraCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.MangueraCountAggregateOutputType> | number
-        }
-      }
-    }
-    TurnoControlador: {
-      payload: Prisma.$TurnoControladorPayload<ExtArgs>
-      fields: Prisma.TurnoControladorFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.TurnoControladorFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.TurnoControladorFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>
-        }
-        findFirst: {
-          args: Prisma.TurnoControladorFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.TurnoControladorFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>
-        }
-        findMany: {
-          args: Prisma.TurnoControladorFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>[]
-        }
-        create: {
-          args: Prisma.TurnoControladorCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>
-        }
-        createMany: {
-          args: Prisma.TurnoControladorCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.TurnoControladorCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>[]
-        }
-        delete: {
-          args: Prisma.TurnoControladorDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>
-        }
-        update: {
-          args: Prisma.TurnoControladorUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>
-        }
-        deleteMany: {
-          args: Prisma.TurnoControladorDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.TurnoControladorUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.TurnoControladorUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>[]
-        }
-        upsert: {
-          args: Prisma.TurnoControladorUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnoControladorPayload>
-        }
-        aggregate: {
-          args: Prisma.TurnoControladorAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTurnoControlador>
-        }
-        groupBy: {
-          args: Prisma.TurnoControladorGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TurnoControladorGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.TurnoControladorCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TurnoControladorCountAggregateOutputType> | number
         }
       }
     }
@@ -3042,80 +2741,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    VentaCombustible: {
-      payload: Prisma.$VentaCombustiblePayload<ExtArgs>
-      fields: Prisma.VentaCombustibleFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.VentaCombustibleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.VentaCombustibleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>
-        }
-        findFirst: {
-          args: Prisma.VentaCombustibleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.VentaCombustibleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>
-        }
-        findMany: {
-          args: Prisma.VentaCombustibleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>[]
-        }
-        create: {
-          args: Prisma.VentaCombustibleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>
-        }
-        createMany: {
-          args: Prisma.VentaCombustibleCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.VentaCombustibleCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>[]
-        }
-        delete: {
-          args: Prisma.VentaCombustibleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>
-        }
-        update: {
-          args: Prisma.VentaCombustibleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>
-        }
-        deleteMany: {
-          args: Prisma.VentaCombustibleDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.VentaCombustibleUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.VentaCombustibleUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>[]
-        }
-        upsert: {
-          args: Prisma.VentaCombustibleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaCombustiblePayload>
-        }
-        aggregate: {
-          args: Prisma.VentaCombustibleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateVentaCombustible>
-        }
-        groupBy: {
-          args: Prisma.VentaCombustibleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VentaCombustibleGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.VentaCombustibleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VentaCombustibleCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -3215,53 +2840,26 @@ export const TiendaScalarFieldEnum = {
   nombre: 'nombre',
   rtn: 'rtn',
   emisor: 'emisor',
-  pais: 'pais',
-  estado: 'estado',
-  ciudad: 'ciudad',
   direccion1: 'direccion1',
-  direccion2: 'direccion2',
-  direccion3: 'direccion3',
   telefono: 'telefono',
   correo: 'correo',
   contrasenaAdmin: 'contrasenaAdmin',
-  turnos: 'turnos',
-  d3: 'd3',
-  d4: 'd4',
-  transaccionesPendientes: 'transaccionesPendientes',
-  urlLeal: 'urlLeal',
-  lealHabilitado: 'lealHabilitado',
-  codigoPais: 'codigoPais',
   esControladorGas: 'esControladorGas',
-  avisoNuevosRangosFactura: 'avisoNuevosRangosFactura',
-  avisoNuevosRangosNotaCredito: 'avisoNuevosRangosNotaCredito',
-  fusionAsignado: 'fusionAsignado',
   ipFusion: 'ipFusion',
   urlControlador: 'urlControlador',
+  claveControlador: 'claveControlador',
+  codigoConsumidorFinal: 'codigoConsumidorFinal',
   variasLineasPermitidas: 'variasLineasPermitidas',
   descuentosPermitidos: 'descuentosPermitidos',
   bloqueadoTransaccionesPendientes: 'bloqueadoTransaccionesPendientes',
-  modoDepuracion: 'modoDepuracion',
-  claveControlador: 'claveControlador',
-  codigoConsumidorFinal: 'codigoConsumidorFinal',
-  urlSaldo: 'urlSaldo',
-  validarRfid: 'validarRfid',
   validarSaldoCredito: 'validarSaldoCredito',
-  voxActivo: 'voxActivo',
-  rangoIndividual: 'rangoIndividual',
-  facturacionOrdenada: 'facturacionOrdenada',
-  erp: 'erp',
-  urlActualizacion: 'urlActualizacion',
-  urlBaseErp: 'urlBaseErp',
-  turnoManual: 'turnoManual',
-  calculoInverso: 'calculoInverso',
-  bloqueadoTransaccionesBomba: 'bloqueadoTransaccionesBomba',
-  bloqueadoTransaccionesTurno: 'bloqueadoTransaccionesTurno',
   campanas: 'campanas',
-  declararMontoInicial: 'declararMontoInicial',
   nombreBotonFidelizacion: 'nombreBotonFidelizacion',
   moneda: 'moneda',
   carpetaMultimedia: 'carpetaMultimedia',
-  codigoMoneda: 'codigoMoneda'
+  codigoMoneda: 'codigoMoneda',
+  urlLeal: 'urlLeal',
+  lealHabilitado: 'lealHabilitado'
 } as const
 
 export type TiendaScalarFieldEnum = (typeof TiendaScalarFieldEnum)[keyof typeof TiendaScalarFieldEnum]
@@ -3305,15 +2903,13 @@ export const TurnoScalarFieldEnum = {
   codigoPos: 'codigoPos',
   posCierre: 'posCierre',
   turno: 'turno',
-  idDiaSemana: 'idDiaSemana',
   inicioTurno: 'inicioTurno',
   finTurno: 'finTurno',
   importeContado: 'importeContado',
   nombreEmpleado: 'nombreEmpleado',
   montoInicial: 'montoInicial',
   detallePagos: 'detallePagos',
-  fsShiftId: 'fsShiftId',
-  turnoConciliador: 'turnoConciliador'
+  fsShiftId: 'fsShiftId'
 } as const
 
 export type TurnoScalarFieldEnum = (typeof TurnoScalarFieldEnum)[keyof typeof TurnoScalarFieldEnum]
@@ -3334,28 +2930,13 @@ export const ClienteScalarFieldEnum = {
   codigo: 'codigo',
   nombre: 'nombre',
   direccion: 'direccion',
-  ciudad: 'ciudad',
   telefono: 'telefono',
-  grupoDescuento: 'grupoDescuento',
-  codigoPais: 'codigoPais',
   bloqueado: 'bloqueado',
   rtn: 'rtn',
-  codigoPostal: 'codigoPostal',
-  municipio: 'municipio',
   correo: 'correo',
   tipoFacturacion: 'tipoFacturacion',
-  estado: 'estado',
-  grupoPromo: 'grupoPromo',
-  tipoActualizacion: 'tipoActualizacion',
   fechaActualizacion: 'fechaActualizacion',
-  bcid: 'bcid',
-  fechaNacimiento: 'fechaNacimiento',
-  idDepartamento: 'idDepartamento',
-  idMunicipio: 'idMunicipio',
-  saldoMonedaLocal: 'saldoMonedaLocal',
-  saldo: 'saldo',
-  grupoContable: 'grupoContable',
-  grupoContableNegocio: 'grupoContableNegocio'
+  saldo: 'saldo'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
@@ -3377,18 +2958,8 @@ export const ProductoScalarFieldEnum = {
   imagen: 'imagen',
   grupoIsv: 'grupoIsv',
   codigoCategoria: 'codigoCategoria',
-  codigoGrupo: 'codigoGrupo',
-  bonificado: 'bonificado',
-  factorConversionUm: 'factorConversionUm',
   codigoUmEtiquetas: 'codigoUmEtiquetas',
   generaAsientoBomba: 'generaAsientoBomba',
-  grupoDescuento: 'grupoDescuento',
-  permiteCambioPrecio: 'permiteCambioPrecio',
-  codigoCategoriaPromo: 'codigoCategoriaPromo',
-  permiteCantidadNegativa: 'permiteCantidadNegativa',
-  bcId: 'bcId',
-  idProveedor: 'idProveedor',
-  aplicaDescuentoEdad: 'aplicaDescuentoEdad',
   codigoMoneda: 'codigoMoneda'
 } as const
 
@@ -3397,10 +2968,7 @@ export type ProductoScalarFieldEnum = (typeof ProductoScalarFieldEnum)[keyof typ
 
 export const CategoriaProductoScalarFieldEnum = {
   codigo: 'codigo',
-  descripcion: 'descripcion',
-  tipoCategoria: 'tipoCategoria',
-  tipoActualizacion: 'tipoActualizacion',
-  fechaActualizacion: 'fechaActualizacion'
+  descripcion: 'descripcion'
 } as const
 
 export type CategoriaProductoScalarFieldEnum = (typeof CategoriaProductoScalarFieldEnum)[keyof typeof CategoriaProductoScalarFieldEnum]
@@ -3412,10 +2980,8 @@ export const PrecioProductoScalarFieldEnum = {
   idTienda: 'idTienda',
   fechaInicio: 'fechaInicio',
   horaInicio: 'horaInicio',
-  cantidadMinima: 'cantidadMinima',
   precioUnitario: 'precioUnitario',
   fechaFin: 'fechaFin',
-  horaFin: 'horaFin',
   estado: 'estado',
   codigoMoneda: 'codigoMoneda'
 } as const
@@ -3497,14 +3063,6 @@ export const SerieDocumentoScalarFieldEnum = {
 export type SerieDocumentoScalarFieldEnum = (typeof SerieDocumentoScalarFieldEnum)[keyof typeof SerieDocumentoScalarFieldEnum]
 
 
-export const MotivoScalarFieldEnum = {
-  id: 'id',
-  motivo: 'motivo'
-} as const
-
-export type MotivoScalarFieldEnum = (typeof MotivoScalarFieldEnum)[keyof typeof MotivoScalarFieldEnum]
-
-
 export const TasaCambioScalarFieldEnum = {
   id: 'id',
   tasa: 'tasa',
@@ -3520,16 +3078,6 @@ export const GrupoImpuestoScalarFieldEnum = {
 } as const
 
 export type GrupoImpuestoScalarFieldEnum = (typeof GrupoImpuestoScalarFieldEnum)[keyof typeof GrupoImpuestoScalarFieldEnum]
-
-
-export const TipoReferenciaScalarFieldEnum = {
-  id: 'id',
-  campo: 'campo',
-  codigo: 'codigo',
-  descripcion: 'descripcion'
-} as const
-
-export type TipoReferenciaScalarFieldEnum = (typeof TipoReferenciaScalarFieldEnum)[keyof typeof TipoReferenciaScalarFieldEnum]
 
 
 export const VentaScalarFieldEnum = {
@@ -3549,7 +3097,6 @@ export const VentaScalarFieldEnum = {
   nombreCliente: 'nombreCliente',
   tipoFacturacion: 'tipoFacturacion',
   comentario: 'comentario',
-  erpId: 'erpId',
   numeroLinea: 'numeroLinea',
   subtotal: 'subtotal',
   kilometraje: 'kilometraje',
@@ -3593,19 +3140,12 @@ export const LineaVentaScalarFieldEnum = {
   turnoControlador: 'turnoControlador',
   horaOperacion: 'horaOperacion',
   codigoCategoria: 'codigoCategoria',
-  bonificado: 'bonificado',
   devuelto: 'devuelto',
   generaAsientoBomba: 'generaAsientoBomba',
   grupoIsv: 'grupoIsv',
   idTransaccionOrigen: 'idTransaccionOrigen',
   documentoOrigen: 'documentoOrigen',
   lineaDocumentoOrigen: 'lineaDocumentoOrigen',
-  numeroTransaccionDoms: 'numeroTransaccionDoms',
-  prepago: 'prepago',
-  devolucion: 'devolucion',
-  numeroLineaAplicada: 'numeroLineaAplicada',
-  puntosFidelidad: 'puntosFidelidad',
-  idDespachador: 'idDespachador',
   idVenta: 'idVenta',
   montoGravado: 'montoGravado'
 } as const
@@ -3624,7 +3164,6 @@ export const PagoVentaScalarFieldEnum = {
   numeroTarjeta: 'numeroTarjeta',
   descripcion: 'descripcion',
   datosAdicionales: 'datosAdicionales',
-  idDespachador: 'idDespachador',
   tasaCambio: 'tasaCambio',
   montoIngresado: 'montoIngresado',
   esTicket: 'esTicket'
@@ -3647,18 +3186,6 @@ export const VentaLealScalarFieldEnum = {
 } as const
 
 export type VentaLealScalarFieldEnum = (typeof VentaLealScalarFieldEnum)[keyof typeof VentaLealScalarFieldEnum]
-
-
-export const MediaProgramacionScalarFieldEnum = {
-  id: 'id',
-  archivo: 'archivo',
-  tipo: 'tipo',
-  fechaInicio: 'fechaInicio',
-  fechaFin: 'fechaFin',
-  habilitado: 'habilitado'
-} as const
-
-export type MediaProgramacionScalarFieldEnum = (typeof MediaProgramacionScalarFieldEnum)[keyof typeof MediaProgramacionScalarFieldEnum]
 
 
 export const RegistroTransaccionScalarFieldEnum = {
@@ -3694,18 +3221,6 @@ export const MangueraScalarFieldEnum = {
 } as const
 
 export type MangueraScalarFieldEnum = (typeof MangueraScalarFieldEnum)[keyof typeof MangueraScalarFieldEnum]
-
-
-export const TurnoControladorScalarFieldEnum = {
-  id: 'id',
-  periodId: 'periodId',
-  startDate: 'startDate',
-  startTime: 'startTime',
-  additionalDetails: 'additionalDetails',
-  fechaCreacion: 'fechaCreacion'
-} as const
-
-export type TurnoControladorScalarFieldEnum = (typeof TurnoControladorScalarFieldEnum)[keyof typeof TurnoControladorScalarFieldEnum]
 
 
 export const ConfiguracionLealScalarFieldEnum = {
@@ -3753,38 +3268,6 @@ export const ParticipacionCampanaScalarFieldEnum = {
 } as const
 
 export type ParticipacionCampanaScalarFieldEnum = (typeof ParticipacionCampanaScalarFieldEnum)[keyof typeof ParticipacionCampanaScalarFieldEnum]
-
-
-export const VentaCombustibleScalarFieldEnum = {
-  idVenta: 'idVenta',
-  numeroPos: 'numeroPos',
-  numeroBomba: 'numeroBomba',
-  numeroManguera: 'numeroManguera',
-  monto: 'monto',
-  precioUnitario: 'precioUnitario',
-  volumen: 'volumen',
-  volumenFinal: 'volumenFinal',
-  volumenInicial: 'volumenInicial',
-  tipoPago: 'tipoPago',
-  infoPago: 'infoPago',
-  temperaturaCompensada: 'temperaturaCompensada',
-  idTurno: 'idTurno',
-  numeroGrado: 'numeroGrado',
-  nivelPrecio: 'nivelPrecio',
-  tipoTransaccion: 'tipoTransaccion',
-  fechaTransaccion: 'fechaTransaccion',
-  horaTransaccion: 'horaTransaccion',
-  montoPreestablecido: 'montoPreestablecido',
-  alarmaPago: 'alarmaPago',
-  atcvo: 'atcvo',
-  avgtm: 'avgtm',
-  atcivo: 'atcivo',
-  atcfvo: 'atcfvo',
-  facturada: 'facturada',
-  fecha: 'fecha'
-} as const
-
-export type VentaCombustibleScalarFieldEnum = (typeof VentaCombustibleScalarFieldEnum)[keyof typeof VentaCombustibleScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -4192,23 +3675,18 @@ export type GlobalOmitConfig = {
   lineaVentaDescuentoAplicado?: Prisma.LineaVentaDescuentoAplicadoOmit
   metodoPago?: Prisma.MetodoPagoOmit
   serieDocumento?: Prisma.SerieDocumentoOmit
-  motivo?: Prisma.MotivoOmit
   tasaCambio?: Prisma.TasaCambioOmit
   grupoImpuesto?: Prisma.GrupoImpuestoOmit
-  tipoReferencia?: Prisma.TipoReferenciaOmit
   venta?: Prisma.VentaOmit
   lineaVenta?: Prisma.LineaVentaOmit
   pagoVenta?: Prisma.PagoVentaOmit
   ventaLeal?: Prisma.VentaLealOmit
-  mediaProgramacion?: Prisma.MediaProgramacionOmit
   registroTransaccion?: Prisma.RegistroTransaccionOmit
   manguera?: Prisma.MangueraOmit
-  turnoControlador?: Prisma.TurnoControladorOmit
   configuracionLeal?: Prisma.ConfiguracionLealOmit
   campana?: Prisma.CampanaOmit
   condicionCampana?: Prisma.CondicionCampanaOmit
   participacionCampana?: Prisma.ParticipacionCampanaOmit
-  ventaCombustible?: Prisma.VentaCombustibleOmit
 }
 
 /* Types for Logging */

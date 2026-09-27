@@ -97,10 +97,7 @@ export class ShiftRepositoryImpl implements ShiftRepository {
       dto.shiftNumber ??
       (await this.getNextShiftNumber(gasStationCode, dto.employeeName));
 
-    const store = await this.prisma.tienda.findUnique({
-      where: { idTienda: gasStationCode },
-    });
-    const maxTurnos = store?.turnos ?? 99;
+    const maxTurnos = 99;
     if (maxTurnos > 0 && nextShiftNo > maxTurnos) {
       throw new Error(
         `No se permite crear más de ${maxTurnos} turnos en esta tienda.`,
@@ -168,7 +165,6 @@ export class ShiftRepositoryImpl implements ShiftRepository {
             idTienda: gasStationCode,
             codigoPos: posNo,
             turno: nextShiftNo.toString(),
-            idDiaSemana: 0,
             inicioTurno: new Date(),
             finTurno: null,
             importeContado: dto.initialAmount,
@@ -346,25 +342,17 @@ export class ShiftRepositoryImpl implements ShiftRepository {
     return { success: true };
   }
 
-  async countTurnoControladorByPeriod(periodId: string): Promise<number> {
-    return this.prisma.turnoControlador.count({ where: { periodId } });
+  async countTurnoControladorByPeriod(_periodId: string): Promise<number> {
+    return 0;
   }
 
-  async createTurnoControlador(data: {
+  async createTurnoControlador(_data: {
     periodId: string;
     startDate: string;
     startTime: string;
     additionalDetails: string;
   }): Promise<void> {
-    await this.prisma.turnoControlador.create({
-      data: {
-        periodId: data.periodId,
-        startDate: data.startDate,
-        startTime: data.startTime,
-        additionalDetails: data.additionalDetails,
-        fechaCreacion: new Date(),
-      },
-    });
+    // Obsoleto: tabla turnos_controlador eliminada
   }
 
   async getAvailableShifts(

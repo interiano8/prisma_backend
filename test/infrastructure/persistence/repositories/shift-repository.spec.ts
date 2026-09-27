@@ -236,11 +236,11 @@ describe('ShiftRepositoryImpl', () => {
 
     it('rechaza si supera el máximo de turnos de la tienda', async () => {
       const prisma = {
-        tienda: { findUnique: jest.fn().mockResolvedValue({ turnos: 1 }) },
+        tienda: { findUnique: jest.fn().mockResolvedValue({}) },
         turno: {
           findFirst: jest
             .fn()
-            .mockResolvedValueOnce({ turno: '1' }) // last shift -> next = 2
+            .mockResolvedValueOnce({ turno: '99' }) // last shift -> next = 100
             .mockResolvedValueOnce(null), // open shift
         },
       } as any;
@@ -253,7 +253,7 @@ describe('ShiftRepositoryImpl', () => {
           employeeName: 'prueba',
           initialAmount: 500,
         }),
-      ).rejects.toThrow('No se permite crear más de 1 turnos');
+      ).rejects.toThrow('No se permite crear más de 99 turnos');
     });
 
     it('crea turno sin límite si la tienda no define turnos (0)', async () => {
@@ -363,27 +363,17 @@ describe('ShiftRepositoryImpl', () => {
   });
 
   it('countTurnoControladorByPeriod y createTurnoControlador', async () => {
-    const count = jest.fn().mockResolvedValue(2);
-    const create = jest.fn().mockResolvedValue({});
-    const repo = new ShiftRepositoryImpl({
-      turnoControlador: { count, create },
-    } as any);
+    const repo = new ShiftRepositoryImpl({} as any);
 
-    await expect(repo.countTurnoControladorByPeriod('P1')).resolves.toBe(2);
-    await repo.createTurnoControlador({
-      periodId: 'P1',
-      startDate: '2026-08-15',
-      startTime: '06:00',
-      additionalDetails: '[]',
-    });
-
-    expect(count).toHaveBeenCalledWith({ where: { periodId: 'P1' } });
-    expect(create).toHaveBeenCalledWith({
-      data: expect.objectContaining({
+    await expect(repo.countTurnoControladorByPeriod('P1')).resolves.toBe(0);
+    await expect(
+      repo.createTurnoControlador({
         periodId: 'P1',
         startDate: '2026-08-15',
+        startTime: '06:00',
+        additionalDetails: '[]',
       }),
-    });
+    ).resolves.toBeUndefined();
   });
 
   it('getAvailableShifts mapea registros distintos', async () => {

@@ -19,13 +19,15 @@ describe('AuthRepositoryImpl', () => {
   };
 
   it('findUserByUsername mapea el usuario con preferencias', async () => {
-    const findUnique = jest.fn().mockResolvedValue(empRow);
-    const repo = new AuthRepositoryImpl({ empleado: { findUnique } } as any);
+    const findFirst = jest.fn().mockResolvedValue(empRow);
+    const repo = new AuthRepositoryImpl({ empleado: { findFirst } } as any);
 
-    const user = await repo.findUserByUsername('jdoe');
+    const user = await repo.findUserByUsername('JDOE');
 
-    expect(findUnique).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { usuario: 'jdoe' } }),
+    expect(findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { usuario: { equals: 'JDOE', mode: 'insensitive' } },
+      }),
     );
     expect(user).not.toBeNull();
     expect(user!.username).toBe('jdoe');
@@ -34,7 +36,7 @@ describe('AuthRepositoryImpl', () => {
 
   it('findUserByUsername devuelve null si no existe', async () => {
     const repo = new AuthRepositoryImpl({
-      empleado: { findUnique: jest.fn().mockResolvedValue(null) },
+      empleado: { findFirst: jest.fn().mockResolvedValue(null) },
     } as any);
     await expect(repo.findUserByUsername('x')).resolves.toBeNull();
   });
@@ -328,7 +330,7 @@ describe('AuthRepositoryImpl', () => {
   it('mapUser aplica fallbacks para campos nulos', async () => {
     const repo = new AuthRepositoryImpl({
       empleado: {
-        findUnique: jest.fn().mockResolvedValue({
+        findFirst: jest.fn().mockResolvedValue({
           id: 2,
           usuario: 'u2',
           nombre: null,

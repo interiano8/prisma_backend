@@ -16,8 +16,10 @@ export class AuthRepositoryImpl implements AuthRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findUserByUsername(username: string): Promise<User | null> {
-    const row = await this.prisma.empleado.findUnique({
-      where: { usuario: username },
+    const cleanUsername = username?.trim() || '';
+    if (!cleanUsername) return null;
+    const row = await this.prisma.empleado.findFirst({
+      where: { usuario: { equals: cleanUsername, mode: 'insensitive' } },
       include: {
         roles: {
           include: {

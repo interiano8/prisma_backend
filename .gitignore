@@ -47,3 +47,7 @@ Thumbs.db
 license-state.json
 machine-id.txt
 *.pub
+
+# Excepción: interfaces de dominio dentro de ports/out (no confundir con el .gitignore de build out/)
+!src/domain/ports/out/
+!src/domain/ports/out/**

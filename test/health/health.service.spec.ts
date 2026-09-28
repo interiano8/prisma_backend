@@ -214,5 +214,31 @@ describe('HealthService & HealthController', () => {
       expect(res.cloudSync?.pendingCount).toBe(2);
       expect(res.cloudSync?.latencyMs).toBe(45);
     });
+
+    it('debe ejecutar syncNow forzando subida de ventas y bajada de maestros', async () => {
+      const mockCloudSync = {
+        syncPendingSales: jest.fn().mockResolvedValue({ success: true, syncedCount: 5 }),
+        pullMasters: jest.fn().mockResolvedValue({ success: true, updated: true }),
+      };
+
+      const customService = new HealthService(mockPrisma, mockCloudSync as any);
+      const res = await customService.syncNow();
+      expect(res.success).toBe(true);
+      expect(res.salesSynced).toBe(5);
+      expect(res.mastersUpdated).toBe(true);
+      expect(mockCloudSync.pullMasters).toHaveBeenCalledWith(true);
+    });
+
+    it('controller.syncNow debe delegar en healthService.syncNow', async () => {
+      const spy = jest.spyOn(service, 'syncNow').mockResolvedValue({
+        success: true,
+        salesSynced: 3,
+        mastersUpdated: true,
+      });
+
+      const res = await controller.syncNow();
+      expect(res.success).toBe(true);
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

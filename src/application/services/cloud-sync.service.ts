@@ -319,7 +319,7 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  async pullMasters(): Promise<{ success: boolean; updated: boolean }> {
+  async pullMasters(force = false): Promise<{ success: boolean; updated: boolean }> {
     const syncUrl = this.getBaseSyncUrl();
     if (!syncUrl || syncUrl.trim() === '') {
       return { success: true, updated: false };
@@ -329,7 +329,8 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     const syncKey = process.env.BACKOFFICE_SYNC_KEY || 'prisma-cloud-sync-key';
 
     try {
-      const url = `${syncUrl.replace(/\/+$/, '')}/down/masters?storeCode=${encodeURIComponent(storeCode)}&sinceVersion=${this.masterVersion}`;
+      const versionParam = force ? 0 : this.masterVersion;
+      const url = `${syncUrl.replace(/\/+$/, '')}/down/masters?storeCode=${encodeURIComponent(storeCode)}&sinceVersion=${versionParam}`;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 6000);
 
@@ -398,6 +399,69 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
                 idTienda: rule.idTienda || null,
               },
             }).catch(() => {});
+          }
+
+          // Ingestar y sincronizar usuarios y empleados en la base local prisma
+          if (Array.isArray(data.users)) {
+            for (const user of data.users) {
+              try {
+                if (!user.username || typeof user.username !== 'string') continue;
+                const cleanUsername = user.username.trim();
+                const updateData: any = {
+                  nombre: user.name || cleanUsername,
+                  hashContrasena: user.passwordHash || null,
+                  perfil: user.role || 'Admin',
+                  estaActivo: user.active !== false,
+                };
+                if (user.pin !== undefined) {
+                  updateData.pin = user.pin;
+                }
+                if (user.rfid !== undefined) {
+                  updateData.codigoRfid = user.rfid;
+                }
+
+                if (this.prisma.empleado?.upsert) {
+                  await this.prisma.empleado.upsert({
+                    where: { usuario: cleanUsername },
+                    update: updateData,
+                    create: {
+                      usuario: cleanUsername,
+                      nombre: updateData.nombre,
+                      hashContrasena: updateData.hashContrasena,
+                      perfil: updateData.perfil,
+                      estaActivo: updateData.estaActivo,
+                      pin: updateData.pin ?? null,
+                      codigoRfid: updateData.codigoRfid ?? null,
+                    },
+                  });
+                } else if (this.prisma.empleado?.findFirst) {
+                  const existing = await this.prisma.empleado.findFirst({
+                    where: { usuario: { equals: cleanUsername, mode: 'insensitive' } },
+                    select: { id: true },
+                  });
+                  if (existing) {
+                    await this.prisma.empleado.update({
+                      where: { id: existing.id },
+                      data: updateData,
+                    });
+                  } else {
+                    await this.prisma.empleado.create({
+                      data: {
+                        usuario: cleanUsername,
+                        nombre: updateData.nombre,
+                        hashContrasena: updateData.hashContrasena,
+                        perfil: updateData.perfil,
+                        estaActivo: updateData.estaActivo,
+                        pin: updateData.pin ?? null,
+                        codigoRfid: updateData.codigoRfid ?? null,
+                      },
+                    });
+                  }
+                }
+              } catch (userErr: any) {
+                this.logger.warn(`No se pudo sincronizar usuario ${user?.username}: ${userErr.message}`);
+              }
+            }
           }
 
           return { success: true, updated: true };

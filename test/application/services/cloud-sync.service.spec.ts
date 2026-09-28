@@ -20,6 +20,12 @@ describe('CloudSyncService', () => {
       reglaDescuento: {
         upsert: jest.fn().mockResolvedValue({}),
       },
+      empleado: {
+        upsert: jest.fn().mockResolvedValue({}),
+        findFirst: jest.fn().mockResolvedValue(null),
+        create: jest.fn().mockResolvedValue({}),
+        update: jest.fn().mockResolvedValue({}),
+      },
     };
 
     service = new CloudSyncService(prismaMock);
@@ -238,6 +244,105 @@ describe('CloudSyncService', () => {
         expect.objectContaining({
           where: { id: 'rule-flota-1' },
         }),
+      );
+    });
+
+    it('descarga e ingesta usuarios nuevos en la base local prisma.empleado', async () => {
+      process.env.BACKOFFICE_SYNC_URL = 'https://backoffice.internal/api/sync';
+
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          hasUpdates: true,
+          masterVersion: 122,
+          users: [
+            {
+              username: 'cajero_norte',
+              name: 'Cajero Norte',
+              passwordHash: '$2b$10$hashed',
+              role: 'OPERATOR',
+              pin: '1234',
+              rfid: 'RFID-99',
+              active: true,
+            },
+          ],
+        }),
+      });
+
+      const result = await service.pullMasters();
+
+      expect(result.success).toBe(true);
+      expect(result.updated).toBe(true);
+      expect(prismaMock.empleado.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { usuario: 'cajero_norte' },
+          create: expect.objectContaining({
+            usuario: 'cajero_norte',
+            nombre: 'Cajero Norte',
+            hashContrasena: '$2b$10$hashed',
+            perfil: 'OPERATOR',
+            estaActivo: true,
+            pin: '1234',
+            codigoRfid: 'RFID-99',
+          }),
+        }),
+      );
+    });
+
+    it('actualiza credenciales y estado de empleado existente cuando cambia en Backoffice', async () => {
+      process.env.BACKOFFICE_SYNC_URL = 'https://backoffice.internal/api/sync';
+
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          hasUpdates: true,
+          masterVersion: 123,
+          users: [
+            {
+              username: 'cajero_norte',
+              name: 'Cajero Modificado',
+              passwordHash: '$2b$10$newhash',
+              role: 'SUPERVISOR',
+              active: false,
+            },
+          ],
+        }),
+      });
+
+      const result = await service.pullMasters();
+
+      expect(result.success).toBe(true);
+      expect(result.updated).toBe(true);
+      expect(prismaMock.empleado.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { usuario: 'cajero_norte' },
+          update: expect.objectContaining({
+            nombre: 'Cajero Modificado',
+            hashContrasena: '$2b$10$newhash',
+            perfil: 'SUPERVISOR',
+            estaActivo: false,
+          }),
+        }),
+      );
+    });
+
+    it('pullMasters(true) fuerza descarga con sinceVersion=0', async () => {
+      process.env.BACKOFFICE_SYNC_URL = 'https://backoffice.internal/api/sync';
+      (service as any).masterVersion = 500;
+
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          hasUpdates: false,
+          masterVersion: 500,
+        }),
+      });
+
+      await service.pullMasters(true);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('sinceVersion=0'),
+        expect.any(Object),
       );
     });
   });

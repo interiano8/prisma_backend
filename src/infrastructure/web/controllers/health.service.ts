@@ -205,4 +205,39 @@ export class HealthService {
     if (!raw) return null;
     return normalizeControllerUrl(raw);
   }
+
+  async syncNow(): Promise<{
+    success: boolean;
+    salesSynced: number;
+    mastersUpdated: boolean;
+    error?: string;
+  }> {
+    if (!this.cloudSyncService) {
+      return {
+        success: false,
+        salesSynced: 0,
+        mastersUpdated: false,
+        error: 'CloudSyncService no disponible o no configurado',
+      };
+    }
+    const [salesResult, mastersResult] = await Promise.all([
+      this.cloudSyncService.syncPendingSales().catch((err: any) => ({
+        success: false,
+        syncedCount: 0,
+        error: err.message,
+      })),
+      this.cloudSyncService.pullMasters(true).catch((err: any) => ({
+        success: false,
+        updated: false,
+        error: err.message,
+      })),
+    ]);
+
+    return {
+      success: salesResult.success && mastersResult.success,
+      salesSynced: salesResult.syncedCount,
+      mastersUpdated: mastersResult.updated,
+      error: (salesResult as any).error || (mastersResult as any).error || undefined,
+    };
+  }
 }

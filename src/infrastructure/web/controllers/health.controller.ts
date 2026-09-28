@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Res } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { HealthCheckResult, HealthService } from './health.service';
@@ -30,5 +30,17 @@ export class HealthController {
       res.status(HttpStatus.OK);
     }
     return result;
+  }
+
+  @Post('sync-now')
+  @ApiOperation({
+    summary: 'Fuerza la sincronización inmediata de ventas y descarga de maestros desde el Hub',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Sincronización forzada completada',
+  })
+  async syncNow() {
+    return this.healthService.syncNow();
   }
 }

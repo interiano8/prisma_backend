@@ -494,6 +494,113 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
             }
           }
 
+          // Ingestar y sincronizar clientes desde el catálogo central (casa matriz).
+          if (Array.isArray(data.customers)) {
+            const matrixCustomerCodes: string[] = [];
+            for (const cust of data.customers) {
+              try {
+                if (!cust.customerNo || typeof cust.customerNo !== 'string') continue;
+                const cleanCode = cust.customerNo.trim();
+                matrixCustomerCodes.push(cleanCode);
+                const updateData: any = {
+                  nombre: cust.customerName || cleanCode,
+                  tipoFacturacion: Number(cust.billingType) === 0 ? 0 : 1,
+                  bloqueado: cust.blocked === true || cust.blocked === 1,
+                  fechaActualizacion: new Date(),
+                };
+                if (cust.rtn !== undefined) updateData.rtn = String(cust.rtn || '');
+                if (cust.phone !== undefined) updateData.telefono = String(cust.phone || '');
+                if (cust.email !== undefined) updateData.correo = String(cust.email || '');
+                if (cust.address !== undefined) updateData.direccion = String(cust.address || '');
+                if (cust.balance !== undefined && cust.balance != null) {
+                  updateData.saldo = Number(cust.balance) || 0;
+                }
+
+                if (this.prisma.cliente?.upsert) {
+                  await this.prisma.cliente.upsert({
+                    where: { codigo: cleanCode },
+                    update: updateData,
+                    create: {
+                      codigo: cleanCode,
+                      nombre: updateData.nombre,
+                      rtn: updateData.rtn ?? '',
+                      telefono: updateData.telefono ?? '',
+                      correo: updateData.correo ?? '',
+                      direccion: updateData.direccion ?? '',
+                      tipoFacturacion: updateData.tipoFacturacion,
+                      bloqueado: updateData.bloqueado,
+                      saldo: updateData.saldo ?? 0,
+                      fechaActualizacion: updateData.fechaActualizacion,
+                    },
+                  });
+                } else if (this.prisma.cliente?.findFirst) {
+                  const existingC = await this.prisma.cliente.findFirst({
+                    where: { codigo: { equals: cleanCode, mode: 'insensitive' } },
+                    select: { codigo: true },
+                  });
+                  if (existingC) {
+                    await this.prisma.cliente.update({
+                      where: { codigo: existingC.codigo },
+                      data: updateData,
+                    });
+                  } else {
+                    await this.prisma.cliente.create({
+                      data: {
+                        codigo: cleanCode,
+                        nombre: updateData.nombre,
+                        rtn: updateData.rtn ?? '',
+                        telefono: updateData.telefono ?? '',
+                        correo: updateData.correo ?? '',
+                        direccion: updateData.direccion ?? '',
+                        tipoFacturacion: updateData.tipoFacturacion,
+                        bloqueado: updateData.bloqueado,
+                        saldo: updateData.saldo ?? 0,
+                        fechaActualizacion: updateData.fechaActualizacion,
+                      },
+                    });
+                  }
+                }
+              } catch (custErr: any) {
+                this.logger.warn(
+                  `No se pudo sincronizar cliente ${cust?.customerNo}: ${custErr.message}`,
+                );
+              }
+            }
+
+            // INTEGRIDAD DE CLIENTES: la matriz es la única fuente válida para
+            // clientes de CRÉDITO (tipoFacturacion = 0). Los créditos locales
+            // cuyo código no esté en el catálogo central se deshabilitan
+            // (bloqueado = true) sin borrarse. Los clientes de CONTADO (1)
+            // locales se permiten aunque no estén en la matriz y NO se tocan.
+            if (matrixCustomerCodes.length > 0) {
+              const centralCodes = new Set(matrixCustomerCodes);
+              try {
+                if (this.prisma.cliente?.findMany && this.prisma.cliente?.updateMany) {
+                  const localCustomers = await this.prisma.cliente.findMany({
+                    select: { codigo: true, tipoFacturacion: true, bloqueado: true },
+                  });
+                  const orphanCredits = localCustomers.filter(
+                    (c: any) =>
+                      Number(c.tipoFacturacion) === 0 &&
+                      !centralCodes.has(String(c.codigo || '').trim()),
+                  );
+                  const toBlock = orphanCredits.map((c: any) => c.codigo);
+                  if (toBlock.length > 0) {
+                    await (this.prisma.cliente.updateMany as any)({
+                      where: { codigo: { in: toBlock }, bloqueado: { not: true } },
+                      data: { bloqueado: true, fechaActualizacion: new Date() },
+                    });
+                    this.logger.warn(
+                      `[SYNC MASTERS] Clientes de crédito deshabilitados por no existir en la matriz: ${toBlock.length}`,
+                    );
+                  }
+                }
+              } catch (custDeactErr: any) {
+                this.logger.warn(`No se pudo deshabilitar créditos huérfanos: ${custDeactErr.message}`);
+              }
+            }
+          }
+
           return { success: true, updated: true };
         }
 
@@ -504,6 +611,89 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     } catch (err: any) {
       this.logger.debug(`No se pudo verificar maestros de nube: ${err.message}`);
       return { success: false, updated: false };
+    }
+  }
+
+  /**
+   * Replica hacia la casa matriz (POST /sync/up/customers) los clientes de
+   * CONTADO creados localmente en este POS. Solo se envían clientes cuyo código
+   * tiene el prefijo local CCO-{storeCode}- (generados por este POS); los
+   * clientes bajados desde la matriz (incluidos contados de otras tiendas y
+   * créditos) no se re-suben. Best-effort: un fallo de red no rompe el ciclo.
+   */
+  async syncUpCustomers(): Promise<{ success: boolean; syncedCount: number }> {
+    const syncUrl = this.getBaseSyncUrl();
+    if (!syncUrl || syncUrl.trim() === '') {
+      return { success: true, syncedCount: 0 };
+    }
+    const storeCode = process.env.STORE_CODE || '001';
+    const syncKey = process.env.BACKOFFICE_SYNC_KEY || 'prisma-cloud-sync-key';
+    const localPrefix = `CCO-${storeCode.trim().padStart(3, '0')}-`;
+
+    try {
+      if (!this.prisma.cliente?.findMany) {
+        return { success: true, syncedCount: 0 };
+      }
+      // Clientes de contado creados por ESTE POS (prefijo local).
+      const localCash = await this.prisma.cliente.findMany({
+        where: {
+          tipoFacturacion: 1,
+          codigo: { startsWith: localPrefix },
+        },
+        select: {
+          codigo: true,
+          nombre: true,
+          rtn: true,
+          telefono: true,
+          correo: true,
+          direccion: true,
+        },
+        take: 100,
+      });
+      if (localCash.length === 0) {
+        return { success: true, syncedCount: 0 };
+      }
+
+      const payload = {
+        storeCode,
+        customers: localCash.map((c: any) => ({
+          customerNo: c.codigo,
+          customerName: c.nombre || c.codigo,
+          rtn: c.rtn || null,
+          phone: c.telefono || null,
+          email: c.correo || null,
+          address: c.direccion || null,
+          billingType: 1,
+          blocked: false,
+        })),
+      };
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      try {
+        const res = await fetch(`${syncUrl.replace(/\/+$/, '')}/up/customers`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-sync-key': syncKey,
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+        const data = (await res.json()) as { inserted?: number; accepted?: number };
+        this.logger.log(
+          `[SYNC UP] Clientes de contado locales enviados a la matriz: ${localCash.length} (nuevos en 000: ${data.inserted ?? 0})`,
+        );
+        return { success: true, syncedCount: localCash.length };
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    } catch (err: any) {
+      this.logger.warn(`No se pudieron replicar clientes de contado: ${err.message}`);
+      return { success: false, syncedCount: 0 };
     }
   }
 

@@ -220,7 +220,7 @@ export class HealthService {
         error: 'CloudSyncService no disponible o no configurado',
       };
     }
-    const [salesResult, mastersResult] = await Promise.all([
+    const [salesResult, mastersResult, customersUpResult] = await Promise.all([
       this.cloudSyncService.syncPendingSales().catch((err: any) => ({
         success: false,
         syncedCount: 0,
@@ -229,6 +229,11 @@ export class HealthService {
       this.cloudSyncService.pullMasters(true).catch((err: any) => ({
         success: false,
         updated: false,
+        error: err.message,
+      })),
+      this.cloudSyncService.syncUpCustomers().catch((err: any) => ({
+        success: false,
+        syncedCount: 0,
         error: err.message,
       })),
     ]);

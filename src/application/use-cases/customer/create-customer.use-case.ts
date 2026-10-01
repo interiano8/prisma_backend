@@ -27,11 +27,16 @@ export class CreateCustomerUseCase {
   async execute(dto: CreateCustomerCommand): Promise<CreateCustomerResult> {
     const cleanRtn = dto.rtn.trim().replace(/-/g, '').replace(/\s+/g, '');
     const cleanName = dto.name.trim().replace(/-/g, '').toUpperCase();
-    const storePrefix = dto.storeId ? `PRA${dto.storeId.trim()}` : 'BP';
+
+    // Nomenclatura unificada de cliente de CONTADO: CCO-{tienda}-{6 dígitos}.
+    // La tienda incrustada garantiza unicidad global entre sucursales al
+    // replicar el cliente hacia la casa matriz. Ej: CCO-001-482913.
+    const storeCode = (dto.storeId || process.env.STORE_CODE || '001')
+      .trim()
+      .padStart(3, '0');
+    const cashPrefix = `CCO-${storeCode}-`;
     const generateRandomCode = () =>
-      storePrefix +
-      '-' +
-      Math.floor(100000 + Math.random() * 900000).toString();
+      cashPrefix + Math.floor(100000 + Math.random() * 900000).toString();
     let customerCode = dto.code ? dto.code.trim() : '';
 
     if (!customerCode) {

@@ -31,6 +31,7 @@ export interface RemoteProvisioningPayload {
     variasLineasPermitidas?: boolean;
     descuentosPermitidos?: boolean;
     casaMatriz?: string | null;
+    noConsumidorFinal?: string | null;
   };
   configuracionPos: {
     codigoPos?: string;
@@ -214,6 +215,7 @@ export class StoreBootstrapService {
           variasLineasPermitidas: t.variasLineasPermitidas ?? true,
           descuentosPermitidos: t.descuentosPermitidos ?? true,
           casaMatriz: t.casaMatriz ?? undefined,
+          codigoConsumidorFinal: t.noConsumidorFinal ?? undefined,
         },
         create: {
           idTienda: storeCode,
@@ -232,6 +234,7 @@ export class StoreBootstrapService {
           variasLineasPermitidas: t.variasLineasPermitidas ?? true,
           descuentosPermitidos: t.descuentosPermitidos ?? true,
           casaMatriz: t.casaMatriz || null,
+          codigoConsumidorFinal: t.noConsumidorFinal || null,
         },
       });
 

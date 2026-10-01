@@ -322,8 +322,9 @@ export class DispenserRepositoryImpl implements DispenserRepository {
           shiftId: r.shiftId ?? null,
         };
       });
-    } catch {
-      return [];
+    } catch (err) {
+      console.warn(`Error fetching transactions for pump ${pumpId} from controller:`, err);
+      throw err;
     }
   }
 

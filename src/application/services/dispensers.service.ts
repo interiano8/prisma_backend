@@ -219,10 +219,8 @@ export class DispensersService implements OnModuleInit, OnModuleDestroy {
     const activePumps = new Set<number>();
     const posByPump = new Map<number, string | null>();
 
-    // 2. Fetch configurations from HoseFS to update product names/prices if available (cached permanently)
-    if (!this.cachedHoses) {
-      await this.loadHosesConfig();
-    }
+    // 2. Fetch configurations from HoseFS to update product names/prices if available
+    await this.loadHosesConfig();
     const hoses = this.cachedHoses || [];
 
     try {
@@ -323,7 +321,15 @@ export class DispensersService implements OnModuleInit, OnModuleDestroy {
     limit?: number,
   ): Promise<PumpTransaction[]> {
     try {
-      return await this.dispenserRepo.getPumpTransactions(pumpId, limit);
+      const txs = await this.dispenserRepo.getPumpTransactions(pumpId, limit);
+      if (txs && txs.length > 0) {
+        return txs;
+      }
+      return buildMockPumpTransactions(
+        pumpId,
+        this.dispensers.get(pumpId),
+        new Date(),
+      );
     } catch (err) {
       console.warn(
         `Could not fetch transactions for pump ${pumpId} from database, using mock:`,

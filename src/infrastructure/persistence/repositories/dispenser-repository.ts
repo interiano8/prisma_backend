@@ -269,7 +269,9 @@ export class DispenserRepositoryImpl implements DispenserRepository {
       const res = await this.wayneFetch(
         `/api/sales/pump/${pumpId}/sales?limit=${effectiveLimit}`,
       );
-      if (!res.ok) return [];
+      if (!res.ok) {
+        throw new Error(`Controller HTTP ${res.status}`);
+      }
       const json = (await res.json()) as { data?: WayneSaleDto[] };
       const rows = Array.isArray(json?.data) ? json.data : [];
 

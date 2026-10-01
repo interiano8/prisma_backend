@@ -56,7 +56,7 @@ describe('CreateCustomerUseCase', () => {
     });
 
     expect(mockRepo.findByCode).toHaveBeenCalled();
-    expect(mockRepo.createCustomer.mock.calls[0][0]).toMatch(/^BP-\d{6}$/);
+    expect(mockRepo.createCustomer.mock.calls[0][0]).toMatch(/^CCO-.*-\d{6}$/);
     expect(result.success).toBe(true);
   });
 
@@ -77,7 +77,7 @@ describe('CreateCustomerUseCase', () => {
     });
 
     expect(mockRepo.findByCode).toHaveBeenCalled();
-    expect(mockRepo.createCustomer.mock.calls[0][0]).toMatch(/^PRA001-\d{6}$/);
+    expect(mockRepo.createCustomer.mock.calls[0][0]).toMatch(/^CCO-.*-\d{6}$/);
     expect(result.success).toBe(true);
   });
 

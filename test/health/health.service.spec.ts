@@ -219,6 +219,7 @@ describe('HealthService & HealthController', () => {
       const mockCloudSync = {
         syncPendingSales: jest.fn().mockResolvedValue({ success: true, syncedCount: 5 }),
         pullMasters: jest.fn().mockResolvedValue({ success: true, updated: true }),
+        syncUpCustomers: jest.fn().mockResolvedValue({ success: true, syncedCount: 0 }),
       };
 
       const customService = new HealthService(mockPrisma, mockCloudSync as any);

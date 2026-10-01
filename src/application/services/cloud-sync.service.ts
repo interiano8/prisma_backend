@@ -329,6 +329,13 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     const syncKey = process.env.BACKOFFICE_SYNC_KEY || 'prisma-cloud-sync-key';
 
     try {
+      // Sincronizar siempre la configuración de tienda y mangueras pasando la bandera 'force'
+      if (this.storeBootstrapService) {
+        await this.storeBootstrapService.bootstrapStoreConfig(force).catch((err) => {
+          this.logger.debug(`Error en actualización de config de tienda: ${err.message}`);
+        });
+      }
+
       const versionParam = force ? 0 : this.masterVersion;
       const url = `${syncUrl.replace(/\/+$/, '')}/down/masters?storeCode=${encodeURIComponent(storeCode)}&sinceVersion=${versionParam}`;
       const controller = new AbortController();
@@ -347,12 +354,6 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
         const data = (await res.json()) as any;
         if (data.hasUpdates) {
           this.masterVersion = data.masterVersion;
-          // Sincronizar actualización de configuración y mangueras de tienda
-          if (this.storeBootstrapService) {
-            await this.storeBootstrapService.bootstrapStoreConfig().catch((err) => {
-              this.logger.debug(`Error en actualización de config de tienda: ${err.message}`);
-            });
-          }
           // Aplicar precios si vienen en el payload
           for (const price of data.fuelPrices || []) {
             if (this.prisma.precioProducto?.updateMany) {

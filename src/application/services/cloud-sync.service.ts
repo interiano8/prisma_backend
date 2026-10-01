@@ -403,10 +403,12 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
 
           // Ingestar y sincronizar usuarios y empleados en la base local prisma
           if (Array.isArray(data.users)) {
+            const matrixUsernames: string[] = [];
             for (const user of data.users) {
               try {
                 if (!user.username || typeof user.username !== 'string') continue;
                 const cleanUsername = user.username.trim();
+                matrixUsernames.push(cleanUsername);
                 const updateData: any = {
                   nombre: user.name || cleanUsername,
                   hashContrasena: user.passwordHash || null,
@@ -460,6 +462,34 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
                 }
               } catch (userErr: any) {
                 this.logger.warn(`No se pudo sincronizar usuario ${user?.username}: ${userErr.message}`);
+              }
+            }
+
+            // INTEGRIDAD: desactivar empleados locales que ya no existen en la
+            // matriz (fuente única de verdad de usuarios). Así no quedan cuentas
+            // activas que solo viven en la BD del POS.
+            if (matrixUsernames.length > 0) {
+              const lower = new Set(matrixUsernames.map((u) => u.toLowerCase()));
+              try {
+                if (this.prisma.empleado?.findMany && this.prisma.empleado?.updateMany) {
+                  const local = await this.prisma.empleado.findMany({
+                    select: { id: true, usuario: true },
+                  });
+                  const toDisable = local
+                    .filter((e: any) => !lower.has(String(e.usuario || '').toLowerCase()))
+                    .map((e: any) => e.id);
+                  if (toDisable.length > 0) {
+                    await (this.prisma.empleado.updateMany as any)({
+                      where: { id: { in: toDisable }, estaActivo: true },
+                      data: { estaActivo: false },
+                    });
+                    this.logger.warn(
+                      `[SYNC MASTERS] Empleados desactivados por no existir en la matriz: ${toDisable.length}`,
+                    );
+                  }
+                }
+              } catch (deactErr: any) {
+                this.logger.warn(`No se pudo desactivar huérfanos: ${deactErr.message}`);
               }
             }
           }

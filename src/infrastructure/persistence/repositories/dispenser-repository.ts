@@ -114,6 +114,38 @@ export class DispenserRepositoryImpl implements DispenserRepository {
 
   async getPendingSales(includeLocked = false): Promise<PendingSaleRecord[]> {
     try {
+      const rawRows = await this.prisma.$queryRaw<any[]>`
+        SELECT sale_id AS "saleId",
+               pump_number AS "pumpId",
+               hose_number AS "hoseId",
+               amount,
+               ppu,
+               volume,
+               grade_nr AS "grade",
+               shift_id AS "shiftId"
+        FROM fusion_sales
+        WHERE (is_invoiced = FALSE OR is_invoiced IS NULL)
+        ORDER BY sale_id DESC
+        LIMIT 500
+      `;
+      if (Array.isArray(rawRows) && rawRows.length > 0) {
+        return rawRows.map((r: any) => ({
+          SaleID: Number(r.saleId),
+          PumpNumber: Number(r.pumpId ?? 0),
+          HoseId: r.hoseId != null ? Number(r.hoseId) : null,
+          amount: Number(r.amount ?? 0),
+          ppu: Number(r.ppu ?? 0),
+          volume: Number(r.volume ?? 0),
+          GradeNr: Number(r.grade ?? 0),
+          IsInvoiced: false,
+          ShiftId: r.shiftId != null ? Number(r.shiftId) : null,
+        }));
+      }
+    } catch {
+      // Fallback si la tabla fusion_sales no existe localmente
+    }
+
+    try {
       const res = await this.wayneFetch(
         `/api/sales/pending?limit=500&includeLocked=${includeLocked}`,
       );
@@ -261,19 +293,59 @@ export class DispenserRepositoryImpl implements DispenserRepository {
     limit?: number,
   ): Promise<PumpTransaction[]> {
     try {
-      // Cuántas transacciones devolver por bomba (env, default 400).
       const envLimit = Number(process.env.PUMP_TRANSACTIONS_LIMIT ?? '400');
       const effectiveLimit =
         limit && limit > 0 ? limit : Number.isFinite(envLimit) && envLimit > 0 ? envLimit : 400;
 
-      const res = await this.wayneFetch(
-        `/api/sales/pump/${pumpId}/sales?limit=${effectiveLimit}`,
-      );
-      if (!res.ok) {
-        throw new Error(`Controller HTTP ${res.status}`);
+      let rows: WayneSaleDto[] = [];
+
+      try {
+        const rawRows = await this.prisma.$queryRaw<any[]>`
+          SELECT sale_id AS "saleId",
+                 pump_number AS "pumpId",
+                 hose_number AS "hoseId",
+                 shift_id AS "shiftId",
+                 grade_nr AS "grade",
+                 volume,
+                 amount,
+                 ppu,
+                 is_invoiced AS "isInvoiced",
+                 date_of_transaction AS "dateOfTransaction",
+                 time_of_transaction AS "timeOfTransaction"
+          FROM fusion_sales
+          WHERE pump_number = ${pumpId}
+          ORDER BY (is_invoiced IS TRUE) ASC, sale_id DESC
+          LIMIT ${effectiveLimit}
+        `;
+        if (Array.isArray(rawRows) && rawRows.length > 0) {
+          rows = rawRows.map((r: any) => ({
+            saleId: Number(r.saleId),
+            pumpId: Number(r.pumpId),
+            hoseId: Number(r.hoseId),
+            shiftId: r.shiftId != null ? Number(r.shiftId) : null,
+            grade: Number(r.grade),
+            volume: Number(r.volume),
+            amount: Number(r.amount),
+            ppu: Number(r.ppu),
+            isInvoiced: Boolean(r.isInvoiced),
+            dateOfTransaction: r.dateOfTransaction || '',
+            timeOfTransaction: r.timeOfTransaction || '',
+          }));
+        }
+      } catch {
+        // Fallback si la tabla fusion_sales no existe localmente
       }
-      const json = (await res.json()) as { data?: WayneSaleDto[] };
-      const rows = Array.isArray(json?.data) ? json.data : [];
+
+      if (rows.length === 0) {
+        const res = await this.wayneFetch(
+          `/api/sales/pump/${pumpId}/sales?limit=${effectiveLimit}`,
+        );
+        if (!res.ok) {
+          throw new Error(`Controller HTTP ${res.status}`);
+        }
+        const json = (await res.json()) as { data?: WayneSaleDto[] };
+        rows = Array.isArray(json?.data) ? json.data : [];
+      }
 
       const mangueras = await this.prisma.manguera.findMany({
         select: {
@@ -323,7 +395,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         };
       });
     } catch (err) {
-      console.warn(`Error fetching transactions for pump ${pumpId} from controller:`, err);
+      console.warn(`Error fetching transactions for pump ${pumpId}:`, err);
       throw err;
     }
   }

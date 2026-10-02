@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Pool } from 'pg';
 import { PrismaService } from '../../../prisma/prisma.service';
 import {
   DispenserRepository,
@@ -41,7 +42,28 @@ export class DispenserRepositoryImpl implements DispenserRepository {
 
   private wayneApiKeyCache: { key: string; at: number } | null = null;
 
+  private controllerPool: Pool | null = null;
+
   constructor(private readonly prisma: PrismaService) {}
+
+  private getControllerPool(): Pool {
+    if (!this.controllerPool) {
+      const connStr =
+        process.env.DATABASE_URL_CONTROLADOR ||
+        process.env.CONTROLADOR_DATABASE_URL ||
+        'postgresql://controlador:Demo.Controlador%232026@pg-controlador:5432/controlador?schema=public';
+      this.controllerPool = new Pool({
+        connectionString: connStr,
+        max: 10,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 3000,
+      });
+      this.controllerPool.on('error', (err) => {
+        console.warn('[DispenserRepository] Controller Pool error:', err.message);
+      });
+    }
+    return this.controllerPool;
+  }
 
   /** API key del controlador (clave_controlador de la tienda), con cache corta. */
   private async getWayneApiKey(): Promise<string> {
@@ -114,6 +136,39 @@ export class DispenserRepositoryImpl implements DispenserRepository {
 
   async getPendingSales(includeLocked = false): Promise<PendingSaleRecord[]> {
     try {
+      const pool = this.getControllerPool();
+      const res = await pool.query(
+        `SELECT sale_id AS "saleId",
+                pump_number AS "pumpId",
+                hose_number AS "hoseId",
+                amount,
+                ppu,
+                volume,
+                grade_nr AS "grade",
+                shift_id AS "shiftId"
+         FROM fusion_sales
+         WHERE (is_invoiced = FALSE OR is_invoiced IS NULL)
+         ORDER BY sale_id DESC
+         LIMIT 500`,
+      );
+      if (Array.isArray(res.rows) && res.rows.length > 0) {
+        return res.rows.map((r: any) => ({
+          SaleID: Number(r.saleId),
+          PumpNumber: Number(r.pumpId ?? 0),
+          HoseId: r.hoseId != null ? Number(r.hoseId) : null,
+          amount: Number(r.amount ?? 0),
+          ppu: Number(r.ppu ?? 0),
+          volume: Number(r.volume ?? 0),
+          GradeNr: Number(r.grade ?? 0),
+          IsInvoiced: false,
+          ShiftId: r.shiftId != null ? Number(r.shiftId) : null,
+        }));
+      }
+    } catch {
+      // Fallback a Prisma local
+    }
+
+    try {
       const rawRows = await this.prisma.$queryRaw<any[]>`
         SELECT sale_id AS "saleId",
                pump_number AS "pumpId",
@@ -142,7 +197,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         }));
       }
     } catch {
-      // Fallback si la tabla fusion_sales no existe localmente
+      // Fallback a HTTP wayne
     }
 
     try {
@@ -300,30 +355,32 @@ export class DispenserRepositoryImpl implements DispenserRepository {
       let rows: WayneSaleDto[] = [];
 
       try {
-        const rawRows = await this.prisma.$queryRaw<any[]>`
-          SELECT sale_id AS "saleId",
-                 pump_number AS "pumpId",
-                 hose_number AS "hoseId",
-                 shift_id AS "shiftId",
-                 grade_nr AS "grade",
-                 volume,
-                 amount,
-                 ppu,
-                 is_invoiced AS "isInvoiced",
-                 date_of_transaction AS "dateOfTransaction",
-                 time_of_transaction AS "timeOfTransaction"
-          FROM fusion_sales
-          WHERE pump_number = ${pumpId}
-          ORDER BY (is_invoiced IS TRUE) ASC, sale_id DESC
-          LIMIT ${effectiveLimit}
-        `;
-        if (Array.isArray(rawRows) && rawRows.length > 0) {
-          rows = rawRows.map((r: any) => ({
+        const pool = this.getControllerPool();
+        const res = await pool.query(
+          `SELECT sale_id AS "saleId",
+                  pump_number AS "pumpId",
+                  hose_number AS "hoseId",
+                  shift_id AS "shiftId",
+                  grade_nr AS "grade",
+                  volume,
+                  amount,
+                  ppu,
+                  is_invoiced AS "isInvoiced",
+                  date_of_transaction AS "dateOfTransaction",
+                  time_of_transaction AS "timeOfTransaction"
+           FROM fusion_sales
+           WHERE pump_number = $1
+           ORDER BY (is_invoiced IS TRUE) ASC, sale_id DESC
+           LIMIT $2`,
+          [pumpId, effectiveLimit],
+        );
+        if (Array.isArray(res.rows) && res.rows.length > 0) {
+          rows = res.rows.map((r: any) => ({
             saleId: Number(r.saleId),
             pumpId: Number(r.pumpId),
             hoseId: Number(r.hoseId),
             shiftId: r.shiftId != null ? Number(r.shiftId) : null,
-            grade: Number(r.grade),
+            grade: r.grade != null ? Number(r.grade) : null,
             volume: Number(r.volume),
             amount: Number(r.amount),
             ppu: Number(r.ppu),
@@ -333,7 +390,46 @@ export class DispenserRepositoryImpl implements DispenserRepository {
           }));
         }
       } catch {
-        // Fallback si la tabla fusion_sales no existe localmente
+        // Fallback a Prisma local
+      }
+
+      if (rows.length === 0) {
+        try {
+          const rawRows = await this.prisma.$queryRaw<any[]>`
+            SELECT sale_id AS "saleId",
+                   pump_number AS "pumpId",
+                   hose_number AS "hoseId",
+                   shift_id AS "shiftId",
+                   grade_nr AS "grade",
+                   volume,
+                   amount,
+                   ppu,
+                   is_invoiced AS "isInvoiced",
+                   date_of_transaction AS "dateOfTransaction",
+                   time_of_transaction AS "timeOfTransaction"
+            FROM fusion_sales
+            WHERE pump_number = ${pumpId}
+            ORDER BY (is_invoiced IS TRUE) ASC, sale_id DESC
+            LIMIT ${effectiveLimit}
+          `;
+          if (Array.isArray(rawRows) && rawRows.length > 0) {
+            rows = rawRows.map((r: any) => ({
+              saleId: Number(r.saleId),
+              pumpId: Number(r.pumpId),
+              hoseId: Number(r.hoseId),
+              shiftId: r.shiftId != null ? Number(r.shiftId) : null,
+              grade: Number(r.grade),
+              volume: Number(r.volume),
+              amount: Number(r.amount),
+              ppu: Number(r.ppu),
+              isInvoiced: Boolean(r.isInvoiced),
+              dateOfTransaction: r.dateOfTransaction || '',
+              timeOfTransaction: r.timeOfTransaction || '',
+            }));
+          }
+        } catch {
+          // Fallback si la tabla fusion_sales no existe localmente
+        }
       }
 
       if (rows.length === 0) {

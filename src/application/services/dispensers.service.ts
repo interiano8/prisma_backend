@@ -322,24 +322,13 @@ export class DispensersService implements OnModuleInit, OnModuleDestroy {
   ): Promise<PumpTransaction[]> {
     try {
       const txs = await this.dispenserRepo.getPumpTransactions(pumpId, limit);
-      if (txs && txs.length > 0) {
-        return txs;
-      }
-      return buildMockPumpTransactions(
-        pumpId,
-        this.dispensers.get(pumpId),
-        new Date(),
-      );
+      return txs || [];
     } catch (err) {
       console.warn(
-        `Could not fetch transactions for pump ${pumpId} from database, using mock:`,
+        `Could not fetch transactions for pump ${pumpId} from database:`,
         err,
       );
-      return buildMockPumpTransactions(
-        pumpId,
-        this.dispensers.get(pumpId),
-        new Date(),
-      );
+      return [];
     }
   }
 

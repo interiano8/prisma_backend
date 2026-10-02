@@ -248,26 +248,13 @@ describe('DispensersService', () => {
       expect(result).toHaveLength(1);
     });
 
-    it('genera transacciones mock si el repo falla', async () => {
+    it('retorna [] si el repo falla', async () => {
       repo.getPumpTransactions.mockRejectedValue(new Error('db down'));
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-      expose(service).dispensers.set(1, {
-        pumpId: 1,
-        state: 'colgada',
-        productName: 'Súper',
-        gallons: 3,
-        amount: 90,
-        unitPrice: 30,
-        limitAmount: null,
-        saleId: 555,
-      });
 
       const result = await service.getPumpTransactions(1);
 
-      expect(result.length).toBeGreaterThanOrEqual(3);
-      expect(result.some((t) => t.estado === 'Sin Facturar')).toBe(true);
-      expect(result.some((t) => t.estado === 'Facturado')).toBe(true);
-      expect(result.some((t) => t.ciclo === 'Atrasada')).toBe(true);
+      expect(result).toEqual([]);
       expect(warnSpy).toHaveBeenCalled();
     });
   });

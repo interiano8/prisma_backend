@@ -147,7 +147,7 @@ export class HealthService {
       const paths = licensePaths();
       const result = validateLicense(paths.license);
       if (result.ok) {
-        let details: Record<string, unknown> | undefined;
+        let details: Record<string, unknown> = { machineId: result.machineId };
         try {
           if (fs.existsSync(paths.license)) {
             const raw = JSON.parse(fs.readFileSync(paths.license, 'utf8'));

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Pool } from 'pg';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Pool } = require('pg');
 import { PrismaService } from '../../../prisma/prisma.service';
 import {
   DispenserRepository,
@@ -42,11 +43,11 @@ export class DispenserRepositoryImpl implements DispenserRepository {
 
   private wayneApiKeyCache: { key: string; at: number } | null = null;
 
-  private controllerPool: Pool | null = null;
+  private controllerPool: any = null;
 
   constructor(private readonly prisma: PrismaService) {}
 
-  private getControllerPool(): Pool {
+  private getControllerPool(): any {
     if (!this.controllerPool) {
       const connStr =
         process.env.DATABASE_URL_CONTROLADOR ||
@@ -58,7 +59,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 3000,
       });
-      this.controllerPool.on('error', (err) => {
+      this.controllerPool.on('error', (err: any) => {
         console.warn('[DispenserRepository] Controller Pool error:', err.message);
       });
     }

@@ -8,4 +8,5 @@ export interface HoseConfig {
   hosePhysicalId: number;
   codigoPos: string;
   esVisible: boolean;
+  unidadMedida?: string;
 }

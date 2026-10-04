@@ -322,6 +322,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         hosePhysicalId: r.idMangueraFisica ?? 0,
         codigoPos: r.codigoPos || '',
         esVisible: r.visible === true,
+        unidadMedida: r.unidadMedida || 'GL',
       }));
     } catch {
       return [];
@@ -338,6 +339,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         productName: r.nombreGrado,
         unitPrice: 0,
         pos: r.pos,
+        unidadMedida: r.unidadMedida || 'GL',
       }));
     } catch {
       return [];

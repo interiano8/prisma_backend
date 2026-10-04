@@ -256,17 +256,14 @@ describe('E2E Store Provisioning Flow (Matriz -> POS Local)', () => {
     expect(savedPos.numTransaccionesBombas).toBe(450);
     expect(savedPos.minutosAtrasada).toBe(45);
 
-    // 5. Validar persistencia de las 3 mangueras y sus precios
+    // 5. Validar persistencia de las 3 mangueras
     expect(inMemoryDb.mangueras.size).toBe(3);
     const superHose = inMemoryDb.mangueras.get(1);
     const regularHose = inMemoryDb.mangueras.get(2);
     const dieselHose = inMemoryDb.mangueras.get(3);
     expect(superHose.nombreGrado).toBe('SUPER');
-    expect(superHose.precioUnitario).toBe(132.8);
     expect(regularHose.nombreGrado).toBe('REGULAR');
-    expect(regularHose.precioUnitario).toBe(118.5);
     expect(dieselHose.nombreGrado).toBe('DIESEL');
-    expect(dieselHose.precioUnitario).toBe(105.2);
 
     // 6. Validar registro de versión en configuracion_tienda
     const storeMeta = inMemoryDb.configuracionTienda.get('002');
@@ -362,7 +359,7 @@ describe('E2E Store Provisioning Flow (Matriz -> POS Local)', () => {
     expect(updatedStore.telefono).toBe('+504 2555-9999');
 
     const updatedHose = inMemoryDb.mangueras.get(1);
-    expect(updatedHose.precioUnitario).toBe(134.2);
+    expect(updatedHose.nombreGrado).toBe('SUPER');
 
     // Verificar version guardada = 2
     const updatedMeta = inMemoryDb.configuracionTienda.get('002');

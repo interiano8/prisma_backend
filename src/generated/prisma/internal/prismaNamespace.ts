@@ -3208,7 +3208,6 @@ export const MangueraScalarFieldEnum = {
   idManguera: 'idManguera',
   numeroGrado: 'numeroGrado',
   nombreGrado: 'nombreGrado',
-  precioUnitario: 'precioUnitario',
   idsTanques: 'idsTanques',
   idBomba: 'idBomba',
   idMangueraFisica: 'idMangueraFisica',

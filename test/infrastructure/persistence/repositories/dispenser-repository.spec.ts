@@ -117,7 +117,6 @@ describe('DispenserRepositoryImpl', () => {
         idManguera: 1,
         numeroGrado: 1,
         nombreGrado: 'SUPER',
-        precioUnitario: 2921000,
         idBomba: 1,
         idMangueraFisica: 1,
         codigoPos: 'SUPER',
@@ -128,7 +127,7 @@ describe('DispenserRepositoryImpl', () => {
 
     const hoses = await repo.getHoseConfigs();
 
-    expect(hoses[0].pricePerUnit).toBeCloseTo(29.21);
+    expect(hoses[0].pricePerUnit).toBe(0);
     expect(hoses[0].gradeName).toBe('SUPER');
   });
 
@@ -302,7 +301,6 @@ describe('DispenserRepositoryImpl', () => {
           {
             idBomba: 1,
             nombreGrado: 'SUPER',
-            precioUnitario: 2921000,
             pos: 'POS01',
           },
         ]),
@@ -313,7 +311,7 @@ describe('DispenserRepositoryImpl', () => {
     expect(simple[0]).toEqual({
       pumpId: 1,
       productName: 'SUPER',
-      unitPrice: 29.21,
+      unitPrice: 0,
       pos: 'POS01',
     });
 
@@ -373,6 +371,7 @@ describe('DispenserRepositoryImpl', () => {
   });
 
   it('countPendingSalesForPos devuelve 0 sin bombas o en error', async () => {
+    global.fetch = jest.fn().mockResolvedValue(ok([]));
     const empty = new DispenserRepositoryImpl({
       manguera: { findMany: jest.fn().mockResolvedValue([{ idBomba: null }]) },
       configuracionPos: { findFirst: jest.fn().mockResolvedValue(null) },

@@ -317,7 +317,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
         hoseId: r.idManguera,
         gradeNumber: r.numeroGrado ?? 0,
         gradeName: r.nombreGrado || '',
-        pricePerUnit: Number(r.precioUnitario) / 100000.0,
+        pricePerUnit: 0,
         pumpId: r.idBomba ?? 0,
         hosePhysicalId: r.idMangueraFisica ?? 0,
         codigoPos: r.codigoPos || '',
@@ -336,7 +336,7 @@ export class DispenserRepositoryImpl implements DispenserRepository {
       return rows.map((r) => ({
         pumpId: r.idBomba ?? 0,
         productName: r.nombreGrado,
-        unitPrice: Number(r.precioUnitario) / 100000.0,
+        unitPrice: 0,
         pos: r.pos,
       }));
     } catch {

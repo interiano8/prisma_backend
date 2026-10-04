@@ -29,7 +29,6 @@ export type AggregateManguera = {
 export type MangueraAvgAggregateOutputType = {
   idManguera: number | null
   numeroGrado: number | null
-  precioUnitario: runtime.Decimal | null
   idBomba: number | null
   idMangueraFisica: number | null
 }
@@ -37,7 +36,6 @@ export type MangueraAvgAggregateOutputType = {
 export type MangueraSumAggregateOutputType = {
   idManguera: number | null
   numeroGrado: number | null
-  precioUnitario: runtime.Decimal | null
   idBomba: number | null
   idMangueraFisica: number | null
 }
@@ -46,7 +44,6 @@ export type MangueraMinAggregateOutputType = {
   idManguera: number | null
   numeroGrado: number | null
   nombreGrado: string | null
-  precioUnitario: runtime.Decimal | null
   idsTanques: string | null
   idBomba: number | null
   idMangueraFisica: number | null
@@ -62,7 +59,6 @@ export type MangueraMaxAggregateOutputType = {
   idManguera: number | null
   numeroGrado: number | null
   nombreGrado: string | null
-  precioUnitario: runtime.Decimal | null
   idsTanques: string | null
   idBomba: number | null
   idMangueraFisica: number | null
@@ -78,7 +74,6 @@ export type MangueraCountAggregateOutputType = {
   idManguera: number
   numeroGrado: number
   nombreGrado: number
-  precioUnitario: number
   idsTanques: number
   idBomba: number
   idMangueraFisica: number
@@ -95,7 +90,6 @@ export type MangueraCountAggregateOutputType = {
 export type MangueraAvgAggregateInputType = {
   idManguera?: true
   numeroGrado?: true
-  precioUnitario?: true
   idBomba?: true
   idMangueraFisica?: true
 }
@@ -103,7 +97,6 @@ export type MangueraAvgAggregateInputType = {
 export type MangueraSumAggregateInputType = {
   idManguera?: true
   numeroGrado?: true
-  precioUnitario?: true
   idBomba?: true
   idMangueraFisica?: true
 }
@@ -112,7 +105,6 @@ export type MangueraMinAggregateInputType = {
   idManguera?: true
   numeroGrado?: true
   nombreGrado?: true
-  precioUnitario?: true
   idsTanques?: true
   idBomba?: true
   idMangueraFisica?: true
@@ -128,7 +120,6 @@ export type MangueraMaxAggregateInputType = {
   idManguera?: true
   numeroGrado?: true
   nombreGrado?: true
-  precioUnitario?: true
   idsTanques?: true
   idBomba?: true
   idMangueraFisica?: true
@@ -144,7 +135,6 @@ export type MangueraCountAggregateInputType = {
   idManguera?: true
   numeroGrado?: true
   nombreGrado?: true
-  precioUnitario?: true
   idsTanques?: true
   idBomba?: true
   idMangueraFisica?: true
@@ -247,7 +237,6 @@ export type MangueraGroupByOutputType = {
   idManguera: number
   numeroGrado: number | null
   nombreGrado: string | null
-  precioUnitario: runtime.Decimal | null
   idsTanques: string | null
   idBomba: number | null
   idMangueraFisica: number | null
@@ -286,7 +275,6 @@ export type MangueraWhereInput = {
   idManguera?: Prisma.IntFilter<"Manguera"> | number
   numeroGrado?: Prisma.IntNullableFilter<"Manguera"> | number | null
   nombreGrado?: Prisma.StringNullableFilter<"Manguera"> | string | null
-  precioUnitario?: Prisma.DecimalNullableFilter<"Manguera"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.StringNullableFilter<"Manguera"> | string | null
   idBomba?: Prisma.IntNullableFilter<"Manguera"> | number | null
   idMangueraFisica?: Prisma.IntNullableFilter<"Manguera"> | number | null
@@ -303,7 +291,6 @@ export type MangueraOrderByWithRelationInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrderInput | Prisma.SortOrder
   nombreGrado?: Prisma.SortOrderInput | Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrderInput | Prisma.SortOrder
   idsTanques?: Prisma.SortOrderInput | Prisma.SortOrder
   idBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -323,7 +310,6 @@ export type MangueraWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MangueraWhereInput | Prisma.MangueraWhereInput[]
   numeroGrado?: Prisma.IntNullableFilter<"Manguera"> | number | null
   nombreGrado?: Prisma.StringNullableFilter<"Manguera"> | string | null
-  precioUnitario?: Prisma.DecimalNullableFilter<"Manguera"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.StringNullableFilter<"Manguera"> | string | null
   idBomba?: Prisma.IntNullableFilter<"Manguera"> | number | null
   idMangueraFisica?: Prisma.IntNullableFilter<"Manguera"> | number | null
@@ -340,7 +326,6 @@ export type MangueraOrderByWithAggregationInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrderInput | Prisma.SortOrder
   nombreGrado?: Prisma.SortOrderInput | Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrderInput | Prisma.SortOrder
   idsTanques?: Prisma.SortOrderInput | Prisma.SortOrder
   idBomba?: Prisma.SortOrderInput | Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -364,7 +349,6 @@ export type MangueraScalarWhereWithAggregatesInput = {
   idManguera?: Prisma.IntWithAggregatesFilter<"Manguera"> | number
   numeroGrado?: Prisma.IntNullableWithAggregatesFilter<"Manguera"> | number | null
   nombreGrado?: Prisma.StringNullableWithAggregatesFilter<"Manguera"> | string | null
-  precioUnitario?: Prisma.DecimalNullableWithAggregatesFilter<"Manguera"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.StringNullableWithAggregatesFilter<"Manguera"> | string | null
   idBomba?: Prisma.IntNullableWithAggregatesFilter<"Manguera"> | number | null
   idMangueraFisica?: Prisma.IntNullableWithAggregatesFilter<"Manguera"> | number | null
@@ -380,7 +364,6 @@ export type MangueraCreateInput = {
   idManguera: number
   numeroGrado?: number | null
   nombreGrado?: string | null
-  precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: string | null
   idBomba?: number | null
   idMangueraFisica?: number | null
@@ -396,7 +379,6 @@ export type MangueraUncheckedCreateInput = {
   idManguera: number
   numeroGrado?: number | null
   nombreGrado?: string | null
-  precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: string | null
   idBomba?: number | null
   idMangueraFisica?: number | null
@@ -412,7 +394,6 @@ export type MangueraUpdateInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -428,7 +409,6 @@ export type MangueraUncheckedUpdateInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -444,7 +424,6 @@ export type MangueraCreateManyInput = {
   idManguera: number
   numeroGrado?: number | null
   nombreGrado?: string | null
-  precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: string | null
   idBomba?: number | null
   idMangueraFisica?: number | null
@@ -460,7 +439,6 @@ export type MangueraUpdateManyMutationInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -475,7 +453,6 @@ export type MangueraUncheckedUpdateManyInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -501,7 +478,6 @@ export type MangueraCountOrderByAggregateInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrder
   nombreGrado?: Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrder
   idsTanques?: Prisma.SortOrder
   idBomba?: Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrder
@@ -516,7 +492,6 @@ export type MangueraCountOrderByAggregateInput = {
 export type MangueraAvgOrderByAggregateInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrder
   idBomba?: Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrder
 }
@@ -525,7 +500,6 @@ export type MangueraMaxOrderByAggregateInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrder
   nombreGrado?: Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrder
   idsTanques?: Prisma.SortOrder
   idBomba?: Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrder
@@ -541,7 +515,6 @@ export type MangueraMinOrderByAggregateInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrder
   nombreGrado?: Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrder
   idsTanques?: Prisma.SortOrder
   idBomba?: Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrder
@@ -556,7 +529,6 @@ export type MangueraMinOrderByAggregateInput = {
 export type MangueraSumOrderByAggregateInput = {
   idManguera?: Prisma.SortOrder
   numeroGrado?: Prisma.SortOrder
-  precioUnitario?: Prisma.SortOrder
   idBomba?: Prisma.SortOrder
   idMangueraFisica?: Prisma.SortOrder
 }
@@ -607,7 +579,6 @@ export type MangueraCreateWithoutMonedaInput = {
   idManguera: number
   numeroGrado?: number | null
   nombreGrado?: string | null
-  precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: string | null
   idBomba?: number | null
   idMangueraFisica?: number | null
@@ -622,7 +593,6 @@ export type MangueraUncheckedCreateWithoutMonedaInput = {
   idManguera: number
   numeroGrado?: number | null
   nombreGrado?: string | null
-  precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: string | null
   idBomba?: number | null
   idMangueraFisica?: number | null
@@ -666,7 +636,6 @@ export type MangueraScalarWhereInput = {
   idManguera?: Prisma.IntFilter<"Manguera"> | number
   numeroGrado?: Prisma.IntNullableFilter<"Manguera"> | number | null
   nombreGrado?: Prisma.StringNullableFilter<"Manguera"> | string | null
-  precioUnitario?: Prisma.DecimalNullableFilter<"Manguera"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.StringNullableFilter<"Manguera"> | string | null
   idBomba?: Prisma.IntNullableFilter<"Manguera"> | number | null
   idMangueraFisica?: Prisma.IntNullableFilter<"Manguera"> | number | null
@@ -682,7 +651,6 @@ export type MangueraCreateManyMonedaInput = {
   idManguera: number
   numeroGrado?: number | null
   nombreGrado?: string | null
-  precioUnitario?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: string | null
   idBomba?: number | null
   idMangueraFisica?: number | null
@@ -697,7 +665,6 @@ export type MangueraUpdateWithoutMonedaInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -712,7 +679,6 @@ export type MangueraUncheckedUpdateWithoutMonedaInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -727,7 +693,6 @@ export type MangueraUncheckedUpdateManyWithoutMonedaInput = {
   idManguera?: Prisma.IntFieldUpdateOperationsInput | number
   numeroGrado?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   nombreGrado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  precioUnitario?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   idsTanques?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idBomba?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   idMangueraFisica?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -744,7 +709,6 @@ export type MangueraSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   idManguera?: boolean
   numeroGrado?: boolean
   nombreGrado?: boolean
-  precioUnitario?: boolean
   idsTanques?: boolean
   idBomba?: boolean
   idMangueraFisica?: boolean
@@ -761,7 +725,6 @@ export type MangueraSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   idManguera?: boolean
   numeroGrado?: boolean
   nombreGrado?: boolean
-  precioUnitario?: boolean
   idsTanques?: boolean
   idBomba?: boolean
   idMangueraFisica?: boolean
@@ -778,7 +741,6 @@ export type MangueraSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   idManguera?: boolean
   numeroGrado?: boolean
   nombreGrado?: boolean
-  precioUnitario?: boolean
   idsTanques?: boolean
   idBomba?: boolean
   idMangueraFisica?: boolean
@@ -795,7 +757,6 @@ export type MangueraSelectScalar = {
   idManguera?: boolean
   numeroGrado?: boolean
   nombreGrado?: boolean
-  precioUnitario?: boolean
   idsTanques?: boolean
   idBomba?: boolean
   idMangueraFisica?: boolean
@@ -807,7 +768,7 @@ export type MangueraSelectScalar = {
   codigoMoneda?: boolean
 }
 
-export type MangueraOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idManguera" | "numeroGrado" | "nombreGrado" | "precioUnitario" | "idsTanques" | "idBomba" | "idMangueraFisica" | "pos" | "codigoPos" | "codigoGenerico" | "visible" | "unidadMedida" | "codigoMoneda", ExtArgs["result"]["manguera"]>
+export type MangueraOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idManguera" | "numeroGrado" | "nombreGrado" | "idsTanques" | "idBomba" | "idMangueraFisica" | "pos" | "codigoPos" | "codigoGenerico" | "visible" | "unidadMedida" | "codigoMoneda", ExtArgs["result"]["manguera"]>
 export type MangueraInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   moneda?: boolean | Prisma.Manguera$monedaArgs<ExtArgs>
 }
@@ -827,7 +788,6 @@ export type $MangueraPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     idManguera: number
     numeroGrado: number | null
     nombreGrado: string | null
-    precioUnitario: runtime.Decimal | null
     idsTanques: string | null
     idBomba: number | null
     idMangueraFisica: number | null
@@ -1264,7 +1224,6 @@ export interface MangueraFieldRefs {
   readonly idManguera: Prisma.FieldRef<"Manguera", 'Int'>
   readonly numeroGrado: Prisma.FieldRef<"Manguera", 'Int'>
   readonly nombreGrado: Prisma.FieldRef<"Manguera", 'String'>
-  readonly precioUnitario: Prisma.FieldRef<"Manguera", 'Decimal'>
   readonly idsTanques: Prisma.FieldRef<"Manguera", 'String'>
   readonly idBomba: Prisma.FieldRef<"Manguera", 'Int'>
   readonly idMangueraFisica: Prisma.FieldRef<"Manguera", 'Int'>

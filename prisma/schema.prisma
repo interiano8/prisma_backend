@@ -520,7 +520,6 @@ model Manguera {
   idManguera       Int      @id @map("id_manguera")
   numeroGrado      Int?     @map("numero_grado")
   nombreGrado      String?  @map("nombre_grado")
-  precioUnitario   Decimal? @map("precio_unitario") @db.Decimal(10, 2)
   idsTanques       String?  @map("ids_tanques")
   idBomba          Int?     @map("id_bomba")
   idMangueraFisica Int?     @map("id_manguera_fisica")

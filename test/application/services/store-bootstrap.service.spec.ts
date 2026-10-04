@@ -179,7 +179,6 @@ describe('StoreBootstrapService', () => {
           where: { idManguera: 1 },
           update: expect.objectContaining({
             nombreGrado: 'SUPER',
-            precioUnitario: 130.5,
           }),
         }),
       );
@@ -188,7 +187,6 @@ describe('StoreBootstrapService', () => {
           where: { idManguera: 2 },
           update: expect.objectContaining({
             nombreGrado: 'REGULAR',
-            precioUnitario: 115.0,
           }),
         }),
       );

@@ -256,7 +256,11 @@ export const ClienteScalarFieldEnum = {
   correo: 'correo',
   tipoFacturacion: 'tipoFacturacion',
   fechaActualizacion: 'fechaActualizacion',
-  saldo: 'saldo'
+  saldo: 'saldo',
+  limiteCredito: 'limiteCredito',
+  diasCredito: 'diasCredito',
+  bloqueoMora: 'bloqueoMora',
+  tieneFacturasVencidas: 'tieneFacturasVencidas'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]

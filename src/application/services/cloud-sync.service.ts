@@ -516,6 +516,15 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
                 if (cust.balance !== undefined && cust.balance != null) {
                   updateData.saldo = Number(cust.balance) || 0;
                 }
+                if (cust.creditLimit !== undefined && cust.creditLimit != null) {
+                  updateData.limiteCredito = Number(cust.creditLimit) || 0;
+                }
+                if (cust.creditDays !== undefined && cust.creditDays != null) {
+                  updateData.diasCredito = Number(cust.creditDays) || 30;
+                }
+                if (cust.blockOnOverdue !== undefined) {
+                  updateData.bloqueoMora = cust.blockOnOverdue === true || cust.blockOnOverdue === 1;
+                }
 
                 if (this.prisma.cliente?.upsert) {
                   await this.prisma.cliente.upsert({
@@ -531,6 +540,9 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
                       tipoFacturacion: updateData.tipoFacturacion,
                       bloqueado: updateData.bloqueado,
                       saldo: updateData.saldo ?? 0,
+                      limiteCredito: updateData.limiteCredito ?? 0,
+                      diasCredito: updateData.diasCredito ?? 30,
+                      bloqueoMora: updateData.bloqueoMora ?? true,
                       fechaActualizacion: updateData.fechaActualizacion,
                     },
                   });

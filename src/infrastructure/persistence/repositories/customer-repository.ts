@@ -98,11 +98,11 @@ export class CustomerRepositoryImpl implements CustomerRepository {
       dateUpdate: row.fechaActualizacion
         ? row.fechaActualizacion.toISOString()
         : undefined,
-      creditLimit: r.limiteCredito != null ? Number(r.limiteCredito) : undefined,
-      creditDays: r.diasCredito != null ? Number(r.diasCredito) : undefined,
-      blockOnOverdue: r.bloqueoMora === true,
+      creditLimit: row.limiteCredito != null ? Number(row.limiteCredito) : undefined,
+      creditDays: row.diasCredito != null ? Number(row.diasCredito) : undefined,
+      blockOnOverdue: row.bloqueoMora === true,
       balance: row.saldo != null ? Number(row.saldo) : 0,
-      hasOverdueInvoices: r.tieneFacturasVencidas === true,
+      hasOverdueInvoices: row.tieneFacturasVencidas === true,
     };
   }
 }

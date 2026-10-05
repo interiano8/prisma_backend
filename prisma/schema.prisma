@@ -227,6 +227,10 @@ model Cliente {
   tipoFacturacion    Int?      @map("tipo_facturacion")
   fechaActualizacion DateTime? @map("fecha_actualizacion") @db.Timestamptz(6)
   saldo              Decimal?  @map("saldo") @db.Decimal(18, 2)
+  limiteCredito      Decimal?  @map("limite_credito") @db.Decimal(18, 2)
+  diasCredito        Int?      @map("dias_credito")
+  bloqueoMora        Boolean?  @map("bloqueo_mora")
+  tieneFacturasVencidas Boolean? @map("tiene_facturas_vencidas")
 
   @@map("clientes")
 }

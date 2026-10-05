@@ -29,11 +29,15 @@ export type AggregateCliente = {
 export type ClienteAvgAggregateOutputType = {
   tipoFacturacion: number | null
   saldo: runtime.Decimal | null
+  limiteCredito: runtime.Decimal | null
+  diasCredito: number | null
 }
 
 export type ClienteSumAggregateOutputType = {
   tipoFacturacion: number | null
   saldo: runtime.Decimal | null
+  limiteCredito: runtime.Decimal | null
+  diasCredito: number | null
 }
 
 export type ClienteMinAggregateOutputType = {
@@ -47,6 +51,10 @@ export type ClienteMinAggregateOutputType = {
   tipoFacturacion: number | null
   fechaActualizacion: Date | null
   saldo: runtime.Decimal | null
+  limiteCredito: runtime.Decimal | null
+  diasCredito: number | null
+  bloqueoMora: boolean | null
+  tieneFacturasVencidas: boolean | null
 }
 
 export type ClienteMaxAggregateOutputType = {
@@ -60,6 +68,10 @@ export type ClienteMaxAggregateOutputType = {
   tipoFacturacion: number | null
   fechaActualizacion: Date | null
   saldo: runtime.Decimal | null
+  limiteCredito: runtime.Decimal | null
+  diasCredito: number | null
+  bloqueoMora: boolean | null
+  tieneFacturasVencidas: boolean | null
 }
 
 export type ClienteCountAggregateOutputType = {
@@ -73,6 +85,10 @@ export type ClienteCountAggregateOutputType = {
   tipoFacturacion: number
   fechaActualizacion: number
   saldo: number
+  limiteCredito: number
+  diasCredito: number
+  bloqueoMora: number
+  tieneFacturasVencidas: number
   _all: number
 }
 
@@ -80,11 +96,15 @@ export type ClienteCountAggregateOutputType = {
 export type ClienteAvgAggregateInputType = {
   tipoFacturacion?: true
   saldo?: true
+  limiteCredito?: true
+  diasCredito?: true
 }
 
 export type ClienteSumAggregateInputType = {
   tipoFacturacion?: true
   saldo?: true
+  limiteCredito?: true
+  diasCredito?: true
 }
 
 export type ClienteMinAggregateInputType = {
@@ -98,6 +118,10 @@ export type ClienteMinAggregateInputType = {
   tipoFacturacion?: true
   fechaActualizacion?: true
   saldo?: true
+  limiteCredito?: true
+  diasCredito?: true
+  bloqueoMora?: true
+  tieneFacturasVencidas?: true
 }
 
 export type ClienteMaxAggregateInputType = {
@@ -111,6 +135,10 @@ export type ClienteMaxAggregateInputType = {
   tipoFacturacion?: true
   fechaActualizacion?: true
   saldo?: true
+  limiteCredito?: true
+  diasCredito?: true
+  bloqueoMora?: true
+  tieneFacturasVencidas?: true
 }
 
 export type ClienteCountAggregateInputType = {
@@ -124,6 +152,10 @@ export type ClienteCountAggregateInputType = {
   tipoFacturacion?: true
   fechaActualizacion?: true
   saldo?: true
+  limiteCredito?: true
+  diasCredito?: true
+  bloqueoMora?: true
+  tieneFacturasVencidas?: true
   _all?: true
 }
 
@@ -224,6 +256,10 @@ export type ClienteGroupByOutputType = {
   tipoFacturacion: number | null
   fechaActualizacion: Date | null
   saldo: runtime.Decimal | null
+  limiteCredito: runtime.Decimal | null
+  diasCredito: number | null
+  bloqueoMora: boolean | null
+  tieneFacturasVencidas: boolean | null
   _count: ClienteCountAggregateOutputType | null
   _avg: ClienteAvgAggregateOutputType | null
   _sum: ClienteSumAggregateOutputType | null
@@ -260,6 +296,10 @@ export type ClienteWhereInput = {
   tipoFacturacion?: Prisma.IntNullableFilter<"Cliente"> | number | null
   fechaActualizacion?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
   saldo?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  bloqueoMora?: Prisma.BoolNullableFilter<"Cliente"> | boolean | null
+  tieneFacturasVencidas?: Prisma.BoolNullableFilter<"Cliente"> | boolean | null
 }
 
 export type ClienteOrderByWithRelationInput = {
@@ -273,6 +313,10 @@ export type ClienteOrderByWithRelationInput = {
   tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   saldo?: Prisma.SortOrderInput | Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrderInput | Prisma.SortOrder
+  diasCredito?: Prisma.SortOrderInput | Prisma.SortOrder
+  bloqueoMora?: Prisma.SortOrderInput | Prisma.SortOrder
+  tieneFacturasVencidas?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type ClienteWhereUniqueInput = Prisma.AtLeast<{
@@ -289,6 +333,10 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   tipoFacturacion?: Prisma.IntNullableFilter<"Cliente"> | number | null
   fechaActualizacion?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
   saldo?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  bloqueoMora?: Prisma.BoolNullableFilter<"Cliente"> | boolean | null
+  tieneFacturasVencidas?: Prisma.BoolNullableFilter<"Cliente"> | boolean | null
 }, "codigo">
 
 export type ClienteOrderByWithAggregationInput = {
@@ -302,6 +350,10 @@ export type ClienteOrderByWithAggregationInput = {
   tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrderInput | Prisma.SortOrder
   saldo?: Prisma.SortOrderInput | Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrderInput | Prisma.SortOrder
+  diasCredito?: Prisma.SortOrderInput | Prisma.SortOrder
+  bloqueoMora?: Prisma.SortOrderInput | Prisma.SortOrder
+  tieneFacturasVencidas?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ClienteCountOrderByAggregateInput
   _avg?: Prisma.ClienteAvgOrderByAggregateInput
   _max?: Prisma.ClienteMaxOrderByAggregateInput
@@ -323,6 +375,10 @@ export type ClienteScalarWhereWithAggregatesInput = {
   tipoFacturacion?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
   fechaActualizacion?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
   saldo?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
+  bloqueoMora?: Prisma.BoolNullableWithAggregatesFilter<"Cliente"> | boolean | null
+  tieneFacturasVencidas?: Prisma.BoolNullableWithAggregatesFilter<"Cliente"> | boolean | null
 }
 
 export type ClienteCreateInput = {
@@ -336,6 +392,10 @@ export type ClienteCreateInput = {
   tipoFacturacion?: number | null
   fechaActualizacion?: Date | string | null
   saldo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: number | null
+  bloqueoMora?: boolean | null
+  tieneFacturasVencidas?: boolean | null
 }
 
 export type ClienteUncheckedCreateInput = {
@@ -349,6 +409,10 @@ export type ClienteUncheckedCreateInput = {
   tipoFacturacion?: number | null
   fechaActualizacion?: Date | string | null
   saldo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: number | null
+  bloqueoMora?: boolean | null
+  tieneFacturasVencidas?: boolean | null
 }
 
 export type ClienteUpdateInput = {
@@ -362,6 +426,10 @@ export type ClienteUpdateInput = {
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bloqueoMora?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tieneFacturasVencidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type ClienteUncheckedUpdateInput = {
@@ -375,6 +443,10 @@ export type ClienteUncheckedUpdateInput = {
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bloqueoMora?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tieneFacturasVencidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type ClienteCreateManyInput = {
@@ -388,6 +460,10 @@ export type ClienteCreateManyInput = {
   tipoFacturacion?: number | null
   fechaActualizacion?: Date | string | null
   saldo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: number | null
+  bloqueoMora?: boolean | null
+  tieneFacturasVencidas?: boolean | null
 }
 
 export type ClienteUpdateManyMutationInput = {
@@ -401,6 +477,10 @@ export type ClienteUpdateManyMutationInput = {
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bloqueoMora?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tieneFacturasVencidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type ClienteUncheckedUpdateManyInput = {
@@ -414,6 +494,10 @@ export type ClienteUncheckedUpdateManyInput = {
   tipoFacturacion?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   fechaActualizacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   saldo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limiteCredito?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  diasCredito?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bloqueoMora?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tieneFacturasVencidas?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type ClienteCountOrderByAggregateInput = {
@@ -427,11 +511,17 @@ export type ClienteCountOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrder
+  diasCredito?: Prisma.SortOrder
+  bloqueoMora?: Prisma.SortOrder
+  tieneFacturasVencidas?: Prisma.SortOrder
 }
 
 export type ClienteAvgOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrder
+  diasCredito?: Prisma.SortOrder
 }
 
 export type ClienteMaxOrderByAggregateInput = {
@@ -445,6 +535,10 @@ export type ClienteMaxOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrder
+  diasCredito?: Prisma.SortOrder
+  bloqueoMora?: Prisma.SortOrder
+  tieneFacturasVencidas?: Prisma.SortOrder
 }
 
 export type ClienteMinOrderByAggregateInput = {
@@ -458,11 +552,17 @@ export type ClienteMinOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
   fechaActualizacion?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrder
+  diasCredito?: Prisma.SortOrder
+  bloqueoMora?: Prisma.SortOrder
+  tieneFacturasVencidas?: Prisma.SortOrder
 }
 
 export type ClienteSumOrderByAggregateInput = {
   tipoFacturacion?: Prisma.SortOrder
   saldo?: Prisma.SortOrder
+  limiteCredito?: Prisma.SortOrder
+  diasCredito?: Prisma.SortOrder
 }
 
 
@@ -478,6 +578,10 @@ export type ClienteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tipoFacturacion?: boolean
   fechaActualizacion?: boolean
   saldo?: boolean
+  limiteCredito?: boolean
+  diasCredito?: boolean
+  bloqueoMora?: boolean
+  tieneFacturasVencidas?: boolean
 }, ExtArgs["result"]["cliente"]>
 
 export type ClienteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -491,6 +595,10 @@ export type ClienteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tipoFacturacion?: boolean
   fechaActualizacion?: boolean
   saldo?: boolean
+  limiteCredito?: boolean
+  diasCredito?: boolean
+  bloqueoMora?: boolean
+  tieneFacturasVencidas?: boolean
 }, ExtArgs["result"]["cliente"]>
 
 export type ClienteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -504,6 +612,10 @@ export type ClienteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tipoFacturacion?: boolean
   fechaActualizacion?: boolean
   saldo?: boolean
+  limiteCredito?: boolean
+  diasCredito?: boolean
+  bloqueoMora?: boolean
+  tieneFacturasVencidas?: boolean
 }, ExtArgs["result"]["cliente"]>
 
 export type ClienteSelectScalar = {
@@ -517,9 +629,13 @@ export type ClienteSelectScalar = {
   tipoFacturacion?: boolean
   fechaActualizacion?: boolean
   saldo?: boolean
+  limiteCredito?: boolean
+  diasCredito?: boolean
+  bloqueoMora?: boolean
+  tieneFacturasVencidas?: boolean
 }
 
-export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"codigo" | "nombre" | "direccion" | "telefono" | "bloqueado" | "rtn" | "correo" | "tipoFacturacion" | "fechaActualizacion" | "saldo", ExtArgs["result"]["cliente"]>
+export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"codigo" | "nombre" | "direccion" | "telefono" | "bloqueado" | "rtn" | "correo" | "tipoFacturacion" | "fechaActualizacion" | "saldo" | "limiteCredito" | "diasCredito" | "bloqueoMora" | "tieneFacturasVencidas", ExtArgs["result"]["cliente"]>
 
 export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Cliente"
@@ -535,6 +651,10 @@ export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tipoFacturacion: number | null
     fechaActualizacion: Date | null
     saldo: runtime.Decimal | null
+    limiteCredito: runtime.Decimal | null
+    diasCredito: number | null
+    bloqueoMora: boolean | null
+    tieneFacturasVencidas: boolean | null
   }, ExtArgs["result"]["cliente"]>
   composites: {}
 }
@@ -968,6 +1088,10 @@ export interface ClienteFieldRefs {
   readonly tipoFacturacion: Prisma.FieldRef<"Cliente", 'Int'>
   readonly fechaActualizacion: Prisma.FieldRef<"Cliente", 'DateTime'>
   readonly saldo: Prisma.FieldRef<"Cliente", 'Decimal'>
+  readonly limiteCredito: Prisma.FieldRef<"Cliente", 'Decimal'>
+  readonly diasCredito: Prisma.FieldRef<"Cliente", 'Int'>
+  readonly bloqueoMora: Prisma.FieldRef<"Cliente", 'Boolean'>
+  readonly tieneFacturasVencidas: Prisma.FieldRef<"Cliente", 'Boolean'>
 }
     
 

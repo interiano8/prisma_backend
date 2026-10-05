@@ -222,7 +222,7 @@ describe('StoreConfigRepositoryImpl', () => {
       noConsumidorFinal: '',
       urlSaldo: '',
       validarRFID: false,
-      validarSaldoCredito: false,
+      validarSaldoCredito: true,
       voxIsActive: false,
       rangoIndividual: false,
       facturacionOrdenada: false,

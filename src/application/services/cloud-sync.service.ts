@@ -568,11 +568,7 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
               }
             }
 
-            // INTEGRIDAD DE CLIENTES: la matriz es la única fuente válida para
-            // clientes de CRÉDITO (tipoFacturacion = 0). Los créditos locales
-            // cuyo código no esté en el catálogo central se deshabilitan
-            // (bloqueado = true) sin borrarse. Los clientes de CONTADO (1)
-            // locales se permiten aunque no estén en la matriz y NO se tocan.
+            // INTEGRIDAD DE CLIENTES
             if (matrixCustomerCodes.length > 0) {
               const centralCodes = new Set(matrixCustomerCodes);
               try {
@@ -598,6 +594,81 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
                 }
               } catch (custDeactErr: any) {
                 this.logger.warn(`No se pudo deshabilitar créditos huérfanos: ${custDeactErr.message}`);
+              }
+            }
+
+            // SINCRONIZACIÓN DE MÉTODOS DE PAGO
+            if (Array.isArray(data.paymentMethods) && data.paymentMethods.length > 0) {
+              for (const pm of data.paymentMethods) {
+                try {
+                  if (!pm.code) continue;
+                  const cleanCode = String(pm.code).trim();
+                  const isMasterActive = pm.active === true;
+
+                  if (this.prisma.metodoPago?.upsert) {
+                    await this.prisma.metodoPago.upsert({
+                      where: { codigo: cleanCode },
+                      update: {
+                        descripcion: pm.description || cleanCode,
+                        categoria: (pm.category || 'EFECTIVO').trim().toUpperCase(),
+                        moneda: (pm.currency || 'HNL').trim().toUpperCase(),
+                        generaCambio: pm.generatesChange ?? false,
+                        facturaContado: pm.invoiceCash ?? false,
+                        facturaCredito: pm.invoiceCredit ?? false,
+                        salidaCombustible: pm.fuelOutflow ?? false,
+                        fidelizacion: pm.loyalty ?? false,
+                        requiereReferencia: pm.requiresReference ?? false,
+                        imagen: pm.image || null,
+                        activo: isMasterActive,
+                      },
+                      create: {
+                        codigo: cleanCode,
+                        descripcion: pm.description || cleanCode,
+                        categoria: (pm.category || 'EFECTIVO').trim().toUpperCase(),
+                        moneda: (pm.currency || 'HNL').trim().toUpperCase(),
+                        generaCambio: pm.generatesChange ?? false,
+                        facturaContado: pm.invoiceCash ?? false,
+                        facturaCredito: pm.invoiceCredit ?? false,
+                        salidaCombustible: pm.fuelOutflow ?? false,
+                        fidelizacion: pm.loyalty ?? false,
+                        requiereReferencia: pm.requiresReference ?? false,
+                        imagen: pm.image || null,
+                        activo: isMasterActive,
+                      },
+                    });
+                  }
+                } catch (pmErr: any) {
+                  this.logger.warn(`No se pudo sincronizar forma de pago ${pm?.code}: ${pmErr.message}`);
+                }
+              }
+            }
+
+            // SINCRONIZACIÓN DE TASAS DE CAMBIO
+            if (Array.isArray(data.exchangeRates) && data.exchangeRates.length > 0) {
+              for (const er of data.exchangeRates) {
+                try {
+                  if (!er.rate || !er.startDate) continue;
+                  const dateObj = new Date(er.startDate);
+                  if (isNaN(dateObj.getTime())) continue;
+
+                  if (this.prisma.tasaCambio?.findFirst && this.prisma.tasaCambio?.create) {
+                    const existing = await this.prisma.tasaCambio.findFirst({
+                      where: { fecha: dateObj },
+                    });
+                    if (existing) {
+                      await this.prisma.tasaCambio.update({
+                        where: { id: existing.id },
+                        data: { tasa: er.rate },
+                      });
+                    } else {
+                      await this.prisma.tasaCambio.create({
+                        data: { tasa: er.rate, fecha: dateObj },
+                      });
+                    }
+                  }
+                } catch (erErr: any) {
+                  this.logger.warn(`No se pudo sincronizar tasa de cambio: ${erErr.message}`);
+                }
               }
             }
           }

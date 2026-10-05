@@ -313,6 +313,7 @@ describe('DispenserRepositoryImpl', () => {
       productName: 'SUPER',
       unitPrice: 0,
       pos: 'POS01',
+      unidadMedida: 'GL',
     });
 
     const fail = new DispenserRepositoryImpl({

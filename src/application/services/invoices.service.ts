@@ -1,4 +1,5 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Optional } from '@nestjs/common';
+import type { CustomerRepository } from '../../domain/ports/out/customer-repository.interface';
 import {
   CreateInvoiceInput,
   CreditNoteInput,
@@ -61,6 +62,9 @@ export class InvoicesService {
     private readonly campanasService: CampanasService,
     private readonly lealProcessor: InvoiceLealProcessor,
     private readonly validateAdminUseCase: ValidateAdminUseCase,
+    @Optional()
+    @Inject('CustomerRepository')
+    private readonly customerRepo?: CustomerRepository,
   ) {}
 
   async createInvoice(dto: CreateInvoiceInput) {
@@ -86,6 +90,43 @@ export class InvoicesService {
 
     const lines = await this.buildInvoiceLines(dto);
     const payments = this.resultMapper.buildInvoicePayments(dto);
+
+    // Validar estado del cliente (bloqueo y crédito) antes de reservar correlativos o procesar operaciones Leal
+    if (this.customerRepo && dto.customerNo) {
+      const customer = await this.customerRepo.findByCode(dto.customerNo);
+      if (customer) {
+        if (customer.blocked) {
+          throw new BadRequestDomainError(
+            `No se puede emitir factura: El cliente ${customer.name || customer.code} (${customer.code}) está bloqueado.`,
+          );
+        }
+
+        if (dto.isCredit) {
+          const storeConfig = await this.storeConfigRepo.findByStoreId(dto.storeId);
+          const shouldValidateCredit = storeConfig?.validarSaldoCredito !== false;
+
+          if (shouldValidateCredit) {
+            if (customer.blockOnOverdue && customer.hasOverdueInvoices) {
+              throw new BadRequestDomainError(
+                `No se puede emitir factura a crédito: El cliente ${customer.name} (${customer.code}) presenta facturas vencidas en mora.`,
+              );
+            }
+
+            const limit = Number(customer.creditLimit || 0);
+            const saldo = Number(customer.balance || 0);
+            const disponible = Math.round((limit - saldo) * 100) / 100;
+
+            if (dto.total > disponible) {
+              throw new BadRequestDomainError(
+                `No se puede emitir factura a crédito: El monto de la venta (L ${dto.total.toFixed(
+                  2,
+                )}) excede el crédito disponible autorizado (L ${disponible.toFixed(2)}).`,
+              );
+            }
+          }
+        }
+      }
+    }
 
     const { invoiceNo: predictedInvoiceNo } =
       await this.invoiceQueryRepo.findNextCorrelative(dto.storeId, dto.posNo);

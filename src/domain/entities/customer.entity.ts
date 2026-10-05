@@ -8,4 +8,9 @@ export interface Customer {
   blocked?: boolean;
   billingType?: number;
   dateUpdate?: string;
+  creditLimit?: number;
+  creditDays?: number;
+  blockOnOverdue?: boolean;
+  balance?: number;
+  hasOverdueInvoices?: boolean;
 }

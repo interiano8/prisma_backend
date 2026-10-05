@@ -85,6 +85,7 @@ export class CustomerRepositoryImpl implements CustomerRepository {
   }
 
   private mapCustomer(row: Cliente): Customer {
+    const r = row as any;
     return {
       code: row.codigo,
       name: row.nombre || '',
@@ -97,6 +98,11 @@ export class CustomerRepositoryImpl implements CustomerRepository {
       dateUpdate: row.fechaActualizacion
         ? row.fechaActualizacion.toISOString()
         : undefined,
+      creditLimit: r.limiteCredito != null ? Number(r.limiteCredito) : undefined,
+      creditDays: r.diasCredito != null ? Number(r.diasCredito) : undefined,
+      blockOnOverdue: r.bloqueoMora === true,
+      balance: row.saldo != null ? Number(row.saldo) : 0,
+      hasOverdueInvoices: r.tieneFacturasVencidas === true,
     };
   }
 }

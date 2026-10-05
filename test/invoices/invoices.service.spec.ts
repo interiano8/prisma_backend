@@ -49,6 +49,7 @@ describe('InvoicesService', () => {
   let dispenserRepo: jest.Mocked<DispenserRepository>;
   let storeConfigRepo: jest.Mocked<StoreConfigRepository>;
   let lealRepo: jest.Mocked<LealRepository>;
+  let customerRepo: jest.Mocked<any>;
   let dispensersService: { clearPumpSale: jest.Mock };
   let campanasService: { evaluateCampanas: jest.Mock };
 
@@ -98,6 +99,13 @@ describe('InvoicesService', () => {
     } as unknown as jest.Mocked<LealRepository>;
     dispensersService = { clearPumpSale: jest.fn() };
     campanasService = { evaluateCampanas: jest.fn() };
+    customerRepo = {
+      search: jest.fn(),
+      findByCode: jest.fn(),
+      findByRtn: jest.fn(),
+      createCustomer: jest.fn(),
+      getConsumidorFinalCode: jest.fn(),
+    } as any;
 
     const module = await Test.createTestingModule({
       providers: [
@@ -108,6 +116,7 @@ describe('InvoicesService', () => {
         { provide: 'DispenserRepository', useValue: dispenserRepo },
         { provide: 'StoreConfigRepository', useValue: storeConfigRepo },
         { provide: 'LealRepository', useValue: lealRepo },
+        { provide: 'CustomerRepository', useValue: customerRepo },
         { provide: DispensersService, useValue: dispensersService },
         { provide: CampanasService, useValue: campanasService },
         { provide: ValidateAdminUseCase, useValue: { execute: jest.fn().mockResolvedValue({ valid: true }) } },
@@ -244,6 +253,110 @@ describe('InvoicesService', () => {
       expect(invoiceRepo.executeInvoiceInsert).toHaveBeenCalledWith(
         expect.objectContaining({ employeeName: 'DB Emp' }),
       );
+    });
+
+    it('lanza BadRequestDomainError cuando el monto excede el crédito disponible del cliente', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      customerRepo.findByCode.mockResolvedValueOnce({
+        code: 'C1',
+        name: 'Cliente Credito',
+        billingType: 0,
+        creditLimit: 100,
+        balance: 50,
+      });
+
+      const creditDto = { ...baseDto(), isCredit: true, total: 200 };
+
+      await expect(service.createInvoice(creditDto)).rejects.toThrow(
+        'No se puede emitir factura a crédito',
+      );
+    });
+
+    it('lanza BadRequestDomainError cuando el cliente está bloqueado por morosidad', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      customerRepo.findByCode.mockResolvedValueOnce({
+        code: 'C1',
+        name: 'Cliente Mora',
+        billingType: 0,
+        creditLimit: 5000,
+        balance: 100,
+        blockOnOverdue: true,
+        hasOverdueInvoices: true,
+      });
+
+      const creditDto = { ...baseDto(), isCredit: true, total: 200 };
+
+      await expect(service.createInvoice(creditDto)).rejects.toThrow(
+        'No se puede emitir factura a crédito',
+      );
+    });
+
+    it('lanza BadRequestDomainError cuando el cliente tiene blocked === true (tanto contado como crédito)', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      customerRepo.findByCode.mockResolvedValueOnce({
+        code: 'C-BLOCKED',
+        name: 'Cliente Bloqueado',
+        blocked: true,
+      });
+
+      const dto = { ...baseDto(), customerNo: 'C-BLOCKED', total: 100 };
+
+      await expect(service.createInvoice(dto)).rejects.toThrow(
+        'El cliente Cliente Bloqueado (C-BLOCKED) está bloqueado',
+      );
+    });
+
+    it('omite validación de crédito y morosidad cuando validarSaldoCredito es false en la estación', async () => {
+      storeConfigRepo.findByStoreId.mockResolvedValueOnce({
+        validarSaldoCredito: false,
+      } as any);
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      invoiceQueryRepo.findNextCorrelative.mockResolvedValue({
+        invoiceNo: 'FAC-1',
+        posTransactionId: 'PT1',
+      });
+      customerRepo.findByCode.mockResolvedValueOnce({
+        code: 'C1',
+        name: 'Cliente En Mora',
+        billingType: 0,
+        creditLimit: 100,
+        balance: 50,
+        blockOnOverdue: true,
+        hasOverdueInvoices: true,
+      });
+      invoiceRepo.executeInvoiceInsert.mockResolvedValue([
+        {
+          noFactura: 'FAC-1',
+          idTransaccionPos: 'PT1',
+          cai: 'CAI-123',
+          rangoDesde: '1',
+          rangoHasta: '100',
+          fechaVenceRango: new Date('2026-12-31'),
+        },
+      ]);
+      campanasService.evaluateCampanas.mockResolvedValue([]);
+
+      const creditDto = { ...baseDto(), isCredit: true, total: 500 };
+      const res = await service.createInvoice(creditDto);
+
+      expect(res.success).toBe(true);
+      expect(res.invoiceNo).toBeTruthy();
     });
 
     it('genera factura por defecto cuando el insert no devuelve filas', async () => {

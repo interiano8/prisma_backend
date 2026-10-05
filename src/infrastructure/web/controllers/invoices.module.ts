@@ -16,8 +16,10 @@ import { StoreConfigRepositoryImpl } from '../../persistence/repositories/store-
 import { CampanasRepositoryImpl } from '../../persistence/repositories/campanas-repository';
 import { DiscountService } from '../../../domain/services/discount.service';
 
+import { CustomersModule } from './customers.module';
+
 @Module({
-  imports: [DispensersModule, LealModule, AuthModule],
+  imports: [DispensersModule, LealModule, AuthModule, CustomersModule],
   controllers: [InvoicesController, CampanasController, SeriesController],
   providers: [
     InvoicesService,

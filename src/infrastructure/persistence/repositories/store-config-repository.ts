@@ -164,7 +164,7 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
       noConsumidorFinal: row.codigoConsumidorFinal || '',
       urlSaldo: '',
       validarRFID: false,
-      validarSaldoCredito: row.validarSaldoCredito === true,
+      validarSaldoCredito: row.validarSaldoCredito !== false,
       voxIsActive: false,
       rangoIndividual: false,
       facturacionOrdenada: false,

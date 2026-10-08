@@ -93,6 +93,25 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     }
   }
 
+  async refreshCustomerData(
+    code: string,
+    data: { balance?: number; creditLimit?: number; blocked?: boolean },
+  ): Promise<void> {
+    try {
+      const updatePayload: any = { fechaActualizacion: new Date() };
+      if (data.balance !== undefined) updatePayload.saldo = data.balance;
+      if (data.creditLimit !== undefined) updatePayload.limiteCredito = data.creditLimit;
+      if (data.blocked !== undefined) updatePayload.bloqueado = data.blocked;
+
+      await this.prisma.cliente.update({
+        where: { codigo: code },
+        data: updatePayload,
+      });
+    } catch {
+      // Best-effort local update
+    }
+  }
+
   async getConsumidorFinalCode(): Promise<string | null> {
     const store = await this.prisma.tienda.findFirst();
     return store?.codigoConsumidorFinal || null;

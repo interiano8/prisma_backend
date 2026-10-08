@@ -76,6 +76,30 @@ export class StoreConfigRepositoryImpl implements StoreConfigRepository {
     }
   }
 
+  async findCreditCheckTimeoutMs(storeId?: string): Promise<number> {
+    try {
+      if (storeId && this.prisma.configuracionTienda) {
+        const storeCfg = await this.prisma.configuracionTienda.findUnique({
+          where: { idTienda: storeId },
+        });
+        const cfg = storeCfg?.config as any;
+        if (cfg?.timeoutConsultaSaldoMs && Number(cfg.timeoutConsultaSaldoMs) > 0) {
+          return Number(cfg.timeoutConsultaSaldoMs);
+        }
+      }
+      if (this.prisma.configuracionTienda) {
+        const firstCfg = await this.prisma.configuracionTienda.findFirst();
+        const cfg = firstCfg?.config as any;
+        if (cfg?.timeoutConsultaSaldoMs && Number(cfg.timeoutConsultaSaldoMs) > 0) {
+          return Number(cfg.timeoutConsultaSaldoMs);
+        }
+      }
+      return 1500;
+    } catch {
+      return 1500;
+    }
+  }
+
   async update(
     storeId: string,
     data: Partial<StoreConfig>,

@@ -199,6 +199,9 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
             fechaVenceRango: invSeries.fechaVenceRango,
             idTurno: params.shiftId ?? null,
             numeroTurno: String(params.shiftNumber),
+            origenValidacionCredito: params.isCredit
+              ? (params.creditValidationSource || 'OFFLINE_FALLBACK')
+              : 'NA',
           },
         });
 

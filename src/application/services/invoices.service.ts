@@ -195,6 +195,7 @@ export class InvoicesService {
         discount: dto.discount,
         isTicket: !!dto.isTicket,
         isCredit: !!dto.isCredit,
+        creditValidationSource: dto.creditValidationSource,
         comment: dto.comment || '',
         km: dto.km || '',
         orden: dto.orden || '',

@@ -416,6 +416,7 @@ model Venta {
   fechaVenceRango      DateTime? @map("fecha_vence_rango") @db.Date
   idTurno              String?   @map("id_turno")
   numeroTurno          String?   @map("numero_turno")
+  origenValidacionCredito String? @map("origen_validacion_credito")
 
   lineasVenta          LineaVenta[]
   pagosVenta           PagoVenta[]

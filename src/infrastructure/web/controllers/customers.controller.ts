@@ -4,6 +4,7 @@ import { SearchCustomersUseCase } from '../../../application/use-cases/customer/
 import { GetConsumidorFinalUseCase } from '../../../application/use-cases/customer/get-consumidor-final.use-case';
 import { CreateCustomerUseCase } from '../../../application/use-cases/customer/create-customer.use-case';
 import { GetCustomerByCodeUseCase } from '../../../application/use-cases/customer/get-customer-by-code.use-case';
+import { CheckCustomerCreditUseCase } from '../../../application/use-cases/customer/check-customer-credit.use-case';
 
 @Controller('customers')
 export class CustomersController {
@@ -12,6 +13,7 @@ export class CustomersController {
     private readonly searchCustomersUseCase: SearchCustomersUseCase,
     private readonly getConsumidorFinalUseCase: GetConsumidorFinalUseCase,
     private readonly getCustomerByCodeUseCase: GetCustomerByCodeUseCase,
+    private readonly checkCustomerCreditUseCase: CheckCustomerCreditUseCase,
   ) {}
 
   @Post('create')
@@ -42,5 +44,18 @@ export class CustomersController {
   @Get('by-code/:code')
   async getByCode(@Param('code') code: string) {
     return this.getCustomerByCodeUseCase.execute(code);
+  }
+
+  @Get(':code/credit-check')
+  async checkCredit(
+    @Param('code') code: string,
+    @Query('amount') amount?: string,
+    @Query('storeId') storeId?: string,
+  ) {
+    return this.checkCustomerCreditUseCase.execute(
+      code,
+      amount ? Number(amount) : undefined,
+      storeId,
+    );
   }
 }

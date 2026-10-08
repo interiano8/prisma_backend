@@ -244,6 +244,7 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
           placa: v.placa || undefined,
           chofer: v.chofer || undefined,
           reconcilerShiftId: v.idTransaccionPos,
+          creditValidationSource: (v as any).origenValidacionCredito || undefined,
           lines: (v.lineasVenta || []).map((l) => ({
             lineNo: l.numeroLineaDocumento,
             externalId: `${v.idTransaccionPos}-${l.numeroLineaDocumento}`,

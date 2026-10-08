@@ -10,5 +10,6 @@ export interface StoreConfigRepository {
   findHideShiftInfo(posCode: string): Promise<boolean>;
   findExchangeRate(fecha: string): Promise<number>;
   findTasaByGrupo(codigo: string): Promise<number>;
+  findCreditCheckTimeoutMs(storeId?: string): Promise<number>;
   update(storeId: string, data: Partial<StoreConfig>): Promise<StoreConfig>;
 }

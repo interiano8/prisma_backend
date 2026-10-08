@@ -71,6 +71,7 @@ export interface CreateInvoiceInput {
   discount: number;
   isTicket?: boolean;
   isCredit?: boolean;
+  creditValidationSource?: string;
   km?: string;
   orden?: string;
   placa?: string;

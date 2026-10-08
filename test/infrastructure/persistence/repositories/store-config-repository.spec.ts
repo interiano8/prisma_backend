@@ -232,4 +232,32 @@ describe('StoreConfigRepositoryImpl', () => {
       campanas: false,
     });
   });
+
+  describe('findCreditCheckTimeoutMs', () => {
+    it('retorna el timeout configurado en configuracionTienda', async () => {
+      const repo = new StoreConfigRepositoryImpl({
+        configuracionTienda: {
+          findUnique: jest.fn().mockResolvedValue({
+            config: { timeoutConsultaSaldoMs: 2500 },
+          }),
+        },
+      } as any);
+
+      const timeout = await repo.findCreditCheckTimeoutMs('001');
+      expect(timeout).toBe(2500);
+    });
+
+    it('retorna 1500 por defecto si no hay configuracion', async () => {
+      const repo = new StoreConfigRepositoryImpl({
+        configuracionTienda: {
+          findUnique: jest.fn().mockResolvedValue(null),
+          findFirst: jest.fn().mockResolvedValue(null),
+        },
+      } as any);
+
+      const timeout = await repo.findCreditCheckTimeoutMs('001');
+      expect(timeout).toBe(1500);
+    });
+  });
 });
+

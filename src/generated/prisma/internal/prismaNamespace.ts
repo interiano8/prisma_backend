@@ -3113,7 +3113,8 @@ export const VentaScalarFieldEnum = {
   rangoHasta: 'rangoHasta',
   fechaVenceRango: 'fechaVenceRango',
   idTurno: 'idTurno',
-  numeroTurno: 'numeroTurno'
+  numeroTurno: 'numeroTurno',
+  origenValidacionCredito: 'origenValidacionCredito'
 } as const
 
 export type VentaScalarFieldEnum = (typeof VentaScalarFieldEnum)[keyof typeof VentaScalarFieldEnum]

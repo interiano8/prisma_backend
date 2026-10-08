@@ -74,6 +74,7 @@ export type VentaMinAggregateOutputType = {
   fechaVenceRango: Date | null
   idTurno: string | null
   numeroTurno: string | null
+  origenValidacionCredito: string | null
 }
 
 export type VentaMaxAggregateOutputType = {
@@ -106,6 +107,7 @@ export type VentaMaxAggregateOutputType = {
   fechaVenceRango: Date | null
   idTurno: string | null
   numeroTurno: string | null
+  origenValidacionCredito: string | null
 }
 
 export type VentaCountAggregateOutputType = {
@@ -138,6 +140,7 @@ export type VentaCountAggregateOutputType = {
   fechaVenceRango: number
   idTurno: number
   numeroTurno: number
+  origenValidacionCredito: number
   _all: number
 }
 
@@ -190,6 +193,7 @@ export type VentaMinAggregateInputType = {
   fechaVenceRango?: true
   idTurno?: true
   numeroTurno?: true
+  origenValidacionCredito?: true
 }
 
 export type VentaMaxAggregateInputType = {
@@ -222,6 +226,7 @@ export type VentaMaxAggregateInputType = {
   fechaVenceRango?: true
   idTurno?: true
   numeroTurno?: true
+  origenValidacionCredito?: true
 }
 
 export type VentaCountAggregateInputType = {
@@ -254,6 +259,7 @@ export type VentaCountAggregateInputType = {
   fechaVenceRango?: true
   idTurno?: true
   numeroTurno?: true
+  origenValidacionCredito?: true
   _all?: true
 }
 
@@ -373,6 +379,7 @@ export type VentaGroupByOutputType = {
   fechaVenceRango: Date | null
   idTurno: string | null
   numeroTurno: string | null
+  origenValidacionCredito: string | null
   _count: VentaCountAggregateOutputType | null
   _avg: VentaAvgAggregateOutputType | null
   _sum: VentaSumAggregateOutputType | null
@@ -428,6 +435,7 @@ export type VentaWhereInput = {
   fechaVenceRango?: Prisma.DateTimeNullableFilter<"Venta"> | Date | string | null
   idTurno?: Prisma.StringNullableFilter<"Venta"> | string | null
   numeroTurno?: Prisma.StringNullableFilter<"Venta"> | string | null
+  origenValidacionCredito?: Prisma.StringNullableFilter<"Venta"> | string | null
   empleado?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
   lineasVenta?: Prisma.LineaVentaListRelationFilter
   pagosVenta?: Prisma.PagoVentaListRelationFilter
@@ -464,6 +472,7 @@ export type VentaOrderByWithRelationInput = {
   fechaVenceRango?: Prisma.SortOrderInput | Prisma.SortOrder
   idTurno?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroTurno?: Prisma.SortOrderInput | Prisma.SortOrder
+  origenValidacionCredito?: Prisma.SortOrderInput | Prisma.SortOrder
   empleado?: Prisma.EmpleadoOrderByWithRelationInput
   lineasVenta?: Prisma.LineaVentaOrderByRelationAggregateInput
   pagosVenta?: Prisma.PagoVentaOrderByRelationAggregateInput
@@ -504,6 +513,7 @@ export type VentaWhereUniqueInput = Prisma.AtLeast<{
   fechaVenceRango?: Prisma.DateTimeNullableFilter<"Venta"> | Date | string | null
   idTurno?: Prisma.StringNullableFilter<"Venta"> | string | null
   numeroTurno?: Prisma.StringNullableFilter<"Venta"> | string | null
+  origenValidacionCredito?: Prisma.StringNullableFilter<"Venta"> | string | null
   empleado?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
   lineasVenta?: Prisma.LineaVentaListRelationFilter
   pagosVenta?: Prisma.PagoVentaListRelationFilter
@@ -540,6 +550,7 @@ export type VentaOrderByWithAggregationInput = {
   fechaVenceRango?: Prisma.SortOrderInput | Prisma.SortOrder
   idTurno?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroTurno?: Prisma.SortOrderInput | Prisma.SortOrder
+  origenValidacionCredito?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.VentaCountOrderByAggregateInput
   _avg?: Prisma.VentaAvgOrderByAggregateInput
   _max?: Prisma.VentaMaxOrderByAggregateInput
@@ -580,6 +591,7 @@ export type VentaScalarWhereWithAggregatesInput = {
   fechaVenceRango?: Prisma.DateTimeNullableWithAggregatesFilter<"Venta"> | Date | string | null
   idTurno?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
   numeroTurno?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
+  origenValidacionCredito?: Prisma.StringNullableWithAggregatesFilter<"Venta"> | string | null
 }
 
 export type VentaCreateInput = {
@@ -611,6 +623,7 @@ export type VentaCreateInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   empleado?: Prisma.EmpleadoCreateNestedOneWithoutVentasInput
   lineasVenta?: Prisma.LineaVentaCreateNestedManyWithoutVentaInput
   pagosVenta?: Prisma.PagoVentaCreateNestedManyWithoutVentaInput
@@ -647,6 +660,7 @@ export type VentaUncheckedCreateInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   lineasVenta?: Prisma.LineaVentaUncheckedCreateNestedManyWithoutVentaInput
   pagosVenta?: Prisma.PagoVentaUncheckedCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealUncheckedCreateNestedManyWithoutVentaInput
@@ -681,6 +695,7 @@ export type VentaUpdateInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleado?: Prisma.EmpleadoUpdateOneWithoutVentasNestedInput
   lineasVenta?: Prisma.LineaVentaUpdateManyWithoutVentaNestedInput
   pagosVenta?: Prisma.PagoVentaUpdateManyWithoutVentaNestedInput
@@ -717,6 +732,7 @@ export type VentaUncheckedUpdateInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineasVenta?: Prisma.LineaVentaUncheckedUpdateManyWithoutVentaNestedInput
   pagosVenta?: Prisma.PagoVentaUncheckedUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUncheckedUpdateManyWithoutVentaNestedInput
@@ -752,6 +768,7 @@ export type VentaCreateManyInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
 }
 
 export type VentaUpdateManyMutationInput = {
@@ -783,6 +800,7 @@ export type VentaUpdateManyMutationInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type VentaUncheckedUpdateManyInput = {
@@ -815,6 +833,7 @@ export type VentaUncheckedUpdateManyInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type VentaListRelationFilter = {
@@ -862,6 +881,7 @@ export type VentaCountOrderByAggregateInput = {
   fechaVenceRango?: Prisma.SortOrder
   idTurno?: Prisma.SortOrder
   numeroTurno?: Prisma.SortOrder
+  origenValidacionCredito?: Prisma.SortOrder
 }
 
 export type VentaAvgOrderByAggregateInput = {
@@ -903,6 +923,7 @@ export type VentaMaxOrderByAggregateInput = {
   fechaVenceRango?: Prisma.SortOrder
   idTurno?: Prisma.SortOrder
   numeroTurno?: Prisma.SortOrder
+  origenValidacionCredito?: Prisma.SortOrder
 }
 
 export type VentaMinOrderByAggregateInput = {
@@ -935,6 +956,7 @@ export type VentaMinOrderByAggregateInput = {
   fechaVenceRango?: Prisma.SortOrder
   idTurno?: Prisma.SortOrder
   numeroTurno?: Prisma.SortOrder
+  origenValidacionCredito?: Prisma.SortOrder
 }
 
 export type VentaSumOrderByAggregateInput = {
@@ -1073,6 +1095,7 @@ export type VentaCreateWithoutEmpleadoInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   lineasVenta?: Prisma.LineaVentaCreateNestedManyWithoutVentaInput
   pagosVenta?: Prisma.PagoVentaCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealCreateNestedManyWithoutVentaInput
@@ -1107,6 +1130,7 @@ export type VentaUncheckedCreateWithoutEmpleadoInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   lineasVenta?: Prisma.LineaVentaUncheckedCreateNestedManyWithoutVentaInput
   pagosVenta?: Prisma.PagoVentaUncheckedCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealUncheckedCreateNestedManyWithoutVentaInput
@@ -1171,6 +1195,7 @@ export type VentaScalarWhereInput = {
   fechaVenceRango?: Prisma.DateTimeNullableFilter<"Venta"> | Date | string | null
   idTurno?: Prisma.StringNullableFilter<"Venta"> | string | null
   numeroTurno?: Prisma.StringNullableFilter<"Venta"> | string | null
+  origenValidacionCredito?: Prisma.StringNullableFilter<"Venta"> | string | null
 }
 
 export type VentaCreateWithoutLineasVentaInput = {
@@ -1202,6 +1227,7 @@ export type VentaCreateWithoutLineasVentaInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   empleado?: Prisma.EmpleadoCreateNestedOneWithoutVentasInput
   pagosVenta?: Prisma.PagoVentaCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealCreateNestedManyWithoutVentaInput
@@ -1237,6 +1263,7 @@ export type VentaUncheckedCreateWithoutLineasVentaInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   pagosVenta?: Prisma.PagoVentaUncheckedCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealUncheckedCreateNestedManyWithoutVentaInput
 }
@@ -1286,6 +1313,7 @@ export type VentaUpdateWithoutLineasVentaInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleado?: Prisma.EmpleadoUpdateOneWithoutVentasNestedInput
   pagosVenta?: Prisma.PagoVentaUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUpdateManyWithoutVentaNestedInput
@@ -1321,6 +1349,7 @@ export type VentaUncheckedUpdateWithoutLineasVentaInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pagosVenta?: Prisma.PagoVentaUncheckedUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUncheckedUpdateManyWithoutVentaNestedInput
 }
@@ -1354,6 +1383,7 @@ export type VentaCreateWithoutPagosVentaInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   empleado?: Prisma.EmpleadoCreateNestedOneWithoutVentasInput
   lineasVenta?: Prisma.LineaVentaCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealCreateNestedManyWithoutVentaInput
@@ -1389,6 +1419,7 @@ export type VentaUncheckedCreateWithoutPagosVentaInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   lineasVenta?: Prisma.LineaVentaUncheckedCreateNestedManyWithoutVentaInput
   ventasLeal?: Prisma.VentaLealUncheckedCreateNestedManyWithoutVentaInput
 }
@@ -1438,6 +1469,7 @@ export type VentaUpdateWithoutPagosVentaInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleado?: Prisma.EmpleadoUpdateOneWithoutVentasNestedInput
   lineasVenta?: Prisma.LineaVentaUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUpdateManyWithoutVentaNestedInput
@@ -1473,6 +1505,7 @@ export type VentaUncheckedUpdateWithoutPagosVentaInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineasVenta?: Prisma.LineaVentaUncheckedUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUncheckedUpdateManyWithoutVentaNestedInput
 }
@@ -1506,6 +1539,7 @@ export type VentaCreateWithoutVentasLealInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   empleado?: Prisma.EmpleadoCreateNestedOneWithoutVentasInput
   lineasVenta?: Prisma.LineaVentaCreateNestedManyWithoutVentaInput
   pagosVenta?: Prisma.PagoVentaCreateNestedManyWithoutVentaInput
@@ -1541,6 +1575,7 @@ export type VentaUncheckedCreateWithoutVentasLealInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
   lineasVenta?: Prisma.LineaVentaUncheckedCreateNestedManyWithoutVentaInput
   pagosVenta?: Prisma.PagoVentaUncheckedCreateNestedManyWithoutVentaInput
 }
@@ -1590,6 +1625,7 @@ export type VentaUpdateWithoutVentasLealInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleado?: Prisma.EmpleadoUpdateOneWithoutVentasNestedInput
   lineasVenta?: Prisma.LineaVentaUpdateManyWithoutVentaNestedInput
   pagosVenta?: Prisma.PagoVentaUpdateManyWithoutVentaNestedInput
@@ -1625,6 +1661,7 @@ export type VentaUncheckedUpdateWithoutVentasLealInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineasVenta?: Prisma.LineaVentaUncheckedUpdateManyWithoutVentaNestedInput
   pagosVenta?: Prisma.PagoVentaUncheckedUpdateManyWithoutVentaNestedInput
 }
@@ -1658,6 +1695,7 @@ export type VentaCreateManyEmpleadoInput = {
   fechaVenceRango?: Date | string | null
   idTurno?: string | null
   numeroTurno?: string | null
+  origenValidacionCredito?: string | null
 }
 
 export type VentaUpdateWithoutEmpleadoInput = {
@@ -1689,6 +1727,7 @@ export type VentaUpdateWithoutEmpleadoInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineasVenta?: Prisma.LineaVentaUpdateManyWithoutVentaNestedInput
   pagosVenta?: Prisma.PagoVentaUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUpdateManyWithoutVentaNestedInput
@@ -1723,6 +1762,7 @@ export type VentaUncheckedUpdateWithoutEmpleadoInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lineasVenta?: Prisma.LineaVentaUncheckedUpdateManyWithoutVentaNestedInput
   pagosVenta?: Prisma.PagoVentaUncheckedUpdateManyWithoutVentaNestedInput
   ventasLeal?: Prisma.VentaLealUncheckedUpdateManyWithoutVentaNestedInput
@@ -1757,6 +1797,7 @@ export type VentaUncheckedUpdateManyWithoutEmpleadoInput = {
   fechaVenceRango?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroTurno?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenValidacionCredito?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1838,6 +1879,7 @@ export type VentaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   fechaVenceRango?: boolean
   idTurno?: boolean
   numeroTurno?: boolean
+  origenValidacionCredito?: boolean
   empleado?: boolean | Prisma.Venta$empleadoArgs<ExtArgs>
   lineasVenta?: boolean | Prisma.Venta$lineasVentaArgs<ExtArgs>
   pagosVenta?: boolean | Prisma.Venta$pagosVentaArgs<ExtArgs>
@@ -1875,6 +1917,7 @@ export type VentaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   fechaVenceRango?: boolean
   idTurno?: boolean
   numeroTurno?: boolean
+  origenValidacionCredito?: boolean
   empleado?: boolean | Prisma.Venta$empleadoArgs<ExtArgs>
 }, ExtArgs["result"]["venta"]>
 
@@ -1908,6 +1951,7 @@ export type VentaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   fechaVenceRango?: boolean
   idTurno?: boolean
   numeroTurno?: boolean
+  origenValidacionCredito?: boolean
   empleado?: boolean | Prisma.Venta$empleadoArgs<ExtArgs>
 }, ExtArgs["result"]["venta"]>
 
@@ -1941,9 +1985,10 @@ export type VentaSelectScalar = {
   fechaVenceRango?: boolean
   idTurno?: boolean
   numeroTurno?: boolean
+  origenValidacionCredito?: boolean
 }
 
-export type VentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "codigoCliente" | "fechaHoraVenta" | "monto" | "placa" | "documentoRelacionado" | "codigoVendedor" | "rtnCliente" | "nombreCliente" | "tipoFacturacion" | "comentario" | "numeroLinea" | "subtotal" | "kilometraje" | "orden" | "placaOrden" | "chofer" | "cambio" | "cai" | "rangoDesde" | "rangoHasta" | "fechaVenceRango" | "idTurno" | "numeroTurno", ExtArgs["result"]["venta"]>
+export type VentaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"numeroEmisor" | "idTransaccionPos" | "idTienda" | "codigoPos" | "tipoDocumento" | "numeroDocumento" | "codigoCliente" | "fechaHoraVenta" | "monto" | "placa" | "documentoRelacionado" | "codigoVendedor" | "rtnCliente" | "nombreCliente" | "tipoFacturacion" | "comentario" | "numeroLinea" | "subtotal" | "kilometraje" | "orden" | "placaOrden" | "chofer" | "cambio" | "cai" | "rangoDesde" | "rangoHasta" | "fechaVenceRango" | "idTurno" | "numeroTurno" | "origenValidacionCredito", ExtArgs["result"]["venta"]>
 export type VentaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empleado?: boolean | Prisma.Venta$empleadoArgs<ExtArgs>
   lineasVenta?: boolean | Prisma.Venta$lineasVentaArgs<ExtArgs>
@@ -1996,6 +2041,7 @@ export type $VentaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     fechaVenceRango: Date | null
     idTurno: string | null
     numeroTurno: string | null
+    origenValidacionCredito: string | null
   }, ExtArgs["result"]["venta"]>
   composites: {}
 }
@@ -2452,6 +2498,7 @@ export interface VentaFieldRefs {
   readonly fechaVenceRango: Prisma.FieldRef<"Venta", 'DateTime'>
   readonly idTurno: Prisma.FieldRef<"Venta", 'String'>
   readonly numeroTurno: Prisma.FieldRef<"Venta", 'String'>
+  readonly origenValidacionCredito: Prisma.FieldRef<"Venta", 'String'>
 }
     
 

@@ -19,4 +19,8 @@ export interface CustomerRepository {
     rtn: string,
   ): Promise<{ success: boolean; code: string; name: string; rtf: string }>;
   updateBalance?(code: string, delta: number): Promise<void>;
+  refreshCustomerData?(
+    code: string,
+    data: { balance?: number; creditLimit?: number; blocked?: boolean },
+  ): Promise<void>;
 }

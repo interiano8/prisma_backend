@@ -288,12 +288,15 @@ export class ShiftRepositoryImpl implements ShiftRepository {
           select: { codigoMetodoPago: true, monto: true },
         })
       : [];
-    const detallePagos: Record<string, number> = {};
+    const detallePagos: Record<string, any> = {};
     for (const p of pagos) {
       const key = p.codigoMetodoPago || 'OTRO';
       detallePagos[key] = Math.round(
         ((detallePagos[key] || 0) + Number(p.monto || 0)) * 100,
       ) / 100;
+    }
+    if (dto.actualAmount !== undefined && dto.actualAmount !== null) {
+      detallePagos.efectivoDeclarado = Number(dto.actualAmount);
     }
 
     await this.prisma.$transaction(

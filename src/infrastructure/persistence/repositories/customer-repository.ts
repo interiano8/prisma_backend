@@ -67,7 +67,7 @@ export class CustomerRepositoryImpl implements CustomerRepository {
   ): Promise<{ success: boolean; code: string; name: string; rtf: string }> {
     await this.prisma.cliente.upsert({
       where: { codigo: code },
-      update: { nombre: name, rtn },
+      update: { nombre: name, rtn, fechaActualizacion: new Date() },
       create: {
         codigo: code,
         nombre: name,
@@ -77,6 +77,20 @@ export class CustomerRepositoryImpl implements CustomerRepository {
       },
     });
     return { success: true, code, name, rtf: rtn };
+  }
+
+  async updateBalance(code: string, delta: number): Promise<void> {
+    try {
+      await this.prisma.cliente.update({
+        where: { codigo: code },
+        data: {
+          saldo: { increment: delta },
+          fechaActualizacion: new Date(),
+        },
+      });
+    } catch {
+      // Best-effort local update
+    }
   }
 
   async getConsumidorFinalCode(): Promise<string | null> {

@@ -18,4 +18,5 @@ export interface CustomerRepository {
     name: string,
     rtn: string,
   ): Promise<{ success: boolean; code: string; name: string; rtf: string }>;
+  updateBalance?(code: string, delta: number): Promise<void>;
 }

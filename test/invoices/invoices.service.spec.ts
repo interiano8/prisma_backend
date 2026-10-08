@@ -342,12 +342,12 @@ describe('InvoicesService', () => {
       });
       invoiceRepo.executeInvoiceInsert.mockResolvedValue([
         {
-          noFactura: 'FAC-1',
-          idTransaccionPos: 'PT1',
-          cai: 'CAI-123',
-          rangoDesde: '1',
-          rangoHasta: '100',
-          fechaVenceRango: new Date('2026-12-31'),
+          NextInvoiceOfNextInvoice: 'FAC-1',
+          NextPosTransactionIDNumber: 'PT1',
+          CAIOfNextInvoice: 'CAI-123',
+          StartingNoOfNextInvoice: '1',
+          EndingNoOfNextInvoice: '100',
+          FechaVenceRangoOfNextInvoice: new Date('2026-12-31'),
         },
       ]);
       campanasService.evaluateCampanas.mockResolvedValue([]);

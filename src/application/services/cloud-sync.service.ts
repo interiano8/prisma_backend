@@ -123,15 +123,22 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
         let otherDeclared = 0;
 
         if (s.detallePagos && typeof s.detallePagos === 'object') {
-          const dp = s.detallePagos as Record<string, number>;
+          const dp = s.detallePagos as Record<string, any>;
+          let hasExplicitCash = false;
+          if (dp.efectivoDeclarado !== undefined && dp.efectivoDeclarado !== null) {
+            cashDeclared = Number(dp.efectivoDeclarado) || 0;
+            hasExplicitCash = true;
+          }
+
           for (const [key, val] of Object.entries(dp)) {
+            if (key === 'efectivoDeclarado') continue;
             const k = key.toUpperCase();
             const amount = Number(val) || 0;
-            if (k.includes('EFECT') || k === '1002') {
+            if (!hasExplicitCash && (k.includes('EFECT') || k === '1002')) {
               cashDeclared = amount;
             } else if (k.includes('TARJ') || k === '1003' || k === '1004') {
               cardDeclared += amount;
-            } else {
+            } else if (!k.includes('EFECT') && k !== '1002') {
               otherDeclared += amount;
             }
           }
@@ -295,6 +302,7 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
             this.lastSyncedShiftTimestamp = new Date(lastShift.endTime);
           }
         }
+        await this.saveSyncCursors();
 
         this.lastSyncAt = new Date().toISOString();
         this.status = 'online';
@@ -884,7 +892,54 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  onModuleInit(): void {
+  async loadSyncCursors(): Promise<void> {
+    try {
+      const storeCode = process.env.STORE_CODE || '001';
+      if (this.prisma.configuracionTienda?.findUnique) {
+        const row = await this.prisma.configuracionTienda.findUnique({
+          where: { idTienda: storeCode },
+        });
+        const cfg = (row?.config as Record<string, any>) || {};
+        if (cfg.cloudSyncLastSaleTimestamp) {
+          const d = new Date(cfg.cloudSyncLastSaleTimestamp);
+          if (!isNaN(d.getTime())) this.lastSyncedTimestamp = d;
+        }
+        if (cfg.cloudSyncLastShiftTimestamp) {
+          const d = new Date(cfg.cloudSyncLastShiftTimestamp);
+          if (!isNaN(d.getTime())) this.lastSyncedShiftTimestamp = d;
+        }
+      }
+    } catch (err: any) {
+      this.logger.debug(`No se pudieron cargar cursores de sync: ${err.message}`);
+    }
+  }
+
+  async saveSyncCursors(): Promise<void> {
+    try {
+      const storeCode = process.env.STORE_CODE || '001';
+      if (this.prisma.configuracionTienda?.findUnique && this.prisma.configuracionTienda?.upsert) {
+        const existing = await this.prisma.configuracionTienda.findUnique({
+          where: { idTienda: storeCode },
+        });
+        const currentConfig = (existing?.config as Record<string, any>) || {};
+        const updatedConfig = {
+          ...currentConfig,
+          cloudSyncLastSaleTimestamp: this.lastSyncedTimestamp.toISOString(),
+          cloudSyncLastShiftTimestamp: this.lastSyncedShiftTimestamp.toISOString(),
+        };
+        await this.prisma.configuracionTienda.upsert({
+          where: { idTienda: storeCode },
+          update: { config: updatedConfig },
+          create: { idTienda: storeCode, config: updatedConfig },
+        });
+      }
+    } catch (err: any) {
+      this.logger.debug(`No se pudieron guardar cursores de sync: ${err.message}`);
+    }
+  }
+
+  async onModuleInit(): Promise<void> {
+    await this.loadSyncCursors();
     const syncUrl = process.env.BACKOFFICE_SYNC_URL;
     if (syncUrl && syncUrl.trim() !== '' && process.env.NODE_ENV !== 'test') {
       if (this.storeBootstrapService) {

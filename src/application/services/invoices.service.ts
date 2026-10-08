@@ -253,6 +253,12 @@ export class InvoicesService {
 
     await this.clearPumpSales(dto);
 
+    if (dto.isCredit && dto.customerNo && this.customerRepo?.updateBalance) {
+      await this.customerRepo.updateBalance(dto.customerNo, dto.total).catch((err: any) => {
+        console.warn(`[Factura] No se pudo actualizar saldo local del cliente ${dto.customerNo}:`, err?.message);
+      });
+    }
+
     return {
       success: true,
       invoiceNo: extracted.invoiceNo,
@@ -519,6 +525,16 @@ export class InvoicesService {
         posNo: user.posNo,
         chargeLineNo,
         row,
+      });
+    }
+
+    const origBillingType = headerRow['Billing Type']?.toString() || '';
+    const origCustomerNo = headerRow['Customer No_'] || '';
+    const origAmount = Math.abs(Number(headerRow['Amount']) || 0);
+
+    if (origBillingType === '0' && origCustomerNo && origAmount > 0 && this.customerRepo?.updateBalance) {
+      await this.customerRepo.updateBalance(origCustomerNo, -origAmount).catch((err: any) => {
+        console.warn(`[NotaCredito] No se pudo revertir saldo local del cliente ${origCustomerNo}:`, err?.message);
       });
     }
 

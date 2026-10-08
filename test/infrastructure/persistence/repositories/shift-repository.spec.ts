@@ -76,7 +76,7 @@ describe('ShiftRepositoryImpl', () => {
       data: expect.objectContaining({
         posCierre: '02',
         importeContado: 100,
-        detallePagos: { '1007': 100 },
+        detallePagos: { '1007': 100, efectivoDeclarado: 0 },
       }),
     });
     expect(tx.registroTransaccion.updateMany).toHaveBeenCalledWith(

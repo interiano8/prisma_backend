@@ -156,6 +156,7 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
           cashDeclared,
           cardDeclared,
           otherDeclared,
+          version: s.version ?? 1,
           controlTotals: {
             totalSalesCount,
             totalSalesAmount,

@@ -11,6 +11,7 @@ export interface Shift {
   posTransactionId: string;
   shiftStarting: Date;
   shiftEnding: Date | null;
+  version?: number;
 }
 
 export interface ShiftInfo {

@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Query,
 } from '@nestjs/common';
@@ -89,5 +90,10 @@ export class ShiftController {
     @Query('fechaTurno') fechaTurno: string,
   ) {
     return this.shiftService.getAvailableShifts(storeId, posCode, fechaTurno);
+  }
+
+  @Get(':id/reclassifications')
+  async getShiftReclassifications(@Param('id') shiftId: string) {
+    return this.shiftService.getShiftReclassifications(shiftId);
   }
 }

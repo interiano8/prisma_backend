@@ -172,3 +172,8 @@ export type CondicionCampana = Prisma.CondicionCampanaModel
  * 
  */
 export type ParticipacionCampana = Prisma.ParticipacionCampanaModel
+/**
+ * Model VentaReclasificacion
+ * 
+ */
+export type VentaReclasificacion = Prisma.VentaReclasificacionModel

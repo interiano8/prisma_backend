@@ -17,6 +17,7 @@ import { CampanasRepositoryImpl } from '../../persistence/repositories/campanas-
 import { DiscountService } from '../../../domain/services/discount.service';
 
 import { CustomersModule } from './customers.module';
+import { ReclassifySaleUseCase } from '../../../application/use-cases/sale/reclassify-sale.use-case';
 
 @Module({
   imports: [DispensersModule, LealModule, AuthModule, CustomersModule],
@@ -25,6 +26,7 @@ import { CustomersModule } from './customers.module';
     InvoicesService,
     CampanasService,
     InvoiceLealProcessor,
+    ReclassifySaleUseCase,
     { provide: DiscountService, useValue: new DiscountService() },
     { provide: 'InvoiceRepository', useClass: InvoiceRepositoryImpl },
     { provide: 'InvoiceQueryRepository', useClass: InvoiceQueryRepositoryImpl },
@@ -33,6 +35,6 @@ import { CustomersModule } from './customers.module';
     { provide: 'CampanasRepository', useClass: CampanasRepositoryImpl },
     { provide: 'SeriesRepository', useClass: SeriesRepositoryImpl },
   ],
-  exports: [CampanasService, 'InvoiceRepository', 'InvoiceQueryRepository'],
+  exports: [CampanasService, ReclassifySaleUseCase, 'InvoiceRepository', 'InvoiceQueryRepository'],
 })
 export class InvoicesModule {}

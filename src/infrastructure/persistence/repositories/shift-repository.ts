@@ -498,6 +498,14 @@ for (const l of rawLines) {
       posTransactionId: row.idTransaccionPos || '',
       shiftStarting: row.inicioTurno || new Date(),
       shiftEnding: row.finTurno || null,
+      version: row.version ?? 1,
     };
+  }
+
+  async getShiftReclassifications(shiftId: string): Promise<any[]> {
+    return this.prisma.ventaReclasificacion.findMany({
+      where: { idTurno: shiftId },
+      orderBy: { createdAt: 'asc' },
+    });
   }
 }

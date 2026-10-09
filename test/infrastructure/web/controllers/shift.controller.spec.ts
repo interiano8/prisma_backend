@@ -116,5 +116,12 @@ describe('ShiftController', () => {
       '01',
       '2026-08-15',
     );
+
+    shiftService.getShiftReclassifications = jest.fn().mockResolvedValue([
+      { id: 'REC-1', idVenta: 'TX-1' },
+    ]);
+    const reclass = await controller.getShiftReclassifications('TX-SHIFT-1');
+    expect(shiftService.getShiftReclassifications).toHaveBeenCalledWith('TX-SHIFT-1');
+    expect(reclass).toHaveLength(1);
   });
 });

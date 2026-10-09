@@ -10,10 +10,34 @@ import {
 } from '@nestjs/common';
 import { InvoicesService } from '../../../application/services/invoices.service';
 import { CreateInvoiceDto } from '../dto/invoice/create-invoice.dto';
+import { ReclassifySaleDto } from '../dto/invoice/reclassify-sale.dto';
+import { ReclassifySaleUseCase } from '../../../application/use-cases/sale/reclassify-sale.use-case';
 
 @Controller('invoices')
 export class InvoicesController {
-  constructor(private readonly invoicesService: InvoicesService) {}
+  constructor(
+    private readonly invoicesService: InvoicesService,
+    private readonly reclassifySaleUseCase: ReclassifySaleUseCase,
+  ) {}
+
+  @Post(':id/reclassify')
+  @HttpCode(HttpStatus.OK)
+  async reclassifySale(
+    @Param('id') saleId: string,
+    @Body() dto: ReclassifySaleDto,
+  ) {
+    return this.reclassifySaleUseCase.execute({
+      saleId,
+      storeId: dto.storeId,
+      posNo: dto.posNo,
+      adminPin: dto.adminPin,
+      supervisorUser: dto.supervisorUser,
+      requestedByUser: dto.requestedByUser,
+      motivo: dto.motivo,
+      nuevoMetodoPago: dto.nuevoMetodoPago,
+      nuevoCliente: dto.nuevoCliente,
+    });
+  }
 
   @Post('create')
   @HttpCode(HttpStatus.OK)

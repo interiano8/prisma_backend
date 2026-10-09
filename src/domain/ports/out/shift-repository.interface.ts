@@ -94,4 +94,5 @@ export interface ShiftRepository {
     employeeName: string,
     fechaTurno: string,
   ): Promise<SalesReportData>;
+  getShiftReclassifications(shiftId: string): Promise<any[]>;
 }

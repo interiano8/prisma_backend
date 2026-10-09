@@ -427,7 +427,8 @@ export const ModelName = {
   ConfiguracionLeal: 'ConfiguracionLeal',
   Campana: 'Campana',
   CondicionCampana: 'CondicionCampana',
-  ParticipacionCampana: 'ParticipacionCampana'
+  ParticipacionCampana: 'ParticipacionCampana',
+  VentaReclasificacion: 'VentaReclasificacion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -443,7 +444,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana"
+    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana" | "ventaReclasificacion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2741,6 +2742,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VentaReclasificacion: {
+      payload: Prisma.$VentaReclasificacionPayload<ExtArgs>
+      fields: Prisma.VentaReclasificacionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VentaReclasificacionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VentaReclasificacionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>
+        }
+        findFirst: {
+          args: Prisma.VentaReclasificacionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VentaReclasificacionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>
+        }
+        findMany: {
+          args: Prisma.VentaReclasificacionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>[]
+        }
+        create: {
+          args: Prisma.VentaReclasificacionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>
+        }
+        createMany: {
+          args: Prisma.VentaReclasificacionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VentaReclasificacionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>[]
+        }
+        delete: {
+          args: Prisma.VentaReclasificacionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>
+        }
+        update: {
+          args: Prisma.VentaReclasificacionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>
+        }
+        deleteMany: {
+          args: Prisma.VentaReclasificacionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VentaReclasificacionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VentaReclasificacionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>[]
+        }
+        upsert: {
+          args: Prisma.VentaReclasificacionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaReclasificacionPayload>
+        }
+        aggregate: {
+          args: Prisma.VentaReclasificacionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVentaReclasificacion>
+        }
+        groupBy: {
+          args: Prisma.VentaReclasificacionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VentaReclasificacionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VentaReclasificacionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VentaReclasificacionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2909,7 +2984,8 @@ export const TurnoScalarFieldEnum = {
   nombreEmpleado: 'nombreEmpleado',
   montoInicial: 'montoInicial',
   detallePagos: 'detallePagos',
-  fsShiftId: 'fsShiftId'
+  fsShiftId: 'fsShiftId',
+  version: 'version'
 } as const
 
 export type TurnoScalarFieldEnum = (typeof TurnoScalarFieldEnum)[keyof typeof TurnoScalarFieldEnum]
@@ -3274,6 +3350,23 @@ export const ParticipacionCampanaScalarFieldEnum = {
 export type ParticipacionCampanaScalarFieldEnum = (typeof ParticipacionCampanaScalarFieldEnum)[keyof typeof ParticipacionCampanaScalarFieldEnum]
 
 
+export const VentaReclasificacionScalarFieldEnum = {
+  id: 'id',
+  idVenta: 'idVenta',
+  idTurno: 'idTurno',
+  versionTurno: 'versionTurno',
+  idUsuarioSolicita: 'idUsuarioSolicita',
+  idUsuarioAutoriza: 'idUsuarioAutoriza',
+  tipoCambio: 'tipoCambio',
+  datosOriginales: 'datosOriginales',
+  datosNuevos: 'datosNuevos',
+  motivo: 'motivo',
+  createdAt: 'createdAt'
+} as const
+
+export type VentaReclasificacionScalarFieldEnum = (typeof VentaReclasificacionScalarFieldEnum)[keyof typeof VentaReclasificacionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3288,6 +3381,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -3691,6 +3791,7 @@ export type GlobalOmitConfig = {
   campana?: Prisma.CampanaOmit
   condicionCampana?: Prisma.CondicionCampanaOmit
   participacionCampana?: Prisma.ParticipacionCampanaOmit
+  ventaReclasificacion?: Prisma.VentaReclasificacionOmit
 }
 
 /* Types for Logging */

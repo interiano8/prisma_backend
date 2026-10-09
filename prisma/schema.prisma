@@ -194,6 +194,7 @@ model Turno {
   montoInicial     Decimal?  @map("monto_inicial") @db.Decimal(18, 2)
   detallePagos     Json?     @map("detalle_pagos")
   fsShiftId        String?   @map("fs_shift_id")
+  version          Int       @default(1) @map("version")
 
   @@map("turnos")
 }
@@ -590,6 +591,26 @@ model ParticipacionCampana {
   codigoCliente    String?  @map("codigo_cliente")
 
   @@map("participaciones_campana")
+}
+
+// ===== Reclasificaciones y Auditoría de Ventas =====
+
+model VentaReclasificacion {
+  id                String   @id @default(uuid()) @map("id")
+  idVenta           String   @map("id_venta")
+  idTurno           String   @map("id_turno")
+  versionTurno      Int      @default(1) @map("version_turno")
+  idUsuarioSolicita String   @map("id_usuario_solicita")
+  idUsuarioAutoriza String   @map("id_usuario_autoriza")
+  tipoCambio        String   @map("tipo_cambio")
+  datosOriginales   Json     @map("datos_originales")
+  datosNuevos       Json     @map("datos_nuevos")
+  motivo            String   @map("motivo")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([idVenta])
+  @@index([idTurno])
+  @@map("ventas_reclasificaciones")
 }
 
 

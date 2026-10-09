@@ -317,6 +317,10 @@ export class ShiftService {
       },
     };
   }
+
+  async getShiftReclassifications(shiftId: string) {
+    return this.shiftRepo.getShiftReclassifications(shiftId);
+  }
 }
 
 interface FusionShiftCloseResponse {

@@ -50,6 +50,7 @@ export type TiendaMinAggregateOutputType = {
   codigoMoneda: string | null
   urlLeal: string | null
   lealHabilitado: boolean | null
+  businessType: string | null
 }
 
 export type TiendaMaxAggregateOutputType = {
@@ -78,6 +79,7 @@ export type TiendaMaxAggregateOutputType = {
   codigoMoneda: string | null
   urlLeal: string | null
   lealHabilitado: boolean | null
+  businessType: string | null
 }
 
 export type TiendaCountAggregateOutputType = {
@@ -106,6 +108,7 @@ export type TiendaCountAggregateOutputType = {
   codigoMoneda: number
   urlLeal: number
   lealHabilitado: number
+  businessType: number
   _all: number
 }
 
@@ -136,6 +139,7 @@ export type TiendaMinAggregateInputType = {
   codigoMoneda?: true
   urlLeal?: true
   lealHabilitado?: true
+  businessType?: true
 }
 
 export type TiendaMaxAggregateInputType = {
@@ -164,6 +168,7 @@ export type TiendaMaxAggregateInputType = {
   codigoMoneda?: true
   urlLeal?: true
   lealHabilitado?: true
+  businessType?: true
 }
 
 export type TiendaCountAggregateInputType = {
@@ -192,6 +197,7 @@ export type TiendaCountAggregateInputType = {
   codigoMoneda?: true
   urlLeal?: true
   lealHabilitado?: true
+  businessType?: true
   _all?: true
 }
 
@@ -293,6 +299,7 @@ export type TiendaGroupByOutputType = {
   codigoMoneda: string | null
   urlLeal: string | null
   lealHabilitado: boolean | null
+  businessType: string | null
   _count: TiendaCountAggregateOutputType | null
   _min: TiendaMinAggregateOutputType | null
   _max: TiendaMaxAggregateOutputType | null
@@ -342,6 +349,7 @@ export type TiendaWhereInput = {
   codigoMoneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
+  businessType?: Prisma.StringNullableFilter<"Tienda"> | string | null
   monedaRef?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
 }
 
@@ -371,6 +379,7 @@ export type TiendaOrderByWithRelationInput = {
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
   urlLeal?: Prisma.SortOrderInput | Prisma.SortOrder
   lealHabilitado?: Prisma.SortOrderInput | Prisma.SortOrder
+  businessType?: Prisma.SortOrderInput | Prisma.SortOrder
   monedaRef?: Prisma.MonedaOrderByWithRelationInput
 }
 
@@ -403,6 +412,7 @@ export type TiendaWhereUniqueInput = Prisma.AtLeast<{
   codigoMoneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
+  businessType?: Prisma.StringNullableFilter<"Tienda"> | string | null
   monedaRef?: Prisma.XOR<Prisma.MonedaNullableScalarRelationFilter, Prisma.MonedaWhereInput> | null
 }, "idTienda">
 
@@ -432,6 +442,7 @@ export type TiendaOrderByWithAggregationInput = {
   codigoMoneda?: Prisma.SortOrderInput | Prisma.SortOrder
   urlLeal?: Prisma.SortOrderInput | Prisma.SortOrder
   lealHabilitado?: Prisma.SortOrderInput | Prisma.SortOrder
+  businessType?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TiendaCountOrderByAggregateInput
   _max?: Prisma.TiendaMaxOrderByAggregateInput
   _min?: Prisma.TiendaMinOrderByAggregateInput
@@ -466,6 +477,7 @@ export type TiendaScalarWhereWithAggregatesInput = {
   codigoMoneda?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   urlLeal?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
   lealHabilitado?: Prisma.BoolNullableWithAggregatesFilter<"Tienda"> | boolean | null
+  businessType?: Prisma.StringNullableWithAggregatesFilter<"Tienda"> | string | null
 }
 
 export type TiendaCreateInput = {
@@ -493,6 +505,7 @@ export type TiendaCreateInput = {
   carpetaMultimedia?: string | null
   urlLeal?: string | null
   lealHabilitado?: boolean | null
+  businessType?: string | null
   monedaRef?: Prisma.MonedaCreateNestedOneWithoutTiendasInput
 }
 
@@ -522,6 +535,7 @@ export type TiendaUncheckedCreateInput = {
   codigoMoneda?: string | null
   urlLeal?: string | null
   lealHabilitado?: boolean | null
+  businessType?: string | null
 }
 
 export type TiendaUpdateInput = {
@@ -549,6 +563,7 @@ export type TiendaUpdateInput = {
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   monedaRef?: Prisma.MonedaUpdateOneWithoutTiendasNestedInput
 }
 
@@ -578,6 +593,7 @@ export type TiendaUncheckedUpdateInput = {
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TiendaCreateManyInput = {
@@ -606,6 +622,7 @@ export type TiendaCreateManyInput = {
   codigoMoneda?: string | null
   urlLeal?: string | null
   lealHabilitado?: boolean | null
+  businessType?: string | null
 }
 
 export type TiendaUpdateManyMutationInput = {
@@ -633,6 +650,7 @@ export type TiendaUpdateManyMutationInput = {
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TiendaUncheckedUpdateManyInput = {
@@ -661,6 +679,7 @@ export type TiendaUncheckedUpdateManyInput = {
   codigoMoneda?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TiendaCountOrderByAggregateInput = {
@@ -689,6 +708,7 @@ export type TiendaCountOrderByAggregateInput = {
   codigoMoneda?: Prisma.SortOrder
   urlLeal?: Prisma.SortOrder
   lealHabilitado?: Prisma.SortOrder
+  businessType?: Prisma.SortOrder
 }
 
 export type TiendaMaxOrderByAggregateInput = {
@@ -717,6 +737,7 @@ export type TiendaMaxOrderByAggregateInput = {
   codigoMoneda?: Prisma.SortOrder
   urlLeal?: Prisma.SortOrder
   lealHabilitado?: Prisma.SortOrder
+  businessType?: Prisma.SortOrder
 }
 
 export type TiendaMinOrderByAggregateInput = {
@@ -745,6 +766,7 @@ export type TiendaMinOrderByAggregateInput = {
   codigoMoneda?: Prisma.SortOrder
   urlLeal?: Prisma.SortOrder
   lealHabilitado?: Prisma.SortOrder
+  businessType?: Prisma.SortOrder
 }
 
 export type TiendaListRelationFilter = {
@@ -824,6 +846,7 @@ export type TiendaCreateWithoutMonedaRefInput = {
   carpetaMultimedia?: string | null
   urlLeal?: string | null
   lealHabilitado?: boolean | null
+  businessType?: string | null
 }
 
 export type TiendaUncheckedCreateWithoutMonedaRefInput = {
@@ -851,6 +874,7 @@ export type TiendaUncheckedCreateWithoutMonedaRefInput = {
   carpetaMultimedia?: string | null
   urlLeal?: string | null
   lealHabilitado?: boolean | null
+  businessType?: string | null
 }
 
 export type TiendaCreateOrConnectWithoutMonedaRefInput = {
@@ -908,6 +932,7 @@ export type TiendaScalarWhereInput = {
   codigoMoneda?: Prisma.StringNullableFilter<"Tienda"> | string | null
   urlLeal?: Prisma.StringNullableFilter<"Tienda"> | string | null
   lealHabilitado?: Prisma.BoolNullableFilter<"Tienda"> | boolean | null
+  businessType?: Prisma.StringNullableFilter<"Tienda"> | string | null
 }
 
 export type TiendaCreateManyMonedaRefInput = {
@@ -935,6 +960,7 @@ export type TiendaCreateManyMonedaRefInput = {
   carpetaMultimedia?: string | null
   urlLeal?: string | null
   lealHabilitado?: boolean | null
+  businessType?: string | null
 }
 
 export type TiendaUpdateWithoutMonedaRefInput = {
@@ -962,6 +988,7 @@ export type TiendaUpdateWithoutMonedaRefInput = {
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TiendaUncheckedUpdateWithoutMonedaRefInput = {
@@ -989,6 +1016,7 @@ export type TiendaUncheckedUpdateWithoutMonedaRefInput = {
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TiendaUncheckedUpdateManyWithoutMonedaRefInput = {
@@ -1016,6 +1044,7 @@ export type TiendaUncheckedUpdateManyWithoutMonedaRefInput = {
   carpetaMultimedia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urlLeal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lealHabilitado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  businessType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1046,6 +1075,7 @@ export type TiendaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   codigoMoneda?: boolean
   urlLeal?: boolean
   lealHabilitado?: boolean
+  businessType?: boolean
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }, ExtArgs["result"]["tienda"]>
 
@@ -1075,6 +1105,7 @@ export type TiendaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   codigoMoneda?: boolean
   urlLeal?: boolean
   lealHabilitado?: boolean
+  businessType?: boolean
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }, ExtArgs["result"]["tienda"]>
 
@@ -1104,6 +1135,7 @@ export type TiendaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   codigoMoneda?: boolean
   urlLeal?: boolean
   lealHabilitado?: boolean
+  businessType?: boolean
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }, ExtArgs["result"]["tienda"]>
 
@@ -1133,9 +1165,10 @@ export type TiendaSelectScalar = {
   codigoMoneda?: boolean
   urlLeal?: boolean
   lealHabilitado?: boolean
+  businessType?: boolean
 }
 
-export type TiendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTienda" | "casaMatriz" | "nombre" | "rtn" | "emisor" | "direccion1" | "telefono" | "correo" | "contrasenaAdmin" | "esControladorGas" | "ipFusion" | "urlControlador" | "claveControlador" | "codigoConsumidorFinal" | "variasLineasPermitidas" | "descuentosPermitidos" | "bloqueadoTransaccionesPendientes" | "validarSaldoCredito" | "campanas" | "nombreBotonFidelizacion" | "moneda" | "carpetaMultimedia" | "codigoMoneda" | "urlLeal" | "lealHabilitado", ExtArgs["result"]["tienda"]>
+export type TiendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idTienda" | "casaMatriz" | "nombre" | "rtn" | "emisor" | "direccion1" | "telefono" | "correo" | "contrasenaAdmin" | "esControladorGas" | "ipFusion" | "urlControlador" | "claveControlador" | "codigoConsumidorFinal" | "variasLineasPermitidas" | "descuentosPermitidos" | "bloqueadoTransaccionesPendientes" | "validarSaldoCredito" | "campanas" | "nombreBotonFidelizacion" | "moneda" | "carpetaMultimedia" | "codigoMoneda" | "urlLeal" | "lealHabilitado" | "businessType", ExtArgs["result"]["tienda"]>
 export type TiendaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   monedaRef?: boolean | Prisma.Tienda$monedaRefArgs<ExtArgs>
 }
@@ -1177,6 +1210,7 @@ export type $TiendaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     codigoMoneda: string | null
     urlLeal: string | null
     lealHabilitado: boolean | null
+    businessType: string | null
   }, ExtArgs["result"]["tienda"]>
   composites: {}
 }
@@ -1626,6 +1660,7 @@ export interface TiendaFieldRefs {
   readonly codigoMoneda: Prisma.FieldRef<"Tienda", 'String'>
   readonly urlLeal: Prisma.FieldRef<"Tienda", 'String'>
   readonly lealHabilitado: Prisma.FieldRef<"Tienda", 'Boolean'>
+  readonly businessType: Prisma.FieldRef<"Tienda", 'String'>
 }
     
 

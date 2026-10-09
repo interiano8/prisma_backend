@@ -145,6 +145,7 @@ model Tienda {
   monedaRef                        Moneda?  @relation(fields: [codigoMoneda], references: [codigo])
   urlLeal                          String?  @map("url_leal")
   lealHabilitado                   Boolean? @map("leal_habilitado")
+  businessType                     String?  @default("GAS_STATION") @map("business_type")
 
   @@map("tiendas")
 }

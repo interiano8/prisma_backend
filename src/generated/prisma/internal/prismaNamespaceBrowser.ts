@@ -181,7 +181,8 @@ export const TiendaScalarFieldEnum = {
   carpetaMultimedia: 'carpetaMultimedia',
   codigoMoneda: 'codigoMoneda',
   urlLeal: 'urlLeal',
-  lealHabilitado: 'lealHabilitado'
+  lealHabilitado: 'lealHabilitado',
+  businessType: 'businessType'
 } as const
 
 export type TiendaScalarFieldEnum = (typeof TiendaScalarFieldEnum)[keyof typeof TiendaScalarFieldEnum]

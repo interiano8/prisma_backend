@@ -7,6 +7,7 @@ export interface StoreConfig {
   email: string;
   address: string;
   isGasStation: boolean;
+  businessType?: string;
   printerConfig?: unknown;
   serverTimezone?: string;
   isGasController: boolean;

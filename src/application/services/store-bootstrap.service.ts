@@ -25,6 +25,7 @@ export interface RemoteProvisioningPayload {
     urlControlador?: string | null;
     claveControlador?: string | null;
     esControladorGas?: boolean;
+    businessType?: string | null;
     moneda?: string | null;
     codigoMoneda?: string | null;
     logoUrl?: string | null;
@@ -212,6 +213,7 @@ export class StoreBootstrapService {
           urlControlador: t.urlControlador ?? undefined,
           claveControlador: t.claveControlador ?? undefined,
           esControladorGas: t.esControladorGas ?? false,
+          businessType: t.businessType ?? undefined,
           variasLineasPermitidas: t.variasLineasPermitidas ?? true,
           descuentosPermitidos: t.descuentosPermitidos ?? true,
           casaMatriz: t.casaMatriz ?? undefined,
@@ -231,6 +233,7 @@ export class StoreBootstrapService {
           urlControlador: t.urlControlador || 'http://localhost:5008',
           claveControlador: t.claveControlador || null,
           esControladorGas: t.esControladorGas ?? false,
+          businessType: t.businessType || 'GAS_STATION',
           variasLineasPermitidas: t.variasLineasPermitidas ?? true,
           descuentosPermitidos: t.descuentosPermitidos ?? true,
           casaMatriz: t.casaMatriz || null,

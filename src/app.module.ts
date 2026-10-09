@@ -17,6 +17,7 @@ import { StoreConfigModule } from './infrastructure/web/controllers/store-config
 import { MediaModule } from './infrastructure/web/controllers/media.module';
 import { HealthModule } from './infrastructure/web/controllers/health.module';
 import { ParkedSalesModule } from './infrastructure/web/controllers/parked-sales.module';
+import { InventoryModule } from './infrastructure/web/controllers/inventory.module';
 import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request-logger.middleware';
 
 @Module({
@@ -37,6 +38,7 @@ import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request
     MediaModule,
     HealthModule,
     ParkedSalesModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

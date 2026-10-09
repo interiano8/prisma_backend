@@ -66,6 +66,7 @@ export const ModelName = {
   Producto: 'Producto',
   CategoriaProducto: 'CategoriaProducto',
   PrecioProducto: 'PrecioProducto',
+  InventarioTienda: 'InventarioTienda',
   ReglaDescuento: 'ReglaDescuento',
   LineaVentaDescuentoAplicado: 'LineaVentaDescuentoAplicado',
   MetodoPago: 'MetodoPago',
@@ -315,6 +316,18 @@ export const PrecioProductoScalarFieldEnum = {
 } as const
 
 export type PrecioProductoScalarFieldEnum = (typeof PrecioProductoScalarFieldEnum)[keyof typeof PrecioProductoScalarFieldEnum]
+
+
+export const InventarioTiendaScalarFieldEnum = {
+  id: 'id',
+  idTienda: 'idTienda',
+  codigoProducto: 'codigoProducto',
+  stock: 'stock',
+  minStock: 'minStock',
+  actualizadoEn: 'actualizadoEn'
+} as const
+
+export type InventarioTiendaScalarFieldEnum = (typeof InventarioTiendaScalarFieldEnum)[keyof typeof InventarioTiendaScalarFieldEnum]
 
 
 export const ReglaDescuentoScalarFieldEnum = {

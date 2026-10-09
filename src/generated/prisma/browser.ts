@@ -93,6 +93,11 @@ export type CategoriaProducto = Prisma.CategoriaProductoModel
  */
 export type PrecioProducto = Prisma.PrecioProductoModel
 /**
+ * Model InventarioTienda
+ * 
+ */
+export type InventarioTienda = Prisma.InventarioTiendaModel
+/**
  * Model ReglaDescuento
  * 
  */

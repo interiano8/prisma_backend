@@ -250,6 +250,29 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
               montoGravado: l.montoGravado ?? 0,
             },
           });
+
+          // Descontar inventario local para mercancía vendida
+          if (l.itemCode && tx.inventarioTienda?.upsert) {
+            const qty = Number(l.quantity) || 1;
+            await tx.inventarioTienda.upsert({
+              where: {
+                idTienda_codigoProducto: {
+                  idTienda: gasStationCode,
+                  codigoProducto: l.itemCode,
+                },
+              },
+              update: {
+                stock: { decrement: qty },
+              },
+              create: {
+                idTienda: gasStationCode,
+                codigoProducto: l.itemCode,
+                stock: -qty,
+                minStock: 0,
+              },
+            }).catch(() => {});
+          }
+
           if (winner) {
             const rulesToRecord =
               winner.appliedRules && winner.appliedRules.length > 0

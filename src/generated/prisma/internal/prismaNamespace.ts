@@ -412,6 +412,7 @@ export const ModelName = {
   Producto: 'Producto',
   CategoriaProducto: 'CategoriaProducto',
   PrecioProducto: 'PrecioProducto',
+  InventarioTienda: 'InventarioTienda',
   ReglaDescuento: 'ReglaDescuento',
   LineaVentaDescuentoAplicado: 'LineaVentaDescuentoAplicado',
   MetodoPago: 'MetodoPago',
@@ -445,7 +446,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana" | "ventaReclasificacion" | "ventaAparcada"
+    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "inventarioTienda" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana" | "ventaReclasificacion" | "ventaAparcada"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1556,6 +1557,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PrecioProductoCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PrecioProductoCountAggregateOutputType> | number
+        }
+      }
+    }
+    InventarioTienda: {
+      payload: Prisma.$InventarioTiendaPayload<ExtArgs>
+      fields: Prisma.InventarioTiendaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InventarioTiendaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InventarioTiendaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>
+        }
+        findFirst: {
+          args: Prisma.InventarioTiendaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InventarioTiendaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>
+        }
+        findMany: {
+          args: Prisma.InventarioTiendaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>[]
+        }
+        create: {
+          args: Prisma.InventarioTiendaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>
+        }
+        createMany: {
+          args: Prisma.InventarioTiendaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InventarioTiendaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>[]
+        }
+        delete: {
+          args: Prisma.InventarioTiendaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>
+        }
+        update: {
+          args: Prisma.InventarioTiendaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>
+        }
+        deleteMany: {
+          args: Prisma.InventarioTiendaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InventarioTiendaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InventarioTiendaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>[]
+        }
+        upsert: {
+          args: Prisma.InventarioTiendaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventarioTiendaPayload>
+        }
+        aggregate: {
+          args: Prisma.InventarioTiendaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventarioTienda>
+        }
+        groupBy: {
+          args: Prisma.InventarioTiendaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventarioTiendaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InventarioTiendaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventarioTiendaCountAggregateOutputType> | number
         }
       }
     }
@@ -3145,6 +3220,18 @@ export const PrecioProductoScalarFieldEnum = {
 export type PrecioProductoScalarFieldEnum = (typeof PrecioProductoScalarFieldEnum)[keyof typeof PrecioProductoScalarFieldEnum]
 
 
+export const InventarioTiendaScalarFieldEnum = {
+  id: 'id',
+  idTienda: 'idTienda',
+  codigoProducto: 'codigoProducto',
+  stock: 'stock',
+  minStock: 'minStock',
+  actualizadoEn: 'actualizadoEn'
+} as const
+
+export type InventarioTiendaScalarFieldEnum = (typeof InventarioTiendaScalarFieldEnum)[keyof typeof InventarioTiendaScalarFieldEnum]
+
+
 export const ReglaDescuentoScalarFieldEnum = {
   id: 'id',
   codigoCliente: 'codigoCliente',
@@ -3884,6 +3971,7 @@ export type GlobalOmitConfig = {
   producto?: Prisma.ProductoOmit
   categoriaProducto?: Prisma.CategoriaProductoOmit
   precioProducto?: Prisma.PrecioProductoOmit
+  inventarioTienda?: Prisma.InventarioTiendaOmit
   reglaDescuento?: Prisma.ReglaDescuentoOmit
   lineaVentaDescuentoAplicado?: Prisma.LineaVentaDescuentoAplicadoOmit
   metodoPago?: Prisma.MetodoPagoOmit

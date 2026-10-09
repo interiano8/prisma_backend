@@ -260,6 +260,7 @@ model Producto {
   codigoMoneda       String?            @map("codigo_moneda")
   moneda             Moneda?            @relation(fields: [codigoMoneda], references: [codigo])
   codigosBarras      CodigoBarras[]
+  inventarios        InventarioTienda[]
 
   @@map("productos")
 }
@@ -286,6 +287,22 @@ model PrecioProducto {
   moneda         Moneda?   @relation(fields: [codigoMoneda], references: [codigo])
 
   @@map("precios_producto")
+}
+
+model InventarioTienda {
+  id             Int       @id @default(autoincrement()) @map("id")
+  idTienda       String    @map("id_tienda")
+  codigoProducto String    @map("codigo_producto")
+  stock          Decimal   @default(0) @map("stock") @db.Decimal(18, 4)
+  minStock       Decimal   @default(0) @map("min_stock") @db.Decimal(18, 4)
+  actualizadoEn  DateTime  @default(now()) @updatedAt @map("actualizado_en") @db.Timestamptz(6)
+
+  producto       Producto? @relation(fields: [codigoProducto], references: [codigo])
+
+  @@unique([idTienda, codigoProducto])
+  @@index([idTienda])
+  @@index([codigoProducto])
+  @@map("inventario_tienda")
 }
 
 model ReglaDescuento {

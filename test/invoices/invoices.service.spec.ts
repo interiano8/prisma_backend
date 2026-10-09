@@ -299,6 +299,29 @@ describe('InvoicesService', () => {
       );
     });
 
+    it('rechaza ventas mayores a L 10,000 si el cliente es Consumidor Final', async () => {
+      invoiceQueryRepo.getShiftDetails.mockResolvedValue({
+        shiftDate: new Date('2026-08-15'),
+        employeeName: 'John',
+        shiftId: 'SHIFT1',
+      });
+      storeConfigRepo.findByStoreId.mockResolvedValue({
+        noConsumidorFinal: 'CF',
+      } as any);
+
+      const highValueCfDto = {
+        ...baseDto(),
+        customerNo: 'CF',
+        customerName: 'CONSUMIDOR FINAL',
+        total: 10001,
+        isTicket: false,
+      };
+
+      await expect(service.createInvoice(highValueCfDto)).rejects.toThrow(
+        'Por disposición fiscal, no se permiten ventas mayores a L 10,000.00 a Consumidor Final',
+      );
+    });
+
     it('lanza BadRequestDomainError cuando el cliente tiene blocked === true (tanto contado como crédito)', async () => {
       invoiceQueryRepo.getShiftDetails.mockResolvedValue({
         shiftDate: new Date('2026-08-15'),

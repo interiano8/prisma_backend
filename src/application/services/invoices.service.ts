@@ -92,6 +92,25 @@ export class InvoicesService {
     const payments = this.resultMapper.buildInvoicePayments(dto);
 
     // Validar estado del cliente (bloqueo y crédito) antes de reservar correlativos o procesar operaciones Leal
+    const storeConfig = await this.storeConfigRepo.findByStoreId(dto.storeId);
+
+    // Regla Fiscal SAR: Ventas mayores a L 10,000 no se pueden emitir a Consumidor Final
+    if (!dto.isTicket && dto.total > 10000) {
+      const cfCode = (storeConfig?.noConsumidorFinal || 'CF').trim().toUpperCase();
+      const custCode = (dto.customerNo || '').trim().toUpperCase();
+      const custName = (dto.customerName || '').trim().toUpperCase();
+      const isConsumidorFinal =
+        custCode === cfCode ||
+        custCode === 'CF' ||
+        custName.includes('CONSUMIDOR FINAL');
+
+      if (isConsumidorFinal) {
+        throw new BadRequestDomainError(
+          'Por disposición fiscal, no se permiten ventas mayores a L 10,000.00 a Consumidor Final. Debe registrar o seleccionar un cliente con RTN/DNI.',
+        );
+      }
+    }
+
     if (this.customerRepo && dto.customerNo) {
       const customer = await this.customerRepo.findByCode(dto.customerNo);
       if (customer) {
@@ -102,7 +121,6 @@ export class InvoicesService {
         }
 
         if (dto.isCredit) {
-          const storeConfig = await this.storeConfigRepo.findByStoreId(dto.storeId);
           const shouldValidateCredit = storeConfig?.validarSaldoCredito !== false;
 
           if (shouldValidateCredit) {

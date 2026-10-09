@@ -541,6 +541,8 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
       'POS Code': r.codigoPos,
       'Emitter No_': r.numeroEmisor,
       'ERP ID': null,
+      origenValidacionCredito: r.origenValidacionCredito ?? null,
+      creditValidationSource: r.origenValidacionCredito ?? null,
     }));
 
     if (page) {

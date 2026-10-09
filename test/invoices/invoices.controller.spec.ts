@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InvoicesController } from '../../src/infrastructure/web/controllers/invoices.controller';
 import { InvoicesService } from '../../src/application/services/invoices.service';
+import { ReclassifySaleUseCase } from '../../src/application/use-cases/sale/reclassify-sale.use-case';
 import { CreateInvoiceDto } from '../../src/infrastructure/web/dto/invoice/create-invoice.dto';
 import { CreditNoteDto } from '../../src/infrastructure/web/dto/invoice/credit-note.dto';
 
 describe('InvoicesController', () => {
   let controller: InvoicesController;
+  let mockReclassifyUseCase: { execute: jest.Mock };
   let mockService: {
     createInvoice: jest.Mock;
     getReasons: jest.Mock;
@@ -21,6 +23,9 @@ describe('InvoicesController', () => {
   };
 
   beforeEach(async () => {
+    mockReclassifyUseCase = {
+      execute: jest.fn(),
+    };
     mockService = {
       createInvoice: jest.fn(),
       getReasons: jest.fn(),
@@ -37,7 +42,10 @@ describe('InvoicesController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [InvoicesController],
-      providers: [{ provide: InvoicesService, useValue: mockService }],
+      providers: [
+        { provide: InvoicesService, useValue: mockService },
+        { provide: ReclassifySaleUseCase, useValue: mockReclassifyUseCase },
+      ],
     }).compile();
 
     controller = module.get<InvoicesController>(InvoicesController);

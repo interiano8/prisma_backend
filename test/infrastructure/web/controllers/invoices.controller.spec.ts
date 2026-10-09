@@ -1,12 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InvoicesController } from '../../../../src/infrastructure/web/controllers/invoices.controller';
 import { InvoicesService } from '../../../../src/application/services/invoices.service';
+import { ReclassifySaleUseCase } from '../../../../src/application/use-cases/sale/reclassify-sale.use-case';
 
 describe('InvoicesController', () => {
   let controller: InvoicesController;
+  let reclassifyUseCase: { execute: jest.Mock };
   let service: { [K in keyof InvoicesService]: jest.Mock };
 
   beforeEach(async () => {
+    reclassifyUseCase = { execute: jest.fn() };
     service = {
       createInvoice: jest.fn(),
       createTicketForPendingSale: jest.fn(),
@@ -24,7 +27,10 @@ describe('InvoicesController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [InvoicesController],
-      providers: [{ provide: InvoicesService, useValue: service }],
+      providers: [
+        { provide: InvoicesService, useValue: service },
+        { provide: ReclassifySaleUseCase, useValue: reclassifyUseCase },
+      ],
     }).compile();
 
     controller = module.get(InvoicesController);

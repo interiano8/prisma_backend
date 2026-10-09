@@ -116,12 +116,14 @@ describe('InvoicesController', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
     );
 
     await controller.searchInvoices('001', 'false');
     expect(service.searchInvoices).toHaveBeenLastCalledWith(
       '001',
       false,
+      undefined,
       undefined,
       undefined,
       undefined,

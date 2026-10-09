@@ -174,6 +174,7 @@ export interface SearchInvoicesParams {
   factura?: string;
   customerName?: string;
   employeeName?: string;
+  creditValidationSource?: string;
   page?: number;
   pageSize?: number;
 }

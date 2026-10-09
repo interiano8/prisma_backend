@@ -347,6 +347,7 @@ export class InvoicesService {
     employeeName?: string,
     page?: number,
     pageSize?: number,
+    creditValidationSource?: string,
   ) {
     return this.invoiceQueryRepo.searchInvoices({
       storeId,
@@ -359,6 +360,7 @@ export class InvoicesService {
       factura,
       customerName,
       employeeName,
+      creditValidationSource,
       page,
       pageSize,
     });

@@ -428,6 +428,9 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
     if (params.customerName) {
       where.nombreCliente = { contains: params.customerName };
     }
+    if (params.creditValidationSource) {
+      where.origenValidacionCredito = params.creditValidationSource;
+    }
 
     if (params.avanzado) {
       const fechaHora: Prisma.DateTimeNullableFilter = {};

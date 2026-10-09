@@ -120,6 +120,7 @@ export class InvoicesController {
     @Query('factura') factura?: string,
     @Query('customerName') customerName?: string,
     @Query('employeeName') employeeName?: string,
+    @Query('creditValidationSource') creditValidationSource?: string,
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
   ) {
@@ -137,6 +138,7 @@ export class InvoicesController {
       employeeName,
       page ? Number(page) : undefined,
       pageSize ? Number(pageSize) : undefined,
+      creditValidationSource,
     );
   }
 

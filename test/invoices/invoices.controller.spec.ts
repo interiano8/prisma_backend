@@ -127,6 +127,7 @@ describe('InvoicesController', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
     );
   });
 

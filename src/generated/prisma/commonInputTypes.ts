@@ -527,6 +527,23 @@ export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonFilter<$PrismaModel>
 }
 
+export type EnumEstadoVentaAparcadaFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoVentaAparcada | Prisma.EnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoVentaAparcadaFilter<$PrismaModel> | $Enums.EstadoVentaAparcada
+}
+
+export type EnumEstadoVentaAparcadaWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoVentaAparcada | Prisma.EnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoVentaAparcadaWithAggregatesFilter<$PrismaModel> | $Enums.EstadoVentaAparcada
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoVentaAparcadaFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoVentaAparcadaFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -997,6 +1014,23 @@ export type NestedJsonFilterBase<$PrismaModel = never> = {
   gt?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   gte?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
+}
+
+export type NestedEnumEstadoVentaAparcadaFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoVentaAparcada | Prisma.EnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoVentaAparcadaFilter<$PrismaModel> | $Enums.EstadoVentaAparcada
+}
+
+export type NestedEnumEstadoVentaAparcadaWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoVentaAparcada | Prisma.EnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoVentaAparcada[] | Prisma.ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoVentaAparcadaWithAggregatesFilter<$PrismaModel> | $Enums.EstadoVentaAparcada
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoVentaAparcadaFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoVentaAparcadaFilter<$PrismaModel>
 }
 
 

@@ -613,4 +613,36 @@ model VentaReclasificacion {
   @@map("ventas_reclasificaciones")
 }
 
+// ===== Ventas Aparcadas / En Espera =====
+
+enum EstadoVentaAparcada {
+  PARKED
+  RESUMED
+  DISCARDED
+  EXPIRED
+
+  @@map("estado_venta_aparcada")
+}
+
+model VentaAparcada {
+  id               String              @id @default(uuid()) @map("id")
+  codigo           String              @map("codigo")
+  storeId          String              @map("store_id")
+  posNo            String              @map("pos_no")
+  usuario          String              @map("usuario")
+  turnoId          String              @map("turno_id")
+  cliente          Json?               @map("cliente")
+  items            Json                @map("items")
+  nota             String?             @map("nota")
+  total            Decimal             @default(0) @map("total") @db.Decimal(18, 2)
+  estado           EstadoVentaAparcada @default(PARKED) @map("estado")
+  fechaCreacion    DateTime            @default(now()) @map("fecha_creacion") @db.Timestamptz(6)
+  fechaActualizado DateTime            @updatedAt @map("fecha_actualizado") @db.Timestamptz(6)
+
+  @@index([storeId, estado])
+  @@index([storeId, usuario, turnoId])
+  @@map("ventas_aparcadas")
+}
+
+
 

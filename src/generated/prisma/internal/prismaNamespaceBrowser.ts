@@ -82,7 +82,8 @@ export const ModelName = {
   Campana: 'Campana',
   CondicionCampana: 'CondicionCampana',
   ParticipacionCampana: 'ParticipacionCampana',
-  VentaReclasificacion: 'VentaReclasificacion'
+  VentaReclasificacion: 'VentaReclasificacion',
+  VentaAparcada: 'VentaAparcada'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -611,6 +612,25 @@ export const VentaReclasificacionScalarFieldEnum = {
 } as const
 
 export type VentaReclasificacionScalarFieldEnum = (typeof VentaReclasificacionScalarFieldEnum)[keyof typeof VentaReclasificacionScalarFieldEnum]
+
+
+export const VentaAparcadaScalarFieldEnum = {
+  id: 'id',
+  codigo: 'codigo',
+  storeId: 'storeId',
+  posNo: 'posNo',
+  usuario: 'usuario',
+  turnoId: 'turnoId',
+  cliente: 'cliente',
+  items: 'items',
+  nota: 'nota',
+  total: 'total',
+  estado: 'estado',
+  fechaCreacion: 'fechaCreacion',
+  fechaActualizado: 'fechaActualizado'
+} as const
+
+export type VentaAparcadaScalarFieldEnum = (typeof VentaAparcadaScalarFieldEnum)[keyof typeof VentaAparcadaScalarFieldEnum]
 
 
 export const SortOrder = {

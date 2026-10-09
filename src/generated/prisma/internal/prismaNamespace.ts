@@ -428,7 +428,8 @@ export const ModelName = {
   Campana: 'Campana',
   CondicionCampana: 'CondicionCampana',
   ParticipacionCampana: 'ParticipacionCampana',
-  VentaReclasificacion: 'VentaReclasificacion'
+  VentaReclasificacion: 'VentaReclasificacion',
+  VentaAparcada: 'VentaAparcada'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -444,7 +445,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana" | "ventaReclasificacion"
+    modelProps: "empleado" | "rol" | "permiso" | "rolPermiso" | "empleadoRol" | "tienda" | "configuracionPos" | "configuracionTienda" | "turno" | "moneda" | "cliente" | "codigoBarras" | "producto" | "categoriaProducto" | "precioProducto" | "reglaDescuento" | "lineaVentaDescuentoAplicado" | "metodoPago" | "serieDocumento" | "tasaCambio" | "grupoImpuesto" | "venta" | "lineaVenta" | "pagoVenta" | "ventaLeal" | "registroTransaccion" | "manguera" | "configuracionLeal" | "campana" | "condicionCampana" | "participacionCampana" | "ventaReclasificacion" | "ventaAparcada"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2816,6 +2817,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VentaAparcada: {
+      payload: Prisma.$VentaAparcadaPayload<ExtArgs>
+      fields: Prisma.VentaAparcadaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VentaAparcadaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VentaAparcadaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>
+        }
+        findFirst: {
+          args: Prisma.VentaAparcadaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VentaAparcadaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>
+        }
+        findMany: {
+          args: Prisma.VentaAparcadaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>[]
+        }
+        create: {
+          args: Prisma.VentaAparcadaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>
+        }
+        createMany: {
+          args: Prisma.VentaAparcadaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VentaAparcadaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>[]
+        }
+        delete: {
+          args: Prisma.VentaAparcadaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>
+        }
+        update: {
+          args: Prisma.VentaAparcadaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>
+        }
+        deleteMany: {
+          args: Prisma.VentaAparcadaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VentaAparcadaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VentaAparcadaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>[]
+        }
+        upsert: {
+          args: Prisma.VentaAparcadaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VentaAparcadaPayload>
+        }
+        aggregate: {
+          args: Prisma.VentaAparcadaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVentaAparcada>
+        }
+        groupBy: {
+          args: Prisma.VentaAparcadaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VentaAparcadaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VentaAparcadaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VentaAparcadaCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3367,6 +3442,25 @@ export const VentaReclasificacionScalarFieldEnum = {
 export type VentaReclasificacionScalarFieldEnum = (typeof VentaReclasificacionScalarFieldEnum)[keyof typeof VentaReclasificacionScalarFieldEnum]
 
 
+export const VentaAparcadaScalarFieldEnum = {
+  id: 'id',
+  codigo: 'codigo',
+  storeId: 'storeId',
+  posNo: 'posNo',
+  usuario: 'usuario',
+  turnoId: 'turnoId',
+  cliente: 'cliente',
+  items: 'items',
+  nota: 'nota',
+  total: 'total',
+  estado: 'estado',
+  fechaCreacion: 'fechaCreacion',
+  fechaActualizado: 'fechaActualizado'
+} as const
+
+export type VentaAparcadaScalarFieldEnum = (typeof VentaAparcadaScalarFieldEnum)[keyof typeof VentaAparcadaScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3597,6 +3691,20 @@ export type ListEnumOperadorFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'EstadoVentaAparcada'
+ */
+export type EnumEstadoVentaAparcadaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoVentaAparcada'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoVentaAparcada[]'
+ */
+export type ListEnumEstadoVentaAparcadaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoVentaAparcada[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3792,6 +3900,7 @@ export type GlobalOmitConfig = {
   condicionCampana?: Prisma.CondicionCampanaOmit
   participacionCampana?: Prisma.ParticipacionCampanaOmit
   ventaReclasificacion?: Prisma.VentaReclasificacionOmit
+  ventaAparcada?: Prisma.VentaAparcadaOmit
 }
 
 /* Types for Logging */

@@ -56,3 +56,13 @@ export const ModoEvaluacion = {
 } as const
 
 export type ModoEvaluacion = (typeof ModoEvaluacion)[keyof typeof ModoEvaluacion]
+
+
+export const EstadoVentaAparcada = {
+  PARKED: 'PARKED',
+  RESUMED: 'RESUMED',
+  DISCARDED: 'DISCARDED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type EstadoVentaAparcada = (typeof EstadoVentaAparcada)[keyof typeof EstadoVentaAparcada]

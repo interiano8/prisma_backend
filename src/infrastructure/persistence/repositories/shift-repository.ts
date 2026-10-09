@@ -338,6 +338,21 @@ export class ShiftRepositoryImpl implements ShiftRepository {
             estado: true,
           },
         });
+
+        // Limpiar / expirar ventas aparcadas pendientes del usuario en este turno
+        if (tx.ventaAparcada?.updateMany) {
+          await tx.ventaAparcada.updateMany({
+            where: {
+              storeId: dto.storeId,
+              usuario: dto.employeeName,
+              turnoId: String(openShift.turno || turnoNum),
+              estado: 'PARKED',
+            },
+            data: {
+              estado: 'EXPIRED',
+            },
+          });
+        }
       },
       { isolationLevel: 'ReadCommitted' },
     );

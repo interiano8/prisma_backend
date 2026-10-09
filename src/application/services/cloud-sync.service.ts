@@ -269,7 +269,9 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
             volume: Number(l.cantidad) || 0,
             productName: l.descripcion || 'Combustible',
             pumpId: l.posicionBomba ? String(l.posicionBomba) : undefined,
+            hoseId: l.posicionBomba ? String(l.posicionBomba) : (l.numeroBomba ? String(l.numeroBomba) : undefined),
             tankId: l.numeroTanque ? String(l.numeroTanque) : undefined,
+            unitOfMeasure: l.unidadMedida || undefined,
             discount: Number(l.montoDescuentoLinea) || 0,
           })),
           payments: (v.pagosVenta || []).map((p) => ({

@@ -33,6 +33,7 @@ export interface ShiftSalePayment {
 export interface ShiftSaleHeader {
   monto: number | null;
   tipoDocumento: number | null;
+  origenValidacionCredito?: string | null;
 }
 
 export interface SalesReportData {

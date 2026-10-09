@@ -9,6 +9,7 @@ export interface CloudSyncStatus {
   latencyMs?: number | null;
   error?: string | null;
   masterVersion?: number;
+  consecutiveFailures?: number;
 }
 
 @Injectable()
@@ -26,6 +27,8 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
   private heartbeatTimer: NodeJS.Timeout | null = null;
   private isSyncing = false;
   private isPinging = false;
+  private consecutiveSyncFailures = 0;
+  private nextSyncAllowedAt = 0;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -55,6 +58,7 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
       latencyMs: this.latencyMs,
       error: this.error,
       masterVersion: this.masterVersion,
+      consecutiveFailures: this.consecutiveSyncFailures,
     };
   }
 
@@ -174,11 +178,19 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  async syncPendingSales(): Promise<{ success: boolean; syncedCount: number }> {
+  async syncPendingSales(force = false): Promise<{ success: boolean; syncedCount: number }> {
     const syncUrl = this.getBaseSyncUrl();
     if (!syncUrl || syncUrl.trim() === '') {
       this.status = 'not_configured';
       return { success: true, syncedCount: 0 };
+    }
+
+    const now = Date.now();
+    if (!force && now < this.nextSyncAllowedAt) {
+      this.logger.debug(
+        `[Sync] Enfriamiento activo por fallos previos. Próximo intento en ${Math.ceil((this.nextSyncAllowedAt - now) / 1000)}s`,
+      );
+      return { success: false, syncedCount: 0 };
     }
 
     if (this.isSyncing) {
@@ -311,6 +323,8 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
         this.latencyMs = Date.now() - start;
         this.pendingCount = 0;
         this.error = null;
+        this.consecutiveSyncFailures = 0;
+        this.nextSyncAllowedAt = 0;
 
         return {
           success: true,
@@ -322,7 +336,18 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
     } catch (err: any) {
       this.status = 'offline';
       this.error = err.message || 'Error de conexión con Backoffice Cloud';
-      this.logger.warn(`Sincronización con Backoffice en cola: ${this.error}`);
+      this.consecutiveSyncFailures += 1;
+      // Retroceso exponencial: base 5s, duplicando cada fallo hasta máx 5m (300,000ms) + jitter
+      const jitter = Math.floor(Math.random() * 2000);
+      const delay = Math.min(
+        300000,
+        5000 * Math.pow(2, Math.min(this.consecutiveSyncFailures - 1, 6)),
+      ) + jitter;
+      this.nextSyncAllowedAt = Date.now() + delay;
+
+      this.logger.warn(
+        `Sincronización con Backoffice en cola (fallo consecutivo #${this.consecutiveSyncFailures}, próximo intento en ${Math.round(delay / 1000)}s): ${this.error}`,
+      );
       return { success: false, syncedCount: 0 };
     } finally {
       this.isSyncing = false;

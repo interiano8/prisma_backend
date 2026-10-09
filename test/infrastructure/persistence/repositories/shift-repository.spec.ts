@@ -500,7 +500,9 @@ describe('ShiftRepositoryImpl', () => {
         montoIngresado: 100,
       },
     ]);
-    expect(result.headers).toEqual([{ monto: 100, tipoDocumento: 1 }]);
+    expect(result.headers).toEqual([
+      { monto: 100, tipoDocumento: 1, origenValidacionCredito: null },
+    ]);
     expect(
       repo['prisma'].lineaVenta.findMany,
     ).toHaveBeenCalledWith({ where: { idTransaccionPos: { in: ['T1'] } } });

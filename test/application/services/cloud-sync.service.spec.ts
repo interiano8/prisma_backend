@@ -125,6 +125,17 @@ describe('CloudSyncService', () => {
       const status = service.getSyncStatus();
       expect(status.status).toBe('offline');
       expect(status.error).toContain('Network offline');
+      expect(status.consecutiveFailures).toBe(1);
+
+      // Siguiente intento inmediato sin forzar es bloqueado por el enfriamiento exponencial
+      const retryWithoutForce = await service.syncPendingSales(false);
+      expect(retryWithoutForce.success).toBe(false);
+      expect(retryWithoutForce.syncedCount).toBe(0);
+
+      // Pero con force = true procede
+      const retryWithForce = await service.syncPendingSales(true);
+      expect(retryWithForce.success).toBe(false);
+      expect(service.getSyncStatus().consecutiveFailures).toBe(2);
     });
 
     it('empaqueta turnos cerrados con totales de control en el payload de sincronización', async () => {

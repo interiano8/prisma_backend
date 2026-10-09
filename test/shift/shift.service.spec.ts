@@ -465,6 +465,8 @@ describe('ShiftService', () => {
         cantidadFacturas: 1,
         cantidadTicket: 1,
         cantidadDevoluciones: 1,
+        totalCreditoOffline: 0,
+        cantidadCreditoOffline: 0,
       });
       expect(result.movCaja).toEqual(
         expect.arrayContaining([{ name: 'TARJETA', total: 100, cantidad: 0 }]),

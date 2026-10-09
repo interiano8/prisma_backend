@@ -454,6 +454,7 @@ for (const l of rawLines) {
         headers.push({
           monto: h.monto != null ? Number(h.monto) : null,
           tipoDocumento: h.tipoDocumento,
+          origenValidacionCredito: (h as any).origenValidacionCredito ?? null,
         });
       }
     }

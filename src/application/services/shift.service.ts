@@ -280,6 +280,15 @@ export class ShiftService {
       (h) => num(h.tipoDocumento) === 3,
     ).length;
 
+    const offlineCreditHeaders = headers.filter(
+      (h) => h.origenValidacionCredito === 'OFFLINE_FALLBACK',
+    );
+    const totalCreditoOffline = offlineCreditHeaders.reduce(
+      (a, h) => a + num(h.monto),
+      0,
+    );
+    const cantidadCreditoOffline = offlineCreditHeaders.length;
+
     const tasaCambio = await this.storeConfigRepo.findExchangeRate(fechaTurno);
 
     const volumenGalonesTotal = redondeado(
@@ -312,6 +321,8 @@ export class ShiftService {
         cantidadFacturas,
         cantidadTicket,
         cantidadDevoluciones,
+        totalCreditoOffline,
+        cantidadCreditoOffline,
         volumenGalones: volumenGalonesTotal,
         volumenLitros: volumenLitrosTotal,
       },

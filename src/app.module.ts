@@ -18,6 +18,7 @@ import { MediaModule } from './infrastructure/web/controllers/media.module';
 import { HealthModule } from './infrastructure/web/controllers/health.module';
 import { ParkedSalesModule } from './infrastructure/web/controllers/parked-sales.module';
 import { InventoryModule } from './infrastructure/web/controllers/inventory.module';
+import { TransfersModule } from './infrastructure/web/controllers/transfers.module';
 import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request-logger.middleware';
 
 @Module({
@@ -39,6 +40,7 @@ import { RequestLoggerMiddleware } from './infrastructure/web/middleware/request
     HealthModule,
     ParkedSalesModule,
     InventoryModule,
+    TransfersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

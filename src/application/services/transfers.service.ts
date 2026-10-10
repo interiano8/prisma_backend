@@ -1,17 +1,38 @@
 import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import { IsNotEmpty, IsString, IsOptional, IsArray, IsNumber } from 'class-validator';
 import { PrismaService } from '../../prisma/prisma.service';
 
 export class TransferRequestItem {
+  @IsString()
+  @IsNotEmpty()
   productCode: string;
+
+  @IsString()
+  @IsOptional()
   productName?: string;
+
+  @IsNumber()
   quantity: number;
 }
 
 export class CreateStoreTransferRequestDto {
+  @IsString()
+  @IsNotEmpty()
   fromStoreCode: string;
+
+  @IsString()
+  @IsOptional()
   toStoreCode?: string;
+
+  @IsString()
+  @IsOptional()
   requestedBy?: string;
+
+  @IsString()
+  @IsOptional()
   notes?: string;
+
+  @IsArray()
   items: TransferRequestItem[];
 }
 

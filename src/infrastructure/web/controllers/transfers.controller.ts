@@ -1,8 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import {
-  TransfersService,
-  CreateStoreTransferRequestDto,
-} from '../../../application/services/transfers.service';
+import { TransfersService } from '../../../application/services/transfers.service';
+import { CreateStoreTransferRequestDto } from '../dto/transfer/create-store-transfer-request.dto';
 
 @Controller('transfers')
 export class TransfersController {

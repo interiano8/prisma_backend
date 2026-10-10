@@ -7,7 +7,7 @@ export class TransfersController {
   constructor(private readonly transfersService: TransfersService) {}
 
   @Post('request')
-  async requestTransfer(@Body() dto: CreateStoreTransferRequestDto) {
+  async requestTransfer(@Body() dto: any) {
     return this.transfersService.requestTransfer(dto);
   }
 

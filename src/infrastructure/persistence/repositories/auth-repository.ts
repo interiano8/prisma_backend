@@ -288,7 +288,7 @@ export class AuthRepositoryImpl implements AuthRepository {
       calculoInverso: false,
       campanas: row.campanas === true,
       nombreBotonFidelizacion: row.nombreBotonFidelizacion || 'LEAL',
-      moneda: row.moneda || 'L.',
+      moneda: row.moneda || 'L',
       carpetaMultimedia: row.carpetaMultimedia || '',
     };
   }

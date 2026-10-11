@@ -181,15 +181,16 @@ export class StoreBootstrapService {
   async applyConfigTransaction(storeCode: string, payload: RemoteProvisioningPayload): Promise<void> {
     await this.prisma.$transaction(async (tx) => {
       // 1. Moneda base si es necesaria
-      const codMoneda = payload.tienda?.codigoMoneda || 'HNL';
+      const codMoneda = payload.tienda?.codigoMoneda || 'HN';
+      const simMoneda = payload.tienda?.moneda || 'L';
       if (tx.moneda?.upsert) {
         await tx.moneda.upsert({
           where: { codigo: codMoneda },
-          update: { activa: true },
+          update: { activa: true, simbolo: simMoneda },
           create: {
             codigo: codMoneda,
-            descripcion: codMoneda === 'HNL' ? 'Lempiras' : codMoneda,
-            simbolo: codMoneda === 'HNL' ? 'L.' : codMoneda,
+            descripcion: (codMoneda === 'HN' || codMoneda === 'HNL') ? 'Lempiras' : codMoneda,
+            simbolo: simMoneda,
             decimales: 2,
             activa: true,
           },
@@ -207,7 +208,7 @@ export class StoreBootstrapService {
           direccion1: t.direccion1 ?? undefined,
           telefono: t.telefono ?? undefined,
           correo: t.correo ?? undefined,
-          moneda: t.moneda || 'HNL',
+          moneda: t.moneda || 'L',
           codigoMoneda: codMoneda,
           ipFusion: t.ipFusion ?? undefined,
           urlControlador: t.urlControlador ?? undefined,
@@ -227,7 +228,7 @@ export class StoreBootstrapService {
           direccion1: t.direccion1 || null,
           telefono: t.telefono || null,
           correo: t.correo || null,
-          moneda: t.moneda || 'HNL',
+          moneda: t.moneda || 'L',
           codigoMoneda: codMoneda,
           ipFusion: t.ipFusion || '192.168.10.51',
           urlControlador: t.urlControlador || 'http://localhost:5008',

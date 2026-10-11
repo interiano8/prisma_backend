@@ -11,7 +11,7 @@ export class UpdateStoreConfigUseCase {
   ): Promise<{ storeId: string; moneda: string; carpetaMultimedia?: string }> {
     const updates: { moneda?: string; carpetaMultimedia?: string } = {};
     if (partial.moneda !== undefined) {
-      updates.moneda = partial.moneda.trim() || 'L.';
+      updates.moneda = partial.moneda.trim() || 'L';
     }
     if (partial.carpetaMultimedia !== undefined) {
       updates.carpetaMultimedia = partial.carpetaMultimedia.trim();
@@ -19,7 +19,7 @@ export class UpdateStoreConfigUseCase {
     const config = await this.storeConfigRepository.update(storeId, updates);
     return {
       storeId: config.storeId,
-      moneda: config.moneda || 'L.',
+      moneda: config.moneda || 'L',
       carpetaMultimedia: config.carpetaMultimedia,
     };
   }

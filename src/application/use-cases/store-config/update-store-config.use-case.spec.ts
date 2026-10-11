@@ -9,15 +9,15 @@ describe('UpdateStoreConfigUseCase', () => {
     useCase = new UpdateStoreConfigUseCase(repo as any);
   });
 
-  it('trim de moneda con fallback a L. cuando queda vacío', async () => {
+  it('trim de moneda con fallback a L cuando queda vacío', async () => {
     repo.update.mockImplementation((_id: string, data: any) => ({
       storeId: '001',
-      moneda: data.moneda || 'L.',
+      moneda: data.moneda || 'L',
     }));
 
     await useCase.execute('001', { moneda: '   ' });
 
-    expect(repo.update).toHaveBeenCalledWith('001', { moneda: 'L.' });
+    expect(repo.update).toHaveBeenCalledWith('001', { moneda: 'L' });
     expect(await useCase.execute('001', { moneda: 'USD' })).toEqual({
       storeId: '001',
       moneda: 'USD',
@@ -27,7 +27,7 @@ describe('UpdateStoreConfigUseCase', () => {
   it('trim de carpeta multimedia cuando viene definida', async () => {
     repo.update.mockResolvedValue({
       storeId: '001',
-      moneda: 'L.',
+      moneda: 'L',
       carpetaMultimedia: '/media',
     });
 
@@ -43,6 +43,6 @@ describe('UpdateStoreConfigUseCase', () => {
     const result = await useCase.execute('001', {});
 
     expect(repo.update).toHaveBeenCalledWith('001', {});
-    expect(result).toEqual({ storeId: '001', moneda: 'L.' });
+    expect(result).toEqual({ storeId: '001', moneda: 'L' });
   });
 });

@@ -847,6 +847,8 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
         body: JSON.stringify({
           storeCode,
           queueCount: this.pendingCount,
+          fusionStatus: 'ONLINE',
+          posVersion: process.env.npm_package_version || '1.0.0',
         }),
         signal: controller.signal,
       });

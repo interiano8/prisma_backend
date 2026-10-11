@@ -90,20 +90,27 @@ async function main() {
     `).catch(() => {});
     console.log('[SEED POS] Configuración POS01 registrada.');
 
-    // 6. Series de Facturación SAR
+    // 6. Series de Facturación SAR e Internas
     await client.query(`
       INSERT INTO series_documento (
-        numero_linea, codigo_serie, cai, rango_desde, rango_hasta, 
-        numero_inicio, numero_fin, ultimo_numero_usado, abierta, fecha_vence_rango
+        numero_linea, codigo_serie, id_tienda, codigo_pos, cai, rango_desde, rango_hasta, 
+        numero_inicio, numero_fin, ultimo_numero_usado, abierta, fecha_inicio, fecha_vence_rango
       )
-      VALUES (
-        1, 'FAC-001', '3A7B9C-1F2E3D-4A5B6C-7D8E9F-01',
-        '001-001-01-00000001', '001-001-01-00100000',
-        '00000001', '00100000', '00000000', true, '2028-12-31'
-      )
-      ON CONFLICT (numero_linea, codigo_serie) DO NOTHING;
+      VALUES 
+        (
+          1, 'FV-HN', '001', '01', '3A7B9C-1F2E3D-4A5B6C-7D8E9F-01',
+          '001-001-01-00000001', '001-001-01-00100000',
+          '001-001-01-00000001', '001-001-01-00100000', '001-001-01-00000000', true, NOW() - interval '1 day', '2028-12-31'
+        ),
+        (
+          1, 'TR-ID', '001', '01', NULL,
+          NULL, NULL,
+          'TR0000000000000001', 'TR9999999999999999', 'TR0000000000000000', true, NOW() - interval '1 day', NULL
+        )
+      ON CONFLICT (numero_linea, codigo_serie) DO UPDATE SET 
+        id_tienda = EXCLUDED.id_tienda, codigo_pos = EXCLUDED.codigo_pos, abierta = true;
     `).catch(() => {});
-    console.log('[SEED POS] Serie de facturación SAR lista.');
+    console.log('[SEED POS] Series de facturación FV-HN y TR-ID listas.');
 
     // 7. Productos y Combustibles
     await client.query(`

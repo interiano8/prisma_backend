@@ -77,7 +77,7 @@ export async function lockSeriesForUpdate(
       AND abierta = true
       AND id_tienda = ${gasStationCode}
       AND codigo_pos = ${posNo}
-      AND fecha_inicio <= ${now}
+      AND (fecha_inicio IS NULL OR fecha_inicio <= ${now})
       ${venceFilter}
     ORDER BY numero_linea ASC
     FOR UPDATE

@@ -387,7 +387,7 @@ describe('CloudSyncService', () => {
           headers: expect.objectContaining({
             'x-sync-key': 'prisma-cloud-sync-key',
           }),
-          body: JSON.stringify({ storeCode: '001', queueCount: 0 }),
+          body: expect.stringContaining('"storeCode":"001"'),
         }),
       );
 

@@ -150,7 +150,7 @@ export class ShiftRepositoryImpl implements ShiftRepository {
           gasStationCode,
           posNo,
           now,
-          true,
+          false,
         );
 
         if (!trSeries || !trSeries.ultimoNumeroUsado) {

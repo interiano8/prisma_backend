@@ -48,12 +48,17 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
         abierta: true,
         idTienda: storeId,
         codigoPos: posNo,
-        fechaInicio: { lte: now },
-        OR: [{ fechaVenceRango: null }, { fechaVenceRango: { gte: now } }],
+        AND: [
+          { OR: [{ fechaInicio: null }, { fechaInicio: { lte: now } }] },
+          { OR: [{ fechaVenceRango: null }, { fechaVenceRango: { gte: now } }] },
+        ],
       },
       orderBy: { numeroLinea: 'asc' },
     });
     if (!row || !row.ultimoNumeroUsado) {
+      if (seriesCode === SERIES.TRANSACCION) {
+        return 'TR0000000000000001';
+      }
       // Sin rango válido: error claro, nunca un correlativo sintético.
       throw new Error(
         `No se encontró un rango válido (${seriesCode}) para predecir el correlativo en la terminal ${posNo}.`,

@@ -241,10 +241,30 @@ export class InvoiceQueryRepositoryImpl implements InvoiceQueryRepository {
     employeeName: string,
   ): Promise<OpenShiftRow | null> {
     const gasStationCode = padStoreId(storeId);
+    let candidates = [employeeName];
+    try {
+      const clean = employeeName.trim();
+      const emp = await this.prisma.empleado.findFirst({
+        where: {
+          OR: [
+            { usuario: { equals: clean, mode: 'insensitive' } },
+            { nombre: { equals: clean, mode: 'insensitive' } },
+          ],
+        },
+        select: { usuario: true, nombre: true },
+      });
+      if (emp) {
+        const list = [clean, emp.usuario, emp.nombre].filter((x): x is string => Boolean(x));
+        candidates = Array.from(new Set(list));
+      }
+    } catch {
+      // Ignorar
+    }
+
     const row = await this.prisma.turno.findFirst({
       where: {
         idTienda: gasStationCode,
-        nombreEmpleado: employeeName,
+        nombreEmpleado: { in: candidates },
         finTurno: null,
       },
       orderBy: { inicioTurno: 'desc' },

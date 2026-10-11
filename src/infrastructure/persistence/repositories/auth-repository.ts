@@ -163,10 +163,30 @@ export class AuthRepositoryImpl implements AuthRepository {
           .padStart(3, '0');
       }
 
+      // Buscar el empleado para obtener tanto usuario como nombre legible
+      let candidateNames = [employeeName];
+      try {
+        const emp = await this.prisma.empleado.findFirst({
+          where: {
+            OR: [
+              { usuario: { equals: employeeName.trim(), mode: 'insensitive' } },
+              { nombre: { equals: employeeName.trim(), mode: 'insensitive' } },
+            ],
+          },
+          select: { usuario: true, nombre: true },
+        });
+        if (emp) {
+          const list = [employeeName, emp.usuario, emp.nombre].filter((x): x is string => Boolean(x));
+          candidateNames = Array.from(new Set(list));
+        }
+      } catch {
+        // Fallback al nombre original
+      }
+
       const shift = await this.prisma.turno.findFirst({
         where: {
           idTienda: gasStationCode,
-          nombreEmpleado: employeeName,
+          nombreEmpleado: { in: candidateNames },
           finTurno: null,
         },
         orderBy: { inicioTurno: 'desc' },

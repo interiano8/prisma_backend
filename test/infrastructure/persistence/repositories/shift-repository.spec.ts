@@ -669,7 +669,7 @@ describe('ShiftRepositoryImpl', () => {
     await repo.findOpenShift('001', '01', 'Ana');
 
     expect(findFirst).toHaveBeenCalledWith({
-      where: { idTienda: '001', nombreEmpleado: 'Ana', finTurno: null },
+      where: { idTienda: '001', nombreEmpleado: { in: ['Ana'] }, finTurno: null },
       orderBy: { inicioTurno: 'desc' },
     });
   });
@@ -681,7 +681,7 @@ describe('ShiftRepositoryImpl', () => {
     await repo.findOpenShiftFromDb('001', '01', 'Ana');
 
     expect(findFirst).toHaveBeenCalledWith({
-      where: { idTienda: '001', nombreEmpleado: 'Ana', finTurno: null },
+      where: { idTienda: '001', nombreEmpleado: { in: ['Ana'] }, finTurno: null },
       orderBy: { inicioTurno: 'desc' },
     });
   });

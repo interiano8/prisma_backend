@@ -22,16 +22,40 @@ import { lockSeriesForUpdate } from '../series-lock';
 export class ShiftRepositoryImpl implements ShiftRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  private async resolveEmployeeCandidates(name?: string): Promise<string[] | undefined> {
+    if (!name || !name.trim()) return undefined;
+    const clean = name.trim();
+    try {
+      const emp = await this.prisma.empleado.findFirst({
+        where: {
+          OR: [
+            { usuario: { equals: clean, mode: 'insensitive' } },
+            { nombre: { equals: clean, mode: 'insensitive' } },
+          ],
+        },
+        select: { usuario: true, nombre: true },
+      });
+      if (emp) {
+        const list = [clean, emp.usuario, emp.nombre].filter((x): x is string => Boolean(x));
+        return Array.from(new Set(list));
+      }
+    } catch {
+      // Ignorar error de consulta y usar nombre provisto
+    }
+    return [clean];
+  }
+
   async findOpenShift(
     storeId: string,
     posNo: string,
     employeeName?: string,
   ): Promise<Shift | null> {
     const gasStationCode = padStoreId(storeId);
+    const candidates = await this.resolveEmployeeCandidates(employeeName);
     const row = await this.prisma.turno.findFirst({
       where: {
         idTienda: gasStationCode,
-        ...(employeeName ? { nombreEmpleado: employeeName } : {}),
+        ...(candidates ? { nombreEmpleado: { in: candidates } } : {}),
         finTurno: null,
       },
       orderBy: { inicioTurno: 'desc' },
@@ -46,10 +70,11 @@ export class ShiftRepositoryImpl implements ShiftRepository {
     employeeName: string,
   ): Promise<any> {
     const gasStationCode = padStoreId(storeId);
+    const candidates = await this.resolveEmployeeCandidates(employeeName);
     const row = await this.prisma.turno.findFirst({
       where: {
         idTienda: gasStationCode,
-        nombreEmpleado: employeeName,
+        ...(candidates ? { nombreEmpleado: { in: candidates } } : {}),
         finTurno: null,
       },
       orderBy: { inicioTurno: 'desc' },
@@ -69,9 +94,10 @@ export class ShiftRepositoryImpl implements ShiftRepository {
     employeeName: string,
   ): Promise<any> {
     const gasStationCode = padStoreId(storeId);
+    const candidates = await this.resolveEmployeeCandidates(employeeName);
     const row = await this.prisma.turno.findFirst({
       where: {
-        nombreEmpleado: employeeName,
+        ...(candidates ? { nombreEmpleado: { in: candidates } } : { nombreEmpleado: employeeName }),
         idTienda: gasStationCode,
         finTurno: null,
       },
@@ -202,10 +228,11 @@ export class ShiftRepositoryImpl implements ShiftRepository {
     const gasStationCode = padStoreId(storeId);
     void posNo;
 
+    const candidates = await this.resolveEmployeeCandidates(employeeName);
     const openShift = await this.prisma.turno.findFirst({
       where: {
         idTienda: gasStationCode,
-        nombreEmpleado: employeeName,
+        ...(candidates ? { nombreEmpleado: { in: candidates } } : { nombreEmpleado: employeeName }),
         finTurno: null,
       },
       orderBy: { inicioTurno: 'desc' },
@@ -242,11 +269,12 @@ export class ShiftRepositoryImpl implements ShiftRepository {
 
   async closeShift(dto: CloseShiftCommand): Promise<{ success: boolean }> {
     const gasStationCode = padStoreId(dto.storeId);
+    const candidates = await this.resolveEmployeeCandidates(dto.employeeName);
 
     const openShift = await this.prisma.turno.findFirst({
       where: {
         idTienda: gasStationCode,
-        nombreEmpleado: dto.employeeName,
+        ...(candidates ? { nombreEmpleado: { in: candidates } } : { nombreEmpleado: dto.employeeName }),
         finTurno: null,
       },
       orderBy: { inicioTurno: 'desc' },

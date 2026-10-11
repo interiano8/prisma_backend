@@ -30,8 +30,8 @@ async function main() {
   try {
     // 1. Tienda Local 001
     await client.query(`
-      INSERT INTO tiendas (id_tienda, nombre, emisor, turnos)
-      VALUES ('001', 'Estación Central 001', '001', 3)
+      INSERT INTO tiendas (id_tienda, nombre, emisor)
+      VALUES ('001', 'Estación Central 001', '001')
       ON CONFLICT (id_tienda) DO UPDATE SET nombre = EXCLUDED.nombre;
     `);
     console.log('[SEED POS] Tienda 001 registrada.');

@@ -720,6 +720,137 @@ export class CloudSyncService implements OnModuleInit, OnModuleDestroy {
                 }
               }
             }
+
+            // SINCRONIZACIÓN DE CATEGORÍAS DE PRODUCTO
+            if (Array.isArray(data.categories) && data.categories.length > 0) {
+              for (const cat of data.categories) {
+                try {
+                  if (!cat.code) continue;
+                  const cleanCode = String(cat.code).trim().toUpperCase();
+                  if (this.prisma.categoriaProducto?.upsert) {
+                    await this.prisma.categoriaProducto.upsert({
+                      where: { codigo: cleanCode },
+                      update: { descripcion: cat.description || cleanCode },
+                      create: { codigo: cleanCode, descripcion: cat.description || cleanCode },
+                    });
+                  }
+                } catch (catErr: any) {
+                  this.logger.warn(`No se pudo sincronizar categoría ${cat?.code}: ${catErr.message}`);
+                }
+              }
+            }
+
+            // SINCRONIZACIÓN DE PRODUCTOS
+            if (Array.isArray(data.products) && data.products.length > 0) {
+              for (const prod of data.products) {
+                try {
+                  if (!prod.code) continue;
+                  const cleanCode = String(prod.code).trim().toUpperCase();
+                  const isBlocked = prod.active === false;
+
+                  if (this.prisma.producto?.upsert) {
+                    await this.prisma.producto.upsert({
+                      where: { codigo: cleanCode },
+                      update: {
+                        descripcion: prod.description || cleanCode,
+                        bloqueado: isBlocked,
+                        grupoIsv: String(prod.taxPct || '15'),
+                        codigoCategoria: prod.categoryCode || null,
+                        codigoUmEtiquetas: prod.unitOfMeasure || 'UND',
+                      },
+                      create: {
+                        codigo: cleanCode,
+                        descripcion: prod.description || cleanCode,
+                        bloqueado: isBlocked,
+                        grupoIsv: String(prod.taxPct || '15'),
+                        codigoCategoria: prod.categoryCode || null,
+                        codigoUmEtiquetas: prod.unitOfMeasure || 'UND',
+                      },
+                    });
+                  }
+                } catch (prodErr: any) {
+                  this.logger.warn(`No se pudo sincronizar producto ${prod?.code}: ${prodErr.message}`);
+                }
+              }
+            }
+
+            // SINCRONIZACIÓN DE CÓDIGOS DE BARRA
+            if (Array.isArray(data.barcodes) && data.barcodes.length > 0) {
+              for (const bc of data.barcodes) {
+                try {
+                  if (!bc.productCode || !bc.barcode) continue;
+                  const cleanProd = String(bc.productCode).trim().toUpperCase();
+                  const cleanBc = String(bc.barcode).trim();
+
+                  if (this.prisma.codigoBarras?.upsert) {
+                    await this.prisma.codigoBarras.upsert({
+                      where: {
+                        codigoProducto_codigo: {
+                          codigoProducto: cleanProd,
+                          codigo: cleanBc,
+                        },
+                      },
+                      update: {},
+                      create: {
+                        codigoProducto: cleanProd,
+                        codigo: cleanBc,
+                      },
+                    });
+                  }
+                } catch (bcErr: any) {
+                  this.logger.warn(`No se pudo sincronizar código de barras ${bc?.barcode}: ${bcErr.message}`);
+                }
+              }
+            }
+
+            // SINCRONIZACIÓN DE PRECIOS DE PRODUCTO
+            if (Array.isArray(data.productPrices) && data.productPrices.length > 0) {
+              for (const pr of data.productPrices) {
+                try {
+                  if (!pr.productCode || pr.unitPrice === undefined) continue;
+                  const cleanProd = String(pr.productCode).trim().toUpperCase();
+                  const targetStore = pr.storeCode || storeCode || '001';
+                  const startDate = pr.startDate ? new Date(pr.startDate) : new Date();
+                  const endDate = pr.endDate ? new Date(pr.endDate) : null;
+
+                  if (this.prisma.precioProducto?.findFirst && this.prisma.precioProducto?.create) {
+                    const existing = await this.prisma.precioProducto.findFirst({
+                      where: {
+                        codigoProducto: cleanProd,
+                        idTienda: targetStore,
+                      },
+                    });
+
+                    if (existing) {
+                      await this.prisma.precioProducto.update({
+                        where: { id: existing.id },
+                        data: {
+                          precioUnitario: pr.unitPrice,
+                          fechaInicio: startDate,
+                          fechaFin: endDate,
+                          estado: pr.active ?? true,
+                          codigoMoneda: pr.currencyCode || 'HNL',
+                        },
+                      });
+                    } else {
+                      await this.prisma.precioProducto.create({
+                        data: {
+                          codigoProducto: cleanProd,
+                          idTienda: targetStore,
+                          precioUnitario: pr.unitPrice,
+                          fechaInicio: startDate,
+                          fechaFin: endDate,
+                          estado: pr.active ?? true,
+                          codigoMoneda: pr.currencyCode || 'HNL',
+                        },
+                      });
+                    }
+                  }
+                } catch (prErr: any) {
+                  this.logger.warn(`No se pudo sincronizar precio de ${pr?.productCode}: ${prErr.message}`);
+                }
+              }
+            }
           }
 
           return { success: true, updated: true };
